@@ -1,5 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-class ProyekController extends MY_Controller {
+
+class Proyek extends MY_Controller {
 
 	public function __construct(){
 
@@ -44,9 +45,9 @@ class ProyekController extends MY_Controller {
 				'<font size="2px">'.$row['nm_perusahaan'].'</font>',
 				'<font size="2px">'.$row['nm_dinas'].'</font>',
 				'<font size="2px">'.$row['nm_jns_pagu'].'</font>',
-				'<a title="View" class="view btn btn-sm btn-info" href="'.base_url('proyek/view-proyek/'.$row['id_proyek']).'"> <i class="fa fa-eye"></i></a>
-				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('proyek/edit-proyek/'.$row['id_proyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/delete-proyek/".$row['id_proyek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<a title="View" class="view btn btn-sm btn-info" href="'.base_url('proyek/view/'.$row['id_proyek']).'"> <i class="fa fa-eye"></i></a>
+				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('proyek/edit/'.$row['id_proyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/del/".$row['id_proyek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -55,7 +56,7 @@ class ProyekController extends MY_Controller {
 
 	public function tambah_proyek(){
 		
-		$this->rbac->check_operation_access_new('add');
+		$this->rbac->check_operation_access('');
 
 		$data['data_area'] 			= $this->area->get_area();
 		$data['data_subarea'] 		= $this->subarea->get_subarea();
@@ -139,7 +140,7 @@ class ProyekController extends MY_Controller {
 	
 	public function add_rincian_proyek($id = 0){
 		
-		$this->rbac->check_operation_access_new('add');
+		$this->rbac->check_operation_access('');
 
 		$data['data_jnspagu'] 			= $this->jnspagu->get_jnspagu();
 		$data['data_tipeproyek'] 		= $this->tipeproyek->get_tipeproyek();
@@ -219,7 +220,7 @@ class ProyekController extends MY_Controller {
 		$data['data_dinas'] 		= $this->dinas->get_dinas();
 		$data['data_pagu'] 			= $this->pagu->get_pagu();
 
-		$this->rbac->check_operation_access_new('edit');
+		$this->rbac->check_operation_access('');
 
 		if($this->input->post('submit')){
 			$this->form_validation->set_rules('area', 'area', 'trim|required');
@@ -277,7 +278,7 @@ public function edit_rincian_proyek($id = 0){
 		$data['data_jnspagu'] 			= $this->jnspagu->get_jnspagu();
 		$data['data_tipeproyek'] 		= $this->tipeproyek->get_tipeproyek();
 		
-		$this->rbac->check_operation_access_new('edit');
+		$this->rbac->check_operation_access('');
 
 		if($this->input->post('submit')){
 				$this->form_validation->set_rules('jnspagu', 'Jenis Pagu', 'trim|required');
@@ -345,7 +346,7 @@ public function edit_rincian_proyek($id = 0){
 
 
 	public function view_proyek($id = 0){
-			$this->rbac->check_operation_access_new('view'); // check opration permission
+			$this->rbac->check_operation_access(''); // check opration permission
 			$data['proyek'] = $this->proyek_model->get_proyek_by_id($id);
 			
 			$this->load->view('admin/includes/_header');
@@ -375,8 +376,8 @@ public function edit_rincian_proyek($id = 0){
 				number_format($row['nilai'],2,',','.'),
 				$row['no_dokumen'],
 				$anchor,
-				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('proyek/edit-proyek-rincian/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/delete-proyek-rincian/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('proyek/rincian/edit/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/rincian/del/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -399,7 +400,7 @@ public function edit_rincian_proyek($id = 0){
 
 	public function delete_proyek($id = 0)
 	{
-		$this->rbac->check_operation_access_new('delete');
+		$this->rbac->check_operation_access('');
 
 
 		$hasil=$this->db->query("SELECT count(*) as tot from ci_proyek_rincian a where a.jns_pagu <> 1 and id_proyek='$id'");
@@ -426,7 +427,7 @@ public function edit_rincian_proyek($id = 0){
 
 	public function delete_rincian_proyek($id = 0)
 	{
-		$this->rbac->check_operation_access_new('delete');
+		$this->rbac->check_operation_access('');
 
 			$hasil=$this->db->query("SELECT dokumen,id_proyek from ci_proyek_rincian a where id='$id'");
 				foreach ($hasil->result_array() as $row){

@@ -19,7 +19,7 @@
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
-         <?php echo form_open(base_url('ProyekController/add'), 'class="form-horizontal"');  ?> 
+         <?php echo form_open(base_url('proyek/tambah_proyek'), 'class="form-horizontal"');  ?> 
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -162,7 +162,7 @@
             var csrfHash = $('.txt_csrfname').val(); // CSRF hash
                 var id=$(this).val();
                 $.ajax({
-                    url : "<?php echo site_url('ProyekController/get_subproyek');?>",
+                    url : "<?php echo site_url('Proyek/get_subproyek');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

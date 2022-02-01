@@ -20,7 +20,7 @@
           <?php if($this->rbac->Check_operation_permission('add')): ?>
 
 
-            <a href="<?= base_url('proyek/tambah-proyek'); ?>" class="btn btn-success"><i class="fa fa-plus"></i> <?= trans('proyek_add') ?></a>
+            <a href="<?= base_url('proyek/add'); ?>" class="btn btn-success"><i class="fa fa-plus"></i> <?= trans('proyek_add') ?></a>
           <?php endif; ?>
         </div>
       </div>
@@ -59,7 +59,7 @@
   var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('ProyekController/datatable_json')?>",
+    "ajax": "<?=base_url('Proyek/datatable_json')?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},

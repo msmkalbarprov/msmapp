@@ -20,7 +20,7 @@
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
-         <?php echo form_open(base_url('ProyekController/edit/'.$proyek['id_proyek']), 'class="form-horizontal"');  ?> 
+         <?php echo form_open(base_url('Proyek/edit_proyek/'.$proyek['id_proyek']), 'class="form-horizontal"');  ?> 
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -141,7 +141,7 @@
           <div class="row">
             <div class="col-md-12">
               <div class="d-inline-block float-right">
-                <a href="<?= base_url('proyek/tambah-rincian-proyek/').$proyek['id_proyek']; ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
+                <a href="<?= base_url('proyek/rincian/add/').$proyek['id_proyek']; ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
               </div>
             </div>
             
@@ -186,7 +186,7 @@
   function get_data_detail(){
               var id = "<?php echo $proyek['id_proyek'] ?>";
               $.ajax({
-                url : "<?php echo site_url('ProyekController/get_data_detail_edit');?>",
+                url : "<?php echo site_url('Proyek/get_data_detail_edit');?>",
                     method : "POST",
                     data :{
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -217,7 +217,7 @@
             var csrfHash = $('.txt_csrfname').val(); // CSRF hash
                 var id=$(this).val();
                 $.ajax({
-                    url : "<?php echo site_url('ProyekController/get_subproyek');?>",
+                    url : "<?php echo site_url('Proyek/get_subproyek');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -240,7 +240,7 @@
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('ProyekController/datatable_json_rincian/'.$proyek["id_proyek"])?>",
+    "ajax": "<?=base_url('Proyek/datatable_json_rincian/'.$proyek["id_proyek"])?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},

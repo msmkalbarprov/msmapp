@@ -49,15 +49,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['proyek'] = 'ProyekController/index';
-$route['proyek/tambah-proyek'] = 'ProyekController/add';
-$route['proyek/simpan-proyek']['post'] = 'ProyekController/add';
-$route['proyek/edit-proyek/(:any)'] = 'ProyekController/edit/$1';
-$route['proyek/delete-proyek/(:any)'] = 'ProyekController/delete/$1';
-$route['proyek/view-proyek/(:any)'] = 'ProyekController/view/$1';
-$route['proyek/tambah-rincian-proyek/(:any)'] = 'ProyekController/addRincian/$1';
-$route['proyek/edit-proyek-rincian/(:any)'] = 'ProyekController/editRincian/$1';
-$route['proyek/delete-proyek-rincian/(:any)'] = 'ProyekController/deleterincian/$1';
+// $route['proyek'] = 'ProyekController/index';
+// $route['proyek/tambah-proyek'] = 'ProyekController/add';
+// $route['proyek/simpan-proyek']['post'] = 'ProyekController/add';
+// $route['proyek/edit-proyek/(:any)'] = 'ProyekController/edit/$1';
+// $route['proyek/delete-proyek/(:any)'] = 'ProyekController/delete/$1';
+// $route['proyek/view-proyek/(:any)'] = 'ProyekController/view/$1';
+// $route['proyek/tambah-rincian-proyek/(:any)'] = 'ProyekController/addRincian/$1';
+// $route['proyek/edit-proyek-rincian/(:any)'] = 'ProyekController/editRincian/$1';
+// $route['proyek/delete-proyek-rincian/(:any)'] = 'ProyekController/deleterincian/$1';
+
+
+
+$route['proyek'] 								= 'proyek/index';
+$route['proyek/add'] 							= 'proyek/tambah_proyek';
+$route['proyek/edit/(:any)'] 					= 'proyek/edit_proyek/$1';
+$route['proyek/del/(:any)'] 					= 'proyek/delete_proyek/$1';
+$route['proyek/view/(:any)'] 					= 'proyek/view_proyek/$1';
+$route['proyek/rincian/add/(:any)'] 			= 'proyek/add_rincian_proyek/$1';
+$route['proyek/rincian/edit/(:any)'] 			= 'proyek/edit_rincian_proyek/$1';
+$route['proyek/rincian/del/(:any)'] 			= 'proyek/delete_rincian_proyek/$1';
 
 
 
