@@ -53,6 +53,7 @@ $lang['ProyekController']                       = "ProyekController";
 $lang['teknis_proyek']                       	= "Teknis Proyek";
 $lang['proyek_pekerjaan']                       = "Proyek/Pekerjaan";
 
+$lang['pq']                       				= "Project Qualifying";
 
 
 

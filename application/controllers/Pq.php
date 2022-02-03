@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Proyek extends MY_Controller {
+class Pq extends MY_Controller {
 
 	public function __construct(){
 
@@ -26,7 +26,7 @@ class Proyek extends MY_Controller {
 	public function index(){
 		$data['title'] = 'Proyek';
 		$this->load->view('admin/includes/_header', $data);
-		$this->load->view('user/proyek/proyek_list');
+		$this->load->view('user/pq/pq_list');
 		$this->load->view('admin/includes/_footer');
 	}
 	

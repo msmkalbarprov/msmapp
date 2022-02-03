@@ -14,13 +14,13 @@
     <div class="card">
       <div class="card-header">
         <div class="d-inline-block">
-          <h3 class="card-title"><i class="fa fa-list"></i>&nbsp; <?= trans('proyek_list') ?></h3>
+          <h3 class="card-title"><i class="fa fa-list"></i>&nbsp; List Project Qualifying(PQ) Proyek</h3>
         </div>
         <div class="d-inline-block float-right">
           <?php if($this->rbac->Check_operation_permission('add')): ?>
 
 
-            <a href="<?= base_url('proyek/add'); ?>" class="btn btn-success"><i class="fa fa-plus"></i> <?= trans('proyek_add') ?></a>
+            <a href="<?= base_url('pq/add'); ?>" class="btn btn-success"><i class="fa fa-plus"></i> <?= trans('pq_add') ?></a>
           <?php endif; ?>
         </div>
       </div>
@@ -51,7 +51,7 @@
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
 <script>
   // $("#proyek").addClass('menu-open');
-  $("#proyek> a").addClass('active');
+  $("#pq").addClass('active');
 </script>
 <script>
   
@@ -59,7 +59,7 @@
   var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('proyek/datatable_json')?>",
+    "ajax": "<?=base_url('pq/datatable_json')?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},

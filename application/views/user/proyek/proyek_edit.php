@@ -12,7 +12,7 @@
              <?= trans('proyek_add') ?> </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('proyek'); ?>" class="btn btn-primary"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('proyek'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -20,7 +20,7 @@
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
-         <?php echo form_open(base_url('Proyek/edit_proyek/'.$proyek['id_proyek']), 'class="form-horizontal"');  ?> 
+         <?php echo form_open(base_url('proyek/edit/'.$proyek['id_proyek']), 'class="form-horizontal"');  ?> 
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -123,7 +123,13 @@
           </div>
           <div class="col-md-6">
            <div class="form-group">
-            &nbsp;
+            <label for="jns_pph" class="control-label">Jenis PPH</label>
+            <select name="jns_pph" id="jns_pph" class="form-control" required>
+                  <option value="">No Selected</option>
+                  <option value="21">PPH 21</option>
+                  <option value="22">PPH 22</option>
+                  <option value="23">PPH 23</option>
+                </select>
           </div>
           </div>
          </div>
@@ -137,15 +143,17 @@
         </div>
         <?php echo form_close( ); ?>
       </div>
-      <div class="card-footer">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="d-inline-block float-right">
-                <a href="<?= base_url('proyek/rincian/add/').$proyek['id_proyek']; ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
-              </div>
-            </div>
-            
+      <!-- /.box-body -->
+    </div>
+    <div class="card card-default">
+      <div class="card-header">
+          <div class="d-inline-block">
+           </div>
+           <div class="d-inline-block float-right">
+            <a href="<?= base_url('proyek/addrincian/').$proyek['id_proyek']; ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah Rincian</a>
           </div>
+      </div>
+      <div class="card-body">
            <div class="row">
             <div class="col-md-12">
               <div class="card-body table-responsive">
@@ -168,7 +176,6 @@
             </div>
            </div>
       </div>
-      <!-- /.box-body -->
     </div>
   </section> 
 </div>
@@ -186,7 +193,7 @@
   function get_data_detail(){
               var id = "<?php echo $proyek['id_proyek'] ?>";
               $.ajax({
-                url : "<?php echo site_url('Proyek/get_data_detail_edit');?>",
+                url : "<?php echo site_url('proyek/get_data_detail_edit');?>",
                     method : "POST",
                     data :{
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -204,6 +211,7 @@
                             $('[name="perusahaan"]').val(data[i].kd_perusahaan).trigger('change');
                             $('[name="dinas"]').val(data[i].kd_dinas).trigger('change');
                             $('[name="thn_ang"]').val(data[i].thn_anggaran).trigger('change');
+                            $('[name="jns_pph"]').val(data[i].jns_pph).trigger('change');
                             // document.getElementById("thn_ang").selectedIndex = data[i].thn_anggaran;
                         });
                     }
@@ -217,7 +225,7 @@
             var csrfHash = $('.txt_csrfname').val(); // CSRF hash
                 var id=$(this).val();
                 $.ajax({
-                    url : "<?php echo site_url('Proyek/get_subproyek');?>",
+                    url : "<?php echo site_url('proyek/get_subproyek');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -240,7 +248,7 @@
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('Proyek/datatable_json_rincian/'.$proyek["id_proyek"])?>",
+    "ajax": "<?=base_url('proyek/datatable_json_rincian/'.$proyek["id_proyek"])?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},

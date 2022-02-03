@@ -20,7 +20,7 @@
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
          
-         <?php echo form_open_multipart('proyek/add_rincian_proyek');?>
+         <?php echo form_open_multipart('proyek/addrincian/'.$proyek["id_proyek"]);?>
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">

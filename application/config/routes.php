@@ -66,9 +66,12 @@ $route['proyek/add'] 							= 'proyek/tambah_proyek';
 $route['proyek/edit/(:any)'] 					= 'proyek/edit_proyek/$1';
 $route['proyek/del/(:any)'] 					= 'proyek/delete_proyek/$1';
 $route['proyek/view/(:any)'] 					= 'proyek/view_proyek/$1';
-$route['proyek/rincian/add/(:any)'] 			= 'proyek/add_rincian_proyek/$1';
-$route['proyek/rincian/edit/(:any)'] 			= 'proyek/edit_rincian_proyek/$1';
-$route['proyek/rincian/del/(:any)'] 			= 'proyek/delete_rincian_proyek/$1';
+$route['proyek/addrincian/(:any)'] 				= 'proyek/add_rincian_proyek/$1';
+$route['proyek/editrincian/(:any)'] 			= 'proyek/edit_rincian_proyek/$1';
+$route['proyek/deleterincian/(:any)'] 			= 'proyek/delete_rincian_proyek/$1';
+
+
+$route['pq'] 									= 'pq/index';
 
 
 

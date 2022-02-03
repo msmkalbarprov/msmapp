@@ -20,7 +20,7 @@
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
          
-         <?php echo form_open_multipart('proyek/edit_rincian_proyek/'.$rincian_proyek["id"]);?>
+         <?php echo form_open_multipart('proyek/editrincian/'.$rincian_proyek["id"]);?>
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -146,7 +146,7 @@
   function get_data_detail(){
               var id = "<?php echo $rincian_proyek["id"] ?>";
               $.ajax({
-                url : "<?php echo site_url('Proyek/get_data_detail_rincian_edit');?>",
+                url : "<?php echo site_url('proyek/get_data_detail_rincian_edit');?>",
                     method : "POST",
                     data :{
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

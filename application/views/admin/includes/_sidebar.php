@@ -41,36 +41,42 @@ $cur_tab = $this->uri->segment(1)==''?'dashboard': $this->uri->segment(1);
         ?>
 
         <?php if($this->rbac->check_module_permission($nav['controller_name'])): ?> 
-
-        <li id="<?= ($nav['controller_name']) ?>" class="nav-item <?= ($has_submenu) ? 'has-treeview' : '' ?> has-treeview">
-
-          <a href="<?= base_url($nav['controller_name']) ?>" class="nav-link">
-            <i class="nav-icon fa <?= $nav['fa_icon'] ?>"></i>
-            <p>
-              <?= trans($nav['module_name']) ?>
-              <?= ($has_submenu) ? '<i class="right fa fa-angle-left"></i>' : '' ?>
-            </p>
-          </a>
-
-          <!-- sub-menu -->
-          <?php 
-            if($has_submenu): 
+        <?php if($nav['class']=='nav-header'){
           ?>
-          <ul class="nav nav-treeview">
+            <li class="<?= $nav['class'] ?>"><?= trans($nav['module_name']) ?></li>
+          <?php
+        }else{
+          ?>
+          <li id="<?= ($nav['controller_name']) ?>" class="<?= $nav['class'] ?> <?= ($has_submenu) ? 'has-treeview' : '' ?> has-treeview">
+            <a href="<?= base_url($nav['controller_name']) ?>" class="nav-link">
+              <i class="nav-icon fa <?= $nav['fa_icon'] ?>"></i>
+              <p>
+                <?= trans($nav['module_name']) ?>
+                <?= ($has_submenu) ? '<i class="right fa fa-angle-left"></i>' : '' ?>
+              </p>
+            </a>
 
-            <?php foreach($sub_menu as $sub_nav): ?>
+            <!-- sub-menu -->
+            <?php 
+              if($has_submenu): 
+            ?>
+            <ul class="nav nav-treeview">
 
-            <li class="nav-item">
-              <a href="<?= base_url($nav['controller_name'].'/'.$sub_nav['link']); ?>" class="nav-link">
-                <i class="fa fa-circle-o nav-icon"></i>
-                <p><?= trans($sub_nav['name']) ?></p>
-              </a>
-            </li>
+              <?php foreach($sub_menu as $sub_nav): ?>
 
-            <?php endforeach; ?>
-           
-          </ul>
-          <?php endif; ?>
+              <li class="nav-item">
+                <a href="<?= base_url($nav['controller_name'].'/'.$sub_nav['link']); ?>" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p><?= trans($sub_nav['name']) ?></p>
+                </a>
+              </li>
+
+              <?php endforeach; ?>
+             
+            </ul>
+            <?php endif; ?>
+          <?php
+        } ?>
           <!-- /sub-menu -->
         </li>
 

@@ -19,7 +19,7 @@
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
-         <?php echo form_open(base_url('proyek/tambah_proyek'), 'class="form-horizontal"');  ?> 
+         <?php echo form_open(base_url('proyek/add'), 'class="form-horizontal"');  ?> 
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -102,10 +102,10 @@
             <div class="form-group">
               <label for="jnspagu" class="control-label"><?= trans('jnspagu') ?></label>
                 <select name="jnspagu" id="jnspagu" class="form-control" required>
-                  <option value="">No Selected</option>
-                  <?php foreach($data_pagu as $jnspagu): ?>
-                    <option value="<?= $jnspagu['id']; ?>"><?= $jnspagu['nama']; ?></option>
-                  <?php endforeach; ?>
+                  <option value="1">Target</option>
+                  <!-- <?php foreach($data_pagu as $jnspagu): ?> -->
+                    <!-- <option value="<?= $jnspagu['id']; ?>"><?= $jnspagu['nama']; ?></option> -->
+                  <!-- <?php endforeach; ?> -->
                 </select>
             </div>
           </div>
@@ -131,9 +131,20 @@
                 </select>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="jns_pph" class="control-label">Jenis PPH</label>
+                <select name="jns_pph" id="jns_pph" class="form-control" required>
+                  <option value="">No Selected</option>
+                  <option value="21">PPH 21</option>
+                  <option value="22">PPH 22</option>
+                  <option value="23">PPH 23</option>
+                </select>
+            </div>
+          </div>
+          <div class="col-md-3">
            <div class="form-group">
-            <label for="nilai" class="control-label"><?= trans('nilai') ?></label>
+            <label for="nilai" class="control-label"><?= trans('nilai') ?> Target</label>
               <input type="text" name="nilai" class="form-control" id="nilai" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
           </div>
           </div>
@@ -162,7 +173,7 @@
             var csrfHash = $('.txt_csrfname').val(); // CSRF hash
                 var id=$(this).val();
                 $.ajax({
-                    url : "<?php echo site_url('Proyek/get_subproyek');?>",
+                    url : "<?php echo site_url('proyek/get_subproyek');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

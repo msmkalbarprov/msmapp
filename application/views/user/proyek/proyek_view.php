@@ -68,8 +68,9 @@
           </div>
           <div class="col-md-6">
            <div class="form-group">
-            &nbsp;
-          </div>
+              <label for="jns_pph" class="control-label">Jenis PPH</label>
+                <p><?= $proyek['jns_pph']; ?></p>
+            </div>
           </div>
          </div>
 
@@ -117,7 +118,7 @@
   var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('Proyek/datatable_json_rincian/'.$proyek["id_proyek"])?>",
+    "ajax": "<?=base_url('proyek/datatable_json_rincian/'.$proyek["id_proyek"])?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
