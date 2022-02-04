@@ -204,7 +204,7 @@
                     dataType : 'json',
                     success: function(data){
                         $('select[name="subarea"]').empty();
-                        
+                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
                             $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
                         });
@@ -226,7 +226,7 @@
                     dataType : 'json',
                     success: function(data){
                         $('select[name="subarea"]').empty();
-                        
+                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
                             $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
                         });
@@ -238,17 +238,18 @@
 
     $('#subarea').change(function(){ 
                 var subarea=$(this).val();
+                var area=document.getElementById("area").value;
                 $.ajax({
                     url : "<?php echo site_url('proyek/get_dinas');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: subarea},
+                      id: subarea,area:area},
                     async : true,
                     dataType : 'json',
                     success: function(data){
                         $('select[name="dinas"]').empty();
-                        
+                        $('select[name="dinas"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
                             $('select[name="dinas"]').append('<option value="'+ value.id +'">'+ value.nama_dinas +'</option>');
                         });
@@ -273,7 +274,7 @@
                     dataType : 'json',
                     success: function(data){
                         $('select[name="jnssubproyek"]').empty();
-                        
+                        $('select[name="jnssubproyek"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
                             $('select[name="jnssubproyek"]').append('<option value="'+ value.kd_subprojek +'">'+ value.kd_subprojek + '-' + value.nm_subprojek +'</option>');
                         });

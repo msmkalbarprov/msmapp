@@ -225,7 +225,8 @@ class Proyek extends MY_Controller {
 
 	function get_dinas(){
 		$subarea 	= $this->input->post('id',TRUE);
-		$data 		= $this->proyek_model->get_dinas($subarea)->result();
+		$area 		= $this->input->post('area',TRUE);
+		$data 		= $this->proyek_model->get_dinas($subarea,$area)->result();
 		echo json_encode($data);
 	}
 

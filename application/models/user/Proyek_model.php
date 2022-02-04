@@ -64,9 +64,9 @@
 				$this->db->where('id_proyek',$id);
                 return $this->db->get()->result_array();
 		}
-	function get_dinas($subarea)
-	{
-		$query = $this->db->get_where('ci_dinas', array('kd_area' => $this->session->userdata('kd_area'), 'kd_sub_area' => $subarea));
+	function get_dinas($subarea,$area)
+	{	
+		$query = $this->db->get_where('ci_dinas', array('kd_area' => $area, 'kd_sub_area' => $subarea));
 		return $query;
 	}
 

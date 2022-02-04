@@ -254,7 +254,7 @@
                     dataType : 'json',
                     success: function(data){
                         $('select[name="subarea"]').empty();
-                        
+                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
                            if(kdsubarea==value.kd_subarea){
                                 $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
@@ -282,7 +282,7 @@
                     dataType : 'json',
                     success: function(data){
                         $('select[name="subarea"]').empty();
-                        
+                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
                             if(kdsubarea==value.kd_subarea){
                                 $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
@@ -309,7 +309,7 @@
                     dataType : 'json',
                     success: function(data){
                         $('select[name="jnssubproyek"]').empty();
-                        
+                        $('select[name="jnssubproyek"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
                           if(kdsubproyek==value.kd_subprojek){
                                 $('select[name="jnssubproyek"]').append('<option value="'+ value.kd_subprojek +'" selected>'+ value.kd_subprojek + '-' + value.nm_subprojek +'</option>');
@@ -337,7 +337,7 @@
                     dataType : 'json',
                     success: function(data){
                         $('select[name="dinas"]').empty();
-                        
+                        $('select[name="dinas"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
 
                            if(kddinas==value.id){
