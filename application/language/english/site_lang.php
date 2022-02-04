@@ -25,6 +25,10 @@ $lang['users']                               = "Users";
 	$lang['add_new_user']                    = "Add New User";
 	$lang['created_by']                      = "Created By"; 
 	$lang['select_user_role']                = "Select User Role";
+$lang['dinas']                				= "Dinas";
+$lang['list_dinas']                				= "List Dinas";
+$lang['dinas_add']                				= "Tambah Dinas";
+$lang['master']                				= "Master";
 
 // tambahan
 $lang['proyek']                               	= "Proyek";	

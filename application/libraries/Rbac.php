@@ -102,7 +102,10 @@ class RBAC
 	//--------------------------------------------------------------	
 	function Check_operation_permission($operation)
 	{
-
+		if($this->obj->is_supper){
+			return 1;
+		}
+		
 		if(isset($this->obj->module_access[$this->obj->uri->segment(1)][$operation])) 
 			return 1;
 		else 

@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['proyek'] 								= 'proyek/index';
 $route['proyek/add'] 							= 'proyek/tambah_proyek';
 $route['proyek/edit/(:any)'] 					= 'proyek/edit_proyek/$1';
-$route['proyek/del/(:any)'] 					= 'proyek/delete_proyek/$1';
+$route['proyek/delete/(:any)'] 					= 'proyek/delete_proyek/$1';
 $route['proyek/view/(:any)'] 					= 'proyek/view_proyek/$1';
 $route['proyek/addrincian/(:any)'] 				= 'proyek/add_rincian_proyek/$1';
 $route['proyek/editrincian/(:any)'] 			= 'proyek/edit_rincian_proyek/$1';

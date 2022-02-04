@@ -82,14 +82,12 @@
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="paketproyek" class="control-label">Nama Paket pekerjaan</label>
-              <input type="text" name="paketproyek" id="paketproyek" class="form-control"  placeholder="Nama Paket pekerjaan" >
+              <label for="nilai" class="control-label"><?= trans('nilai') ?></label>
+              <input type="text" name="nilai" class="form-control" id="nilai" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
             </div>
           </div>
           <div class="col-md-6">
            <div class="form-group">
-            <label for="nilai" class="control-label"><?= trans('nilai') ?></label>
-              <input type="text" name="nilai" class="form-control" id="nilai" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
           </div>
           </div>
          </div>

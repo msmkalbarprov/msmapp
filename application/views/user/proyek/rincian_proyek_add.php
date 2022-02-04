@@ -11,7 +11,7 @@
              <?= trans('rincian_proyek_add') ?> </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('proyek/edit/'.$proyek["id_proyek"]); ?>" class="btn btn-primary"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('proyek/edit/'.$proyek["id_proyek"]); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -81,20 +81,19 @@
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="paketproyek" class="control-label">Nama Paket pekerjaan</label>
-              <input type="text" name="paketproyek" id="paketproyek" class="form-control"  placeholder="Nama Paket pekerjaan" >
+              <label for="nilai" class="control-label"><?= trans('nilai') ?></label>
+              <input type="text" name="nilai" class="form-control" id="nilai" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
             </div>
           </div>
           <div class="col-md-6">
            <div class="form-group">
-            <label for="nilai" class="control-label"><?= trans('nilai') ?></label>
-              <input type="text" name="nilai" class="form-control" id="nilai" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
+            
           </div>
           </div>
          </div>
         <div class="form-group">
           <div class="col-md-12">
-            <input type="submit" name="submit" value="<?= trans('proyek_add') ?>" class="btn btn-primary pull-right">
+            <input type="submit" name="submit" value="Simpan" class="btn btn-primary pull-right btn-sm">
           </div>
         </div>
         <?php echo form_close( ); ?>

@@ -40,7 +40,7 @@
           <div class="col-md-6">
            <div class="form-group">
             <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
-              <select name="subarea" class="form-control" required>
+              <select name="subarea"  id="subarea" class="form-control" required>
                   <option value="">No Selected</option>
                   <?php foreach($data_subarea as $subarea): ?>
                     <option value="<?= $subarea['kd_subarea']; ?>"><?= $subarea['nm_subarea']; ?></option>
@@ -87,11 +87,8 @@
           <div class="col-md-6">
            <div class="form-group">
             <label for="dinas" class="control-label"><?= trans('nm_dinas') ?></label>
-              <select name="dinas" id="dinas" class="form-control" required>
+              <select class="form-control" id="dinas" name="dinas" required>
                 <option value="">No Selected</option>
-                <?php foreach($data_dinas as $dinas): ?>
-                  <option value="<?= $dinas['id']; ?>"><?= $dinas['nama_dinas']; ?></option>
-                <?php endforeach; ?>
               </select>
           </div>
           </div>
@@ -131,6 +128,16 @@
                 </select>
             </div>
           </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="nilai" class="control-label">Nama Paket pekerjaan</label>
+              <input type="text" name="paketproyek" class="form-control" id="paketproyek" placeholder="Nama Paket pekerjaan" required>
+          </div>
+          </div>
+         </div>
+
+
+          <div class="row">
           <div class="col-md-3">
             <div class="form-group">
               <label for="jns_pph" class="control-label">Jenis PPH</label>
@@ -143,15 +150,35 @@
             </div>
           </div>
           <div class="col-md-3">
-           <div class="form-group">
+            <label for="loc" class="control-label">LOC <small>Level of Confidence</small></label>
+             <div class="input-group">
+                  
+                  <input type="text" name="loc" maxlength="5" class="form-control" id="loc" placeholder="0.00" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
+                  <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                  </div>
+                </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
             <label for="nilai" class="control-label"><?= trans('nilai') ?> Target</label>
               <input type="text" name="nilai" class="form-control" id="nilai" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
           </div>
           </div>
          </div>
+
+         <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="jns_pph" class="control-label">Keterangan</label>
+                <textarea name="catatan" id="catatan" class="form-control" rows="2"></textarea>
+            </div>
+          </div>
+         </div>
+
         <div class="form-group">
           <div class="col-md-12">
-            <input type="submit" name="submit" value="<?= trans('proyek_add') ?>" class="btn btn-primary pull-right">
+            <input type="submit" name="submit" value="Simpan" class="btn btn-primary pull-right">
           </div>
         </div>
         <?php echo form_close( ); ?>
@@ -167,6 +194,29 @@
 </script>
 <script>
   $(document).ready(function(){
+
+    $('#subarea').change(function(){ 
+                var subarea=$(this).val();
+                $.ajax({
+                    url : "<?php echo site_url('proyek/get_dinas');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="dinas"]').empty();
+                        
+                        $.each(data, function(key, value) {
+                            $('select[name="dinas"]').append('<option value="'+ value.id +'">'+ value.nama_dinas +'</option>');
+                        });
+
+                    }
+                });
+                return false;
+            });
+
 
       $('#jnsproyek').change(function(){ 
             var csrfName = $('.txt_csrfname').attr('name'); // Value specified in $config['csrf_token_name']
@@ -191,5 +241,7 @@
                 });
                 return false;
             });
+
+
   }); 
 </script>

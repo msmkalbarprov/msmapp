@@ -81,6 +81,18 @@
                     </div>
                   </div>
                   <div class="form-group">
+                    <label for="role" class="col-md-12 control-label">Area*</label>
+
+                    <div class="col-md-12">
+                      <select name="kd_area" class="form-control">
+                        <option value=""><?= trans('select_role') ?></option>
+                        <?php foreach($data_area as $area): ?>
+                          <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <div class="col-md-12">
                       <input type="submit" name="submit" value="<?= trans('add_admin') ?>" class="btn btn-primary pull-right">
                     </div>

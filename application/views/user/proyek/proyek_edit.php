@@ -41,7 +41,7 @@
           <div class="col-md-6">
            <div class="form-group">
             <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
-              <select name="subarea" class="form-control" required>
+              <select name="subarea" id="subarea" class="form-control" required>
                   <option value="">No Selected</option>
                   <?php foreach($data_subarea as $subarea): ?>
                     <option value="<?= $subarea['kd_subarea']; ?>"><?= $subarea['nm_subarea']; ?></option>
@@ -90,9 +90,7 @@
             <label for="dinas" class="control-label"><?= trans('nm_dinas') ?></label>
               <select name="dinas" id="dinas" class="form-control" required>
                 <option value="">No Selected</option>
-                <?php foreach($data_dinas as $dinas): ?>
-                  <option value="<?= $dinas['id']; ?>"><?= $dinas['nama_dinas']; ?></option>
-                <?php endforeach; ?>
+              </select>
               </select>
           </div>
           </div>
@@ -123,13 +121,39 @@
           </div>
           <div class="col-md-6">
            <div class="form-group">
-            <label for="jns_pph" class="control-label">Jenis PPH</label>
-            <select name="jns_pph" id="jns_pph" class="form-control" required>
-                  <option value="">No Selected</option>
-                  <option value="21">PPH 21</option>
-                  <option value="22">PPH 22</option>
-                  <option value="23">PPH 23</option>
-                </select>
+            <label for="nilai" class="control-label">Nama Paket pekerjaan</label>
+              <input type="text" name="paketproyek" class="form-control" id="paketproyek" placeholder="Nama Paket pekerjaan" required>
+          </div>
+          </div>
+         </div>
+         <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="jns_pph" class="control-label">Jenis PPH</label>
+              <select name="jns_pph" id="jns_pph" class="form-control" required>
+                    <option value="">No Selected</option>
+                    <option value="21">PPH 21</option>
+                    <option value="22">PPH 22</option>
+                    <option value="23">PPH 23</option>
+                  </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+            <div class="form-group">
+              <label for="loc" class="control-label">LOC <small>Level of Confidence</small></label>
+               <div class="input-group">
+                    
+                    <input type="text" name="loc" maxlength="5" class="form-control" id="loc" placeholder="0.00" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
+                    <div class="input-group-append">
+                      <span class="input-group-text">%</span>
+                    </div>
+                  </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+           <div class="form-group">
+              <label for="jns_pph" class="control-label">Keterangan</label>
+              <textarea name="catatan" id="catatan" class="form-control" rows="1"></textarea>
           </div>
           </div>
          </div>
@@ -137,8 +161,9 @@
               
 
         <div class="form-group">
-          <div class="col-md-12">
-            <input type="submit" name="submit" value="<?= trans('proyek_update') ?>" class="btn btn-primary pull-right btn-sm">
+          <div class="col-md-12" align="right">
+            <a href="<?= base_url('proyek/addrincian/').$proyek['id_proyek']; ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah Rincian</a>&nbsp;
+            <input type="submit" name="submit" value="<?= trans('proyek_update') ?>" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
         </div>
         <?php echo form_close( ); ?>
@@ -146,13 +171,6 @@
       <!-- /.box-body -->
     </div>
     <div class="card card-default">
-      <div class="card-header">
-          <div class="d-inline-block">
-           </div>
-           <div class="d-inline-block float-right">
-            <a href="<?= base_url('proyek/addrincian/').$proyek['id_proyek']; ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah Rincian</a>
-          </div>
-      </div>
       <div class="card-body">
            <div class="row">
             <div class="col-md-12">
@@ -203,15 +221,20 @@
                     dataType : 'json',
                     success : function(data){
                         $.each(data, function(i, item){
-                            jnsproyek= data[i].jns_proyek;
+                            jnsproyek     = data[i].jns_proyek;
+                            kddinas       = data[i].kd_dinas;
+                            kdsubproyek   = data[i].jns_sub_proyek;
                           // alert(data[i].kd_usulan);
                             $('[name="area"]').val(data[i].kd_area).trigger('change');
                             $('[name="subarea"]').val(data[i].kd_sub_area).trigger('change');
                             $('[name="jnsproyek"]').val(data[i].jns_proyek).trigger('change');
                             $('[name="perusahaan"]').val(data[i].kd_perusahaan).trigger('change');
-                            $('[name="dinas"]').val(data[i].kd_dinas).trigger('change');
+                            // $('[name="dinas"]').val(data[i].kd_dinas).trigger('change');
                             $('[name="thn_ang"]').val(data[i].thn_anggaran).trigger('change');
                             $('[name="jns_pph"]').val(data[i].jns_pph).trigger('change');
+                            $('[name="loc"]').val(data[i].loc).trigger('change');
+                            $('[name="paketproyek"]').val(data[i].nm_paket_proyek).trigger('change');
+                            $('[name="catatan"]').val(data[i].catatan).trigger('change');
                             // document.getElementById("thn_ang").selectedIndex = data[i].thn_anggaran;
                         });
                     }
@@ -221,8 +244,6 @@
 
 
       $('#jnsproyek').change(function(){ 
-            var csrfName = $('.txt_csrfname').attr('name'); // Value specified in $config['csrf_token_name']
-            var csrfHash = $('.txt_csrfname').val(); // CSRF hash
                 var id=$(this).val();
                 $.ajax({
                     url : "<?php echo site_url('proyek/get_subproyek');?>",
@@ -236,13 +257,48 @@
                         $('select[name="jnssubproyek"]').empty();
                         
                         $.each(data, function(key, value) {
-                            $('select[name="jnssubproyek"]').append('<option value="'+ value.kd_subprojek +'">'+ value.kd_subprojek + '-' + value.nm_subprojek +'</option>');
+                          if(kdsubproyek==value.kd_subprojek){
+                                $('select[name="jnssubproyek"]').append('<option value="'+ value.kd_subprojek +'" selected>'+ value.kd_subprojek + '-' + value.nm_subprojek +'</option>');
+                            }else{
+                                $('select[name="jnssubproyek"]').append('<option value="'+ value.kd_subprojek +'">'+ value.kd_subprojek + '-' + value.nm_subprojek +'</option>');
+                            }
+
+                            
                         });
 
                     }
                 });
                 return false;
-            });      
+            }); 
+
+             $('#subarea').change(function(){ 
+                var subarea=$(this).val();
+                $.ajax({
+                    url : "<?php echo site_url('proyek/get_dinas');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="dinas"]').empty();
+                        
+                        $.each(data, function(key, value) {
+
+                           if(kddinas==value.id){
+                                $('select[name="dinas"]').append('<option value="'+ value.id +'" selected>'+ value.nama_dinas +'</option>');
+                            }else{
+                                $('select[name="dinas"]').append('<option value="'+ value.id +'">'+ value.nama_dinas +'</option>');
+                            }
+
+                            
+                        });
+
+                    }
+                });
+                return false;
+            });     
     });
 
     var table = $('#na_datatable').DataTable( {

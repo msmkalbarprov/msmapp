@@ -58,6 +58,7 @@ class Admin extends MY_Controller
 		$this->rbac->check_operation_access(); // check opration permission
 
 		$data['admin_roles']=$this->admin->get_admin_roles();
+		$data['data_area']=$this->admin->get_area();
 
 		if($this->input->post('submit')){
 				$this->form_validation->set_rules('username', 'Username', 'trim|alpha_numeric|is_unique[ci_users.username]|required');
@@ -79,6 +80,7 @@ class Admin extends MY_Controller
 						'lastname' => $this->input->post('lastname'),
 						'email' => $this->input->post('email'),
 						'mobile_no' => $this->input->post('mobile_no'),
+						'kd_area' => $this->input->post('kd_area'),
 						'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
 						'is_active' => 1,
 						'created_at' => date('Y-m-d : h:m:s'),

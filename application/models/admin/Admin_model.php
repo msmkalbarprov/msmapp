@@ -29,6 +29,13 @@ class Admin_model extends CI_Model{
 		return $query->result_array();
 	}
 
+	function get_area()
+	{
+		$this->db->from('ci_area');
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
 	//-----------------------------------------------------
 	function get_admin_by_id($id)
 	{

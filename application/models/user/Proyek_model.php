@@ -34,14 +34,20 @@
 		public function get_all_proyek(){
 
 			
-			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='2'){
-				$this->db->select('ci_proyek.*,(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu');
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama'){
+				$this->db->select('ci_proyek.*,
+					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu,
+					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
+					ROW_NUMBER() OVER(PARTITION BY nm_area) AS row_num ');
 				$this->db->from("ci_proyek");
 				
         		return $this->db->get()->result_array();
 			}
 			else{
-				$this->db->select('ci_proyek.*,(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu');
+				$this->db->select('ci_proyek.*,
+					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu, 
+					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
+					ROW_NUMBER() OVER(PARTITION BY nm_area) AS row_num ');
 				$this->db->from("ci_proyek");
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
         		return $this->db->get()->result_array();
@@ -58,6 +64,11 @@
 				$this->db->where('id_proyek',$id);
                 return $this->db->get()->result_array();
 		}
+	function get_dinas($subarea)
+	{
+		$query = $this->db->get_where('ci_dinas', array('kd_area' => $this->session->userdata('kd_area'), 'kd_sub_area' => $subarea));
+		return $query;
+	}
 
 		//---------------------------------------------------
 		// Get user detial by ID
