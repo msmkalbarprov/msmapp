@@ -30,10 +30,15 @@ class Area_model extends CI_Model{
 	}
 
 	function get_area()
-	{
-		$userarea = $this->session->userdata('kd_area');
-		$this->db->from('ci_area');
-		$this->db->where('kd_area',$userarea);
+	{	
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama'){
+			$this->db->from('ci_area');
+		}else{
+			$userarea = $this->session->userdata('kd_area');
+			$this->db->from('ci_area');
+			$this->db->where('kd_area',$userarea);	
+		}
+		
 		$query=$this->db->get();
 		return $query->result_array();
 	}

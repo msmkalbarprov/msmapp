@@ -24,7 +24,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
-                <select name="area" class="form-control" required>
+                <select name="area" id ="area" class="form-control" required>
                 <option value="">No Selected</option>
                 <?php foreach($data_area as $area): ?>
                   <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
@@ -41,11 +41,8 @@
            <div class="form-group">
             <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
               <select name="subarea"  id="subarea" class="form-control" required>
-                  <option value="">No Selected</option>
-                  <?php foreach($data_subarea as $subarea): ?>
-                    <option value="<?= $subarea['kd_subarea']; ?>"><?= $subarea['nm_subarea']; ?></option>
-                  <?php endforeach; ?>
-                </select>
+                <option value="">No Selected</option>
+              </select>
           </div>
           </div>
          </div>
@@ -194,6 +191,50 @@
 </script>
 <script>
   $(document).ready(function(){
+    get_subareacombo();
+    function get_subareacombo(){ 
+                var subarea=document.getElementById("area").value;
+                $.ajax({
+                    url : "<?php echo site_url('proyek/get_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="subarea"]').empty();
+                        
+                        $.each(data, function(key, value) {
+                            $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                        });
+
+                    }
+                });
+                return false;
+            };
+
+    $('#area').change(function(){ 
+                var subarea=$(this).val();
+                $.ajax({
+                    url : "<?php echo site_url('proyek/get_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="subarea"]').empty();
+                        
+                        $.each(data, function(key, value) {
+                            $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                        });
+
+                    }
+                });
+                return false;
+            });
 
     $('#subarea').change(function(){ 
                 var subarea=$(this).val();

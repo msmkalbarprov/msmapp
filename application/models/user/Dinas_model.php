@@ -50,12 +50,21 @@ class Dinas_model extends CI_Model{
 
 	//-----------------------------------------------------
 public function get_all(){
-			$this->db->select('ci_dinas.*,ci_subarea.nm_subarea');
+
+	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama'){
+		$this->db->select('ci_dinas.*,ci_subarea.nm_subarea');
+			$this->db->from('ci_dinas');
+			$this->db->join('ci_subarea','ci_subarea.kd_subarea=ci_dinas.kd_sub_area', 'left');
+			$this->db->order_by('id','asc');
+	}else{
+		$this->db->select('ci_dinas.*,ci_subarea.nm_subarea');
 			$this->db->from('ci_dinas');
 			$this->db->join('ci_subarea','ci_subarea.kd_subarea=ci_dinas.kd_sub_area', 'left');
 			$this->db->where('ci_dinas.kd_area', $this->session->userdata('kd_area'));
 
 			$this->db->order_by('id','asc');
+	}
+			
         return $this->db->get()->result_array();
 		}
 

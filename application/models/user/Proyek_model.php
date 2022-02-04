@@ -70,6 +70,12 @@
 		return $query;
 	}
 
+	function get_subarea($area)
+	{
+		$query = $this->db->get_where('ci_subarea', array('kd_area' => $area));
+		return $query;
+	}
+
 		//---------------------------------------------------
 		// Get user detial by ID
 	public function get_proyek_by_id($id){

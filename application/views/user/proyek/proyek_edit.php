@@ -25,7 +25,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
-                <select name="area" class="form-control" required>
+                <select name="area" id="area"  class="form-control" required>
                 <option value="">No Selected</option>
                 <?php foreach($data_area as $area): ?>
                   <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
@@ -43,10 +43,7 @@
             <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
               <select name="subarea" id="subarea" class="form-control" required>
                   <option value="">No Selected</option>
-                  <?php foreach($data_subarea as $subarea): ?>
-                    <option value="<?= $subarea['kd_subarea']; ?>"><?= $subarea['nm_subarea']; ?></option>
-                  <?php endforeach; ?>
-                </select>
+              </select>
           </div>
           </div>
          </div>
@@ -90,7 +87,6 @@
             <label for="dinas" class="control-label"><?= trans('nm_dinas') ?></label>
               <select name="dinas" id="dinas" class="form-control" required>
                 <option value="">No Selected</option>
-              </select>
               </select>
           </div>
           </div>
@@ -224,9 +220,10 @@
                             jnsproyek     = data[i].jns_proyek;
                             kddinas       = data[i].kd_dinas;
                             kdsubproyek   = data[i].jns_sub_proyek;
+                            kdsubarea     = data[i].kd_sub_area;
                           // alert(data[i].kd_usulan);
                             $('[name="area"]').val(data[i].kd_area).trigger('change');
-                            $('[name="subarea"]').val(data[i].kd_sub_area).trigger('change');
+                            // $('[name="subarea"]').val(data[i].kd_sub_area).trigger('change');
                             $('[name="jnsproyek"]').val(data[i].jns_proyek).trigger('change');
                             $('[name="perusahaan"]').val(data[i].kd_perusahaan).trigger('change');
                             // $('[name="dinas"]').val(data[i].kd_dinas).trigger('change');
@@ -236,11 +233,68 @@
                             $('[name="paketproyek"]').val(data[i].nm_paket_proyek).trigger('change');
                             $('[name="catatan"]').val(data[i].catatan).trigger('change');
                             // document.getElementById("thn_ang").selectedIndex = data[i].thn_anggaran;
+                            get_subareacombo();
                         });
                     }
 
               });
             }
+
+
+
+    function get_subareacombo(){ 
+                var subarea=document.getElementById("area").value;
+                $.ajax({
+                    url : "<?php echo site_url('proyek/get_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="subarea"]').empty();
+                        
+                        $.each(data, function(key, value) {
+                           if(kdsubarea==value.kd_subarea){
+                                $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
+                            }else{
+                                $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                            }
+
+                            
+                        });
+
+                    }
+                });
+                return false;
+            };
+
+    $('#area').change(function(){ 
+                var subarea=$(this).val();
+                $.ajax({
+                    url : "<?php echo site_url('proyek/get_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="subarea"]').empty();
+                        
+                        $.each(data, function(key, value) {
+                            if(kdsubarea==value.kd_subarea){
+                                $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
+                            }else{
+                                $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                            }
+                        });
+
+                    }
+                });
+                return false;
+            });
 
 
       $('#jnsproyek').change(function(){ 
