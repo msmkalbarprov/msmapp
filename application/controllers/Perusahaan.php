@@ -61,7 +61,7 @@ public function datatable_json(){
 	
 	//--------------------------------------------------
 	function add(){
-
+		$data['title'] = 'Perusahaan';
 		$this->rbac->check_operation_access(); // check opration permission
 
 		if($this->input->post('submit')){

@@ -261,7 +261,7 @@ class Proyek extends MY_Controller {
 			}
 			else{
 				$data = array(
-					'username' 			=> $this->session->userdata('user_id'),
+					'username' 			=> $this->session->userdata('username'),
 					'kd_sub_area' 		=> $this->input->post('subarea'),
 					'jns_proyek' 		=> $this->input->post('jnsproyek'),
 					'jns_sub_proyek'	=> $this->input->post('jnssubproyek'),

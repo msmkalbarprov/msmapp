@@ -49,15 +49,7 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="<?= base_url('admin') ?>" class="nav-link"><?= trans('home') ?></a>
-      </li>
-      <!-- <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link"><?= trans('contact') ?></a>
-      </li> -->
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="<?= base_url('admin/auth/logout') ?>" class="nav-link"><?= trans('logout') ?></a>
-      </li>
+
     </ul>
 
     <!-- SEARCH FORM -->
@@ -74,10 +66,9 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Languages -->
-      <?php  $languages = get_language_list(); ?>
-      
-      
+      <li class="nav-item">
+        <a href="<?= base_url('admin/auth/logout') ?>" class="nav-link"><?= trans('logout') ?></a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
             class="fa fa-th-large"></i></a>

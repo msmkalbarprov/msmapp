@@ -29,6 +29,9 @@ $lang['dinas']                				= "Dinas";
 $lang['list_dinas']                				= "List Dinas";
 $lang['dinas_add']                				= "Tambah Dinas";
 $lang['master']                				= "Master";
+$lang['utilitas']                				= "Utilitas";
+$lang['setting']                				= "Setting";
+$lang['sub_proyek']                				= "Sub Proyek";
 
 // tambahan
 $lang['proyek']                               	= "Proyek";	

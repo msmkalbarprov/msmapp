@@ -30,12 +30,12 @@
         <table id="na_datatable" class="table table-bordered table-striped" width="100%">
           <thead>
             <tr>
-              <th>#<?= trans('id') ?></th>
-              <th><?= trans('area') ?></th>
-              <th><?= trans('proyek') ?></th>
-              <th><?= trans('perusahaan') ?></th>
-              <th><?= trans('nm_dinas') ?></th>
-              <th><?= trans('jnspagu') ?></th>
+              <th width="5%">#<?= trans('id') ?></th>
+              <th>Kode PQ</th>
+              <th>Perusahaan</th>
+              <th>Pekerjaan</th>
+              <th>Status</th>
+              <th>Nilai PQ</th>
               <th width="100" class="text-right"><?= trans('action') ?></th>
             </tr>
           </thead>
@@ -63,12 +63,11 @@
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "area", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "proyek", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "perusahaan", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "dinas", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "jnspagu", 'searchable':false, 'orderable':false},
-    { "targets": 6, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 1, "name": "perusahaan", 'searchable':true, 'orderable':false},
+    { "targets": 2, "name": "pekerjaan", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "status", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "nilai", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
 </script>

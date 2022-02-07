@@ -53,7 +53,7 @@
                   <div class="form-group">
                     <label for="id" class="col-md-2 control-label">Sub Area</label>
                     <select name="subarea" class="form-control">
-                    <option value=""><?= trans('select_role') ?></option>
+                    <option value="">No Selected</option>
                     <?php foreach($data_subarea as $subarea): ?>
                           <option value="<?= $subarea['kd_subarea']; ?>"><?= $subarea['nm_subarea']; ?></option>
                       <?php endforeach; ?>

@@ -22,7 +22,7 @@
           <?php if($this->rbac->Check_operation_permission('add')): ?>
             <a href="<?= base_url('proyek/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>
             <button class="btn btn-warning btn-sm" id="button"><i class="fa fa-pencil-square-o"></i> Edit </button>
-            <button class="btn btn-danger btn-sm" id="buttonhps"><i class="fa fa-pencil-trash"></i> Hapus </button>
+            <button class="btn btn-danger btn-sm" id="buttonhps"><i class="fa fa-trash"></i> Hapus </button>
           <?php endif; ?>
         </div>
       </div>
@@ -85,43 +85,43 @@ function format ( d ) {
     // `d` is the original data object for the row
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:100px;">'+
          '<tr>'+
-            '<td>Area</td>'+
+            '<td><b>Area</b></td>'+
             '<td>: '+d.nm_area+'</td>'+
-             '<td>Proyek</td>'+
+             '<td><b>Proyek</b></td>'+
             '<td>: '+d.nm_jns_proyek+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td width="15%">Sub Area</td>'+
+            '<td width="15%"><b>Sub Area</b></td>'+
             '<td width="35%">: '+d.nm_sub_area+'</td>'+
-            '<td width="15%">Sub Proyek</td>'+
+            '<td width="15%"><b>Sub Proyek</b></td>'+
             '<td width="35%">: '+d.nm_jns_sub_proyek+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td>Tahun Anggaran</td>'+
+            '<td><b>Tahun Anggaran</b></td>'+
             '<td>: '+d.thn_anggaran+'</td>'+
-             '<td>Nama Paket</td>'+
+             '<td><b>Nama Paket</b></td>'+
             '<td>: '+d.nm_paket_proyek+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td>PPH</td>'+
+            '<td><b>PPH</b></td>'+
             '<td>: '+d.jns_pph+'</td>'+
-             '<td>Perusahaan</td>'+
+             '<td><b>Perusahaan</b></td>'+
             '<td>: '+d.nm_perusahaan+'</td>'+
         '</tr>'+
          '<tr>'+
-            '<td>Pagu</td>'+
+            '<td><b>Pagu</b></td>'+
             '<td>: '+d.nm_jns_pagu+'</td>'+
-             '<td>Dinas</td>'+
+             '<td><b>Dinas</b></td>'+
             '<td>: '+d.nm_dinas+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td>Nilai</td>'+
+            '<td><b>Nilai</b></td>'+
             '<td>: '+d.nilai+'</td>'+
-             '<td>LOC</td>'+
+             '<td><b>LOC</b></td>'+
             '<td>: '+d.loc+' %</td>'+
         '</tr>'+
         '<tr>'+
-            '<td>Keterangan</td>'+
+            '<td><b>Keterangan</b></td>'+
             '<td colspan="3">: '+d.catatan+'</td>'+
              
         '</tr>'+

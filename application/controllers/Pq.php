@@ -8,12 +8,14 @@ class Pq extends MY_Controller {
 		auth_check(); // check login auth
 		$this->rbac->check_module_access();
 
+		$this->load->model('user/proyek_model', 'proyek_model');
+		$this->load->model('user/pq_model', 'pq_model');
+
 		$this->load->model('admin/admin_model', 'admin');
 		$this->load->model('admin/area_model', 'area');
 		$this->load->model('admin/subarea_model', 'subarea');
 		$this->load->model('admin/jnsproyek_model', 'jnsproyek');
 		$this->load->model('admin/jnssubproyek_model', 'jnssubproyek_model');
-		$this->load->model('user/proyek_model', 'proyek_model');
 		$this->load->model('admin/perusahaan_model', 'perusahaan');
 		$this->load->model('admin/pagu_model', 'pagu');
 		$this->load->model('admin/dinas_model', 'dinas');
@@ -31,9 +33,8 @@ class Pq extends MY_Controller {
 	}
 	
 	public function datatable_json(){				   					   
-		$records['data'] = $this->proyek_model->get_all_proyek();
+		$records['data'] = $this->pq_model->get_all_pq();
 		$data = array();
-
 		$i=0;
 		foreach ($records['data']   as $row) 
 		{  
@@ -54,9 +55,10 @@ class Pq extends MY_Controller {
 		echo json_encode($records);						   
 	}
 
-	public function tambah_proyek(){
+	public function tambah_pq(){
 		
 		$this->rbac->check_operation_access('');
+		$data['data_mprojek'] 		= $this->proyek_model->get_mprojek();
 
 		$data['data_area'] 			= $this->area->get_area();
 		$data['data_subarea'] 		= $this->subarea->get_subarea();
@@ -84,7 +86,7 @@ class Pq extends MY_Controller {
 					'errors' => validation_errors()
 				);
 				$this->session->set_flashdata('errors', $data['errors']);
-				redirect(base_url('proyek/add'),'refresh');
+				redirect(base_url('pq/add'),'refresh');
 			}
 			else{
 				$data = array(
@@ -119,20 +121,20 @@ class Pq extends MY_Controller {
 					if ($result2){
 						$this->activity_model->add_log(1);
 						$this->session->set_flashdata('success', 'Proyek berhasil ditambahkan!');
-						redirect(base_url('proyek'));
+						redirect(base_url('pq'));
 					}
 					
 					$this->session->set_flashdata('errors', 'Detail Proyek gagal ditambahkan!');
-					redirect(base_url('proyek/add'));
+					redirect(base_url('pq/add'));
 				}else{
 					$this->session->set_flashdata('errors', 'Proyek gagal ditambahkan!');
-					redirect(base_url('proyek/add'));
+					redirect(base_url('pq/add'));
 				}
 			}
 		}
 		else{
 			$this->load->view('admin/includes/_header');
-			$this->load->view('user/proyek/proyek_add', $data);
+			$this->load->view('user/pq/pq_add', $data);
 			$this->load->view('admin/includes/_footer');
 		}
 		
@@ -398,6 +400,12 @@ public function edit_rincian_proyek($id = 0){
 	function get_data_detail_rincian_edit(){
 		$id = $this->input->post('id',TRUE);
 		$data = $this->proyek_model->get_detail_rincian_proyek_by_id($id)->result();
+		echo json_encode($data);
+	}
+
+	function get_projek(){
+		$area = $this->input->post('id',TRUE);
+		$data = $this->proyek_model->get_project($area)->result();
 		echo json_encode($data);
 	}
 

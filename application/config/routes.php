@@ -72,6 +72,13 @@ $route['proyek/deleterincian/(:any)'] 			= 'proyek/delete_rincian_proyek/$1';
 
 
 $route['pq'] 									= 'pq/index';
+$route['pq/add'] 								= 'pq/tambah_pq';
+$route['pq/edit/(:any)'] 						= 'pq/edit_pq/$1';
+$route['pq/delete/(:any)'] 						= 'pq/delete_pq/$1';
+$route['pq/view/(:any)'] 						= 'pq/view_pq/$1';
+$route['pq/addrincian/(:any)'] 					= 'pq/add_rincian_pq/$1';
+$route['pq/editrincian/(:any)'] 				= 'pq/edit_rincian_pq/$1';
+$route['pq/deleterincian/(:any)'] 				= 'pq/delete_rincian_pq/$1';
 
 
 

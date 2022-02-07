@@ -1,5 +1,5 @@
 <?php
-	class Proyek_model extends CI_Model{
+	class Pq_model extends CI_Model{
 
 	public function angka($nilai){
 		$nilai=str_replace(',','',$nilai);
@@ -31,28 +31,19 @@
 
 		//---------------------------------------------------
 		// get all users for server-side datatable processing (ajax based)
-		public function get_all_proyek(){
-
-			
+		public function get_all_pq(){
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama'){
-				$this->db->select('ci_proyek.*,
-					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu,
-					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
-					ROW_NUMBER() OVER(PARTITION BY nm_area) AS row_num ');
-				$this->db->from("ci_proyek");
-				
+				$this->db->select('*');
+				$this->db->from("ci_hpqproyek");
+				$this->db->Join('ci_proyek','ci_hpqproyek.id_proyek=ci_proyek.id_proyek', 'inner');
         		return $this->db->get()->result_array();
 			}
 			else{
-				$this->db->select('ci_proyek.*,
-					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu, 
-					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
-					ROW_NUMBER() OVER(PARTITION BY nm_area) AS row_num ');
-				$this->db->from("ci_proyek");
-				$this->db->where('kd_area',$this->session->userdata('kd_area'));
+				$this->db->select('*');
+				$this->db->from("ci_hpqproyek");
+				$this->db->Join('ci_proyek','ci_hpqproyek.id_proyek=ci_proyek.id_proyek', 'inner');
+				$this->db->where('ci_hpqproyek.kd_area',$this->session->userdata('kd_area'));
         		return $this->db->get()->result_array();
-				// $this->db->where('area',($this->session->userdata('kd_area')));
-				// return $this->db->get('ci_proyek')->result_array();
 			}
 		}
 
@@ -73,12 +64,6 @@
 	function get_subarea($area)
 	{
 		$query = $this->db->get_where('ci_subarea', array('kd_area' => $area));
-		return $query;
-	}
-
-	function get_project($area)
-	{
-		$query = $this->db->get_where('ci_proyek', array('id_proyek' => $area));
 		return $query;
 	}
 
@@ -151,21 +136,6 @@
 			$this->db->where('user_id', $this->input->post('id'));
 			$this->db->update('ci_users');
 		} 
-
-	// PQ
-	function get_mprojek()
-	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama'){
-			$this->db->from('ci_proyek');
-		}else{
-			$userarea = $this->session->userdata('kd_area');
-			$this->db->from('ci_proyek');
-			$this->db->where('kd_area',$userarea);	
-		}
-		
-		$query=$this->db->get();
-		return $query->result_array();
-	}
 
 	}
 
