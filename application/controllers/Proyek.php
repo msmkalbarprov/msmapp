@@ -56,7 +56,7 @@ class Proyek extends MY_Controller {
 	}
 
 	public function tambah_proyek(){
-		
+		$data['title'] = 'Add Proyek';
 		$this->rbac->check_operation_access('');
 
 		$data['data_area'] 			= $this->area->get_area();
@@ -100,7 +100,6 @@ class Proyek extends MY_Controller {
 					'kd_dinas' 			=> $this->input->post('dinas'),
 					'thn_anggaran' 		=> $this->input->post('thn_ang'),
 					'jns_pph' 			=> $this->input->post('jns_pph'),
-					'loc' 				=> $this->input->post('loc'),
 					'nm_paket_proyek' 	=> $this->input->post('paketproyek'),
 					'catatan' 			=> $this->input->post('catatan'),
 					'created_at' 		=> date('Y-m-d : h:m:s'),
@@ -136,6 +135,7 @@ class Proyek extends MY_Controller {
 			}
 		}
 		else{
+			$data['title'] = 'Add Proyek';
 			$this->load->view('admin/includes/_header');
 			$this->load->view('user/proyek/proyek_add', $data);
 			$this->load->view('admin/includes/_footer');
@@ -269,7 +269,6 @@ class Proyek extends MY_Controller {
 					'kd_dinas' 			=> $this->input->post('dinas'),
 					'thn_anggaran' 		=> $this->input->post('thn_ang'),
 					'jns_pph' 			=> $this->input->post('jns_pph'),
-					'loc' 				=> $this->input->post('loc'),
 					'nm_paket_proyek' 	=> $this->input->post('paketproyek'),
 					'catatan' 			=> $this->input->post('catatan'),
 					'updated_at' 		=> date('Y-m-d : h:m:s'),
@@ -289,8 +288,8 @@ class Proyek extends MY_Controller {
 			}
 		}
 		else{
+			$data['title'] = 'Edit Proyek';
 			$data['proyek'] = $this->proyek_model->get_proyek_by_id($id);
-			
 			$this->load->view('admin/includes/_header');
 			$this->load->view('user/proyek/proyek_edit', $data);
 			$this->load->view('admin/includes/_footer');
@@ -390,7 +389,7 @@ public function edit_rincian_proyek($id = 0){
 		foreach ($records['data']   as $row) 
 		{  
 
-			if ($row['dokumen']=="" || $row['dokumen']==null){
+			if ($row['no_dokumen']=="" || $row['_dokumen']==null){
 				$anchor='';
 			}else{
 				$anchor = anchor($row['dokumen'], 'preview','target="_blank"');

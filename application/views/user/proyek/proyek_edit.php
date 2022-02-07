@@ -93,7 +93,7 @@
          </div>
 
          <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="thn_ang" class="control-label">Tahun Anggaran</label>
                 <select name="thn_ang" id="thn_ang" class="form-control" required>
@@ -115,14 +115,6 @@
                 </select>
             </div>
           </div>
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="nilai" class="control-label">Nama Paket pekerjaan</label>
-              <input type="text" name="paketproyek" class="form-control" id="paketproyek" placeholder="Nama Paket pekerjaan" required>
-          </div>
-          </div>
-         </div>
-         <div class="row">
           <div class="col-md-3">
             <div class="form-group">
               <label for="jns_pph" class="control-label">Jenis PPH</label>
@@ -134,19 +126,15 @@
                   </select>
               </div>
             </div>
-            <div class="col-md-3">
-            <div class="form-group">
-              <label for="loc" class="control-label">LOC <small>Level of Confidence</small></label>
-               <div class="input-group">
-                    
-                    <input type="text" name="loc" maxlength="5" class="form-control" id="loc" placeholder="0.00" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
-                    <div class="input-group-append">
-                      <span class="input-group-text">%</span>
-                    </div>
-                  </div>
-            </div>
-          </div>
           <div class="col-md-6">
+           <div class="form-group">
+            <label for="nilai" class="control-label">Nama Paket pekerjaan</label>
+              <input type="text" name="paketproyek" class="form-control" id="paketproyek" placeholder="Nama Paket pekerjaan" required>
+          </div>
+          </div>
+         </div>
+         <div class="row">
+          <div class="col-md-12">
            <div class="form-group">
               <label for="jns_pph" class="control-label">Keterangan</label>
               <textarea name="catatan" id="catatan" class="form-control" rows="1"></textarea>
@@ -229,7 +217,7 @@
                             // $('[name="dinas"]').val(data[i].kd_dinas).trigger('change');
                             $('[name="thn_ang"]').val(data[i].thn_anggaran).trigger('change');
                             $('[name="jns_pph"]').val(data[i].jns_pph).trigger('change');
-                            $('[name="loc"]').val(data[i].loc).trigger('change');
+                            // $('[name="loc"]').val(data[i].loc).trigger('change');
                             $('[name="paketproyek"]').val(data[i].nm_paket_proyek).trigger('change');
                             $('[name="catatan"]').val(data[i].catatan).trigger('change');
                             // document.getElementById("thn_ang").selectedIndex = data[i].thn_anggaran;
@@ -260,6 +248,36 @@
                                 $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
                             }else{
                                 $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                            }
+
+                            get_dinascombo();
+                            
+                        });
+
+                    }
+                });
+                return false;
+            };
+
+  function get_dinascombo(){ 
+                var subarea=document.getElementById("subarea").value;
+                var area=document.getElementById("area").value;
+                $.ajax({
+                    url : "<?php echo site_url('proyek/get_dinas');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea,area:area},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="dinas"]').empty();
+                        $('select[name="dinas"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                           if(kddinas==value.id){
+                                $('select[name="dinas"]').append('<option value="'+ value.id +'" selected>'+ value.nama_dinas +'</option>');
+                            }else{
+                                $('select[name="dinas"]').append('<option value="'+ value.id +'">'+ value.nama_dinas +'</option>');
                             }
 
                             
@@ -327,12 +345,13 @@
 
              $('#subarea').change(function(){ 
                 var subarea=$(this).val();
+                var area=document.getElementById("area").value;
                 $.ajax({
                     url : "<?php echo site_url('proyek/get_dinas');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: subarea},
+                      id: subarea,area:area},
                     async : true,
                     dataType : 'json',
                     success: function(data){

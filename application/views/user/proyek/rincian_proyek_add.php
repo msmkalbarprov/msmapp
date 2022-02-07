@@ -116,13 +116,19 @@
                   document.getElementById("tanggal").disabled = true;
                   document.getElementById("pic_file").disabled = true;
                   document.getElementById("tanggal2").disabled = true;
-                }else if (id==2 || id==3){
+                }else if(id==2){
+                  document.getElementById("tipeproyek").disabled = true;
+                  document.getElementById("nodpa").disabled = true;
+                  document.getElementById("tanggal").disabled = true;
+                  document.getElementById("pic_file").disabled = true;
+                  document.getElementById("tanggal2").disabled = true;
+                }else if (id==3 || id==4){
                   document.getElementById("tipeproyek").disabled = true;
                   document.getElementById("nodpa").disabled = false;
                   document.getElementById("tanggal").disabled = false;
                   document.getElementById("pic_file").disabled = false;
                   document.getElementById("tanggal2").disabled = true;
-                }else if (id==4){
+                }else if (id==5){
                   document.getElementById("tipeproyek").disabled = false;
                   document.getElementById("nodpa").disabled = true;
                   document.getElementById("tanggal").disabled = true;

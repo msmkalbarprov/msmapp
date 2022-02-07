@@ -34,11 +34,12 @@
             <tr>
               <th>No.</th>
               <th>Area</th>
+              <th>Sub Area</th>
               <th>Proyek</th>
               <th>Paket Pekerjaan</th>
               <th>Pagu</th>
               <th>Nilai</th>
-              <th width="100" class="text-right"></th>
+              <th width="5%" class="text-right"></th>
             </tr>
           </thead>
         </table>
@@ -134,10 +135,11 @@ $(document).ready(function() {
         "processing":   true,
         "serverSide":   false,
         "ajax"      : "<?=base_url('proyek/datatable_json')?>",
-        "order"     : [[4, 'asc']],
+        "order"     : [[0, 'asc']],
         "columns": [
             { "data": "row_num"  },
             { "data": "nm_area"  },
+            { "data": "nm_sub_area"  },
             { "data": "nm_jns_proyek"},
             { "data": "nm_paket_proyek" },
             { "data": "nm_jns_pagu"},

@@ -147,28 +147,13 @@
             </div>
           </div>
           <div class="col-md-3">
-            <label for="loc" class="control-label">LOC <small>Level of Confidence</small></label>
-             <div class="input-group">
-                  
-                  <input type="text" name="loc" maxlength="5" class="form-control" id="loc" placeholder="0.00" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
-                  <div class="input-group-append">
-                    <span class="input-group-text">%</span>
-                  </div>
-                </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
             <label for="nilai" class="control-label"><?= trans('nilai') ?> Target</label>
               <input type="text" name="nilai" class="form-control" id="nilai" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
           </div>
-          </div>
-         </div>
-
-         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="jns_pph" class="control-label">Keterangan</label>
-                <textarea name="catatan" id="catatan" class="form-control" rows="2"></textarea>
+              <textarea name="catatan" id="catatan" class="form-control" rows="1"></textarea>
             </div>
           </div>
          </div>

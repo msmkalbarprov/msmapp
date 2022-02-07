@@ -38,6 +38,7 @@
 				$this->db->select('ci_proyek.*,
 					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu,
 					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
+					(select loc from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as loc,
 					ROW_NUMBER() OVER(PARTITION BY nm_area) AS row_num ');
 				$this->db->from("ci_proyek");
 				
@@ -47,6 +48,7 @@
 				$this->db->select('ci_proyek.*,
 					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu, 
 					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
+					(select loc from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as loc,
 					ROW_NUMBER() OVER(PARTITION BY nm_area) AS row_num ');
 				$this->db->from("ci_proyek");
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
@@ -122,7 +124,6 @@
 				$insert_data['nilai'] 				= $data['nilai'];
 				$insert_data['tanggal'] 			= $data['tanggal'];
 				$insert_data['tanggal2']			= $data['tanggal2'];
-				$insert_data['nm_paket_proyek']		= $data['nm_paket_proyek'];
 				$insert_data['username']			= $this->session->userdata('username');
 				$insert_data['created_at']				= date("Y-m-d h:i:s");
 				$query = $this->db->insert('ci_proyek_rincian', $insert_data);
