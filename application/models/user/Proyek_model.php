@@ -80,7 +80,14 @@
 
 	function get_project($area)
 	{
-		$query = $this->db->get_where('ci_proyek', array('id_proyek' => $area));
+		// $query = $this->db->get_where('ci_proyek', array('id_proyek' => $area));
+		$this->db->select('ci_proyek.*,ci_proyek_rincian.jns_pagu,ci_jnspagu.nama as nm_jns_pagu,ci_proyek_rincian.nilai as nilai');
+		$this->db->from("ci_proyek");
+		$this->db->Join('ci_proyek_rincian','ci_proyek_rincian.id_proyek=ci_proyek.id_proyek', 'inner');
+		$this->db->Join('ci_jnspagu','ci_proyek_rincian.jns_pagu=ci_jnspagu.id', 'inner');
+		$this->db->where('ci_proyek.kd_proyek', $area);
+		$query = $this->db->get();
+
 		return $query;
 	}
 

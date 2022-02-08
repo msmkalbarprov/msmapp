@@ -97,7 +97,7 @@ function angka(nilai){
             nilai = '0';    
         }
         
-        var a = nilai.split(',').join('');
+        var a = nilai.split('.').join('');
         var b = eval(a);
         return b;
     }

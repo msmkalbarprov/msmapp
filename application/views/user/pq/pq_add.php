@@ -1,5 +1,8 @@
   <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/autoCurrency.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/numberFormat.js"></script>
+    <style type="text/css">
+      .title .rupiah { float:right }
+    </style>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Main content -->
@@ -27,7 +30,7 @@
                 <select name="projek" id ="projek" class="form-control" required>
                 <option value="">No Selected</option>
                 <?php foreach($data_mprojek as $projek): ?>
-                      <option value="<?= $projek['id_proyek']; ?>"><?= $projek['thn_anggaran'].' - '.$projek['nm_jns_sub_proyek'].' - '.$projek['nm_paket_proyek']; ?></option>
+                      <option value="<?= $projek['kd_proyek']; ?>"><?= $projek['kd_proyek'].' - '.$projek['nm_paket_proyek']; ?></option>
                   <?php endforeach; ?>
                 </select>
 
@@ -97,8 +100,7 @@
           </div>
           </div>
          </div>
-
-          <div class="row">
+         <div class="row">
             <div class="col-md-6">
               <h6><b>Pendapatan</b></h6>
               <hr>
@@ -108,145 +110,92 @@
               <hr>
             </div>
           </div>
+         <div class="row">
+           <div class="col-md-6">
+            <table width="100%" border="0">
+               <tr>
+                 <td width="50%">Nilai SPK</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><input type="text" name="nilaispk" style="background:none;border: none;" id="nilaispk" class="form-control" readonly></td>
+               </tr>
+               <tr>
+                 <td width="50%">PPN</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><input type="text" name="nilaippn" style="background:none;border: none;" id="nilaippn" class="form-control" readonly></td>
+               </tr>
+               <tr>
+                 <td width="50%">PPH</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" style="border-bottom: grey solid 1px;"><input type="text" name="nilaipph" style="background:none;border: none;" id="nilaipph" class="form-control" readonly></td>
+               </tr>
+                <tr>
+                 <td width="50%"><b>Pend. Nett</b></td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"> <input type="text" name="nilaipend_nett" style="background:none;border: none;" id="nilaipend_nett" class="form-control" readonly></td>
+               </tr>
+               <tr>
+                 <td width="50%">Titipan</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"> <input type="text" name="titipan" style="background:none;border: none;" id="titipan" class="form-control" readonly></td>
+               </tr>
+               <tr>
+                 <td width="50%">PPH titipan</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><span id="nilaispk"></span></td>
+               </tr>
+               <tr>
+                 <td width="50%">PPN titipan</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" style="border-bottom: grey solid 1px;"><span id="nilaispk"></span></td>
+               </tr>
+               <tr>
+                 <td width="50%"><b>Pend. Nett setelah titipan</b></td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><span id="nilaispk"></span></td>
+               </tr>
+             </table>
+           </div>
+           <div class="col-md-6">
+            <table width="100%" border="0">
+               <tr>
+                 <td width="50%">Pend. Nett setelah titipan</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><span id="nilaispk"></span></td>
+               </tr>
+               <tr>
+                 <td width="50%">Biaya Partner Lokal (PL)</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" style="border-bottom: grey solid 1px;" ><span id="nilaipph"></span></td>
+               </tr>
+                <tr>
+                 <td width="50%"><b>Pendapatan Nett Setelah (PL)</b></td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><span id="nilaipend_nett"></span></td>
+               </tr>
+               <tr>
+                 <td width="50%">Total Biaya (PQ Detail)</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" style="border-bottom: grey solid 1px;"><span id="nilaispk"></span></td>
+               </tr>
+               <tr>
+                 <td width="50%">Nett Profit</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><span id="nilaispk"></span></td>
+               </tr>
+               <tr>
+                 <td width="50%">Alokasi HO</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" style="border-bottom: grey solid 1px;"><span id="nilaispk"></span></td>
+               </tr>
+               <tr>
+                 <td width="50%"><b>Net Profit setelah Alokasi HO</b></td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><span id="nilaispk"></span></td>
+               </tr>
+             </table>
+           </div>
+         </div>
 
-          <div class="row">
-            <div class="col-md-3">
-              Nilai SPK
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span id="nilaispk"></span>
-            </div>
-            <!-- mid -->
-            <div class="col-md-3">
-              Pendapatan Nett
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-3">
-              PPN
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-            <!-- mid -->
-            <div class="col-md-3">
-              Biaya Partner Lokal (PL)
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-3">
-              PPH
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-            <!-- mid -->
-            <div class="col-md-6">
-              <hr>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-3">
-              Titipan
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-            <!-- mid -->
-            <div class="col-md-3">
-              Pendapatan Nett Setelah (PL)
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-3">
-              PPN Titipan
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-            <!-- mid -->
-            <div class="col-md-3">
-              Total Biaya (PQ Detail)
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-3">
-              PPH Titipan
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-            <!-- mid -->
-            <div class="col-md-6">
-              <hr>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-3">
-              Pendapatan nett setelah titipan
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-            <!-- mid -->
-            <div class="col-md-3">
-              Nett Profit
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-            </div>
-            <!-- mid -->
-            <div class="col-md-3">
-              Alokasi HO
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-            </div>
-            <!-- mid -->
-            <div class="col-md-6">
-              <hr>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-            </div>
-            <!-- mid -->
-            <div class="col-md-3">
-              Net Profit setelah Alokasi HO
-            </div>
-            <div class="col-md-3">
-              :&nbsp;&nbsp;<span>asa</span>
-            </div>
-          </div>
 
 
           
@@ -319,8 +268,25 @@
                         $('[name="tipeproyek"]').val(value.nm_sub_area).trigger('change');
                         $('[name="paketproyek"]').val(value.nm_paket_proyek).trigger('change');
                         $('[name="thn_ang"]').val(value.thn_anggaran).trigger('change');
+                        var spk = value.nilai;
+                        var ppn = (10/100)*((100/110)*spk);
+                        $('[name="nilaispk"]').val(number_format(spk,"2",",",".")).trigger('change');
+                        if (value.jns_pph==22){
+                          var nilai_pph = (1.5/100)*((100/110)*spk);
+                          var nilai_ppn=ppn;
+                        }else if (value.jns_pph==23){
+                          var nilai_pph = (2/100)*((100/110)*spk);
+                          var nilai_ppn=ppn;
+                        }else if (value.jns_pph==21){
+                          var nilai_pph = (50/100)*((5/110)*spk);
+                          nilai_ppn=0;
+                        }
 
-                        $("#nilaispk").text(value.nilai);
+                        var pend_nett = spk-nilai_pph-nilai_ppn;
+
+                        $('[name="nilaippn"]').val(number_format(nilai_ppn,"2",",",".")).trigger('change');
+                        $('[name="nilaipph"]').val(number_format(nilai_ppn,"2",",",".")).trigger('change');
+                        $('[name="nilaipend_nett"]').val(number_format(pend_nett,"2",",",".")).trigger('change');
 
                       });
 
