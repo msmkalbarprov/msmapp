@@ -31,6 +31,10 @@ class Pq extends MY_Controller {
 		$this->load->view('user/pq/pq_list');
 		$this->load->view('admin/includes/_footer');
 	}
+
+public function temporary(){
+		$this->load->view('user/pq/pq_temporary');
+	}
 	
 	public function datatable_json(){				   					   
 		$records['data'] = $this->pq_model->get_all_pq();
@@ -55,10 +59,33 @@ class Pq extends MY_Controller {
 		echo json_encode($records);						   
 	}
 
+	public function datatable_json_pq_op(){				   					   
+		$records['data'] = $this->pq_model->get_all_pq_op();
+		$data = array();
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+			
+			$data[]= array(
+				++$i,
+				'<font size="2px">'.$row['kode'].'</font>',
+				'<font size="2px">'.$row['nm_area'].'</font>',
+				'<span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span>',
+				'<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-eye"></i></a>
+				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-pencil-square-o"></i></a>'
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
+	// <a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/del/".$row['kode']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+
 	public function tambah_pq(){
 		
 		$this->rbac->check_operation_access('');
 		$data['data_mprojek'] 		= $this->proyek_model->get_mprojek();
+		$data['data_coa_item'] 		= $this->pq_model->get_coa_item();
 
 		$data['data_area'] 			= $this->area->get_area();
 		$data['data_subarea'] 		= $this->subarea->get_subarea();
@@ -142,7 +169,7 @@ class Pq extends MY_Controller {
 
 
 	
-	public function add_rincian_proyek($id = 0){
+	public function add_pq_operasional(){
 		
 		$this->rbac->check_operation_access('');
 
@@ -150,62 +177,80 @@ class Pq extends MY_Controller {
 		$data['data_tipeproyek'] 		= $this->tipeproyek->get_tipeproyek();
 
 
-		if($this->input->post('submit')){
-			$this->form_validation->set_rules('jnspagu', 'Jenis Pagu', 'trim|required');
-			if ($this->input->post('jnspagu', TRUE)==2 || $this->input->post('jnspagu', TRUE)==3){
-				$this->form_validation->set_rules('nodpa', 'No DPA/DPPA', 'trim|required');
-				$this->form_validation->set_rules('tanggal', 'tanggal DPA/DPPA', 'trim|required');
-				$this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
-			}else if ($this->input->post('jnspagu', TRUE)==4){
-				$this->form_validation->set_rules('tipeproyek', 'Tipe Proyek', 'trim|required');
-				$this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
-			}else if ($this->input->post('jnspagu', TRUE)==5){
-				$this->form_validation->set_rules('tipeproyek', 'Tipe Proyek', 'trim|required');
-				$this->form_validation->set_rules('nodpa', 'No SPK', 'trim|required');
-				$this->form_validation->set_rules('tanggal', 'tanggal SPK', 'trim|required');
-				$this->form_validation->set_rules('tanggal2', 'tanggal selesai SPK', 'trim|required');
-				$this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
-			}else{
-				$this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
-			}
+		if($this->input->post('type')==1){
 
-			$data['id_proyek'] 		= $this->input->post('id_proyek', TRUE);
-			$data['jnspagu'] 		= $this->input->post('jnspagu', TRUE);
-            $data['tipeproyek'] 	= $this->input->post('tipeproyek', TRUE);
-			$data['nodpa'] 			= $this->input->post('nodpa', TRUE);
-			$data['nilai'] 			= $this->proyek_model->angka($this->input->post('nilai', TRUE));
-			$data['tanggal'] 		= $this->input->post('tanggal', TRUE);
-			$data['tanggal2'] 		= $this->input->post('tanggal2', TRUE);
-			$data['nm_paket_proyek']= $this->input->post('paketproyek', TRUE);
-            //file upload code 
-            //set file upload settings 
-            $config['upload_path']          = './uploads/';
-            $config['allowed_types']        = '*';
-            $config['max_size']             = '0';
-            $this->load->library('upload', $config);
-	            if ( ! $this->upload->do_upload('pic_file')){
-	            	 $data['pic_file']='';
-	                $this->proyek_model->save_proyek_rincian($data);
-	                $this->session->set_flashdata('success','Data Rincian Proyek berhasil ditambahkan');
-	               	redirect(base_url('proyek/edit/'.$this->input->post('id_proyek', TRUE)));
+			$data['kd_proyek'] 			= $this->input->post('kd_proyek', TRUE);
+			$data['kd_area'] 			= $this->input->post('area', TRUE);
+            $data['kd_item'] 			= $this->input->post('kd_item', TRUE);
+			$data['uraian'] 			= $this->input->post('uraian', TRUE);
+			$data['volume'] 			= $this->input->post('volume', TRUE);
+			$data['satuan'] 			= $this->input->post('satuan', TRUE);
+			$data['harga'] 				= $this->input->post('harga', TRUE);
+			$data['total']				= $this->input->post('total', TRUE);
 
-	            }else{
+            $this->pq_model->save_pq_proyek_operasional($data);
+            echo json_encode(array(
+				"statusCode"=>200
+			));
 
-	                $upload_data = $this->upload->data();
-	                $data['pic_file'] = $upload_data['file_name'];
-					$this->proyek_model->save_proyek_rincian($data);
-	                $this->session->set_flashdata('success', 'Data Rincian Proyek berhasil ditambahkan');
-	                redirect(base_url('proyek/edit/'.$this->input->post('id_proyek', TRUE)));
-	            }
+	          
 		}
 		else{
-
-			$data['proyek'] = $this->proyek_model->get_proyek_by_id($id);
-
+			$data['data_area'] 			= $this->area->get_area();
+			$data['item_operasioanl'] = $this->pq_model->get_item_operasioanl();
+			$data['data_mprojek'] 		= $this->proyek_model->get_mprojek();
 			$this->load->view('admin/includes/_header');
-			$this->load->view('user/proyek/rincian_proyek_add', $data);
+			$this->load->view('user/pq/pq_operasional_add', $data);
 			$this->load->view('admin/includes/_footer');
 		}
+		
+	}
+
+
+	public function edit_pq_operasional(){
+		
+		$this->rbac->check_operation_access('');
+
+		$data['data_jnspagu'] 			= $this->jnspagu->get_jnspagu();
+		$data['data_tipeproyek'] 		= $this->tipeproyek->get_tipeproyek();
+
+
+		if($this->input->post('type')==1){
+
+			$data['kd_proyek'] 			= $this->input->post('kd_proyek', TRUE);
+			$data['kd_area'] 			= $this->input->post('area', TRUE);
+            $data['kd_item'] 			= $this->input->post('kd_item', TRUE);
+			$data['uraian'] 			= $this->input->post('uraian', TRUE);
+			$data['volume'] 			= $this->input->post('volume', TRUE);
+			$data['satuan'] 			= $this->input->post('satuan', TRUE);
+			$data['harga'] 				= $this->input->post('harga', TRUE);
+			$data['total']				= $this->input->post('total', TRUE);
+
+            $this->pq_model->save_pq_proyek_operasional($data);
+            echo json_encode(array(
+				"statusCode"=>200
+			));
+
+	          
+		}
+		else{
+			$data['data_area'] 			= $this->area->get_area();
+			$data['item_operasioanl'] = $this->pq_model->get_item_operasioanl();
+			$data['data_mprojek'] 		= $this->proyek_model->get_mprojek();
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/pq/pq_operasional_edit', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+		
+	}
+
+	public function view_pq_operasional(){
+		
+		$this->rbac->check_operation_access('');
+
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/pq/pq_operasional_view');
+			$this->load->view('admin/includes/_footer');
 		
 	}
 
@@ -274,6 +319,55 @@ class Pq extends MY_Controller {
 			
 			$this->load->view('admin/includes/_header');
 			$this->load->view('user/proyek/proyek_edit', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	}
+
+public function edit_rincian_pq_operasional($id = 0,$metod=0){
+		
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('submit')){
+				$this->form_validation->set_rules('item_op', 'Item PQ', 'trim|required');
+				$this->form_validation->set_rules('harga', 'Harga', 'trim|required');
+				$this->form_validation->set_rules('total', 'Total', 'trim|required');
+				$this->form_validation->set_rules('volume', 'Volume', 'trim|required');
+				$this->form_validation->set_rules('area', 'Area', 'trim|required');
+				$data = array(
+					'kd_item' 			=> $this->input->post('item_op'),
+					'kd_proyek' 		=> $this->input->post('projek'),
+					'uraian' 			=> $this->input->post('uraian'),
+					'volume'			=> $this->input->post('volume'),
+					'harga' 			=> $this->proyek_model->number($this->input->post('harga')),
+					'total' 			=> $this->proyek_model->number($this->input->post('total')),
+					'satuan' 			=> $this->input->post('satuan'),
+					'kd_area'			=> $this->input->post('area'),
+					'username'			=> $this->session->userdata('username'),
+					'updated_at'		=> date("Y-m-d h:i:s")
+				);
+				$id 					= $this->input->post('id_pq');
+				$metod 					= $this->input->post('metod');
+				$data = $this->security->xss_clean($data);
+				$result = $this->pq_model->edit_pq_item($data, $id);
+				if($result){
+					if ($metod=='add_operasional'){
+						$this->session->set_flashdata('success', 'Item PQ berhasil diupdate!');
+					redirect(base_url('pq/'.$metod), 'refresh');
+					}else{
+						$this->session->set_flashdata('success', 'Item PQ berhasil diupdate!');
+					redirect(base_url('pq/'.$metod.'/'.$id), 'refresh');
+					}
+					
+				}
+		}
+		else{
+			$data['rincian_pq_operasional'] = $this->pq_model->get_item_pq_by_id($id);
+			$data['data_area'] 				= $this->area->get_area();
+			$data['item_operasioanl'] 		= $this->pq_model->get_item_operasioanl();
+			$data['data_mprojek'] 			= $this->proyek_model->get_mprojek();
+
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/pq/pq_operasional_rinci_edit', $data);
 			$this->load->view('admin/includes/_footer');
 		}
 	}
@@ -360,30 +454,79 @@ public function edit_rincian_proyek($id = 0){
 			$this->load->view('admin/includes/_footer');
 	}
 
-	public function datatable_json_rincian($id){				   					   
-		$records['data'] = $this->proyek_model->get_subproyek_by_id($id);
+	public function datatable_json_operasional(){				   					   
+		$records['data'] = $this->pq_model->get_pq_operasional();
 		$data = array();
 
 		$i=0;
 		foreach ($records['data']   as $row) 
 		{  
 
-			if ($row['dokumen']=="" || $row['dokumen']==null){
-				$anchor='';
-			}else{
-				$anchor = anchor($row['dokumen'], 'File','target="_blank"');
-			}
 			$data[]= array(
 				++$i,
-				$row['nm_jns_pagu'],
-				$row['nm_tipe_proyek'],
-				$row['tanggal'],
-				$row['tanggal2'],
-				number_format($row['nilai'],2,',','.'),
-				$row['no_dokumen'],
-				$anchor,
-				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('proyek/editrincian/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/deleterincian/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				$row['kd_pq_operasional'],
+				$row['nm_paket_proyek'],
+				$row['nm_item'],
+				$row['uraian'],
+				$row['volume'],
+				$row['satuan'],
+				number_format($row['harga'],2,',','.'),
+				number_format($row['total'],2,',','.'),
+				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit_rincian_pq_operasional/'.$row['id_pq_operasional']).'/'.$this->uri->segment(3).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pq/delete_rincian_pq_operasional/".$row['id_pq_operasional']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
+
+
+	public function datatable_json_operasional_edit(){				   					   
+		$records['data'] = $this->pq_model->get_pq_operasional();
+		$data = array();
+
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+
+			$data[]= array(
+				++$i,
+				$row['kd_pq_operasional'],
+				$row['nm_paket_proyek'],
+				$row['nm_item'],
+				$row['uraian'],
+				$row['volume'],
+				$row['satuan'],
+				number_format($row['harga'],2,',','.'),
+				number_format($row['total'],2,',','.'),
+				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit_rincian_pq_operasional/'.$row['id_pq_operasional']).'/'.$this->uri->segment(4).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pq/delete_rincian_pq_operasional/".$row['id_pq_operasional']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
+
+	public function datatable_json_operasional_view($id=0){				   					   
+		$records['data'] = $this->pq_model->get_pq_operasional_view($id);
+		$data = array();
+
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+
+			$data[]= array(
+				++$i,
+				$row['kd_pq_operasional'],
+				$row['nm_paket_proyek'],
+				$row['nm_item'],
+				$row['uraian'],
+				$row['volume'],
+				$row['satuan'],
+				number_format($row['harga'],2,',','.'),
+				number_format($row['total'],2,',','.')
 			);
 		}
 		$records['data']=$data;
@@ -397,9 +540,9 @@ public function edit_rincian_proyek($id = 0){
 		echo json_encode($data);
 	}
 
-	function get_data_detail_rincian_edit(){
+	function get_data_item_edit(){
 		$id = $this->input->post('id',TRUE);
-		$data = $this->proyek_model->get_detail_rincian_proyek_by_id($id)->result();
+		$data = $this->pq_model->get_detail_item_pq_by_id($id)->result();
 		echo json_encode($data);
 	}
 
@@ -437,25 +580,14 @@ public function edit_rincian_proyek($id = 0){
 	}
 
 
-	public function delete_rincian_proyek($id = 0)
+	public function delete_rincian_pq_operasional($id = 0)
 	{
 		$this->rbac->check_operation_access('');
-
-			$hasil=$this->db->query("SELECT dokumen,id_proyek from ci_proyek_rincian a where id='$id'");
-				foreach ($hasil->result_array() as $row){
-					$dokumen 	=$row['dokumen']; 
-					$id_proyek 	=$row['id_proyek']; 
-					
-				}
-
-			$this->db->delete('ci_proyek_rincian', array('id' => $id));	
-			if (strlen($dokumen)>8){
-				$this->functions->delete_file($dokumen);	
-			}
+			$this->db->delete('ci_pq_operasional', array('id_pq_operasional' => $id));	
 			$this->activity_model->add_log(3);
 
 			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
-			redirect(base_url('proyek/edit/'.$id_proyek));
+			redirect(base_url('pq/add_pq_operasional/'.$id_proyek));
 		
 	}
 

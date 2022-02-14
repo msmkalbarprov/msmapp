@@ -86,46 +86,48 @@ function format ( d ) {
     // `d` is the original data object for the row
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:100px;">'+
          '<tr>'+
-            '<td><b>Area</b></td>'+
-            '<td>: '+d.nm_area+'</td>'+
+            '<td><b>No</b></td>'+
+            '<td>: '+d.kd_proyek+'</td>'+
              '<td><b>Proyek</b></td>'+
             '<td>: '+d.nm_jns_proyek+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td width="15%"><b>Sub Area</b></td>'+
-            '<td width="35%">: '+d.nm_sub_area+'</td>'+
+            '<td width="15%"><b>Area</b></td>'+
+            '<td width="35%">: '+d.nm_area+'</td>'+
             '<td width="15%"><b>Sub Proyek</b></td>'+
             '<td width="35%">: '+d.nm_jns_sub_proyek+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td><b>Tahun Anggaran</b></td>'+
-            '<td>: '+d.thn_anggaran+'</td>'+
+            '<td><b>Sub Area</b></td>'+
+            '<td>: '+d.nm_sub_area+'</td>'+
              '<td><b>Nama Paket</b></td>'+
             '<td>: '+d.nm_paket_proyek+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td><b>PPH</b></td>'+
-            '<td>: '+d.jns_pph+'</td>'+
+            '<td><b>Tahun Anggaran</b></td>'+
+            '<td>: '+d.thn_anggaran+'</td>'+
              '<td><b>Perusahaan</b></td>'+
             '<td>: '+d.nm_perusahaan+'</td>'+
         '</tr>'+
          '<tr>'+
-            '<td><b>Pagu</b></td>'+
-            '<td>: '+d.nm_jns_pagu+'</td>'+
+            '<td><b>PPH</b></td>'+
+            '<td>: '+d.jns_pph+'</td>'+
              '<td><b>Dinas</b></td>'+
             '<td>: '+d.nm_dinas+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td><b>Nilai</b></td>'+
-            '<td>: '+d.nilai+'</td>'+
+            '<td><b>Pagu</b></td>'+
+            '<td>: '+d.nm_jns_pagu+'</td>'+
              '<td><b>LOC</b></td>'+
             '<td>: '+d.loc+' %</td>'+
         '</tr>'+
-        '<tr>'+
-            '<td><b>Keterangan</b></td>'+
-            '<td colspan="3">: '+d.catatan+'</td>'+
-             
+         '<tr>'+
+            '<td><b>Nilai</b></td>'+
+            '<td>: '+d.nilai+'</td>'+
+             '<td><b>Catatan</b></td>'+
+            '<td>: '+d.catatan+'</td>'+
         '</tr>'+
+      
         
     '</table>';
 }

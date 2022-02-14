@@ -9,7 +9,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             <?= trans('proyek_add') ?> </h3>
+             Edit Proyek </h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('proyek'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
@@ -21,6 +21,18 @@
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
          <?php echo form_open(base_url('proyek/edit/'.$proyek['id_proyek']), 'class="form-horizontal"');  ?> 
+         <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label">Kode Proyek</label>
+                <input type="text" name="kd_proyek" class="form-control" id="kd_proyek" placeholder="Nama Paket pekerjaan" readonly>
+            </div>
+          </div>
+          <div class="col-md-9">
+           
+          </div>
+         </div>
+
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -219,6 +231,7 @@
                             $('[name="jns_pph"]').val(data[i].jns_pph).trigger('change');
                             // $('[name="loc"]').val(data[i].loc).trigger('change');
                             $('[name="paketproyek"]').val(data[i].nm_paket_proyek).trigger('change');
+                            $('[name="kd_proyek"]').val(data[i].kd_proyek).trigger('change');
                             $('[name="catatan"]').val(data[i].catatan).trigger('change');
                             // document.getElementById("thn_ang").selectedIndex = data[i].thn_anggaran;
                             get_subareacombo();

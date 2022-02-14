@@ -6,6 +6,12 @@
 		return $nilai;
 	}
 
+
+	public function number($nilai){
+		$nilai=str_replace('.','',$nilai);
+		return $nilai;
+	}
+
 	function angka_format($nilai){
 
 	    if($nilai<0){
@@ -34,7 +40,7 @@
 		public function get_all_proyek(){
 
 			
-			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama'){
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 				$this->db->select('ci_proyek.*,
 					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu,
 					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
@@ -163,12 +169,16 @@
 	// PQ
 	function get_mprojek()
 	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama'){
-			$this->db->from('ci_proyek');
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->from('v_get_proyek_pq');
+			$this->db->where('jns_pagu >','1');
+			$this->db->where('thn_anggaran >=',date("Y"));	
 		}else{
 			$userarea = $this->session->userdata('kd_area');
-			$this->db->from('ci_proyek');
+			$this->db->from('v_get_proyek_pq');
 			$this->db->where('kd_area',$userarea);	
+			$this->db->where('jns_pagu >','1');	
+			$this->db->where('thn_anggaran >=',date("Y"));	
 		}
 		
 		$query=$this->db->get();
