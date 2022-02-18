@@ -7,11 +7,11 @@
       <div class="card card-default">
         <div class="card-header">
           <div class="d-inline-block">
-            <h3 class="card-title"> <i class="fa fa-plus"></i>
-             <?= trans('rincian_proyek_add') ?> </h3>
+            <h3 class="card-title"> <i class="fa fa-pencil-square-o"></i>
+             Edit rincian proyek/pekerjaan </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('proyek/edit/'.$rincian_proyek["id_proyek"]); ?>" class="btn btn-primary"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('proyek/edit/'.$rincian_proyek["id_proyek"]); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -82,18 +82,25 @@
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">
+              <label for="jns_pph" class="control-label">Jenis PPH</label>
+              <select name="jns_pph" id="jns_pph" class="form-control" disabled>
+                  <option value="">No Selected</option>
+                  <option value="21">PPH 21</option>
+                  <option value="22">PPH 22</option>
+                  <option value="23">PPH 23</option>
+                </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
               <label for="nilai" class="control-label"><?= trans('nilai') ?></label>
               <input type="text" name="nilai" class="form-control" id="nilai" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
             </div>
           </div>
-          <div class="col-md-6">
-           <div class="form-group">
-          </div>
-          </div>
          </div>
         <div class="form-group">
           <div class="col-md-12">
-            <input type="submit" name="submit" value="Update" class="btn btn-primary pull-right">
+            <input type="submit" name="submit" value="Update" class="btn btn-primary btn-sm pull-right">
           </div>
         </div>
         <?php echo form_close( ); ?>
@@ -117,30 +124,35 @@
                   document.getElementById("tanggal").disabled = true;
                   document.getElementById("pic_file").disabled = true;
                   document.getElementById("tanggal2").disabled = true;
+                  document.getElementById("jns_pph").disabled = true;
                 }else if(id==2){
                   document.getElementById("tipeproyek").disabled = true;
                   document.getElementById("nodpa").disabled = true;
                   document.getElementById("tanggal").disabled = true;
                   document.getElementById("pic_file").disabled = true;
                   document.getElementById("tanggal2").disabled = true;
+                  document.getElementById("jns_pph").disabled = true;
                 }else if (id==3 || id==4){
                   document.getElementById("tipeproyek").disabled = true;
                   document.getElementById("nodpa").disabled = false;
                   document.getElementById("tanggal").disabled = false;
                   document.getElementById("pic_file").disabled = false;
                   document.getElementById("tanggal2").disabled = true;
+                  document.getElementById("jns_pph").disabled = false;
                 }else if (id==5){
                   document.getElementById("tipeproyek").disabled = false;
                   document.getElementById("nodpa").disabled = true;
                   document.getElementById("tanggal").disabled = true;
                   document.getElementById("pic_file").disabled = true;
                   document.getElementById("tanggal2").disabled = true;
+                  document.getElementById("jns_pph").disabled = false;
                 }else{
                   document.getElementById("tipeproyek").disabled = false;
                   document.getElementById("nodpa").disabled = false;
                   document.getElementById("tanggal").disabled = false;
                   document.getElementById("pic_file").disabled = false;
                   document.getElementById("tanggal2").disabled = false;
+                  document.getElementById("jns_pph").disabled = false;
                 }
                 
                 return false;
@@ -163,6 +175,7 @@
                             jnsproyek= data[i].jns_proyek;
                             $('[name="jnspagu"]').val(data[i].jns_pagu).trigger('change');
                             $('[name="tipeproyek"]').val(data[i].tipe_proyek).trigger('change');
+                            $('[name="jns_pph"]').val(data[i].jns_pph).trigger('change');
                             $('[name="nodpa"]').val(data[i].no_dokumen);
                             $('[name="tanggal"]').val(data[i].tanggal);
                             $('[name="tanggal2"]').val(data[i].tanggal2);

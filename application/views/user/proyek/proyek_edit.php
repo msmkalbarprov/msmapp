@@ -1,7 +1,13 @@
   <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/autoCurrency.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/numberFormat.js"></script>
     <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.css"> 
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/plugins/select2/select2.min.css">
   <!-- Content Wrapper. Contains page content -->
+  <style type="text/css">
+.select2-container .select2-selection {
+  height: 37px; 
+}
+    </style>
   <div class="content-wrapper">
     <!-- Main content -->
     <section class="content">
@@ -37,7 +43,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
-                <select name="area" id="area"  class="form-control" required>
+                <select name="area" id="area"  class="form-control select2" required>
                 <option value="">No Selected</option>
                 <?php foreach($data_area as $area): ?>
                   <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
@@ -53,7 +59,7 @@
           <div class="col-md-6">
            <div class="form-group">
             <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
-              <select name="subarea" id="subarea" class="form-control" required>
+              <select name="subarea" id="subarea" class="form-control select2" required>
                   <option value="">No Selected</option>
               </select>
           </div>
@@ -63,7 +69,7 @@
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="jenis_proyek" class="control-label"><?= trans('jenis_proyek') ?></label>
+              <label for="jenis_proyek" class="control-label">Jenis proyek</label>
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                 <select name="jnsproyek" id="jnsproyek" class="form-control" required>
                   <option value="">No Selected</option>
@@ -76,7 +82,7 @@
           <div class="col-md-6">
            <div class="form-group">
             <label for="jenis_sub_proyek" class="control-label"><?= trans('jenis_sub_proyek') ?></label>
-              <select class="form-control" id="jnssubproyek" name="jnssubproyek" required>
+              <select class="form-control select2" id="jnssubproyek" name="jnssubproyek" required>
                 <option value="">No Selected</option>
               </select>
           </div>
@@ -86,7 +92,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="perusahaan" class="control-label"><?= trans('perusahaan') ?></label>
-                <select name="perusahaan" id="perusahaan" class="form-control" required>
+                <select name="perusahaan" id="perusahaan" class="form-control select2" required>
                   <option value="">No Selected</option>
                   <?php foreach($data_perusahaan as $perusahaan): ?>
                     <option value="<?= $perusahaan['akronim']; ?>"><?= $perusahaan['nama']; ?></option>
@@ -97,7 +103,7 @@
           <div class="col-md-6">
            <div class="form-group">
             <label for="dinas" class="control-label"><?= trans('nm_dinas') ?></label>
-              <select name="dinas" id="dinas" class="form-control" required>
+              <select name="dinas" id="dinas" class="form-control select2" required>
                 <option value="">No Selected</option>
               </select>
           </div>
@@ -105,29 +111,7 @@
          </div>
 
          <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="thn_ang" class="control-label">Tahun Anggaran</label>
-                <select name="thn_ang" id="thn_ang" class="form-control" required>
-                  <option value="">No Selected</option>
-                  <option value="2021">2021</option>
-                  <option value="2022">2022</option>
-                  <option value="2023">2023</option>
-                  <option value="2024">2024</option>
-                  <option value="2025">2025</option>
-                  <option value="2026">2026</option>
-                  <option value="2027">2027</option>
-                  <option value="2028">2028</option>
-                  <option value="2029">2029</option>
-                  <option value="2030">2030</option>
-                  <option value="2031">2031</option>
-                  <option value="2032">2032</option>
-                  <option value="2033">2033</option>
-                  <option value="2034">2034</option>
-                </select>
-            </div>
-          </div>
-          <div class="col-md-3">
+          <!-- <div class="col-md-3">
             <div class="form-group">
               <label for="jns_pph" class="control-label">Jenis PPH</label>
               <select name="jns_pph" id="jns_pph" class="form-control" required>
@@ -137,7 +121,18 @@
                     <option value="23">PPH 23</option>
                   </select>
               </div>
+            </div> -->
+            <div class="col-md-6">
+            <div class="form-group">
+              <label for="thn_ang" class="control-label">Tahun Anggaran</label>
+                <select name="thn_ang" id="thn_ang" class="form-control" required>
+                  <option value="">No Selected</option>
+                  <option value="<?= date('Y')-1;?>"><?= date('Y')-1;?></option>
+                  <option value="<?= date('Y')?>"><?= date('Y')?></option>
+                  <option value="<?= date('Y')+1;?>"><?= date('Y')+1;?></option>
+                </select>
             </div>
+          </div>
           <div class="col-md-6">
            <div class="form-group">
             <label for="nilai" class="control-label">Nama Paket pekerjaan</label>
@@ -175,8 +170,9 @@
                   <thead>
                     <tr>
                       <th>#id</th>
-                      <th>jenis pagu</th>
-                      <th>tipe proyek</th>
+                      <th>Pagu</th>
+                      <th>PPH</th>
+                      <th>Jenis Pengadaan</th>
                       <th>tanggal</th>
                       <th>tanggal selesai</th>
                       <th>Nilai</th>
@@ -196,12 +192,14 @@
 <!-- <script type="text/javascript" src="<?php echo base_url().'assets/dist/js/jquery-3.3.1.js'?>"></script> -->
 <script src="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
+<script src="<?= base_url(); ?>assets/plugins/select2/select2.full.min.js"></script>
   <script>
   // $("#proyek").addClass('menu-open');
   $("#proyek> a").addClass('active');
 </script>
 <script type="text/javascript">
     $(document).ready(function(){
+      $('.select2').select2()
        get_data_detail();
 
   function get_data_detail(){
@@ -395,13 +393,14 @@
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
     { "targets": 1, "name": "nm_jns_pagu", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "tipe_proyek", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "no_dokumen", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "tanggal", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "tanggal2", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "nilai", 'searchable':true, 'orderable':false},
-    { "targets": 7, "name": "dokumen", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 2, "name": "jns_pph", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "tipe_proyek", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "no_dokumen", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "tanggal", 'searchable':true, 'orderable':false},
+    { "targets": 6, "name": "tanggal2", 'searchable':true, 'orderable':false},
+    { "targets": 7, "name": "nilai", 'searchable':true, 'orderable':false},
+    { "targets": 8, "name": "dokumen", 'searchable':true, 'orderable':false},
+    { "targets": 9, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
   </script>

@@ -1,5 +1,11 @@
-  <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/autoCurrency.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/numberFormat.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/autoCurrency.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/numberFormat.js"></script>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/select2/select2.min.css">
+ <style type="text/css">
+.select2-container .select2-selection {
+  height: 37px; 
+}
+    </style>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Main content -->
@@ -22,7 +28,7 @@
          
          <?php echo form_open_multipart('pq/edit_rincian_pq_operasional/'.$rincian_pq_operasional["id_pq_operasional"]);?>
          <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-3">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">No. PQ Operasional</label>
               <input type="text" name="kd_pq" id="kd_pq" class="form-control"  placeholder="Uraian" value="<?= date('Y')?>/98/00" readonly>
@@ -31,17 +37,17 @@
           </div>
           </div>
 
-          <div class="col-md-1">
+          <div class="col-md-3">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Tahun</label>
               <input type="text" name="tahun" id="tahun" class="form-control"  placeholder="Uraian" value="<?= date('Y')?>" readonly>
           </div>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
-                <select name="area" id ="area" class="form-control" required>
+                <select name="area" id ="area" class="form-control select2" style="width: 100%;" required>
                 <option value="">No Selected</option>
                 <?php foreach($data_area as $area): ?>
                   <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
@@ -55,19 +61,7 @@
             </div>
           </div>
 
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="proyek" class="control-label">Pembebanan Proyek</label>
-              <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                <select name="projek" id ="projek" class="form-control select2" style="width: 100%;">
-                <option value="">No Selected</option>
-                <?php foreach($data_mprojek as $projek): ?>
-                      <option value="<?= $projek['kd_proyek']; ?>"><?= $projek['kd_proyek'].' - '.$projek['nm_paket_proyek']; ?></option>
-                  <?php endforeach; ?>
-                </select>
-            </div>
-          </div>
-          
+        
          </div>
 
          <div class="row">
@@ -77,8 +71,8 @@
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                 <select name="item_op" id="item_op" class="form-control select2" style="width: 100%;" required>
                 <option value="">No Selected</option>
-                <?php foreach($item_operasioanl as $item_operasioanl): ?>
-                      <option value="<?= $item_operasioanl['no_acc']; ?>"><?= $item_operasioanl['nm_acc']; ?></option>
+                <?php foreach($item_operasioanl as $item_operasional): ?>
+                      <option value="<?= $item_operasional['no_acc']; ?>"><?= $item_operasional['nm_acc']; ?></option>
                   <?php endforeach; ?>
                 </select>
             </div>
@@ -130,12 +124,13 @@
     </div>
   </section> 
 </div>
-<!-- <script type="text/javascript" src="<?php echo base_url().'assets/dist/js/jquery-3.3.1.js'?>"></script> -->
+<script src="<?php echo base_url(); ?>assets/plugins/select2/select2.full.min.js"></script>
   <script>
   $("#pq> a").addClass('active');
 </script>
 <script>
   $(document).ready(function(){
+    $('.select2').select2()
     get_data_detail();
     }); 
 
@@ -157,7 +152,7 @@
                             $('[name="uraian"]').val(data[i].uraian);
                             $('[name="tahun"]').val(data[i].kd_pq_operasional.substr(0,4));
                             $('[name="tanggal"]').val(data[i].tanggal);
-                            $('[name="item_op"]').val(data[i].kd_item);
+                            $('[name="item_op"]').val(data[i].kd_item).trigger('change');
                             $('[name="volume"]').val(data[i].volume);
                             $('[name="satuan"]').val(data[i].satuan);
                             $('[name="kd_pq"]').val(data[i].kd_pq_operasional.substr(0,10));

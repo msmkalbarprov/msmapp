@@ -15,16 +15,38 @@
              PQ Proyek </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pq'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  Kembali</a>
+            <a href="<?= base_url('bod'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  Kembali</a>
           </div>
         </div>
         <div class="card-body">
          
          <!-- For Messages -->
+         
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
          <?php echo form_open(base_url('pq/add'), 'class="form-horizontal"');  ?> 
-         
+         <div class="row">
+          <div class="col-md-3">
+            <label for="area" class="control-label">Kode PQ Proyek</label>
+          </div>
+          <div class="col-md-3">
+             <input type="text" name="kd_pqproyek" id="kd_pqproyek" style="background:none;border: none;" class="form-control" value="<?= $pqproyek['kd_pqproyek']; ?>" readonly>
+             <input type="hidden" name="idpqproyek" id="idpqproyek" style="background:none;border: none;" class="form-control" value="<?= $pqproyek['id_pqproyek']; ?>" readonly>
+          </div>
+          <div class="col-md-3">
+            <label for="area" class="control-label">Status PQ</label>
+          </div>
+          <div class="col-md-3">
+            <?php if($pqproyek['status']==1): ?>
+              <input type="text" name="status" id="status" style="background:none;border: none;" class="form-control text-success" value="Disetujui" readonly>
+            <?php elseif ($pqproyek['status']==2): ?>
+              <input type="text" name="status" id="status" style="background:none;border: none;" class="form-control text-danger" value="Ditolak" readonly>
+              <?php else: ?>
+              <input type="text" name="status" id="status" style="background:none;border: none;" class="form-control" value="-" readonly>
+          <?php endif; ?>
+             
+          </div>
+         </div>
          <div class="row">
           <div class="col-md-3">
             <label for="area" class="control-label"><?= trans('area') ?></label>
@@ -39,6 +61,8 @@
             <input type="text" name="subarea" id="subarea" style="background:none;border: none;" value="<?= $proyek['nm_sub_area']; ?>" class="form-control" readonly>
           </div>
          </div>
+
+         
 
 
          <div class="row">
@@ -233,8 +257,25 @@
               </div>
             </div>
          </div>
-         
-        
+
+         <div class="row">
+           <div class="col-md-12">
+             <div class="form-group">
+               <label>Catatan</label>
+               <textarea id="catatan" name="catatan" class="form-control" rows="3"><?= $pqproyek['catatan']; ?></textarea>
+             </div>
+           </div>
+         </div>
+         <!-- For Messages -->
+         <div class="alert alert-success alert-dismissible" id="success" style="display:none;">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+        </div>
+        <div class="form-group">
+          <div class="col-md-12" align="center">
+            <input type="button" id="butsave" value="Setuju" class="btn btn-primary btn-sm">
+            <input type="button" id="butcancel" value="Tolak" class="btn btn-danger btn-sm">
+          </div>
+        </div>
     
         <?php echo form_close( ); ?>
       </div>
@@ -250,7 +291,7 @@
 <!-- <script type="text/javascript" src="<?php echo base_url().'assets/dist/js/jquery-3.3.1.js'?>"></script> -->
   <script>
   // $("#proyek").addClass('menu-open');
-  $("#pq> a").addClass('active');
+  $("#bod> a").addClass('active');
 </script>
 
 <script type="text/javascript">
@@ -275,4 +316,74 @@ function get_datatable(){
   });
 
   }
+
+$(document).ready(function(){
+
+    // SAVE
+$('#butsave').on('click', function() {
+    var catatan       = $('#catatan').val();
+    var id_pqproyek   = $('#idpqproyek').val();
+      $("#butsave").attr("disabled", "disabled");
+      $.ajax({
+        url: "<?php echo base_url("bod/setuju");?>",
+        type: "POST",
+        data: {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          type:1,
+          catatan:catatan,
+          id_pqproyek:id_pqproyek
+        },
+        cache: false,
+        success: function(dataResult){
+          var dataResult = JSON.parse(dataResult);
+          if(dataResult.statusCode==200){
+          
+            $("#butsave").removeAttr("disabled");
+            $('#fupForm').find('input:text').val('');
+            $("#success").show();
+            $('#success').html('PQ Proyek berhasil disetujui !!'); 
+          }
+          else if(dataResult.statusCode==201){
+             alert("Error !");
+          }
+          
+        }
+      });
+
+  });
+
+
+$('#butcancel').on('click', function() {
+    var catatan       = $('#catatan').val();
+    var id_pqproyek   = $('#idpqproyek').val();
+      $("#butcancel").attr("disabled", "disabled");
+      $.ajax({
+        url: "<?php echo base_url("bod/setuju");?>",
+        type: "POST",
+        data: {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          type:2,
+          catatan:catatan,
+          id_pqproyek:id_pqproyek
+        },
+        cache: false,
+        success: function(dataResult){
+          var dataResult = JSON.parse(dataResult);
+          if(dataResult.statusCode==200){
+
+            $("#butcancel").removeAttr("disabled");
+            $('#fupForm').find('input:text').val('');
+            $("#success").show();
+            $('#success').html('PQ Proyek berhasil ditolak !!'); 
+          }
+          else if(dataResult.statusCode==201){
+             alert("Error !");
+          }
+          
+        }
+      });
+
+  });
+ });
+
 </script>

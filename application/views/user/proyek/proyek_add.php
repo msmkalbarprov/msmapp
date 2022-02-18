@@ -96,10 +96,10 @@
             <div class="form-group">
               <label for="jnspagu" class="control-label"><?= trans('jnspagu') ?></label>
                 <select name="jnspagu" id="jnspagu" class="form-control" required>
-                  <option value="1">Target</option>
-                  <!-- <?php foreach($data_pagu as $jnspagu): ?> -->
-                    <!-- <option value="<?= $jnspagu['id']; ?>"><?= $jnspagu['nama']; ?></option> -->
-                  <!-- <?php endforeach; ?> -->
+                  <!-- <option value="1">Target</option> -->
+                   <?php foreach($data_pagu as $jnspagu): ?>
+                     <option value="<?= $jnspagu['id']; ?>"><?= $jnspagu['nama']; ?></option>
+                   <?php endforeach; ?>
                 </select>
             </div>
           </div>
@@ -108,20 +108,9 @@
               <label for="thn_ang" class="control-label">Tahun Anggaran</label>
                 <select name="thn_ang" id="thn_ang" class="form-control" required>
                   <option value="">No Selected</option>
-                  <option value="2021">2021</option>
-                  <option value="2022">2022</option>
-                  <option value="2023">2023</option>
-                  <option value="2024">2024</option>
-                  <option value="2025">2025</option>
-                  <option value="2026">2026</option>
-                  <option value="2027">2027</option>
-                  <option value="2028">2028</option>
-                  <option value="2029">2029</option>
-                  <option value="2030">2030</option>
-                  <option value="2031">2031</option>
-                  <option value="2032">2032</option>
-                  <option value="2033">2033</option>
-                  <option value="2034">2034</option>
+                  <option value="<?= date('Y')-1;?>"><?= date('Y')-1;?></option>
+                  <option value="<?= date('Y')?>"><?= date('Y')?></option>
+                  <option value="<?= date('Y')+1;?>"><?= date('Y')+1;?></option>
                 </select>
             </div>
           </div>
@@ -138,7 +127,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <label for="jns_pph" class="control-label">Jenis PPH</label>
-                <select name="jns_pph" id="jns_pph" class="form-control" required>
+                <select name="jns_pph" id="jns_pph" class="form-control" disabled>
                   <option value="">No Selected</option>
                   <option value="21">PPH 21</option>
                   <option value="22">PPH 22</option>
@@ -177,6 +166,14 @@
 <script>
   $(document).ready(function(){
     get_subareacombo();
+    $('#jnspagu').change(function(){ 
+                var id=$(this).val();
+                if (id==1 || id==2){
+                  document.getElementById("jns_pph").disabled = true;
+                }else{
+                  document.getElementById("jns_pph").disabled = false;
+                }
+              });
     function get_subareacombo(){ 
                 var subarea=document.getElementById("area").value;
                 $.ajax({
@@ -243,6 +240,8 @@
                 });
                 return false;
             });
+
+
 
 
       $('#jnsproyek').change(function(){ 

@@ -29,30 +29,34 @@
     <div class="card">
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" data-toggle="tab" href="#home">Project Qualifying(PQ) Proyek</a>
+          <a class="nav-link active" data-toggle="tab" href="#home">Pendapatan</a>
         </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" data-toggle="tab disabled" href="#menu1">HPP</a>
+        </li> -->
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#menu1">Project Qualifying(PQ) Operasional</a>
+          <a class="nav-link" data-toggle="tab" href="#menu2">Operasional</a>
         </li>
       </ul>
 
         <div class="tab-content">
           <div id="home" class="container tab-pane active"><br>
             <div align="right">
-              <a href="<?= base_url('pq/add'); ?>" class="btn btn-success"><i class="fa fa-plus"></i> Tambah</a>  
+              <a href="<?= base_url('pq/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
             </div>
             
             <div class="card-body table-responsive">
                 <table id="na_datatable" class="table table-bordered table-striped" width="100%">
                   <thead>
                     <tr>
-                      <th width="5%">#<?= trans('id') ?></th>
-                      <th>Kode PQ</th>
-                      <th>Perusahaan</th>
-                      <th>Pekerjaan</th>
-                      <th>Status</th>
-                      <th>Nilai PQ</th>
-                      <th width="100px" class="text-right"><?= trans('action') ?></th>
+                      <!-- <th width="5%">#<?= trans('id') ?></th> -->
+                      <th>Proyek</th>
+                      <th>SPK</th>
+                      <th>Titipan</th>
+                      <th>PL</th>
+                      <th>Pend. Nett</th>
+                      <th width="10%">Nilai HPP</th>
+                      <th width="16%"><?= trans('action') ?></th>
                     </tr>
                   </thead>
                 </table>
@@ -61,10 +65,31 @@
 
           <div id="menu1" class="container tab-pane"><br>
             <div align="right">
-              <a href="<?= base_url('pq/add_operasional'); ?>" class="btn btn-success"><i class="fa fa-plus"></i> Tambah</a>  
+              <!-- <a href="<?= base_url('pq/add_hpp'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>   -->
             </div>
             <div class="card-body table-responsive">
                 <table id="na_datatable2" class="table table-bordered table-striped" width="100%">
+                  <thead>
+                    <tr>
+                      <th width="2%">#<?= trans('id') ?></th>
+                      <th width="10%">Kode PQ Proyek</th>
+                      <th width="20%">Area</th>
+                      <th width="38%">Proyek</th>
+                      <th width="10%">Pend. Nett</th>
+                      <th width="10%">Nilai HPP</th>
+                      <th width="10%" ><?= trans('action') ?></th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+          </div>
+
+          <div id="menu2" class="container tab-pane"><br>
+            <div align="right">
+              <a href="<?= base_url('pq/add_operasional'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
+            </div>
+            <div class="card-body table-responsive">
+                <table id="na_datatable3" class="table table-bordered table-striped" width="100%">
                   <thead>
                     <tr>
                       <th width="2%">#<?= trans('id') ?></th>
@@ -101,17 +126,33 @@
     "ajax": "<?=base_url('pq/datatable_json')?>",
     "order": [[0,'asc']],
     "columnDefs": [
-    { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "perusahaan", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "pekerjaan", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "status", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "nilai", 'searchable':true, 'orderable':false},
+    { "targets": 0, "name": "kd_pqproyek", 'searchable':true, 'orderable':true},
+    { "targets": 1, "name": "SPK", 'searchable':true, 'orderable':false},
+    { "targets": 2, "name": "titipan", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "pl", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "sub_total_a", 'searchable':true, 'orderable':false},
     { "targets": 5, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
 
 
   var table = $('#na_datatable2').DataTable( {
+    "processing": true,
+    "serverSide": false,
+    "ajax": "<?=base_url('pq/datatable_json_hpp')?>",
+    "order": [[0,'asc']],
+    "columnDefs": [
+    { "targets": 0, "name": "kd_pqproyek", 'searchable':true, 'orderable':true},
+    { "targets": 1, "name": "nm_area", 'searchable':true, 'orderable':false},
+    { "targets": 2, "name": "nm_paket_proyek", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "sub_total_a", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "nilai_hpp", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    ]
+  });
+
+
+  var table = $('#na_datatable3').DataTable( {
     "processing": true,
     "serverSide": false,
     "ajax": "<?=base_url('pq/datatable_json_pq_op')?>",

@@ -131,6 +131,7 @@
 	public function save_proyek_rincian($data){
 				$insert_data['dokumen']				= 'uploads/'.$data['pic_file'];
 				$insert_data['jns_pagu'] 			= $data['jnspagu'];
+				$insert_data['jns_pph'] 			= $data['jnspph'];
 				$insert_data['id_proyek'] 			= $data['id_proyek'];
 				$insert_data['tipe_proyek']			= $data['tipeproyek'];
 				$insert_data['no_dokumen'] 			= $data['nodpa'];

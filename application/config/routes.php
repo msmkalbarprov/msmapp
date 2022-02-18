@@ -76,9 +76,20 @@ $route['pq/add'] 								= 'pq/tambah_pq';
 $route['pq/edit/(:any)'] 						= 'pq/edit_pq/$1';
 $route['pq/delete/(:any)'] 						= 'pq/delete_pq/$1';
 $route['pq/view/(:any)'] 						= 'pq/view_pq/$1';
-$route['pq/addrincian/(:any)'] 					= 'pq/add_rincian_pq/$1';
+
+// HPP
+$route['pq/add_hpp/(:any)'] 					= 'pq/add_hpp/$1';
+$route['pq/edit_hpp/(:any)/(:any)'] 					= 'pq/ubah_hpp/$1';
+$route['pq/del_hpp/(:any)/(:any)'] 				= 'pq/hapus_hpp/$1';
+
+$route['pq/add_operasional'] 					= 'pq/add_pq_operasional';
 $route['pq/editrincian/(:any)'] 				= 'pq/edit_rincian_pq/$1';
 $route['pq/deleterincian/(:any)'] 				= 'pq/delete_rincian_pq/$1';
+
+// sah pq
+$route['bod/view/(:any)'] 						= 'bod/view_pq/$1';
+
+
 
 
 

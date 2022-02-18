@@ -101,6 +101,16 @@ function angka(nilai){
         var b = eval(a);
         return b;
     }
+
+function number(nilai){
+        if (nilai== null){
+            nilai = '0';    
+        }
+        
+        var a = nilai.split('.').join('').replace(",",".");
+        var b = eval(a);
+        return b;
+    }
 	
     function nmsdana(sumber){
         rsumber = sumber.toLowerCase();

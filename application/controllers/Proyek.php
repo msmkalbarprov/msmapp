@@ -77,7 +77,6 @@ class Proyek extends MY_Controller {
 			$this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
 			$this->form_validation->set_rules('jnspagu', 'Jenis Pagu', 'trim|required');
 			$this->form_validation->set_rules('thn_ang', 'tahun Anggaran', 'trim|required');
-			$this->form_validation->set_rules('jns_pph', 'Jenis PPH', 'trim|required');
 			$this->form_validation->set_rules('paketproyek', 'Nama Paket Proyek', 'trim|required');
 
 
@@ -99,7 +98,6 @@ class Proyek extends MY_Controller {
 					'kd_perusahaan' 	=> $this->input->post('perusahaan'),
 					'kd_dinas' 			=> $this->input->post('dinas'),
 					'thn_anggaran' 		=> $this->input->post('thn_ang'),
-					'jns_pph' 			=> $this->input->post('jns_pph'),
 					'nm_paket_proyek' 	=> $this->input->post('paketproyek'),
 					'catatan' 			=> $this->input->post('catatan'),
 					'created_at' 		=> date('Y-m-d : h:m:s'),
@@ -111,6 +109,7 @@ class Proyek extends MY_Controller {
 					'id_proyek'		=> $this->input->post('area').''.$this->input->post('subarea').''.$this->input->post('jnsproyek').''.$this->input->post('jnssubproyek').''.$this->input->post('perusahaan').''.$this->input->post('dinas').''.$this->input->post('thn_ang'),
 					'nilai' 		=> $this->proyek_model->angka($this->input->post('nilai')),
 					'jns_pagu' 		=> $this->input->post('jnspagu'),
+					'jns_pph' 		=> $this->input->post('jns_pph'),
 					'created_at' 	=> date('Y-m-d : h:m:s'),
 					'updated_at' 	=> date('Y-m-d : h:m:s'),
 				);
@@ -174,6 +173,7 @@ class Proyek extends MY_Controller {
 
 			$data['id_proyek'] 		= $this->input->post('id_proyek', TRUE);
 			$data['jnspagu'] 		= $this->input->post('jnspagu', TRUE);
+			$data['jns_pph'] 		= $this->input->post('jns_pph', TRUE);
             $data['tipeproyek'] 	= $this->input->post('tipeproyek', TRUE);
 			$data['nodpa'] 			= $this->input->post('nodpa', TRUE);
 			$data['nilai'] 			= $this->proyek_model->angka($this->input->post('nilai', TRUE));
@@ -328,6 +328,7 @@ public function edit_rincian_proyek($id = 0){
 			}
 				$data = array(
 					'jns_pagu' 			=> $this->input->post('jnspagu'),
+					'jns_pph' 			=> $this->input->post('jns_pph'),
 					'tipe_proyek' 		=> $this->input->post('tipeproyek'),
 					'no_dokumen'		=> $this->input->post('nodpa'),
 					'nilai' 			=> $this->proyek_model->angka($this->input->post('nilai')),
@@ -389,20 +390,21 @@ public function edit_rincian_proyek($id = 0){
 		foreach ($records['data']   as $row) 
 		{  
 
-			if ($row['no_dokumen']=="" || $row['_dokumen']==null){
+			if ($row['no_dokumen']=="" || $row['no_dokumen']==null){
 				$anchor='';
 			}else{
 				$anchor = anchor($row['dokumen'], 'preview','target="_blank"');
 			}
 			$data[]= array(
 				++$i,
-				$row['nm_jns_pagu'],
-				$row['nm_tipe_proyek'],
-				$row['tanggal'],
-				$row['tanggal2'],
-				number_format($row['nilai'],2,',','.'),
-				$row['no_dokumen'],
-				$anchor,
+				'<font size="2px">'.$row['nm_jns_pagu'].'</font>',
+				'<font size="2px">'.$row['jns_pph'].'</font>',
+				'<font size="2px">'.$row['nm_tipe_proyek'].'</font>',
+				'<font size="2px">'.$row['tanggal'].'</font>',
+				'<font size="2px">'.$row['tanggal2'].'</font>',
+				'<div class="text-right"><font size="2px">'.number_format($row['nilai'],2,',','.').'</font></div>',
+				'<font size="2px">'.$row['no_dokumen'].'</font>',
+				'<font size="2px">'.$anchor.'</font>',
 				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('proyek/editrincian/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/deleterincian/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);

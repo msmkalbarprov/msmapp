@@ -14,8 +14,8 @@
       <div class="card card-default">
         <div class="card-header">
           <div class="d-inline-block">
-            <h3 class="card-title"> <i class="fa fa-plus"></i>
-             <?= trans('rincian_proyek_add') ?> </h3>
+            <h3 class="card-title"> <i class="fa fa-list"></i>
+             List PQ Operasional </h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('pq'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
@@ -75,11 +75,11 @@
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('pq/datatable_json_operasional/').$this->uri->segment(3);?>",
+    "ajax": "<?=base_url('pq/datatable_json_operasional_view/').$this->uri->segment(3);?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "kd_pq_operasional", 'searchable':true, 'orderable':false},
+    { "targets": 1, "name": "kd_item", 'searchable':true, 'orderable':false},
     { "targets": 2, "name": "nm_paket_proyek", 'searchable':true, 'orderable':false},
     { "targets": 3, "name": "nm_item", 'searchable':true, 'orderable':false},
     { "targets": 4, "name": "uraian", 'searchable':true, 'orderable':false},

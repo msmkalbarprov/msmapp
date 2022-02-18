@@ -19,6 +19,7 @@ $lang['profile']                               = "Profile";
 	$lang['change_password']                               = "Change Password";
 $lang['role_and_permissions']                               = "Role & Permissions";
 	$lang['module_setting']                              = "Module Setting";
+$lang['pengesahan_pq']                              = "Pengesahan PQ";
 
 $lang['users']                               = "Users";
 	$lang['users_list']                      = "Users List";

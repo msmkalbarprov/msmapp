@@ -30,24 +30,24 @@
         <?php $this->load->view('admin/includes/_messages.php') ?>
          
          <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-3">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">No. PQ Operasional</label>
               <input type="text" name="kd_pq" id="kd_pq" class="form-control"  placeholder="Uraian" value="<?= substr($this->uri->segment(3),0,4) ?>/98/00" readonly>
           </div>
           </div>
 
-          <div class="col-md-1">
+          <div class="col-md-3">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Tahun</label>
               <input type="text" name="tahun" id="tahun" class="form-control"  placeholder="Uraian" value="<?= substr($this->uri->segment(3),0,4) ?>" readonly>
           </div>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
-                <select name="area" id ="area" class="form-control" required>
+                <select name="area" id ="area" class="form-control select2" style="width: 100%;" required>
                 <option value="">No Selected</option>
                 <?php foreach($data_area as $area): ?>
                   <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
@@ -61,7 +61,7 @@
             </div>
           </div>
 
-          <div class="col-md-6">
+<!--           <div class="col-md-6">
             <div class="form-group">
               <label for="proyek" class="control-label">Pembebanan Proyek</label>
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
@@ -72,7 +72,7 @@
                   <?php endforeach; ?>
                 </select>
             </div>
-          </div>
+          </div> -->
           
          </div>
 
@@ -139,9 +139,8 @@
               <thead>
                 <tr>
                   <th>#No</th>
-                  <th>Kode PQ Operasional</th>
-                  <th>Proyek</th>
-                  <th>Item</th>
+                  <th>Kode Akun</th>
+                  <th>Nama Akun</th>
                   <th>Uraian</th>
                   <th>Volume</th>
                   <th>Satuan</th>
@@ -180,15 +179,14 @@
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "kd_pq_operasional", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "nm_paket_proyek", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "nm_item", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "uraian", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "volume", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "satuan", 'searchable':true, 'orderable':false},
-    { "targets": 7, "name": "harga", 'searchable':true, 'orderable':false},
-    { "targets": 8, "name": "total", 'searchable':true, 'orderable':false},
-    { "targets": 9, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 1, "name": "kd_item", 'searchable':true, 'orderable':false},
+    { "targets": 2, "name": "nm_item", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "uraian", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "volume", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "satuan", 'searchable':true, 'orderable':false},
+    { "targets": 6, "name": "harga", 'searchable':true, 'orderable':false},
+    { "targets": 7, "name": "total", 'searchable':true, 'orderable':false},
+    { "targets": 8, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
 
@@ -198,7 +196,6 @@
 
     // SAVE
 $('#butsave').on('click', function() {
-    var kd_proyek     = $('#projek').val();
     var kd_item       = $('#item_op').val();
     var uraian        = $('#uraian').val();
     var volume        = $('#volume').val();
@@ -217,7 +214,6 @@ $('#butsave').on('click', function() {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
           type:1,
           area:area,
-          kd_proyek:kd_proyek,
           kd_item :kd_item,
           uraian:uraian,
           volume:volume,
