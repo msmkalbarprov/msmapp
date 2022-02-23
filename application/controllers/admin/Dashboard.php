@@ -28,9 +28,12 @@ class Dashboard extends My_Controller {
 		$data['title'] = 'Dashboard';
 
 		$this->load->view('admin/includes/_header', $data);
-
+		
 		if($this->session->userdata('is_supper')){
     		redirect(base_url('admin/dashboard/index_1'));
+		}
+		else if($this->session->userdata('is_supper') && $this->session->userdata('admin_role')=='Direktur Utama'){
+    		redirect(base_url('admin/dashboard/general'));
 		}
 		else{
 			$this->load->view('admin/dashboard/general');
