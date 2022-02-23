@@ -56,7 +56,7 @@
                       <th>PL</th>
                       <th>Pend. Nett</th>
                       <th width="10%">Nilai HPP</th>
-                      <th width="16%"><?= trans('action') ?></th>
+                      <th width="20%"><?= trans('action') ?></th>
                     </tr>
                   </thead>
                 </table>

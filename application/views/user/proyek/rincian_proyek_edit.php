@@ -80,7 +80,7 @@
          </div>
 
          <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="jns_pph" class="control-label">Jenis PPH</label>
               <select name="jns_pph" id="jns_pph" class="form-control" disabled>
@@ -89,6 +89,12 @@
                   <option value="22">PPH 22</option>
                   <option value="23">PPH 23</option>
                 </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="lama_pekerjaan" class="control-label">Lama Pekerjaan</label>
+                <input type="number" name="lama_pekerjaan"  class="form-control" id="lama_pekerjaan" placeholder="Lama pekerjaan" >
             </div>
           </div>
           <div class="col-md-6">
@@ -125,6 +131,7 @@
                   document.getElementById("pic_file").disabled = true;
                   document.getElementById("tanggal2").disabled = true;
                   document.getElementById("jns_pph").disabled = true;
+                  document.getElementById("lama_pekerjaan").disabled = true;
                 }else if(id==2){
                   document.getElementById("tipeproyek").disabled = true;
                   document.getElementById("nodpa").disabled = true;
@@ -132,6 +139,7 @@
                   document.getElementById("pic_file").disabled = true;
                   document.getElementById("tanggal2").disabled = true;
                   document.getElementById("jns_pph").disabled = true;
+                  document.getElementById("lama_pekerjaan").disabled = true;
                 }else if (id==3 || id==4){
                   document.getElementById("tipeproyek").disabled = true;
                   document.getElementById("nodpa").disabled = false;
@@ -139,6 +147,7 @@
                   document.getElementById("pic_file").disabled = false;
                   document.getElementById("tanggal2").disabled = true;
                   document.getElementById("jns_pph").disabled = false;
+                  document.getElementById("lama_pekerjaan").disabled = false;
                 }else if (id==5){
                   document.getElementById("tipeproyek").disabled = false;
                   document.getElementById("nodpa").disabled = true;
@@ -146,6 +155,7 @@
                   document.getElementById("pic_file").disabled = true;
                   document.getElementById("tanggal2").disabled = true;
                   document.getElementById("jns_pph").disabled = false;
+                  document.getElementById("lama_pekerjaan").disabled = false;
                 }else{
                   document.getElementById("tipeproyek").disabled = false;
                   document.getElementById("nodpa").disabled = false;
@@ -153,6 +163,7 @@
                   document.getElementById("pic_file").disabled = false;
                   document.getElementById("tanggal2").disabled = false;
                   document.getElementById("jns_pph").disabled = false;
+                  document.getElementById("lama_pekerjaan").disabled = false;
                 }
                 
                 return false;
@@ -177,6 +188,7 @@
                             $('[name="tipeproyek"]').val(data[i].tipe_proyek).trigger('change');
                             $('[name="jns_pph"]').val(data[i].jns_pph).trigger('change');
                             $('[name="nodpa"]').val(data[i].no_dokumen);
+                            $('[name="lama_pekerjaan"]').val(data[i].lama_pekerjaan);
                             $('[name="tanggal"]').val(data[i].tanggal);
                             $('[name="tanggal2"]').val(data[i].tanggal2);
                             $('[name="paketproyek"]').val(data[i].nm_paket_proyek);

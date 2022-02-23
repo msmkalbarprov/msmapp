@@ -108,6 +108,8 @@
 			return $result = $this->db->get()->row_array();
 		}
 
+	
+
 	public function get_rincian_proyek_by_id($id){
 				 $this->db->select('*');
 				 $this->db->from("ci_proyek_rincian");
@@ -132,6 +134,7 @@
 				$insert_data['dokumen']				= 'uploads/'.$data['pic_file'];
 				$insert_data['jns_pagu'] 			= $data['jnspagu'];
 				$insert_data['jns_pph'] 			= $data['jnspph'];
+				$insert_data['lama_pekerjaan']		= $data['lama_pekerjaan'];
 				$insert_data['id_proyek'] 			= $data['id_proyek'];
 				$insert_data['tipe_proyek']			= $data['tipeproyek'];
 				$insert_data['no_dokumen'] 			= $data['nodpa'];

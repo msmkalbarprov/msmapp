@@ -114,9 +114,9 @@ public function get_pq_operasional_view($id){
         		return $this->db->get()->result_array();
 			}
 			else{
-				$this->db->select('*');
+				$this->db->select('*,(select nilai from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as spk,(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan.kd_pqproyek)as hpp');
 				$this->db->from("ci_pendapatan");
-				$this->db->Join('ci_proyek','ci_pendapatan.id_proyek=ci_proyek.id_proyek', 'inner');
+				$this->db->Join('ci_proyek','ci_pendapatan.id_proyek=ci_proyek.kd_proyek', 'inner');
 				$this->db->where('ci_pendapatan.kd_area',$this->session->userdata('kd_area'));
         		return $this->db->get()->result_array();
 			}
@@ -151,7 +151,10 @@ public function get_pq_operasional_view($id){
         		return $this->db->get()->result_array();
 			}
 			else{
-				$this->db->select('*,(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan,kd_pqproyek)');
+				$this->db->select('*,
+					(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan.kd_pqproyek)as nilai_hpp,
+					(select nm_area from ci_area where ci_area.kd_area=ci_pendapatan.kd_area)as nm_area
+					');
 				$this->db->from("ci_pendapatan");
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
         		return $this->db->get()->result_array();
@@ -353,6 +356,25 @@ function get_hpp_by_id($id='',$idpqproyek=''){
              $this->db->where('id_pqproyek', $idpqproyek);
 		return $result = $this->db->get()->row_array();
 	}
+
+public function get_cetak_hpp_by_id($id){
+			$this->db->select("no_acc as kd_item,(select keterangan from ci_hpp where ci_hpp.kd_item=ci_coa_msm.no_acc and id_pqproyek='$id' order by keterangan desc)as keterangan, (select sum(total) from ci_hpp where ci_hpp.kd_item=ci_coa_msm.no_acc and id_pqproyek='$id')as nilai_hpp");
+			$this->db->from("ci_coa_msm");
+			$this->db->where("no_acc in ('5010201','5010202','5010203','5010204','5010206','5010205')");
+			$this->db->order_by("no_acc");
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+
+public function get_operasional_by_id($id){
+			$this->db->select("no_acc as kd_item,(select keterangan from ci_hpp where ci_hpp.kd_item=ci_coa_msm.no_acc and id_pqproyek='$id' order by keterangan desc)as keterangan, (select sum(total) from ci_hpp where ci_hpp.kd_item=ci_coa_msm.no_acc and id_pqproyek='$id')as nilai_hpp");
+			$this->db->from("ci_coa");
+			$this->db->where("level", '3');
+			$this->db->where("left(no_acc,3)", '504');
+			$this->db->order_by("no_acc");
+			$query=$this->db->get();
+			return $query->result_array();
+		}
 
 	}
 ?>

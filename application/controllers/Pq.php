@@ -56,7 +56,8 @@ class Pq extends MY_Controller {
 				'<a title="Tambah HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
 				<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
 				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pq/delete/".$row['id_pqproyek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pq/delete/".$row['id_pqproyek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -783,6 +784,31 @@ public function datatable_json_hpp_rinci_view(){
 			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
 			redirect(base_url('pq/'.$metod.'/'.$id_pqop));
 		
+	}
+ 
+	public function cetak_pq_satuan($id=0)
+	{
+		$data['pqproyek'] 	= $this->pq_model->get_pq_by_id($id);
+		$data['proyek'] 	= $this->pq_model->get_proyek_by_id(str_replace('PQ','',$id));
+		$data['hpp'] 		= $this->pq_model->get_cetak_hpp_by_id($id);
+		// $data['operasional']= $this->pq_model->get_operasional_by_id($id);
+		// $html = $this->load->view('user/pq/pq_view', $data);
+		// $cRet = $this->load->view('user/pq/cetak_pq_satuan',$data);
+		$jenis= 0;
+		switch ($jenis)
+        {
+            case 0;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'portrait');
+			    $this->pdf->filename = "laporan.pdf";
+			    $this->pdf->load_view('user/pq/cetak_pq_satuan', $data);
+                break;
+            case 1;
+                echo "<title>Mapping Kode program</title>";
+                echo $this->load->view('user/pq/cetak_pq_satuan', $data);
+               break;
+        }
+
 	}
 
 }

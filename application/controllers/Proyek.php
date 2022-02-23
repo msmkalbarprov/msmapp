@@ -174,6 +174,7 @@ class Proyek extends MY_Controller {
 			$data['id_proyek'] 		= $this->input->post('id_proyek', TRUE);
 			$data['jnspagu'] 		= $this->input->post('jnspagu', TRUE);
 			$data['jns_pph'] 		= $this->input->post('jns_pph', TRUE);
+			$data['lama_pekerjaan']	= $this->input->post('lama_pekerjaan', TRUE);
             $data['tipeproyek'] 	= $this->input->post('tipeproyek', TRUE);
 			$data['nodpa'] 			= $this->input->post('nodpa', TRUE);
 			$data['nilai'] 			= $this->proyek_model->angka($this->input->post('nilai', TRUE));
@@ -329,6 +330,7 @@ public function edit_rincian_proyek($id = 0){
 				$data = array(
 					'jns_pagu' 			=> $this->input->post('jnspagu'),
 					'jns_pph' 			=> $this->input->post('jns_pph'),
+					'lama_pekerjaan'	=> $this->input->post('lama_pekerjaan'),
 					'tipe_proyek' 		=> $this->input->post('tipeproyek'),
 					'no_dokumen'		=> $this->input->post('nodpa'),
 					'nilai' 			=> $this->proyek_model->angka($this->input->post('nilai')),
