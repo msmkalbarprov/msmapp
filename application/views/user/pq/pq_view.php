@@ -92,13 +92,38 @@
             <label for="projek" class="control-label"><?= trans('nm_dinas') ?></label>
           </div>
           <div class="col-md-3">
-            <textarea name="dinas" id="dinas" class="form-control" rows="2" style="background:none;border: none;" readonly> <?= $proyek['nm_dinas']; ?> </textarea>
+            <textarea name="dinas" id="dinas" class="form-control" rows="4" style="background:none;border: none;" readonly> <?= $proyek['nm_dinas']; ?> </textarea>
           </div>
           <div class="col-md-3">
             <label for="sub_area" class="control-label">Nama Paket pekerjaan</label>
           </div>
           <div class="col-md-3">
-            <textarea name="paketproyek" id="paketproyek" class="form-control" rows="2" style="background:none;border: none;" readonly> <?= $proyek['nm_paket_proyek']; ?> </textarea>
+            <textarea name="paketproyek" id="paketproyek" class="form-control" rows="4" style="background:none;border: none;" readonly> <?= $proyek['nm_paket_proyek']; ?> </textarea>
+          </div>
+         </div>
+
+         <div class="row">
+          <div class="col-md-3">
+            <label for="area" class="control-label">Status</label>
+          </div>
+          <div class="col-md-3">
+             <?php if($pqproyek['status']==1): ?>
+              <input type="text" name="status" id="status" style="background:none;border: none;" class="form-control text-success" value="Disetujui" readonly>
+            <?php elseif ($pqproyek['status']==2 && $pqproyek['status_revisi']==0): ?>
+              <input type="text" name="status" id="status" style="background:none;border: none;" class="form-control text-danger" value="Ditolak" readonly>
+            <?php elseif ($pqproyek['status']==2 && $pqproyek['status_revisi']==1): ?>
+              <input type="text" name="status" id="status" style="background:none;border: none;" class="form-control text-primary" value="Sudah direvisi" readonly>
+            <?php elseif ($pqproyek['status']==3): ?>
+              <input type="text" name="status" id="status" style="background:none;border: none;" class="form-control text-primary" value="Direvisi" readonly>
+            <?php else: ?>
+              <input type="text" name="status" id="status" style="background:none;border: none;" class="form-control" value="-" readonly>
+          <?php endif; ?>
+          </div>
+          <div class="col-md-3">
+            <label for="sub_area" class="control-label">Catatan</label>
+          </div>
+          <div class="col-md-3">
+            <input type="text" name="Catatan" id="Catatan" style="background:none;border: none;" value="<?= $pqproyek['catatan']; ?>" class="form-control" readonly>
           </div>
          </div>
 
@@ -185,25 +210,16 @@
                  <td width="45%" align="right"><input type="text" name="nilai_pend_net_s_pl" style="background:none;border: none;text-align:right;" value="<?= number_format($pqproyek['sub_total_a'],2,',','.'); ?>" id="nilai_pend_net_s_pl" class="form-control" readonly></td>
                </tr>
                <tr>
-                 <td width="50%">Biaya HPP</td>
+                 <td width="50%"><b>Biaya HPP</b></td>
                  <td width="5%">:</td>
-                 <td width="45%" align="right" style="border-bottom: grey solid 1px;"><input type="text" name="al_ho" style="background:none;border: none;text-align:right;" id="al_ho" placeholder="0,00" value="<?= number_format($pqproyek['hpp'],2,',','.'); ?>"  class="form-control" readonly></td>
+                 <td width="45%" align="right"><input type="text" name="al_ho" style="background:none;border: none;text-align:right;" id="al_ho" placeholder="0,00" value="<?= number_format($pqproyek['hpp'],2,',','.'); ?>"  class="form-control" readonly></td>
                </tr>
                <tr>
-                 <td width="50%"><b>Pendapatan Nett setelah HPP </b></td>
+                 <td width="50%"><b>Alokasi HO</b> <small>15% dari Pendapatan Nett</small></td>
                  <td width="5%">:</td>
-                 <td width="45%" align="right"><input type="text" name="al_ho" style="background:none;border: none;text-align:right;" id="al_ho" placeholder="0,00" value="<?= number_format($pqproyek['sub_total_a']-$pqproyek['hpp'],2,',','.'); ?>"  class="form-control" readonly></td>
+                 <td width="45%" align="right"><input type="text" name="al_ho" style="background:none;border: none;text-align:right;" id="al_ho" placeholder="0,00" value="<?= number_format($pqproyek['nalokasi_ho'],2,',','.'); ?>"  class="form-control" readonly></td>
                </tr>
-               <tr>
-                 <td width="50%">Alokasi HO <small>15% dari Pendapatan Nett</small></td>
-                 <td width="5%">:</td>
-                 <td width="45%" align="right" style="border-bottom: grey solid 1px;"><input type="text" name="al_ho" style="background:none;border: none;text-align:right;" id="al_ho" placeholder="0,00" value="<?= number_format($pqproyek['nalokasi_ho'],2,',','.'); ?>"  class="form-control" readonly></td>
-               </tr>
-               <tr>
-                 <td width="50%"><b>Pendapatan Nett setelah Al. HO </b></td>
-                 <td width="5%">:</td>
-                 <td width="45%" align="right"><input type="text" name="al_ho" style="background:none;border: none;text-align:right;" id="al_ho" placeholder="0,00" value="<?= number_format($pqproyek['sub_total_a']-$pqproyek['hpp']-$pqproyek['nalokasi_ho'],2,',','.'); ?>"  class="form-control" readonly></td>
-               </tr>
+               
                
              </table>
            </div>

@@ -204,6 +204,41 @@ public function get_pq_operasional_view($id){
 	}
 
 
+	function get_proyek_by_area_subarea_edit($subarea,$area,$id_pqproyek)
+	{	
+
+			$query1 = $this->db->query("SELECT id_proyek from ci_pendapatan");
+			$query1_result = $query1->result();
+			$proyek_id= array();
+			foreach($query1_result as $row){
+				$proyek_id[] = $row->id_proyek;
+			}
+			$proyeks = implode(",",$proyek_id);
+			$kd_proyek = explode(",", $proyeks);
+
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->from('v_get_proyek_pq');
+			$this->db->where('jns_pagu >','1');
+			$this->db->where('thn_anggaran >=',date("Y"));	
+			$this->db->where('kd_area =',$area);	
+			$this->db->where('kd_sub_area =',$subarea);
+			$this->db->where_in('kd_proyek', $kd_proyek);
+			$this->db->where('kd_proyek', $id_pqproyek);
+		}else{
+			$this->db->from('v_get_proyek_pq');
+			$this->db->where('jns_pagu >','1');	
+			$this->db->where('thn_anggaran >=',date("Y"));	
+			$this->db->where('kd_area =',$area);	
+			$this->db->where('kd_sub_area =',$subarea);
+			$this->db->where_in('kd_proyek', $kd_proyek);
+			$this->db->where('kd_proyek', $id_pqproyek);
+		}
+		
+		$query=$this->db->get();
+		return $query;
+	}
+
+
 	function get_subarea($area)
 	{
 		$query = $this->db->get_where('ci_subarea', array('kd_area' => $area));
@@ -271,6 +306,7 @@ public function save_pq_hpp($data){
 				$insert_data['id_pqproyek']					= $data['id_pqproyek'];
 				$insert_data['kd_area'] 					= $data['kd_area'];
 				$insert_data['kd_item']						= $data['kd_item'];
+				$insert_data['jenis_tk']					= $data['jenis_tk'];
 				$insert_data['keterangan'] 					= $data['keterangan'];
 				$insert_data['volume'] 						= $data['volume'];
 				$insert_data['satuan'] 						= $data['satuan'];
@@ -284,9 +320,12 @@ public function save_pq_hpp($data){
 
 		//---------------------------------------------------
 		// Edit user Record
-		public function edit_proyek($data, $id){
-			$this->db->where('id_proyek', $id);
-			$this->db->update('ci_proyek', $data);
+
+
+		public function edit_pq($data, $id){
+
+			$this->db->where('id_pqproyek', $id);
+			$this->db->update('ci_pendapatan', $data);
 			return true;
 		}
 
@@ -306,6 +345,12 @@ public function save_pq_hpp($data){
 			$this->db->where('id', $id);
 			$this->db->where('id_pqproyek', $idpqproyek);
 			$this->db->update('ci_hpp', $data);
+			return true;
+		}
+
+		public function ajukan_revisi($data, $id){
+			$this->db->where('id_pqproyek', $id);
+			$this->db->update('ci_pendapatan', $data);
 			return true;
 		}
 
@@ -358,7 +403,7 @@ function get_hpp_by_id($id='',$idpqproyek=''){
 	}
 
 public function get_cetak_hpp_by_id($id){
-			$this->db->select("no_acc as kd_item,(select keterangan from ci_hpp where ci_hpp.kd_item=ci_coa_msm.no_acc and id_pqproyek='$id' order by keterangan desc)as keterangan, (select sum(total) from ci_hpp where ci_hpp.kd_item=ci_coa_msm.no_acc and id_pqproyek='$id')as nilai_hpp");
+			$this->db->select("no_acc as kd_item,(select keterangan from ci_hpp where ci_hpp.kd_item=ci_coa_msm.no_acc and id_pqproyek='$id' order by keterangan desc limit 1)as keterangan, (select sum(total) from ci_hpp where ci_hpp.kd_item=ci_coa_msm.no_acc and id_pqproyek='$id')as nilai_hpp");
 			$this->db->from("ci_coa_msm");
 			$this->db->where("no_acc in ('5010201','5010202','5010203','5010204','5010206','5010205')");
 			$this->db->order_by("no_acc");
@@ -367,7 +412,14 @@ public function get_cetak_hpp_by_id($id){
 		}
 
 public function get_operasional_by_id($id){
-			$this->db->select("no_acc as kd_item,(select keterangan from ci_hpp where ci_hpp.kd_item=ci_coa_msm.no_acc and id_pqproyek='$id' order by keterangan desc)as keterangan, (select sum(total) from ci_hpp where ci_hpp.kd_item=ci_coa_msm.no_acc and id_pqproyek='$id')as nilai_hpp");
+			$query="SELECT left(id_proyek,4) as tahun,kd_area from ci_pendapatan where id_pqproyek='$id'";
+					 $hasil = $this->db->query($query);
+					 $tahun = $hasil->row('tahun');
+					 $area = $hasil->row('kd_area');
+
+			// echo $tahun[0];
+
+			$this->db->select("no_acc as kd_item,(select uraian from ci_pq_operasional where ci_pq_operasional.kd_item=ci_coa.no_acc and left(id_pq_operasional,4)='$tahun' and kd_area='$area' order by uraian desc limit 1)as keterangan, (select sum(total) from ci_pq_operasional where ci_pq_operasional.kd_item=ci_coa.no_acc and left(id_pq_operasional,4)='$tahun' and kd_area='$area')as nilai_op");
 			$this->db->from("ci_coa");
 			$this->db->where("level", '3');
 			$this->db->where("left(no_acc,3)", '504');
@@ -375,6 +427,183 @@ public function get_operasional_by_id($id){
 			$query=$this->db->get();
 			return $query->result_array();
 		}
+
+public function get_marketing_by_id($id){
+
+			$query="SELECT left(id_proyek,4) as tahun,kd_area from ci_pendapatan where id_pqproyek='$id'";
+					 $hasil = $this->db->query($query);
+					 $tahun = $hasil->row('tahun');
+					 $area = $hasil->row('kd_area');
+
+			$this->db->select("sum(total) as nilai_op");
+			$this->db->from("ci_pq_operasional");
+			$this->db->where("left(id_pq_operasional,4)", $tahun);
+			$this->db->where("kd_area", $area);
+			$this->db->where("left(kd_item,3)", '503');
+			$this->db->group_by("left(kd_item,3)");
+			return $result = $this->db->get()->row_array();
+		}
+
+public function get_pendapatanarea($id){
+
+			$query="SELECT left(id_proyek,4) as tahun,kd_area from ci_pendapatan where id_pqproyek='$id'";
+					 $hasil = $this->db->query($query);
+					 $tahun = $hasil->row('tahun');
+					 $area = $hasil->row('kd_area');
+
+			$this->db->select("sum(pendapatan_nett) as pendapatannetarea");
+			$this->db->from("ci_pendapatan");
+			$this->db->where("left(id_proyek,4)", $tahun);
+			$this->db->where("kd_area", $area);
+			return $result = $this->db->get()->row_array();
+		}
+
+// cetak masal per area
+public function get_proyek_by_area($kolom, $id, $tahun){
+			$this->db->select($kolom);
+			$this->db->from('v_get_proyek_pq2');
+			$this->db->where('kd_area',$id);
+			$this->db->where('thn_anggaran',$tahun);
+			$this->db->order_by('kd_proyek');
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+public function get_map1(){
+		$this->db->from('map_pq');
+		// $this->db->where('urut',1);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+public function get_pq_by_area($kolom,$id, $tahun, $proyek){
+
+				$this->db->select($kolom);
+				$this->db->from("v_get_pq");
+				$this->db->where('kd_area',$id);
+				$this->db->where('left(id_proyek,4)',$tahun);
+				$this->db->where('id_proyek',$proyek);
+				$this->db->order_by('id_proyek');
+			$query=$this->db->get();
+		return $query->result_array();
+		}
+
+public function get_cetak_hpp_by_area($kd_item,$jenis_tk, $id, $proyek){
+
+			$query1 = $this->db->query("SELECT kd_proyek from ci_proyek where kd_area='$id'");
+			$query1_result = $query1->result();
+			$proyek_id= array();
+			foreach($query1_result as $row){
+				$proyek_id[] = $row->kd_proyek;
+			}
+			$proyeks = implode(",",$proyek_id);
+			$kd_proyek = explode(",", $proyeks);
+
+			if ($kd_item=='5010202'){
+				$this->db->select("id_proyek,
+								'$jenis_tk' as jenis_tk, 
+								(select keterangan from ci_hpp where ci_hpp.kd_item='$kd_item' and jenis_tk='$jenis_tk' and kd_area='$id' 
+								and ci_hpp.id_pqproyek=ci_pendapatan.id_pqproyek
+								order by keterangan desc limit 1)as keterangan,
+								(select ifnull(sum(total),0) from ci_hpp where ci_hpp.kd_item='$kd_item' and kd_area='$id' and jenis_tk='$jenis_tk' and id_pqproyek=ci_pendapatan.id_pqproyek)as nilai_hpp");
+			}else{
+				$this->db->select("id_proyek,
+								'' as jenis_tk, 
+								(select keterangan from ci_hpp where ci_hpp.kd_item='$kd_item' and (jenis_tk='$jenis_tk' OR jenis_tk is null) and kd_area='$id' 
+								and ci_hpp.id_pqproyek=ci_pendapatan.id_pqproyek
+								order by keterangan desc limit 1)as keterangan,
+								(select ifnull(sum(total),0) from ci_hpp where ci_hpp.kd_item='$kd_item' and kd_area='$id' and (jenis_tk='$jenis_tk' OR jenis_tk is null) and id_pqproyek=ci_pendapatan.id_pqproyek)as nilai_hpp");
+			}
+
+			
+			$this->db->from("ci_pendapatan");
+			$this->db->where("id_proyek", $proyek);
+			$this->db->where_in('id_proyek', $kd_proyek);
+			$this->db->order_by("id_pqproyek");
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+
+public function get_total_hpp_by_projek($id, $proyek){
+
+			$query1 = $this->db->query("SELECT kd_proyek from ci_proyek where kd_area='$id'");
+			$query1_result = $query1->result();
+			$proyek_id= array();
+			foreach($query1_result as $row){
+				$proyek_id[] = $row->kd_proyek;
+			}
+			$proyeks = implode(",",$proyek_id);
+			$kd_proyek = explode(",", $proyeks);
+
+			$this->db->select("id_proyek,(select ifnull(sum(total),0) from ci_hpp where kd_area='$id' and id_pqproyek=ci_pendapatan.id_pqproyek)as nilai_hpp");
+			$this->db->from("ci_pendapatan");
+			$this->db->where("id_proyek", $proyek);
+			$this->db->where_in('id_proyek', $kd_proyek);
+			$this->db->order_by("id_pqproyek");
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+public function get_op_by_area($kd_item, $id,$tahun){
+			$query= $this->db->query("SELECT z.*,x.uraian as keterangan,x.total from (
+							SELECT `map_pq`.`kd_item` FROM `map_pq` WHERE 
+							map_pq.kd_item = '$kd_item')z 
+							LEFT JOIN 
+							(select uraian,kd_item,sum(total)as total from `ci_pq_operasional` where 
+							left(kd_pq_operasional,4) = '$tahun' and kd_area='$id' group by kd_item)x ON `x`.`kd_item`=`z`.`kd_item` 
+							ORDER BY kd_item");
+			
+			return $query->result_array();
+		}
+
+public function get_marketing_by_area($kd_item, $id,$tahun){
+			$query= $this->db->query("SELECT z.*,x.uraian as keterangan,x.total from (
+							SELECT `map_pq`.`kd_item` FROM `map_pq` WHERE 
+							map_pq.kd_item = '$kd_item')z 
+							LEFT JOIN 
+							(select uraian,kd_item,sum(total)as total from `ci_pq_operasional` where 
+							left(kd_pq_operasional,4) = '$tahun' and kd_area='$id' group by kd_item)x ON left(`x`.`kd_item`,3)=`z`.`kd_item` 
+							ORDER BY kd_item");
+			
+			return $query->result_array();
+		}
+
+public function get_operasional_by_area($id, $tahun){
+			$query= $this->db->query("SELECT sum(total)as total from `ci_pq_operasional` where 
+							left(kd_pq_operasional,4) = '$tahun' and kd_area='$id'");
+			return $result = $query->row_array();
+		}
+
+public function get_pq_by_projek($id, $proyek){
+				$this->db->select('sub_total_a,nalokasi_ho,pendapatan_nett,nilaippl as nilai_pl');
+				$this->db->from("v_get_pq");
+				$this->db->where('kd_area',$id);
+				$this->db->where('id_proyek',$proyek);
+				$this->db->order_by('id_proyek');
+			$query=$this->db->get();
+		return $query->result_array();
+		}
+public function get_pendapatanarea_by_year($id,$tahun){
+
+			$this->db->select("sum(pendapatan_nett) as pendapatannetarea, sum(sub_total_a)as sub_total_a");
+			$this->db->from("ci_pendapatan");
+			$this->db->where("left(id_proyek,4)", $tahun);
+			$this->db->where("kd_area", $id);
+			return $result = $this->db->get()->row_array();
+		}
+
+public function get_spk_by_year($id,$tahun){
+			$this->db->select("sum(nilai_spk) as nilai_spk");
+			$this->db->from('v_get_proyek_pq2');
+			$this->db->where("left(kd_proyek,4)", $tahun);
+			$this->db->where("kd_area", $id);
+			return $result = $this->db->get()->row_array();
+		}
+// jumlah revisi
+public function get_jumlah_revisi($id_pqproyek){
+			$this->db->select("revisi as jumlah_revisi");
+			$this->db->from('ci_pendapatan');
+			$this->db->where("id_pqproyek", $id_pqproyek);
+			return $result = $this->db->get()->row_array();
+		}
+
 
 	}
 ?>

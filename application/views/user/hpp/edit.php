@@ -58,7 +58,7 @@
         </div>
 
          <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="item_hpp" class="control-label">PQ Item</label>
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
@@ -69,6 +69,18 @@
                   <?php endforeach; ?>
                 </select>
             </div>
+          </div>
+          <div class="col-md-3">
+           <div class="form-group">
+            <label for="jenis_tk" class="control-label">Jenis <small>(Khusus Tenaga Kerja Langsung)</small></label>
+              <select class="form-control" name="jenis_tk" id="jenis_tk" disabled>
+                <option value="">No Selected</option>
+                <option value="programer">Programer</option>
+                <option value="akuntan">Akuntan</option>
+                <option value="rc">RC</option>
+                <option value="lain">Lainnya</option>
+              </select>
+          </div>
           </div>
           <div class="col-md-6">
            <div class="form-group">
@@ -172,6 +184,17 @@
     $('.select2').select2()
     get_data_detail();
     get_sisa()
+     $('#item_hpp').change(function(){ 
+                var kd_coa=$(this).val();
+                if (kd_coa=='5010202'){
+                  document.getElementById("jenis_tk").disabled = false;
+                }else{
+                  document.getElementById("jenis_tk").value = '';
+                  document.getElementById("jenis_tk").disabled = true;
+                }
+                
+                return false;
+            });
     }); 
 
   function get_data_detail(){
@@ -191,6 +214,7 @@
                             $('[name="area"]').val(data[i].kd_area).trigger('change');
                             $('[name="uraian"]').val(data[i].keterangan);
                             $('[name="item_hpp"]').val(data[i].kd_item).trigger('change');
+                            $('[name="jenis_tk"]').val(data[i].jenis_tk).trigger('change');
                             $('[name="volume"]').val(data[i].volume);
                             $('[name="satuan"]').val(data[i].satuan);
                             $('[name="periode"]').val(data[i].periode);

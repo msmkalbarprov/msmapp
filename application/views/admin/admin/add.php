@@ -92,6 +92,24 @@
                       </select>
                     </div>
                   </div>
+
+                  <div class="form-group">
+                    <label for="role" class="col-md-12 control-label">Avatar*</label>
+
+                    <div class="col-md-12">
+                      <select name="avatar" class="form-control">
+                        <option value="profile1.png" style="background-image:base_url('/assets/dist/img/profile1.png');">Avatar 1</option>
+                        <option value="profile2.png" style="background-image:base_url('/assets/dist/img/profile2.png');">Avatar 2</option>
+                        <option value="profile3.png" style="background-image:base_url('/assets/dist/img/profile3.png');">Avatar 3</option>
+                        <option value="profile4.png" style="background-image:base_url('/assets/dist/img/profile4.png');">Avatar 4</option>
+                        <option value="profile5.png" style="background-image:base_url('/assets/dist/img/profile5.png');">Avatar 5</option>
+                        <option value="profile6.png" style="background-image:base_url('/assets/dist/img/profile6.png');">Avatar 6</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  
+
                   <div class="form-group">
                     <div class="col-md-12">
                       <input type="submit" name="submit" value="<?= trans('add_admin') ?>" class="btn btn-primary pull-right">

@@ -65,6 +65,8 @@ class Admin extends MY_Controller
 				$this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
 				$this->form_validation->set_rules('password', 'Password', 'trim|required');
 				$this->form_validation->set_rules('role', 'Role', 'trim|required');
+				$this->form_validation->set_rules('avatar', 'Avatar', 'trim|required');
+				$this->form_validation->set_rules('kd_area', 'Area', 'trim|required');
 				if ($this->form_validation->run() == FALSE) {
 					$data = array(
 						'errors' => validation_errors()
@@ -81,6 +83,7 @@ class Admin extends MY_Controller
 						'email' => $this->input->post('email'),
 						'mobile_no' => $this->input->post('mobile_no'),
 						'kd_area' => $this->input->post('kd_area'),
+						'avatar' => $this->input->post('avatar'),
 						'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
 						'is_active' => 1,
 						'created_at' => date('Y-m-d : h:m:s'),
@@ -112,12 +115,15 @@ class Admin extends MY_Controller
 		$this->rbac->check_operation_access(); // check opration permission
 
 		$data['admin_roles'] = $this->admin->get_admin_roles();
+		$data['data_area']=$this->admin->get_area();
 
 		if($this->input->post('submit')){
 			$this->form_validation->set_rules('username', 'Username', 'trim|alpha_numeric|required');
 			$this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
 			$this->form_validation->set_rules('password', 'Password', 'trim|min_length[5]');
 			$this->form_validation->set_rules('role', 'Role', 'trim|required');
+			$this->form_validation->set_rules('avatar', 'Avatar', 'trim|required');
+				$this->form_validation->set_rules('kd_area', 'Area', 'trim|required');
 			if ($this->form_validation->run() == FALSE) {
 				$data = array(
 					'errors' => validation_errors()
@@ -133,6 +139,8 @@ class Admin extends MY_Controller
 					'lastname' => $this->input->post('lastname'),
 					'email' => $this->input->post('email'),
 					'mobile_no' => $this->input->post('mobile_no'),
+					'kd_area' => $this->input->post('kd_area'),
+					'avatar' => $this->input->post('avatar'),
 					'is_active' => 1,
 					'updated_at' => date('Y-m-d : h:m:s'),
 				);

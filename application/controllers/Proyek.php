@@ -326,6 +326,8 @@ public function edit_rincian_proyek($id = 0){
 
 			if ($this->input->post('tanggal2')==''){
 				$tanggal2=null;
+			}else{
+				$tanggal2=$this->input->post('tanggal2');
 			}
 				$data = array(
 					'jns_pagu' 			=> $this->input->post('jnspagu'),

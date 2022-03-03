@@ -80,7 +80,7 @@
          </div>
 
          <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="item_hpp" class="control-label">PQ Item</label>
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
@@ -91,6 +91,18 @@
                   <?php endforeach; ?>
                 </select>
             </div>
+          </div>
+          <div class="col-md-3">
+           <div class="form-group">
+            <label for="jenis_tk" class="control-label">Jenis <small>(Khusus Tenaga Kerja Langsung)</small></label>
+              <select class="form-control" name="jenis_tk" id="jenis_tk" disabled>
+                <option value="">No Selected</option>
+                <option value="programer">Programer</option>
+                <option value="akuntan">Akuntan</option>
+                <option value="rc">RC</option>
+                <option value="lain">Lainnya</option>
+              </select>
+          </div>
           </div>
           <div class="col-md-6">
            <div class="form-group">
@@ -224,6 +236,17 @@
     get_datatable()
     get_sisa()
 
+   $('#item_hpp').change(function(){ 
+                var kd_coa=$(this).val();
+                if (kd_coa=='5010202'){
+                  document.getElementById("jenis_tk").disabled = false;
+                }else{
+                  document.getElementById("jenis_tk").disabled = true;
+                }
+                
+                return false;
+            });
+
 function get_datatable(){
   $('#projek').prop('disabled', true);
   $('#area').prop('disabled', true);
@@ -246,6 +269,11 @@ function get_datatable(){
   });
 
   }
+
+
+
+
+
 
 
   function get_sisa(){
@@ -274,6 +302,7 @@ function get_datatable(){
 $('#butsave').on('click', function() {
     var kd_item       = $('#item_hpp').val();
     var projek        = $('#projek').val();
+    var jenis_tk      = $('#jenis_tk').val();
     var uraian        = $('#uraian').val();
     var volume        = $('#volume').val();
     var satuan        = $('#satuan').val();
@@ -293,6 +322,7 @@ $('#butsave').on('click', function() {
           type:1,
           area:area,
           projek:projek,
+          jenis_tk:jenis_tk,
           kd_item :kd_item,
           uraian:uraian,
           volume:volume,

@@ -2,6 +2,13 @@
 
 class Subarea_model extends CI_Model{
 
+
+	var $table = 'ci_subarea';
+    var $column_order = array('nm_area','nm_subarea',null); //set column field database for datatable orderable
+    var $column_search = array('nm_area','nm_subarea','address'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order = array('kd_area' => 'desc'); // default order 
+
+
 	public function get_user_detail(){
 		$id = $this->session->userdata('user_id');
 		$query = $this->db->get_where('ci_users', array('user_id' => $id));
@@ -38,6 +45,13 @@ class Subarea_model extends CI_Model{
 		return $query->result_array();
 	}
 
+	function get_kabupaten()
+	{
+		$this->db->from('ci_kabupaten');
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
 	//-----------------------------------------------------
 	function get_admin_by_id($id)
 	{
@@ -48,51 +62,102 @@ class Subarea_model extends CI_Model{
 		return $query->row_array();
 	}
 
-	//-----------------------------------------------------
-	function get_all()
+function get_subarea_by_id($id)
 	{
-
-		$this->db->from('ci_users');
-
-		$this->db->join('ci_admin_roles','ci_admin_roles.admin_role_id=ci_users.admin_role_id');
-
-		if($this->session->userdata('filter_type')!='')
-
-			$this->db->where('ci_users.admin_role_id',$this->session->userdata('filter_type'));
-
-		if($this->session->userdata('filter_status')!='')
-
-			$this->db->where('ci_users.is_active',$this->session->userdata('filter_status'));
-
-
-		$filterData = $this->session->userdata('filter_keyword');
-
-		$this->db->like('ci_admin_roles.admin_role_title',$filterData);
-		$this->db->or_like('ci_users.firstname',$filterData);
-		$this->db->or_like('ci_users.lastname',$filterData);
-		$this->db->or_like('ci_users.email',$filterData);
-		$this->db->or_like('ci_users.mobile_no',$filterData);
-		$this->db->or_like('ci_users.username',$filterData);
-
-		$this->db->where('ci_users.is_supper !=', 1);
-
-		$this->db->order_by('ci_users.user_id','desc');
-
-		$query = $this->db->get();
-
-		$module = array();
-
-		if ($query->num_rows() > 0) 
-		{
-			$module = $query->result_array();
-		}
-
-		return $module;
+		$this->db->from('ci_subarea');
+		$this->db->where('id',$id);
+		$query=$this->db->get();
+		return $query->row_array();
 	}
+
+	
+
+	//-----------------------------------------------------
+public function get_all(){
+
+	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		$this->db->select('ci_subarea.*,ci_area.nm_area');
+			$this->db->from('ci_subarea');
+			$this->db->join('ci_area','ci_subarea.kd_area=ci_area.kd_area', 'left');
+			$this->db->order_by('kd_area','asc');
+	}else{
+			$this->db->select('ci_subarea.*,ci_area.nm_area');
+			$this->db->from('ci_subarea');
+			$this->db->join('ci_area','ci_subarea.kd_area=ci_area.kd_area', 'left');
+			$this->db->where('ci_subarea.kd_area', $this->session->userdata('kd_area'));
+
+			$this->db->order_by('kd_area','asc');
+	}
+			
+        return $this->db->get()->result_array();
+}
+
+ public function count_all()
+    {
+        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+        	$this->db->from('ci_subarea');
+        }else{
+        	$this->db->from('ci_subarea');
+        	$this->db->where('ci_subarea.kd_area', $this->session->userdata('kd_area'));
+        }
+        return $this->db->count_all_results();
+    }
+
+private function _get_datatables_query()
+    {
+         
+        $this->db->from('ci_subarea');
+ 
+        $i = 0;
+     
+        foreach ($this->column_search as $item) // loop column 
+        {
+            if($_POST['search']['value']) // if datatable send POST for search
+            {
+                 
+                if($i===0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                }
+                else
+                {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+ 
+                if(count($this->column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+         
+        if(isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } 
+        else if(isset($this->order))
+        {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+function count_filtered()
+    {
+        $this->_get_datatables_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
 
 	//-----------------------------------------------------
 public function add_admin($data){
 	$this->db->insert('ci_users', $data);
+	return true;
+}
+
+public function add_subarea($data){
+	$this->db->insert('ci_subarea', $data);
 	return true;
 }
 
@@ -101,6 +166,12 @@ public function add_admin($data){
 public function edit_admin($data, $id){
 	$this->db->where('user_id', $id);
 	$this->db->update('ci_users', $data);
+	return true;
+}
+
+public function edit_subarea($data, $id){
+	$this->db->where('id', $id);
+	$this->db->update('ci_subarea', $data);
 	return true;
 }
 
@@ -115,8 +186,8 @@ function change_status()
 	//-----------------------------------------------------
 function delete($id)
 {		
-	$this->db->where('user_id',$id);
-	$this->db->delete('ci_users');
+	$this->db->where('id',$id);
+	$this->db->delete('ci_subarea');
 } 
 
 }

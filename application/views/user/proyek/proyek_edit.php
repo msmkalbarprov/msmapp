@@ -255,13 +255,10 @@
                         $('select[name="subarea"]').empty();
                         $('select[name="subarea"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
-                           if(kdsubarea==value.kd_subarea){
-                                $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
-                            }else{
-                                $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
-                            }
-
-                            get_dinascombo();
+                        
+                          $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                          $('[name="subarea"]').val(kdsubarea).trigger('change');
+                          get_dinascombo(kdsubarea);
                             
                         });
 
@@ -270,9 +267,10 @@
                 return false;
             };
 
-  function get_dinascombo(){ 
-                var subarea=document.getElementById("subarea").value;
+  function get_dinascombo(kdsubarea){ 
+                var subarea=kdsubarea;
                 var area=document.getElementById("area").value;
+                // alert(subarea)
                 $.ajax({
                     url : "<?php echo site_url('proyek/get_dinas');?>",
                     method : "POST",
@@ -285,11 +283,9 @@
                         $('select[name="dinas"]').empty();
                         $('select[name="dinas"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
-                           if(kddinas==value.id){
-                                $('select[name="dinas"]').append('<option value="'+ value.id +'" selected>'+ value.nama_dinas +'</option>');
-                            }else{
-                                $('select[name="dinas"]').append('<option value="'+ value.id +'">'+ value.nama_dinas +'</option>');
-                            }
+                           
+                           $('select[name="dinas"]').append('<option value="'+ value.id +'">'+ value.nama_dinas +'</option>');
+                           $('[name="dinas"]').val(kddinas).trigger('change');
 
                             
                         });
@@ -340,12 +336,12 @@
                         $('select[name="jnssubproyek"]').empty();
                         $('select[name="jnssubproyek"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
-                          if(kdsubproyek==value.kd_subprojek){
-                                $('select[name="jnssubproyek"]').append('<option value="'+ value.kd_subprojek +'" selected>'+ value.kd_subprojek + '-' + value.nm_subprojek +'</option>');
-                            }else{
+                          // if(kdsubproyek==value.kd_subprojek){
+                          //       $('select[name="jnssubproyek"]').append('<option value="'+ value.kd_subprojek +'" selected>'+ value.kd_subprojek + '-' + value.nm_subprojek +'</option>');
+                          //   }else{
                                 $('select[name="jnssubproyek"]').append('<option value="'+ value.kd_subprojek +'">'+ value.kd_subprojek + '-' + value.nm_subprojek +'</option>');
-                            }
-
+                            // }
+                            $('[name="jnssubproyek"]').val(kdsubproyek).trigger('change');
                             
                         });
 

@@ -19,12 +19,6 @@
                   <li class="nav-item">
                     <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#main" role="tab" aria-controls="main" aria-selected="true"><?= trans('general_setting') ?></a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#email" role="tab" aria-controls="email" aria-selected="false"><?= trans('email_setting') ?></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#reCAPTCHA" role="tab" aria-controls="reCAPTCHA" aria-selected="false"><?= trans('google_setting') ?></a>
-                  </li>
                 </ul>
 
                  <!-- Tab panes -->
@@ -54,23 +48,18 @@
                             <label class="control-label"><?= trans('application_name') ?></label>
                             <input type="text" class="form-control" name="application_name" placeholder="application name" value="<?php echo html_escape($general_settings['application_name']); ?>">
                         </div>
-                        <div class="form-group">
-                            <label class="control-label"><?= trans('timezone') ?></label>
-                            <input type="text" class="form-control" name="timezone" placeholder="timezone"
-                            value="<?php echo html_escape($general_settings['timezone']); ?>">
-                            <a href="http://php.net/manual/en/timezones.php" target="_blank"><?= trans('timezone') ?></a>
-                        </div>
+                        
                         <div class="form-group">
                             <label class="control-label"><?= trans('default_language') ?></label>
+                            <input type="hidden" class="form-control" name="timezone" placeholder="timezone"
+                            value="<?php echo html_escape($general_settings['timezone']); ?>">
+                            
+                            <input type="hidden" class="form-control" name="currency" placeholder="currency"
+                            value="<?php echo html_escape($general_settings['currency']); ?>">
                             <?php 
                                 $options = array_column($languages, 'name','id');
                                 echo form_dropdown('language',$options,$general_settings['default_language'],'class="form-control"');
                             ?>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label"><?= trans('currency') ?></label>
-                            <input type="text" class="form-control" name="currency" placeholder="currency"
-                            value="<?php echo html_escape($general_settings['currency']); ?>">
                         </div>
                         <div class="form-group">
                             <label class="control-label"><?= trans('copyright') ?></label>

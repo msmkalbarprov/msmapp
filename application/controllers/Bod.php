@@ -45,15 +45,27 @@ class Bod extends MY_Controller {
 			}else{
 				$nilai_pl = $row['ppl'];
 			}
+
+			if($row['status']==1){
+				$statuspq="<br> <b>Status</b> &nbsp;:<span class='text-success'> Disetujui</span>";
+			}else if($row['status']==2 && $row['status_revisi']==0){
+				$statuspq="<br> <b>Status</b> &nbsp;:<span class='text-danger'> Ditolak</span>";
+			}else if($row['status']==2 && $row['status_revisi']==1){
+				$statuspq="<br> <b>Status</b> &nbsp;:<span class='text-primary'> Sudah direvisi</span>";
+			}else if($row['status']==3){
+				$statuspq="<br> <b>Status</b> &nbsp;:<span class='text-primary'> Direvisi</span>";
+			}else{
+				$statuspq="<br> <b>Status</b> &nbsp;: -";
+			}
 			
 			$data[]= array(
-				'<font size="2px"><b>Kode</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$row['kd_pqproyek'].'<br> <b>Proyek</b> &nbsp;: '.$row['nm_paket_proyek'].'</font>',
+				'<font size="2px"><b>Kode</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$row['kd_pqproyek'].'<br> <b>Proyek</b> &nbsp;: '.$row['nm_paket_proyek'].$statuspq.'</font>',
 				'<div class="text-right"><font size="2px">'.number_format($row['spk'],2,",",".").'</font></div>',
 				'<div class="text-right"><font size="2px">'.number_format($row['titipan'],2,",",".").'</font></div>',
 				'<div class="text-right"><font size="2px">'.number_format($nilai_pl,2,",",".").'</font></div>',
 				'<div class="text-right"><font size="2px">'.number_format($row['sub_total_a'],2,",",".").'</font></div>',
 				'<div class="text-right"><font size="2px">'.number_format($row['hpp'],2,",",".").'</font></div>',
-				'<a title="View" class="view btn btn-sm btn-info" href="'.base_url('bod/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>'
+				'<a title="View" class="view btn btn-sm btn-info" href="'.base_url('bod/view/'.$row['id_pqproyek']).'"> <i class="fa fa-list"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -320,6 +332,7 @@ public function setuju(){
 		$this->rbac->check_operation_access('');
 		$id_pqproyek 	= $this->input->post('id_pqproyek', TRUE);
 		$catatan 		= $this->input->post('catatan', TRUE);
+		$jumlahrevisi	= $this->pq_model->get_jumlah_revisi($id_pqproyek);
 
 		if($this->input->post('type')==1){
 			$data['catatan'] 			= $this->input->post('catatan', TRUE);
@@ -333,6 +346,8 @@ public function setuju(){
 		if($this->input->post('type')==2){
 			$data['catatan'] 			= $this->input->post('catatan', TRUE);
             $data['status'] 			= 2;
+            $data['status_revisi']		= 0;
+            $data['revisi'] 			= $jumlahrevisi['jumlah_revisi']+1;
 			$this->pq_model->save_pqngesahan_pq($data, $id_pqproyek);
             echo json_encode(array(
 				"statusCode"=>200

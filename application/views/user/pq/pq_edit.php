@@ -1,6 +1,9 @@
   <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/autoCurrency.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/numberFormat.js"></script>
-    <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.css"> 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"> 
+    <style type="text/css">
+      .title .rupiah { float:right }
+    </style>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Main content -->
@@ -9,10 +12,10 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             <?= trans('proyek_add') ?> </h3>
+             Tambah Pendapatan </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('proyek'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pq'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  Kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -20,12 +23,12 @@
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
-         <?php echo form_open(base_url('proyek/edit/'.$proyek['id_proyek']), 'class="form-horizontal"');  ?> 
+         <?php echo form_open(base_url('pq/edit/'.$pqproyek['id_pqproyek']), 'class="form-horizontal"');  ?> 
          <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="area" class="control-label"><?= trans('area') ?></label>
-                <select name="area" id="area"  class="form-control" required>
+          <div class="col-md-3">
+           <div class="form-group">
+            <label for="area" class="control-label"><?= trans('area') ?></label>
+              <select name="area" id ="area" class="form-control" required disabled>
                 <option value="">No Selected</option>
                 <?php foreach($data_area as $area): ?>
                   <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
@@ -35,212 +38,322 @@
                     <?php endif; ?>
                   <?php endforeach; ?>
                 </select>
-
-            </div>
-          </div>
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
-              <select name="subarea" id="subarea" class="form-control" required>
-                  <option value="">No Selected</option>
-              </select>
           </div>
           </div>
-         </div>
-
-         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="form-group">
-              <label for="jenis_proyek" class="control-label"><?= trans('jenis_proyek') ?></label>
-              <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                <select name="jnsproyek" id="jnsproyek" class="form-control" required>
-                  <option value="">No Selected</option>
-                  <?php foreach($data_jnsproyek as $jnsproyek): ?>
-                    <option value="<?= $jnsproyek['kd_projek']; ?>"><?= $jnsproyek['nm_projek']; ?></option>
-                  <?php endforeach; ?>
-                </select>
-            </div>
-          </div>
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="jenis_sub_proyek" class="control-label"><?= trans('jenis_sub_proyek') ?></label>
-              <select class="form-control" id="jnssubproyek" name="jnssubproyek" required>
+              <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
+              <select name="subarea"  id="subarea" class="form-control" required disabled>
                 <option value="">No Selected</option>
               </select>
+            </div>
           </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="projek" class="control-label">Proyek</label>
+                <select name="projek"  id="projek" class="form-control" required disabled>
+                <option value="">No Selected</option>
+              </select>
+
+            </div>
           </div>
          </div>
+
          <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="jenis_proyek" class="control-label"><?= trans('jenis_proyek') ?></label>
+              <input type="text" name="jnsproyek" id="jnsproyek" class="form-control" readonly>
+              <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+            </div>
+          </div>
+          <div class="col-md-3">
+           <div class="form-group">
+            <label for="jenis_sub_proyek" class="control-label"><?= trans('jenis_sub_proyek') ?></label>
+              <input type="text" name="jnssubproyek" id="jnssubproyek" class="form-control" readonly>
+          </div>
+          </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="perusahaan" class="control-label"><?= trans('perusahaan') ?></label>
-                <select name="perusahaan" id="perusahaan" class="form-control" required>
-                  <option value="">No Selected</option>
-                  <?php foreach($data_perusahaan as $perusahaan): ?>
-                    <option value="<?= $perusahaan['akronim']; ?>"><?= $perusahaan['nama']; ?></option>
-                  <?php endforeach; ?>
-                </select>
+                <input type="text" name="perusahaan" id="perusahaan" class="form-control" readonly>
             </div>
-          </div>
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="dinas" class="control-label"><?= trans('nm_dinas') ?></label>
-              <select name="dinas" id="dinas" class="form-control" required>
-                <option value="">No Selected</option>
-              </select>
-          </div>
-          </div>
-         </div>
-
-         <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="thn_ang" class="control-label">Tahun Anggaran</label>
-                <select name="thn_ang" id="thn_ang" class="form-control" required>
-                  <option value="">No Selected</option>
-                  <option value="2021">2021</option>
-                  <option value="2022">2022</option>
-                  <option value="2023">2023</option>
-                  <option value="2024">2024</option>
-                  <option value="2025">2025</option>
-                  <option value="2026">2026</option>
-                  <option value="2027">2027</option>
-                  <option value="2028">2028</option>
-                  <option value="2029">2029</option>
-                  <option value="2030">2030</option>
-                  <option value="2031">2031</option>
-                  <option value="2032">2032</option>
-                  <option value="2033">2033</option>
-                  <option value="2034">2034</option>
-                </select>
-            </div>
-          </div>
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="nilai" class="control-label">Nama Paket pekerjaan</label>
-              <input type="text" name="paketproyek" class="form-control" id="paketproyek" placeholder="Nama Paket pekerjaan" required>
-          </div>
           </div>
          </div>
          <div class="row">
           <div class="col-md-3">
             <div class="form-group">
-              <label for="jns_pph" class="control-label">Jenis PPH</label>
-              <select name="jns_pph" id="jns_pph" class="form-control" required>
-                    <option value="">No Selected</option>
-                    <option value="21">PPH 21</option>
-                    <option value="22">PPH 22</option>
-                    <option value="23">PPH 23</option>
-                  </select>
-              </div>
+              <label for="jns_pph" class="control-label">Tipe Pengadaan</label>
+              <input type="text" name="tipeproyek" id="tipeproyek" class="form-control" readonly>
             </div>
-            <div class="col-md-3">
+          </div>
+          <div class="col-md-3">
             <div class="form-group">
-              <label for="loc" class="control-label">LOC <small>Level of Confidence</small></label>
-               <div class="input-group">
-                    
-                    <input type="text" name="loc" maxlength="5" class="form-control" id="loc" placeholder="0.00" style="text-align:right;" onkeypress="return(currencyFormat(this,',','.',event))"  required>
-                    <div class="input-group-append">
-                      <span class="input-group-text">%</span>
-                    </div>
-                  </div>
+              <label for="thn_ang" class="control-label">Tahun Anggaran</label>
+                <input type="text" name="thn_ang" id="thn_ang" class="form-control" readonly>
             </div>
           </div>
           <div class="col-md-6">
            <div class="form-group">
-              <label for="jns_pph" class="control-label">Keterangan</label>
-              <textarea name="catatan" id="catatan" class="form-control" rows="1"></textarea>
+            <label for="dinas" class="control-label"><?= trans('nm_dinas') ?></label>
+              <input type="text" name="dinas" id="dinas" class="form-control" readonly>
           </div>
           </div>
          </div>
 
-              
+         <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="nilai" class="control-label">Nama Paket pekerjaan</label>
+              <input type="text" name="paketproyek" class="form-control" id="paketproyek" placeholder="Nama Paket pekerjaan" readonly>
+          </div>
+          </div>
+         </div>
+         <div class="row">
+            <div class="col-md-6">
+              <h6><b>Pendapatan</b></h6>
+              <hr>
+            </div>
+            <div class="col-md-6">
+              <h6><b>Perhitungan Nett Profit</b></h6>
+              <hr>
+            </div>
+          </div>
+         <div class="row">
+           <div class="col-md-6">
+            <table width="100%" border="0">
+               <tr>
+                 <td width="50%">Nilai SPK</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><input type="text" name="nilaispk" style="background:none;border: none;text-align:right;" id="nilaispk" class="form-control" readonly></td>
+               </tr>
+               <tr>
+                 <td width="50%">PPN</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><input type="text" name="nilaippn" style="background:none;border: none;text-align:right;" id="nilaippn" class="form-control" readonly></td>
+               </tr>
+               <tr>
+                 <td width="50%">PPH</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" style="border-bottom: grey solid 1px;">
+                    <input type="hidden" name="jnspph" id="jnspph">
+                    <input type="text" name="nilaipph" style="background:none;border: none;text-align:right;" id="nilaipph" class="form-control" readonly>
+                  </td>
+               </tr>
+                <tr>
+                 <td width="50%"><b>SPK. Nett</b></td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"> <input type="text" name="nilaipend_nett" style="background:none;border: none;text-align:right;" id="nilaipend_nett" class="form-control" readonly></td>
+               </tr>
+               <tr>
+                 <td width="50%">Titipan</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"> <input type="text" name="titipan" style="background:none;text-align:right;" id="titipan" placeholder="0,00" value="<?= number_format($pqproyek['titipan'],2,',','.'); ?>" onkeypress="return(currencyFormat(this,'.',',',event))"  class="form-control" ></td>
+               </tr>
+               <tr>
+                 <td width="50%">PPN titipan</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><input type="text" name="nilaippntitipan" style="background:none;border: none;text-align:right;" value="<?= number_format($pqproyek['ppntitipan'],2,',','.'); ?>" id="nilaippntitipan" class="form-control" readonly></td>
+               </tr>
+               <tr>
+                 <td width="50%">PPH titipan</td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" style="border-bottom: grey solid 1px;">
+                  <input type="text" name="nilaipphtitipan" style="background:none;border: none;text-align:right;" id="nilaipphtitipan" class="form-control" readonly>
+                </td>
+               </tr>
+               <tr>
+                 <td width="50%"><b>Titipan Net</b></td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><input type="text" name="titipan_net" style="background:none;border: none;text-align:right;" id="titipan_net" class="form-control" readonly></td>
+               </tr>
+               
+             </table>
+           </div>
+           <div class="col-md-6">
+            <table width="100%" border="0">
+               <tr>
+                 <td width="50%"><b>Pendapatan Nett</b></td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><input type="text" name="nilai_pend_net_s_titipan" style="background:none;border: none;text-align:right;" id="nilai_pend_net_s_titipan" class="form-control" readonly></td>
+               </tr>
+               <tr>
+                 <td width="50%">Biaya Partner Lokal (PL)  &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="plpersen" style="background:none;text-align:right;width: 60px;" id="plpersen" placeholder="0,00" value="<?= number_format($pqproyek['persen_pl'],2,',','.'); ?>" onkeypress="return(currencyFormat(this,'.',',',event))" >&nbsp;%
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" ><input type="text" name="pl" style="background:none;border: none;text-align:right;" id="pl" placeholder="0,00" value="<?= number_format($pqproyek['npl'],2,',','.'); ?>"  class="form-control" readonly></td>
+               </tr>
+                <tr>
+                 <td width="50%">Pembulatan Biaya Partner Lokal (PL)
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" style="border-bottom: grey solid 1px;" >
+                  <input type="text" name="pl_bulat" style="background:none;text-align:right;" id="pl_bulat" placeholder="0,00" value="<?= number_format($pqproyek['ppl'],2,',','.'); ?>" onkeypress="return(currencyFormat(this,'.',',',event))"  class="form-control" ></td>
+               </tr>
+                <tr>
+                 <td width="50%"><b>Pendapatan Nett Setelah (PL)</b></td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right"><input type="text" name="nilai_pend_net_s_pl" style="background:none;border: none;text-align:right;" id="nilai_pend_net_s_pl" class="form-control" readonly></td>
+               </tr>
 
+               <tr>
+                 <td width="50%"><b>Alokasi HO <small>15% dari Pendapatan Nett</small></b></td>
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" style="border-bottom: grey solid 1px;"><input type="text" name="al_ho" style="background:none;border: none;text-align:right;" id="al_ho" placeholder="0,00" value="<?= number_format($pqproyek['nalokasi_ho'],2,',','.'); ?>"  class="form-control" readonly></td>
+               </tr>
+             </table>
+           </div>
+         </div>
+         
+        
         <div class="form-group">
           <div class="col-md-12" align="right">
-            <a href="<?= base_url('proyek/addrincian/').$proyek['id_proyek']; ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah Rincian</a>&nbsp;
-            <input type="submit" name="submit" value="<?= trans('proyek_update') ?>" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="submit" name="submit" value="Update" class="btn btn-primary btn-sm">
           </div>
         </div>
         <?php echo form_close( ); ?>
       </div>
       <!-- /.box-body -->
     </div>
-    <div class="card card-default">
-      <div class="card-body">
-           <div class="row">
-            <div class="col-md-12">
-              <div class="card-body table-responsive">
-                <table id="na_datatable" class="table table-bordered table-striped" width="100%">
-                  <thead>
-                    <tr>
-                      <th>#id</th>
-                      <th>jenis pagu</th>
-                      <th>tipe proyek</th>
-                      <th>tanggal</th>
-                      <th>tanggal selesai</th>
-                      <th>Nilai</th>
-                      <th>no dokumen</th>
-                      <th>Dokumen</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                </table>
-              </div>
-            </div>
-           </div>
-      </div>
-    </div>
+    
   </section> 
 </div>
-<!-- <script type="text/javascript" src="<?php echo base_url().'assets/dist/js/jquery-3.3.1.js'?>"></script> -->
+
+  
+</div>
 <script src="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.js"></script>
-<script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
+<!-- <script type="text/javascript" src="<?php echo base_url().'assets/dist/js/jquery-3.3.1.js'?>"></script> -->
   <script>
   // $("#proyek").addClass('menu-open');
-  $("#proyek> a").addClass('active');
+  $("#pq> a").addClass('active');
 </script>
-<script type="text/javascript">
-    $(document).ready(function(){
-       get_data_detail();
+<script>
+  $(document).ready(function(){
+    get_subareacombo();
+    
 
-  function get_data_detail(){
-              var id = "<?php echo $proyek['id_proyek'] ?>";
-              $.ajax({
-                url : "<?php echo site_url('proyek/get_data_detail_edit');?>",
+
+document.getElementById("titipan").onkeyup = function() {hitungtitipan()};
+document.getElementById("plpersen").onkeyup = function() {hitungtitipan()};
+document.getElementById("pl_bulat").onkeyup = function() {hitungtitipan()};
+
+function hitungtotalrow() {
+  var harga     = number(document.getElementById("harga").value);
+  var volume    = number(document.getElementById("volume").value);
+  var periode   = number(document.getElementById("periode").value);
+  let totalrow = 0;
+
+  totalrow = harga*volume*periode;
+  $('[name="total"]').val(number_format(totalrow,"2",",",".")).trigger('change');
+}
+
+function hitungtitipan() {
+  var titipan     = number(document.getElementById("titipan").value);
+  var pilihpph    = number(document.getElementById("jnspph").value);
+  var pend_nett   = number(document.getElementById("nilaipend_nett").value);
+
+  // hitung ppn titipan
+  var ppntitipan  = (10/100)*((100/110)*titipan);
+  
+  // hitung pph berdasarkan pajak di apbd
+  if (pilihpph==22){
+    var nilai_pphtitipan = (1.5/100)*((100/110)*titipan);
+    var nilai_ppntitipan=ppntitipan;
+  }else if (pilihpph==23){
+    var nilai_pphtitipan = (2/100)*((100/110)*titipan);
+    var nilai_ppntitipan=ppntitipan;
+  }else if (pilihpph==21){
+    var nilai_pphtitipan = (50/100)*((5/110)*titipan);
+    nilai_ppntitipan=0;
+  }
+  var titipan_net = titipan-nilai_ppntitipan-nilai_pphtitipan;
+  var nilai_pend_net_s_titipan = pend_nett-titipan_net;
+
+  $('[name="nilaippntitipan"]').val(number_format(nilai_ppntitipan,"2",",",".")).trigger('change');
+  $('[name="nilaipphtitipan"]').val(number_format(nilai_pphtitipan,"2",",",".")).trigger('change');
+  $('[name="titipan_net"]').val(number_format(titipan_net,"2",",",".")).trigger('change');
+  $('[name="nilai_pend_net_s_titipan"]').val(number_format(nilai_pend_net_s_titipan,"2",",",".")).trigger('change');
+
+// hitung PL
+  var plpersen = number(document.getElementById("plpersen").value);
+
+  if (plpersen!=0 || plpersen!=0.00){
+    var al_pl = nilai_pend_net_s_titipan*plpersen/100;//20%  
+    $('[name="pl"]').val(number_format(al_pl,"2",",",".")).trigger('change');
+  }else{
+    var al_pl = number(document.getElementById("pl").value);
+    var persenpl = al_pl/nilai_pend_net_s_titipan*100;
+    $('[name="plpersen"]').val(number_format(persenpl,"2",",",".")).trigger('change');
+  }
+  
+  var pl2 = number(document.getElementById("pl_bulat").value);
+  if (pl2==0 || pl2==0.00){
+    al_pl_final=al_pl;
+  }else{
+    al_pl_final=pl2;
+  }
+  
+  
+// hitung HO
+  var al_HO = nilai_pend_net_s_titipan*0.15;//20%
+
+  $('[name="al_ho"]').val(number_format(al_HO,"2",",",".")).trigger('change');
+
+// Sub Total A
+  var nilai_pend_net_s_pl=nilai_pend_net_s_titipan-al_pl_final;
+  $('[name="nilai_pend_net_s_pl"]').val(number_format(nilai_pend_net_s_pl,"2",",",".")).trigger('change');
+
+
+}
+
+
+$('#area').change(function(){ 
+                var subarea=$(this).val();
+                $.ajax({
+                    url : "<?php echo site_url('proyek/get_area');?>",
                     method : "POST",
-                    data :{
+                    data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id :id
-                    },
+                      id: subarea},
                     async : true,
                     dataType : 'json',
-                    success : function(data){
-                        $.each(data, function(i, item){
-                            jnsproyek     = data[i].jns_proyek;
-                            kddinas       = data[i].kd_dinas;
-                            kdsubproyek   = data[i].jns_sub_proyek;
-                            kdsubarea     = data[i].kd_sub_area;
-                          // alert(data[i].kd_usulan);
-                            $('[name="area"]').val(data[i].kd_area).trigger('change');
-                            // $('[name="subarea"]').val(data[i].kd_sub_area).trigger('change');
-                            $('[name="jnsproyek"]').val(data[i].jns_proyek).trigger('change');
-                            $('[name="perusahaan"]').val(data[i].kd_perusahaan).trigger('change');
-                            // $('[name="dinas"]').val(data[i].kd_dinas).trigger('change');
-                            $('[name="thn_ang"]').val(data[i].thn_anggaran).trigger('change');
-                            $('[name="jns_pph"]').val(data[i].jns_pph).trigger('change');
-                            $('[name="loc"]').val(data[i].loc).trigger('change');
-                            $('[name="paketproyek"]').val(data[i].nm_paket_proyek).trigger('change');
-                            $('[name="catatan"]').val(data[i].catatan).trigger('change');
-                            // document.getElementById("thn_ang").selectedIndex = data[i].thn_anggaran;
-                            get_subareacombo();
+                    success: function(data){
+                        $('select[name="subarea"]').empty();
+                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+
+                            
                         });
+
                     }
+                });
+                return false;
+            });
 
-              });
-            }
+$('#subarea').change(function(){ 
+                var subarea=$(this).val();
+                var area=document.getElementById("area").value;
+                alert(area);
+                // var id_pqproyek = "<?= $proyek['kd_proyek']; ?>";
 
+                $.ajax({
+                    url : "<?php echo site_url('pq/get_proyek_by_area_subarea_edit') ?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea,area:area,id_pqproyek:id_pqproyek},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="projek"]').empty();
+                        $('select[name="projek"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="projek"]').append('<option value="'+ value.kd_proyek +'">'+value.kd_proyek + ' - ' + value.nm_paket_proyek +'</option>');
+                        });
 
+                    }
+                });
+                return false;
+            });
 
     function get_subareacombo(){ 
                 var subarea=document.getElementById("area").value;
@@ -256,120 +369,105 @@
                         $('select[name="subarea"]').empty();
                         $('select[name="subarea"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
-                           if(kdsubarea==value.kd_subarea){
-                                $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
+                            if(<?= $proyek['kd_sub_area']; ?>==value.kd_subarea){
+                              $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
                             }else{
-                                $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                              $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
                             }
-
                             
+                            // $('[name="subarea"]').val(<?= $proyek['kd_sub_area']; ?>).trigger('change');
                         });
 
                     }
                 });
+                get_proyekcombo();
                 return false;
             };
 
-    $('#area').change(function(){ 
-                var subarea=$(this).val();
+
+  function get_projek(){ 
+                var idprojek="<?= $proyek['kd_proyek']; ?>";
                 $.ajax({
-                    url : "<?php echo site_url('proyek/get_area');?>",
+                    url : "<?php echo site_url('pq/get_projek');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: subarea},
+                      id: idprojek},
                     async : true,
                     dataType : 'json',
                     success: function(data){
-                        $('select[name="subarea"]').empty();
-                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
+                      $.each(data, function(key, value) {
+                        // $('[name="area"]').val(value.nm_area).trigger('change');
+                        // $('[name="subarea"]').val(value.nm_sub_area).trigger('change');
+                        $('[name="jnsproyek"]').val(value.nm_jns_proyek).trigger('change');
+                        $('[name="jnssubproyek"]').val(value.nm_jns_sub_proyek).trigger('change');
+                        $('[name="perusahaan"]').val(value.nm_perusahaan).trigger('change');
+                        $('[name="dinas"]').val(value.nm_dinas).trigger('change');
+                        $('[name="tipeproyek"]').val(value.nm_tipe_proyek).trigger('change');
+                        $('[name="paketproyek"]').val(value.nm_paket_proyek).trigger('change');
+                        $('[name="thn_ang"]').val(value.thn_anggaran).trigger('change');
+                        
+                        var spk = value.nilai;
+
+                        var ppn = (10/100)*((100/110)*spk);
+                        var pilihpph = value.jns_pph;
+
+                        $('[name="nilaispk"]').val(number_format(spk,"2",",",".")).trigger('change');
+                        $('[name="jnspph"]').val(pilihpph).trigger('change');
+                        
+                        if (pilihpph==22){
+                          var nilai_pph = (1.5/100)*((100/110)*spk);
+                          var nilai_ppn=ppn;
+                        }else if (pilihpph==23){
+                          var nilai_pph = (2/100)*((100/110)*spk);
+                          var nilai_ppn=ppn;
+                        }else if (pilihpph==21){
+                          var nilai_pph = (50/100)*((5/110)*spk);
+                          nilai_ppn=0;
+                        }
+
+                        var pend_nett = spk-nilai_pph-nilai_ppn;
+
+                        $('[name="nilaippn"]').val(number_format(nilai_ppn,"2",",",".")).trigger('change');
+                        $('[name="nilaipph"]').val(number_format(nilai_pph,"2",",",".")).trigger('change');
+                        $('[name="nilaipend_nett"]').val(number_format(pend_nett,"2",",",".")).trigger('change');
+
+                        hitungtitipan();
+
+                      });
+                    }
+                });
+        }
+
+
+  function get_proyekcombo(){ 
+                var subarea     = "<?= $proyek['kd_sub_area']; ?>";
+                var area        = document.getElementById("area").value;
+                var id_pqproyek = "<?= $proyek['kd_proyek']; ?>";
+                $.ajax({
+                    url : "<?php echo site_url('pq/get_proyek_by_area_subarea_edit');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea,area:area,id_pqproyek:id_pqproyek},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="projek"]').empty();
+                        $('select[name="projek"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
-                            if(kdsubarea==value.kd_subarea){
-                                $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
-                            }else{
-                                $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
-                            }
+                          if(value.kd_proyek=="<?= $proyek['kd_proyek']; ?>"){
+                            $('select[name="projek"]').append('<option value="'+ value.kd_proyek +'" selected>'+ value.nm_paket_proyek +'</option>');
+                          }else{
+                            $('select[name="projek"]').append('<option value="'+ value.kd_proyek +'">'+ value.nm_paket_proyek +'</option>');
+                          }
                         });
 
                     }
                 });
+                get_projek();
                 return false;
-            });
+            };
 
-
-      $('#jnsproyek').change(function(){ 
-                var id=$(this).val();
-                $.ajax({
-                    url : "<?php echo site_url('proyek/get_subproyek');?>",
-                    method : "POST",
-                    data : {
-                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: id},
-                    async : true,
-                    dataType : 'json',
-                    success: function(data){
-                        $('select[name="jnssubproyek"]').empty();
-                        $('select[name="jnssubproyek"]').append('<option value="">No Selected</option>');
-                        $.each(data, function(key, value) {
-                          if(kdsubproyek==value.kd_subprojek){
-                                $('select[name="jnssubproyek"]').append('<option value="'+ value.kd_subprojek +'" selected>'+ value.kd_subprojek + '-' + value.nm_subprojek +'</option>');
-                            }else{
-                                $('select[name="jnssubproyek"]').append('<option value="'+ value.kd_subprojek +'">'+ value.kd_subprojek + '-' + value.nm_subprojek +'</option>');
-                            }
-
-                            
-                        });
-
-                    }
-                });
-                return false;
-            }); 
-
-             $('#subarea').change(function(){ 
-                var subarea=$(this).val();
-                $.ajax({
-                    url : "<?php echo site_url('proyek/get_dinas');?>",
-                    method : "POST",
-                    data : {
-                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: subarea},
-                    async : true,
-                    dataType : 'json',
-                    success: function(data){
-                        $('select[name="dinas"]').empty();
-                        $('select[name="dinas"]').append('<option value="">No Selected</option>');
-                        $.each(data, function(key, value) {
-
-                           if(kddinas==value.id){
-                                $('select[name="dinas"]').append('<option value="'+ value.id +'" selected>'+ value.nama_dinas +'</option>');
-                            }else{
-                                $('select[name="dinas"]').append('<option value="'+ value.id +'">'+ value.nama_dinas +'</option>');
-                            }
-
-                            
-                        });
-
-                    }
-                });
-                return false;
-            });     
-    });
-
-    var table = $('#na_datatable').DataTable( {
-    "processing": true,
-    "serverSide": false,
-    "ajax": "<?=base_url('proyek/datatable_json_rincian/'.$proyek["id_proyek"])?>",
-    "order": [[0,'asc']],
-    "columnDefs": [
-    { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "nm_jns_pagu", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "tipe_proyek", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "no_dokumen", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "tanggal", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "tanggal2", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "nilai", 'searchable':true, 'orderable':false},
-    { "targets": 7, "name": "dokumen", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
-    ]
-  });
-  </script>
+  }); 
+</script>
