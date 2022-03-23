@@ -205,12 +205,12 @@ $colspan1=($jumlahkolom*2)+4+2;
 					<td align="right" style="background: yellow;">'. number_format(100,2,",",".").'</td>';
 		}else{
 			if($spkperyear['nilai_spk']!=0){
-				$persen5 = $total5_per_item/$spkperyear['nilai_spk'];
+				$persen5 = $pendapatan_area[$kolom]/$spkperyear['nilai_spk'];
 			}else{
 				$persen5=0;
 			}
 			
-			$html.='<td align="right" style="color:red;background: yellow;">'. number_format($total5_per_item*-1,2,",",".").'</td>
+			$html.='<td align="right" style="color:red;background: yellow;">'. number_format($pendapatan_area[$kolom]*-1,2,",",".").'</td>
 					<td align="right" style="background: yellow;">'. number_format($persen5*100,2,",",".").'</td>';
 		}
 
@@ -557,7 +557,7 @@ if($kode==8){
     			$pendapatan_nett=$pqproyek["pendapatan_nett"];
     		}
 	    	$html.='<td align="right" style="background: black;border-right:white; color: white;">'. number_format($nalokasi_ho*-1,2,',','.').'</td>
-    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format($nalokasi_ho/$pendapatan_nett*100,2,',','.').'</td>';
+    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format($nalokasi_ho/$pendapatan_nett*100*-1,2,',','.').'</td>';
 
     	}
 
@@ -609,13 +609,16 @@ if($kode=='9'){
 	    	
 
 	    	$lr_setelah_ho = $sub_total_a+$sub_total_b+$nalokasi_ho;
-	    	$total_lr_setelah_ho=$total_lr_setelah_ho+$lr_setelah_ho;
+	        
+
 
 
 	    	$html.='<td align="right" style="background: black;border-right:white; color: white;">'. number_format($lr_setelah_ho,2,',','.').'</td>
     		<td align="right" style="background: black;border-right:white; color: white;">'. number_format(($lr_setelah_ho)/$pendapatan_nett*100,2,',','.').'</td>';
 
     	}
+    	
+    	$total_lr_setelah_ho = ($total_nalokasi_ho*-1)+$total_lr_operasional+$sub_total_c;
 	if($pendapatan_area['pendapatannetarea']!=0){
 			$persen_lr_setelah_ho=$total_lr_setelah_ho/$pendapatan_area['pendapatannetarea'];
 		}else{
@@ -672,7 +675,7 @@ if($kode=='10A'){
 	    	$total_distribusi_ho_area_tiap_projek=$total_distribusi_ho_area_tiap_projek+$distribusi_ho_area_tiap_projek;
 
 	    	$html.='<td align="right" style="background: black;border-right:white; color: white;">'. number_format($distribusi_ho_area_tiap_projek,2,',','.').'</td>
-    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format(($distribusi_ho_area_tiap_projek)/$pendapatan_nett*100*-1,2,',','.').'</td>';
+    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format(($distribusi_ho_area_tiap_projek)/$pendapatan_nett*100,2,',','.').'</td>';
 
     	}
 	
@@ -683,7 +686,7 @@ if($kode=='10A'){
 		}
     	
 	$html.='<td align="right" style="background: black;border-right:white; color: white;">'. number_format($total_distribusi_ho_area_tiap_projek,2,',','.').'</td>
-    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format($persen_distribusi_ho_area_tiap_projek*100*-1,2,',','.').'</td>';	
+    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format($persen_distribusi_ho_area_tiap_projek*100,2,',','.').'</td>';	
     
   $html.='</tr>';
 }
@@ -734,7 +737,7 @@ if($kode=='10B'){
 	    	$total_tot_biaya_per_projek=$total_tot_biaya_per_projek+$tot_biaya_per_projek;
 
 	    	$html.='<td align="right" style="background: black;border-right:white; color: white;">'. number_format($tot_biaya_per_projek,2,',','.').'</td>
-    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format(($tot_biaya_per_projek)/$pendapatan_nett*100*-1,2,',','.').'</td>';
+    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format(($tot_biaya_per_projek)/$pendapatan_nett*100,2,',','.').'</td>';
 
     	}
 
@@ -745,7 +748,7 @@ if($kode=='10B'){
 		}
 
     	$html.='<td align="right" style="background: black;border-right:white; color: white;">'. number_format($total_tot_biaya_per_projek,2,',','.').'</td>
-    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format($persen_biaya_per_projek*100*-1,2,',','.').'</td>';
+    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format($persen_biaya_per_projek*100,2,',','.').'</td>';
   $html.='</tr>';
 }
 
@@ -795,7 +798,7 @@ if($kode=='10C'){
 
 
 	    	$html.='<td align="right" style="background: black;border-right:white; color: white;">'. number_format($pendapatan_nett+$tot_biaya_per_projek,2,',','.').'</td>
-    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format(($tot_biaya_per_projek+$pendapatan_nett)/$pendapatan_nett*100*-1,2,',','.').'</td>';
+    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format(($tot_biaya_per_projek+$pendapatan_nett)/$pendapatan_nett*100,2,',','.').'</td>';
 
     	}
 
@@ -808,7 +811,7 @@ if($kode=='10C'){
     	
 
     	$html.='<td align="right" style="background: black;border-right:white; color: white;">'. number_format($pendapatan_area['pendapatannetarea']+$total_tot_biaya_per_projek,2,',','.').'</td>
-    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format($persen_akhir*100*-1,2,',','.').'</td>';
+    		<td align="right" style="background: black;border-right:white; color: white;">'. number_format($persen_akhir*100,2,',','.').'</td>';
   $html.='</tr>';
 }
 

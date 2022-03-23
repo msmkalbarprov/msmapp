@@ -6,7 +6,7 @@
         <div class="card-header">
           <div class="d-inline-block">
               <h3 class="card-title"> <i class="fa fa-pencil"></i>
-              Edit Dinas </h3>
+              Tambahy Dinas </h3>
           </div>
           <div class="d-inline-block float-right">
             <a href="<?= base_url('dinas/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Dinas</a>
@@ -37,7 +37,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="id" class="col-md-2 control-label">Area</label>
-                    <select name="area" class="form-control" required>
+                    <select name="area" id="area" class="form-control" required>
                       <option value="">No Selected</option>
                       <?php foreach($data_area as $area): ?>
                         <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
@@ -51,12 +51,9 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="id" class="col-md-2 control-label">Sub Area</label>
-                    <select name="subarea" class="form-control">
-                    <option value="">No Selected</option>
-                    <?php foreach($data_subarea as $subarea): ?>
-                          <option value="<?= $subarea['kd_subarea']; ?>"><?= $subarea['nm_subarea']; ?></option>
-                      <?php endforeach; ?>
+                    <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
+                    <select name="subarea"  id="subarea" class="form-control" required>
+                      <option value="">No Selected</option>
                     </select>
                   </div>
                 </div>
@@ -73,3 +70,56 @@
             </div>
     </section>
   </div>
+
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    get_subareacombo();
+
+    $('#area').change(function(){ 
+                var subarea=$(this).val();
+                $.ajax({
+                    url : "<?php echo site_url('dinas/get_area_by_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="subarea"]').empty();
+                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                        });
+
+                    }
+                });
+                return false;
+            });
+
+  });
+
+
+   function get_subareacombo(){ 
+                var subarea=document.getElementById("area").value;
+                $.ajax({
+                    url : "<?php echo site_url('dinas/get_area_by_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="subarea"]').empty();
+                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                        });
+
+                    }
+                });
+                return false;
+            };
+  </script>

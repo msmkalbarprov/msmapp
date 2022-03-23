@@ -51,7 +51,7 @@
                     <tr>
                       <!-- <th width="5%">#<?= trans('id') ?></th> -->
                       <th>Proyek</th>
-                      <th>SPK</th>
+                      <th>Nilai</th>
                       <th>Titipan</th>
                       <th>PL</th>
                       <th>Pend. Nett</th>
@@ -127,7 +127,7 @@
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "kd_pqproyek", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "SPK", 'searchable':true, 'orderable':false},
+    { "targets": 1, "name": "nilai", 'searchable':true, 'orderable':false},
     { "targets": 2, "name": "titipan", 'searchable':true, 'orderable':false},
     { "targets": 3, "name": "pl", 'searchable':true, 'orderable':false},
     { "targets": 4, "name": "sub_total_a", 'searchable':true, 'orderable':false},

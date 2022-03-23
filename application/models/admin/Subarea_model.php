@@ -45,6 +45,13 @@ class Subarea_model extends CI_Model{
 		return $query->result_array();
 	}
 
+
+	function get_subarea_by_area($area)
+	{
+		$query = $this->db->get_where('ci_subarea', array('kd_area' => $area));
+		return $query;
+	}
+
 	function get_kabupaten()
 	{
 		$this->db->from('ci_kabupaten');

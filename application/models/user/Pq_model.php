@@ -34,6 +34,12 @@ function get_sisapqproyek($id)
 		return $query;
 	}
 
+function get_area_by_pqprojectid($id)
+	{
+		$query = $this->db->get_where('ci_pendapatan', array('id_pqproyek' => $id));
+		return $query;
+	}
+
 
 	public function get_item_pq_by_id($id){
 			 $this->db->select('*');
@@ -52,17 +58,18 @@ function get_sisapqproyek($id)
 	}
 
 
-	public function get_pq_operasional(){
+	public function get_pq_operasional($id){
 			$tahun = date("Y");
 				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 					$this->db->select('*');
 					$this->db->from("ci_pq_operasional");
 					$this->db->where('left(kd_pq_operasional,4)',$tahun);
-					$this->db->where('kd_area',$this->session->userdata('kd_area'));
+					$this->db->where('kd_area',substr($id,4,2));
 				}else{
 					$this->db->select('*');
 					$this->db->from("ci_pq_operasional");
 					$this->db->where('left(kd_pq_operasional,4)',$tahun);
+					$this->db->where('kd_area',$this->session->userdata('kd_area'));
 				}
                 return $this->db->get()->result_array();
 		}
@@ -81,13 +88,13 @@ public function get_pq_operasional_view($id){
 					$this->db->select('*');
 					$this->db->from("ci_pq_operasional");
 					$this->db->where('left(kd_pq_operasional,4)',$tahun);
-					$this->db->where('kd_area',$this->session->userdata('kd_area'));
-					$this->db->where('left(id_pq_operasional,10)',$id);
+					$this->db->where('left(id_pq_operasional,8)',$id);
 				}else{
 					$this->db->select('*');
 					$this->db->from("ci_pq_operasional");
 					$this->db->where('left(kd_pq_operasional,4)',$tahun);
-					$this->db->where('left(id_pq_operasional,10)',$id);
+					$this->db->where('left(id_pq_operasional,8)',$id);
+					$this->db->where('kd_area',$this->session->userdata('kd_area'));
 				}
                 return $this->db->get()->result_array();
 		}
@@ -108,13 +115,13 @@ public function get_pq_operasional_view($id){
 		// get all users for server-side datatable processing (ajax based)
 		public function get_all_pq(){
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
-				$this->db->select('*,(select nilai from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as spk,(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan.kd_pqproyek)as hpp');
+				$this->db->select('*,(select nilai from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as spk,(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan.kd_pqproyek)as hpp,(select nama from ci_jnspagu where id=ci_pendapatan.jns_pagu) as pagu,(select nm_area from ci_area where kd_area=ci_pendapatan.kd_area)as area');
 				$this->db->from("ci_pendapatan");
 				$this->db->Join('ci_proyek','ci_pendapatan.id_proyek=ci_proyek.kd_proyek', 'inner');
         		return $this->db->get()->result_array();
 			}
 			else{
-				$this->db->select('*,(select nilai from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as spk,(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan.kd_pqproyek)as hpp');
+				$this->db->select('*,(select nilai from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as spk,(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan.kd_pqproyek)as hpp,(select nama from ci_jnspagu where id=ci_pendapatan.jns_pagu) as pagu,(select nm_area from ci_area where kd_area=ci_pendapatan.kd_area)as area');
 				$this->db->from("ci_pendapatan");
 				$this->db->Join('ci_proyek','ci_pendapatan.id_proyek=ci_proyek.kd_proyek', 'inner');
 				$this->db->where('ci_pendapatan.kd_area',$this->session->userdata('kd_area'));
@@ -287,8 +294,8 @@ public function get_pq_operasional_view($id){
 
 
 	public function save_pq_proyek_operasional($data){
-				$insert_data['id_pq_operasional'] 			= str_replace("/","",date("Y").'9800'.$data['kd_area'].$data['kd_item']);
-				$insert_data['kd_pq_operasional'] 			= date("Y").'/'.$data['kd_area'].'/98/'.$data['kd_area'].'/'.$data['kd_item'];
+				$insert_data['id_pq_operasional'] 			= str_replace("/","",date("Y").$data['kd_area'].'98'.$data['kd_item']);
+				$insert_data['kd_pq_operasional'] 			= date("Y").'/'.$data['kd_area'].'/98/'.$data['kd_item'];
 				$insert_data['kd_area'] 					= $data['kd_area'];
 				$insert_data['kd_item']						= $data['kd_item'];
 				$insert_data['uraian'] 						= $data['uraian'];
@@ -318,67 +325,74 @@ public function save_pq_hpp($data){
 				$query = $this->db->insert('ci_hpp', $insert_data);
 		}
 
+// UPDATE nilai PQ dari tambah atau edit Pagu
+public function update_nilai_PQ($data2, $idPQproyekedit){
+	$this->db->where('id_pqproyek', $idPQproyekedit);
+	$this->db->update('ci_pendapatan', $data2);
+	return true;
+}
+
 		//---------------------------------------------------
 		// Edit user Record
 
 
-		public function edit_pq($data, $id){
+public function edit_pq($data, $id){
 
-			$this->db->where('id_pqproyek', $id);
-			$this->db->update('ci_pendapatan', $data);
-			return true;
-		}
+	$this->db->where('id_pqproyek', $id);
+	$this->db->update('ci_pendapatan', $data);
+	return true;
+}
 
-		public function save_pqngesahan_pq($data, $id_pqproyek){
-			$this->db->where('id_pqproyek', $id_pqproyek);
-			$this->db->update('ci_pendapatan', $data);
-			return true;
-		}
+public function save_pqngesahan_pq($data, $id_pqproyek){
+	$this->db->where('id_pqproyek', $id_pqproyek);
+	$this->db->update('ci_pendapatan', $data);
+	return true;
+}
 
-		public function edit_pq_item($data, $id){
-			$this->db->where('id_pq_operasional', $id);
-			$this->db->update('ci_pq_operasional', $data);
-			return true;
-		}
+public function edit_pq_item($data, $id){
+	$this->db->where('id_pq_operasional', $id);
+	$this->db->update('ci_pq_operasional', $data);
+	return true;
+}
 
-		public function edit_hpp_item($data, $id, $idpqproyek){
-			$this->db->where('id', $id);
-			$this->db->where('id_pqproyek', $idpqproyek);
-			$this->db->update('ci_hpp', $data);
-			return true;
-		}
+public function edit_hpp_item($data, $id, $idpqproyek){
+	$this->db->where('id', $id);
+	$this->db->where('id_pqproyek', $idpqproyek);
+	$this->db->update('ci_hpp', $data);
+	return true;
+}
 
-		public function ajukan_revisi($data, $id){
-			$this->db->where('id_pqproyek', $id);
-			$this->db->update('ci_pendapatan', $data);
-			return true;
-		}
+public function ajukan_revisi($data, $id){
+	$this->db->where('id_pqproyek', $id);
+	$this->db->update('ci_pendapatan', $data);
+	return true;
+}
 
-		//---------------------------------------------------
-		// Change user status
-		//-----------------------------------------------------
-		function change_status()
-		{		
-			$this->db->set('is_active', $this->input->post('status'));
-			$this->db->where('user_id', $this->input->post('id'));
-			$this->db->update('ci_users');
-		}
+//---------------------------------------------------
+// Change user status
+//-----------------------------------------------------
+function change_status()
+{		
+	$this->db->set('is_active', $this->input->post('status'));
+	$this->db->where('user_id', $this->input->post('id'));
+	$this->db->update('ci_users');
+}
 
 
-		// PQ
-	function get_pqproyek()
-	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
-			$this->db->from('ci_pendapatan');
-		}else{
-			$userarea = $this->session->userdata('kd_area');
-			$this->db->from('ci_pendapatan');
-			$this->db->where('kd_area',$userarea);	
-		}
-		
-		$query=$this->db->get();
-		return $query->result_array();
+	// PQ
+function get_pqproyek()
+{	
+	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		$this->db->from('ci_pendapatan');
+	}else{
+		$userarea = $this->session->userdata('kd_area');
+		$this->db->from('ci_pendapatan');
+		$this->db->where('kd_area',$userarea);	
 	}
+	
+	$query=$this->db->get();
+	return $query->result_array();
+}
 
 function get_pqproyek_by_id($idpqproyek)
 	{	
@@ -582,8 +596,10 @@ public function get_pq_by_projek($id, $proyek){
 		}
 public function get_pendapatanarea_by_year($id,$tahun){
 
-			$this->db->select("sum(pendapatan_nett) as pendapatannetarea, sum(sub_total_a)as sub_total_a");
-			$this->db->from("ci_pendapatan");
+			$this->db->select("sum(pendapatan_nett) as pendapatannetarea, sum(sub_total_a)as sub_total_a, sum(ppn)as ppn, sum(pph)as pph, ifnull(sum(infaq),0)as infaq, (select ifnull(sum(b.titipan),0) from ci_pendapatan b where b.kd_area=a.kd_area and left(b.id_proyek,4)=left(a.id_proyek,4) and (b.status_titipan='0' OR b.status_titipan is null))+(select ifnull(sum(c.titipan),0) from ci_pendapatan c where c.kd_area=a.kd_area and left(c.id_proyek,4)=left(a.id_proyek,4) and c.status_titipan='1')as titipan_net,
+
+(select ifnull(sum(d.npl),0) from ci_pendapatan d where d.kd_area=a.kd_area and left(d.id_proyek,4)=left(a.id_proyek,4) and (d.ppl ='0' OR d.ppl is null))+(select ifnull(sum(e.ppl),0) from ci_pendapatan e where e.kd_area=a.kd_area and left(e.id_proyek,4)=left(a.id_proyek,4)  and e.ppl <>'0')as nilaippl");
+			$this->db->from("ci_pendapatan a");
 			$this->db->where("left(id_proyek,4)", $tahun);
 			$this->db->where("kd_area", $id);
 			return $result = $this->db->get()->row_array();

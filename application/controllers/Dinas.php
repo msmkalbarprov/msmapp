@@ -66,6 +66,12 @@ public function datatable_json(){
 
 		$this->admin->change_status();
 	}
+
+function get_area_by_area(){
+		$area = $this->input->post('id',TRUE);
+		$data = $this->subarea->get_subarea_by_area($area)->result();
+		echo json_encode($data);
+	}
 	
 	//--------------------------------------------------
 	function add(){

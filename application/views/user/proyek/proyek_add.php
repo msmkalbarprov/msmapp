@@ -40,7 +40,7 @@
           <div class="col-md-6">
            <div class="form-group">
             <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
-              <select name="subarea"  id="subarea" class="form-control" required>
+              <select name="subarea1"  id="subarea1" class="form-control" required>
                 <option value="">No Selected</option>
               </select>
           </div>
@@ -207,10 +207,10 @@
                     async : true,
                     dataType : 'json',
                     success: function(data){
-                        $('select[name="subarea"]').empty();
-                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
+                        $('select[name="subarea1"]').empty();
+                        $('select[name="subarea1"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
-                            $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                            $('select[name="subarea1"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
                         });
 
                     }
@@ -218,7 +218,7 @@
                 return false;
             });
 
-    $('#subarea').change(function(){ 
+    $('#subarea1').change(function(){ 
                 var subarea=$(this).val();
                 var area=document.getElementById("area").value;
                 $.ajax({

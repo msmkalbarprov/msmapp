@@ -78,7 +78,7 @@ class Pq extends MY_Controller {
 				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
 			}else{
-				$statuspq="<br> <b>Status</b> &nbsp;: -";
+				$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-danger'>Belum disetujui</span>";
 				$tombol='
 				<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
 				<a title="Tambah HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
@@ -90,7 +90,9 @@ class Pq extends MY_Controller {
 			
 			
 			$data[]= array(
-				'<font size="2px"><b>Kode</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$row['kd_pqproyek'].'&nbsp;<br> <b>Proyek</b> &nbsp;: '.$row['nm_paket_proyek'].$statuspq.'</font>',
+				'<font size="2px"><b>Kode</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$row['kd_pqproyek'].'&nbsp;<br> 
+				<b>Area</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$row['area'].'&nbsp;<br>
+				<b>Proyek</b> &nbsp;: '.$row['nm_paket_proyek'].$statuspq.'<br><b>Pagu</b>&nbsp; : '.$row['pagu'].'</font>',
 				'<div class="text-right"><font size="2px">'.number_format($row['spk'],2,",",".").'</font></div>',
 				'<div class="text-right"><font size="2px">'.number_format($row['titipan'],2,",",".").'</font></div>',
 				'<div class="text-right"><font size="2px">'.number_format($nilai_pl,2,",",".").'</font></div>',
@@ -155,14 +157,7 @@ public function datatable_json_hpp(){
 		
 		$this->rbac->check_operation_access('');
 		$data['data_mprojek'] 		= $this->proyek_model->get_mprojek();
-		// $data['data_coa_item'] 		= $this->pq_model->get_coa_item();
-
 		$data['data_area'] 			= $this->area->get_area();
-		// $data['data_subarea'] 		= $this->subarea->get_subarea();
-		// $data['data_jnsproyek'] 	= $this->jnsproyek->get_jnsproyek();
-		// $data['data_perusahaan'] 	= $this->perusahaan->get_perusahaan();
-		// $data['data_dinas'] 		= $this->dinas->get_dinas();
-		// $data['data_pagu'] 			= $this->pagu->get_pagu();
 
 
 		if($this->input->post('submit')){
@@ -188,20 +183,19 @@ public function datatable_json_hpp(){
 					'ppn' 				=> $this->proyek_model->number($this->input->post('nilaippn')),
 					'pph'				=> $this->proyek_model->number($this->input->post('nilaipph')),
 					'spk_net' 			=> $this->proyek_model->number($this->input->post('nilaipend_nett')),
-					
 					'titipan' 			=> $this->proyek_model->number($this->input->post('titipan')),
 					'ppntitipan' 		=> $this->proyek_model->number($this->input->post('nilaippntitipan')),
 					'pphtitipan' 		=> $this->proyek_model->number($this->input->post('nilaipphtitipan')),
 					'titipan_net' 		=> $this->proyek_model->number($this->input->post('titipan_net')),
+					'status_titipan' 	=> $this->input->post('s_titip'),
+					'status_infaq' 		=> $this->input->post('s_infaq'),
+					'infaq' 			=> $this->proyek_model->number($this->input->post('infaq')),
 					'pendapatan_nett'	=> $this->proyek_model->number($this->input->post('nilai_pend_net_s_titipan')),
-
 					'persen_pl' 		=> $this->proyek_model->number($this->input->post('plpersen')),
 					'npl' 				=> $this->proyek_model->number($this->input->post('pl')),
 					'ppl' 				=> $this->proyek_model->number($this->input->post('pl_bulat')),
 					'sub_total_a'		=> $this->proyek_model->number($this->input->post('nilai_pend_net_s_pl')),
-
 					'nalokasi_ho'		=> $this->proyek_model->number($this->input->post('al_ho')),
-
 					'username' 			=> $this->session->userdata('username'),
 					'created_at' 		=> date('Y-m-d : h:m:s'),
 					'updated_at' 		=> date('Y-m-d : h:m:s'),
@@ -443,6 +437,10 @@ public function revisi($id='')
 					'ppntitipan' 		=> $this->proyek_model->number($this->input->post('nilaippntitipan')),
 					'pphtitipan' 		=> $this->proyek_model->number($this->input->post('nilaipphtitipan')),
 					'titipan_net' 		=> $this->proyek_model->number($this->input->post('titipan_net')),
+					
+					'status_titipan' 	=> $this->input->post('s_titip'),
+					'status_infaq' 		=> $this->input->post('s_infaq'),
+					'infaq' 			=> $this->proyek_model->number($this->input->post('infaq')),
 					'pendapatan_nett'	=> $this->proyek_model->number($this->input->post('nilai_pend_net_s_titipan')),
 
 					'persen_pl' 		=> $this->proyek_model->number($this->input->post('plpersen')),
@@ -697,8 +695,8 @@ public function datatable_json_hpp_rinci_view(){
 
 
 
-	public function datatable_json_operasional_edit(){				   					   
-		$records['data'] = $this->pq_model->get_pq_operasional();
+	public function datatable_json_operasional_edit($id='',$url=''){				   					   
+		$records['data'] = $this->pq_model->get_pq_operasional($id);
 		$data = array();
 
 		$i=0;
@@ -734,7 +732,6 @@ public function datatable_json_hpp_rinci_view(){
 			$data[]= array(
 				++$i,
 				'<font size="2px">'.$row['kd_item'].'</font>',
-				'<font size="2px">'.$row['nm_paket_proyek'].'</font>',
 				'<font size="2px">'.$row['nm_item'].'</font>',
 				'<font size="2px">'.$row['uraian'].'</font>',
 				'<font size="2px">'.$row['volume'].'</font>',
@@ -799,6 +796,13 @@ public function datatable_json_hpp_rinci_view(){
 	function get_sisapqproyek(){
 		$id 	= $this->input->post('id',TRUE);
 		$data 	= $this->pq_model->get_sisapqproyek($id)->result();
+		echo json_encode($data);
+	}
+
+
+	function get_area_by_pqprojectid(){
+		$id 	= $this->input->post('id',TRUE);
+		$data 	= $this->pq_model->get_area_by_pqprojectid($id)->result();
 		echo json_encode($data);
 	}
 

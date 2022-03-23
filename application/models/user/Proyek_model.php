@@ -9,6 +9,7 @@
 
 	public function number($nilai){
 		$nilai=str_replace('.','',$nilai);
+		$nilai=str_replace(',','.',$nilai);
 		return $nilai;
 	}
 
@@ -45,7 +46,7 @@
 					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu,
 					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
 					(select loc from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as loc,
-					ROW_NUMBER() OVER(PARTITION BY nm_area) AS row_num ');
+					ROW_NUMBER() OVER(ORDER BY id ASC) AS row_num ');
 				$this->db->from("ci_proyek");
 				
         		return $this->db->get()->result_array();
@@ -55,12 +56,10 @@
 					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu, 
 					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
 					(select loc from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as loc,
-					ROW_NUMBER() OVER(PARTITION BY nm_area) AS row_num ');
+					ROW_NUMBER() OVER(ORDER BY id ASC) AS row_num ');
 				$this->db->from("ci_proyek");
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
         		return $this->db->get()->result_array();
-				// $this->db->where('area',($this->session->userdata('kd_area')));
-				// return $this->db->get('ci_proyek')->result_array();
 			}
 		}
 
@@ -86,7 +85,6 @@
 
 	function get_project($area)
 	{
-		// $query = $this->db->get_where('ci_proyek', array('id_proyek' => $area));
 		$this->db->select('ci_proyek.*,ci_proyek_rincian.jns_pagu,ci_jnspagu.nama as nm_jns_pagu,ci_proyek_rincian.nilai as nilai');
 		$this->db->from("ci_proyek");
 		$this->db->Join('ci_proyek_rincian','ci_proyek_rincian.id_proyek=ci_proyek.id_proyek', 'inner');
@@ -142,7 +140,7 @@
 				$insert_data['tanggal'] 			= $data['tanggal'];
 				$insert_data['tanggal2']			= $data['tanggal2'];
 				$insert_data['username']			= $this->session->userdata('username');
-				$insert_data['created_at']				= date("Y-m-d h:i:s");
+				$insert_data['created_at']			= date("Y-m-d h:i:s");
 				$query = $this->db->insert('ci_proyek_rincian', $insert_data);
 		}
 
@@ -188,6 +186,31 @@
 		$query=$this->db->get();
 		return $query->result_array();
 	}
+
+public function cek_proyek($idproyek){
+
+			$query="SELECT kd_proyek FROM ci_proyek WHERE id_proyek ='$idproyek'";
+					 $hasil = $this->db->query($query);
+					 $proyek_id = $hasil->row('kd_proyek');
+
+
+			$this->db->select("count(*)as jumlah");
+			$this->db->from('ci_pendapatan');
+			$this->db->where("id_proyek", $proyek_id);
+			return $result = $this->db->get()->row_array();
+		}
+
+public function pq_proyek($idproyek){
+
+			$query="SELECT kd_proyek FROM ci_proyek WHERE id_proyek ='$idproyek'";
+			$hasil = $this->db->query($query);
+		 	$proyek_id = $hasil->row('kd_proyek');
+
+			$this->db->select("*");
+			$this->db->from('ci_pendapatan');
+			$this->db->where("id_proyek", $proyek_id);
+			return $result = $this->db->get()->row_array();
+		}
 
 	}
 

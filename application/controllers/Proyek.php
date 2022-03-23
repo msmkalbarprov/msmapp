@@ -21,6 +21,7 @@ class Proyek extends MY_Controller {
 		$this->load->model('admin/jnspagu_model', 'jnspagu');
 		$this->load->model('admin/tipeproyek_model', 'tipeproyek');
 		$this->load->model('admin/activity_model', 'activity_model');
+		$this->load->model('user/pq_model', 'pq_model');
 	}
 
 	//-----------------------------------------------------------
@@ -69,7 +70,7 @@ class Proyek extends MY_Controller {
 
 		if($this->input->post('submit')){
 			$this->form_validation->set_rules('area', 'area', 'trim|required');
-			$this->form_validation->set_rules('subarea', 'subarea', 'trim|required');
+			$this->form_validation->set_rules('subarea1', 'subarea', 'trim|required');
 			$this->form_validation->set_rules('jnsproyek', 'Jenis Proyek', 'trim|required');
 			$this->form_validation->set_rules('jnssubproyek', 'Jenis Sub Proyek', 'trim|required');
 			$this->form_validation->set_rules('perusahaan', 'perusahaan', 'trim|required');
@@ -90,9 +91,9 @@ class Proyek extends MY_Controller {
 			else{
 				$data = array(
 					'username' 			=> $this->session->userdata('username'),
-					'id_proyek'			=> $this->input->post('area').''.$this->input->post('subarea').''.$this->input->post('jnsproyek').''.$this->input->post('jnssubproyek').''.$this->input->post('perusahaan').''.$this->input->post('dinas').''.$this->input->post('thn_ang'),
+					'id_proyek'			=> $this->input->post('area').''.$this->input->post('subarea1').''.$this->input->post('jnsproyek').''.$this->input->post('jnssubproyek').''.$this->input->post('perusahaan').''.$this->input->post('dinas').''.$this->input->post('thn_ang'),
 					'kd_area' 			=> $this->input->post('area'),
-					'kd_sub_area' 		=> $this->input->post('subarea'),
+					'kd_sub_area' 		=> $this->input->post('subarea1'),
 					'jns_proyek' 		=> $this->input->post('jnsproyek'),
 					'jns_sub_proyek'	=> $this->input->post('jnssubproyek'),
 					'kd_perusahaan' 	=> $this->input->post('perusahaan'),
@@ -106,7 +107,7 @@ class Proyek extends MY_Controller {
 
 				$data2 = array(
 					'username' 		=> $this->session->userdata('username'),
-					'id_proyek'		=> $this->input->post('area').''.$this->input->post('subarea').''.$this->input->post('jnsproyek').''.$this->input->post('jnssubproyek').''.$this->input->post('perusahaan').''.$this->input->post('dinas').''.$this->input->post('thn_ang'),
+					'id_proyek'		=> $this->input->post('area').''.$this->input->post('subarea1').''.$this->input->post('jnsproyek').''.$this->input->post('jnssubproyek').''.$this->input->post('perusahaan').''.$this->input->post('dinas').''.$this->input->post('thn_ang'),
 					'nilai' 		=> $this->proyek_model->angka($this->input->post('nilai')),
 					'jns_pagu' 		=> $this->input->post('jnspagu'),
 					'jns_pph' 		=> $this->input->post('jns_pph'),
@@ -151,7 +152,6 @@ class Proyek extends MY_Controller {
 		$data['data_jnspagu'] 			= $this->jnspagu->get_jnspagu();
 		$data['data_tipeproyek'] 		= $this->tipeproyek->get_tipeproyek();
 
-
 		if($this->input->post('submit')){
 			$this->form_validation->set_rules('jnspagu', 'Jenis Pagu', 'trim|required');
 			if ($this->input->post('jnspagu', TRUE)==2 || $this->input->post('jnspagu', TRUE)==3){
@@ -181,6 +181,92 @@ class Proyek extends MY_Controller {
 			$data['tanggal'] 		= $this->input->post('tanggal', TRUE);
 			$data['tanggal2'] 		= $this->input->post('tanggal2', TRUE);
             //file upload code 
+
+
+            // update ke PQ kalau proyek ada di PQ get_spk_by_year
+
+            $idproyek 		= $this->input->post('id_proyek', TRUE);
+            $cekproyek		= $this->proyek_model->cek_proyek($idproyek);
+            $jumlahproyek 	= $cekproyek['jumlah'];
+
+            // echo $jumlahproyek;
+
+            if ($jumlahproyek==1){ //CEK Proyek ada PQ atau tidak START
+            	$pqproyek		= $this->proyek_model->pq_proyek($idproyek);
+            	$nilaispk 		= $this->proyek_model->angka($this->input->post('nilai', TRUE));
+            	$jenispph 		= $this->input->post('jns_pph', TRUE);
+            	$jenispagu		= $this->input->post('jnspagu', TRUE);
+
+
+            	$idPQproyekedit = $pqproyek['id_pqproyek'];
+
+            	if($jenispph==22){
+            		$pph = (1.5/100)*((100/110)*$nilaispk);
+            		$ppn = (10/100)*((100/110)*$nilaispk);
+            	}else if($jenispph==23){
+            		$pph = (2/100)*((100/110)*$nilaispk);
+            		$ppn = (10/100)*((100/110)*$nilaispk);
+            	}else if($jenispph==21){
+            		$pph = (50/100)*((5/100)*$nilaispk);
+            		$ppn =0;
+            	}
+
+            $spk_net = $nilaispk - $pph - $ppn;
+
+            // Infaq
+            if($pqproyek['status_infaq']==1){
+            	$infaq = 1/100*$nilaispk;
+            }else{
+            	$infaq = 0;
+            }
+
+            // Titipan
+            if ($pqproyek['status_titipan']==1){
+            	$nilaititipan = $pqproyek['titipan_net'];
+            }else{
+            	$nilaititipan = $pqproyek['titipan'];
+            }
+
+            $pendapatanNett = $spk_net-$infaq-$nilaititipan;
+
+            // PL
+            if ($pqproyek['ppl']>0){
+            	$nilaiPPL = $pqproyek['ppl'];
+            	$nilaiNPL = $pqproyek['npl'];
+            	$nilaiPL  = $pqproyek['ppl'];
+            }else{
+            	
+            	$persenPL = $pqproyek['persen_pl'];
+            	$nilaiNPL = $persenPL*$pendapatanNett/100;
+            	$nilaiPPL = 0;
+            	$nilaiPL  = $nilaiNPL;
+            }
+
+            // SUBTOTAL A
+            $nilaiSubTotalA = $pendapatanNett-$nilaiPL;
+
+            // ALOKASI HO
+            $nilaiAHO= 15*$pendapatanNett/100;
+
+            
+            // DATA untuk di save
+            $data2 = array(
+            	'ppn'				=> $ppn,
+            	'pph'				=> $pph,
+            	'spk_net'			=> $spk_net,
+            	'infaq'				=> $infaq,
+            	'pendapatan_nett'	=> $pendapatanNett,
+            	'npl' 				=> $nilaiNPL,
+            	'ppl' 		  		=> $nilaiPPL,
+            	'sub_total_a' 		=> $nilaiSubTotalA,
+            	'nalokasi_ho' 		=> $nilaiAHO,
+            	'jns_pagu' 			=> $jenispagu
+            );
+
+
+            $this->pq_model->update_nilai_PQ($data2,$idPQproyekedit);
+
+            }//CEK Proyek ada PQ atau tidak END
             //set file upload settings 
             $config['upload_path']          = './uploads/';
             $config['allowed_types']        = '*';
@@ -200,6 +286,8 @@ class Proyek extends MY_Controller {
 	                $this->session->set_flashdata('success', 'Data Rincian Proyek berhasil ditambahkan');
 	                redirect(base_url('proyek/edit/'.$this->input->post('id_proyek', TRUE)));
 	            }
+
+
 		}
 		else{
 
@@ -250,7 +338,7 @@ class Proyek extends MY_Controller {
 			$this->form_validation->set_rules('perusahaan', 'perusahaan', 'trim|required');
 			$this->form_validation->set_rules('dinas', 'dinas', 'trim|required');
 			$this->form_validation->set_rules('thn_ang', 'tahun Anggaran', 'trim|required');
-			$this->form_validation->set_rules('jns_pph', 'Jenis PPH', 'trim|required');
+			// $this->form_validation->set_rules('jns_pph', 'Jenis PPH', 'trim|required');
 			$this->form_validation->set_rules('paketproyek', 'Nama Paket Proyek', 'trim|required');
 
 			if ($this->form_validation->run() == FALSE) {
@@ -269,7 +357,7 @@ class Proyek extends MY_Controller {
 					'kd_perusahaan' 	=> $this->input->post('perusahaan'),
 					'kd_dinas' 			=> $this->input->post('dinas'),
 					'thn_anggaran' 		=> $this->input->post('thn_ang'),
-					'jns_pph' 			=> $this->input->post('jns_pph'),
+					// 'jns_pph' 			=> $this->input->post('jns_pph'),
 					'nm_paket_proyek' 	=> $this->input->post('paketproyek'),
 					'catatan' 			=> $this->input->post('catatan'),
 					'updated_at' 		=> date('Y-m-d : h:m:s'),
@@ -341,6 +429,93 @@ public function edit_rincian_proyek($id = 0){
 					'username'			=> $this->session->userdata('username'),
 					'updated_at'		=> date("Y-m-d h:i:s")
 				);
+
+
+				// update ke PQ kalau proyek ada di PQ get_spk_by_year
+
+            $idproyek 		= $this->input->post('id_proyek', TRUE);
+            $cekproyek		= $this->proyek_model->cek_proyek($idproyek);
+            $jumlahproyek 	= $cekproyek['jumlah'];
+
+            // echo $jumlahproyek;
+
+            if ($jumlahproyek==1){ //CEK Proyek ada PQ atau tidak START
+            	$pqproyek		= $this->proyek_model->pq_proyek($idproyek);
+            	$nilaispk 		= $this->proyek_model->angka($this->input->post('nilai', TRUE));
+            	$jenispph 		= $this->input->post('jns_pph', TRUE);
+
+            	$jenispagu 		= $this->input->post('jnspagu');
+
+
+            	$idPQproyekedit = $pqproyek['id_pqproyek'];
+
+            	if($jenispph==22){
+            		$pph = (1.5/100)*((100/110)*$nilaispk);
+            		$ppn = (10/100)*((100/110)*$nilaispk);
+            	}else if($jenispph==23){
+            		$pph = (2/100)*((100/110)*$nilaispk);
+            		$ppn = (10/100)*((100/110)*$nilaispk);
+            	}else if($jenispph==21){
+            		$pph = (50/100)*((5/100)*$nilaispk);
+            		$ppn =0;
+            	}
+
+            $spk_net = $nilaispk - $pph - $ppn;
+
+            // Infaq
+            if($pqproyek['status_infaq']==1){
+            	$infaq = 1/100*$nilaispk;
+            }else{
+            	$infaq = 0;
+            }
+
+            // Titipan
+            if ($pqproyek['status_titipan']==1){
+            	$nilaititipan = $pqproyek['titipan_net'];
+            }else{
+            	$nilaititipan = $pqproyek['titipan'];
+            }
+
+            $pendapatanNett = $spk_net-$infaq-$nilaititipan;
+
+            // PL
+            if ($pqproyek['ppl']>0){
+            	$nilaiPPL = $pqproyek['ppl'];
+            	$nilaiNPL = $pqproyek['npl'];
+            	$nilaiPL  = $pqproyek['ppl'];
+            }else{
+            	
+            	$persenPL = $pqproyek['persen_pl'];
+            	$nilaiNPL = $persenPL*$pendapatanNett/100;
+            	$nilaiPPL = 0;
+            	$nilaiPL  = $nilaiNPL;
+            }
+
+            // SUBTOTAL A
+            $nilaiSubTotalA = $pendapatanNett-$nilaiPL;
+
+            // ALOKASI HO
+            $nilaiAHO= 15*$pendapatanNett/100;
+
+            
+            // DATA untuk di save
+            $data2 = array(
+            	'ppn'				=> $ppn,
+            	'pph'				=> $pph,
+            	'spk_net'			=> $spk_net,
+            	'infaq'				=> $infaq,
+            	'pendapatan_nett'	=> $pendapatanNett,
+            	'npl' 				=> $nilaiNPL,
+            	'ppl' 		  		=> $nilaiPPL,
+            	'sub_total_a' 		=> $nilaiSubTotalA,
+            	'nalokasi_ho' 		=> $nilaiAHO,
+            	'jns_pagu'			=> $jenispagu
+            );
+
+
+            $this->pq_model->update_nilai_PQ($data2,$idPQproyekedit);
+
+            }//CEK Proyek ada PQ atau tidak END
 
 				$old_pic_file 	= $this->input->post('old_pic_file');
 				$id_proyek 		= $this->input->post('id_proyek');

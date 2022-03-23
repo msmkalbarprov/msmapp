@@ -33,14 +33,10 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
-                <select name="area" id ="area" class="form-control select2" style="width: 100%;" required readonly>
+                <select name="area" id ="area" class="form-control select2" style="width: 100%;" required>
                 <option value="">No Selected</option>
                 <?php foreach($data_area as $area): ?>
-                  <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
-                    <option value="<?= $area['kd_area']; ?>" selected><?= $area['nm_area']; ?></option>
-                    <?php else: ?>
                       <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
-                    <?php endif; ?>
                   <?php endforeach; ?>
                 </select>
 
@@ -235,6 +231,7 @@
     // get_pqproyek()
     get_datatable()
     get_sisa()
+    get_area_by_pqprojectid()
 
    $('#item_hpp').change(function(){ 
                 var kd_coa=$(this).val();
@@ -249,7 +246,7 @@
 
 function get_datatable(){
   $('#projek').prop('disabled', true);
-  $('#area').prop('disabled', true);
+  // $('#area').prop('disabled', true);
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
@@ -272,7 +269,24 @@ function get_datatable(){
 
 
 
+function get_area_by_pqprojectid(){
+        var idpqproyek = "<?= $this->uri->segment(3); ?>";
+        $.ajax({
+        url : "<?php echo site_url('pq/get_area_by_pqprojectid');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: idpqproyek},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="area"]').val(value.kd_area).trigger('change');
+            });
 
+        }
+    });
+}
 
 
 

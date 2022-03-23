@@ -145,6 +145,7 @@
                  <td width="5%">:</td>
                  <td width="45%" align="right"> <input type="text" name="nilaipend_nett" style="background:none;border: none;text-align:right;" id="nilaipend_nett" class="form-control" readonly></td>
                </tr>
+              
                <tr>
                  <td width="50%">Titipan</td>
                  <td width="5%">:</td>
@@ -163,7 +164,7 @@
                 </td>
                </tr>
                <tr>
-                 <td width="50%"><b>Titipan Net</b></td>
+                 <td width="50%"><b>Titipan Netto</b></td>
                  <td width="5%">:</td>
                  <td width="45%" align="right"><input type="text" name="titipan_net" style="background:none;border: none;text-align:right;" id="titipan_net" class="form-control" readonly></td>
                </tr>
@@ -172,6 +173,25 @@
            </div>
            <div class="col-md-6">
             <table width="100%" border="0">
+               <tr>
+                 <td width="50%"><b>Status Titipan</b></td>
+                 <td width="5%">:</td>
+                 <td >
+                    <small>titipan Bruto</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_titip'  type='checkbox' />
+                    <label for='c_titip'></label>
+                    <small>titipan nett</small>
+                    <input id='s_titip' name="s_titip"  type='hidden' />
+                </td>
+               </tr>
+               <tr>
+                 <td width="50%">Infaq <small>(1% dari SPK)</small>
+                  <input class='tgl-ios tgl_checkbox' id='c_infaq'  type='checkbox' />
+                  <input id='s_infaq' name="s_infaq"  type='hidden' />
+                 <td width="5%">:</td>
+                 <td width="45%" align="right" style="border-bottom: grey solid 1px;" >
+                  <input type="text" name="infaq" style="background:none;border: none;text-align:right;" id="infaq" placeholder="0,00" value="0"  class="form-control" readonly></td>
+               </tr>
                <tr>
                  <td width="50%"><b>Pendapatan Nett</b></td>
                  <td width="5%">:</td>
@@ -230,6 +250,18 @@
     get_subareacombo();
     get_proyekcombo();
 
+ // $("body").on("change",".tgl_checkbox",function(){
+ //    hitungtitipan();
+    
+ //  });
+
+ $('#c_titip').click(function() {
+    hitungtitipan();
+});
+
+  $('#c_infaq').click(function() {
+    hitungtitipan();
+});
 
 document.getElementById("titipan").onkeyup = function() {hitungtitipan()};
 document.getElementById("plpersen").onkeyup = function() {hitungtitipan()};
@@ -248,7 +280,7 @@ function hitungtotalrow() {
 function hitungtitipan() {
   var titipan     = number(document.getElementById("titipan").value);
   var pilihpph    = number(document.getElementById("jnspph").value);
-  var pend_nett   = number(document.getElementById("nilaipend_nett").value);
+  var pend_nett   = number(document.getElementById("nilaipend_nett").value); //nilai SPK
 
   // hitung ppn titipan
   var ppntitipan  = (10/100)*((100/110)*titipan);
@@ -261,26 +293,51 @@ function hitungtitipan() {
     var nilai_pphtitipan = (2/100)*((100/110)*titipan);
     var nilai_ppntitipan=ppntitipan;
   }else if (pilihpph==21){
-    var nilai_pphtitipan = (50/100)*((5/110)*titipan);
+    var nilai_pphtitipan = (50/100)*((5/100)*titipan);
     nilai_ppntitipan=0;
   }
   var titipan_net = titipan-nilai_ppntitipan-nilai_pphtitipan;
-  var nilai_pend_net_s_titipan = pend_nett-titipan_net;
+  
+  
+  if ($('#c_titip').prop('checked') == true){
+    var nilai_pend_net_s_titipan = pend_nett-titipan_net;
+    $('[name="s_titip"]').val('1').trigger('change');
+  }else{
+    var nilai_pend_net_s_titipan = pend_nett-titipan;
+    $('[name="s_titip"]').val('0').trigger('change');
+  }
+
+  
 
   $('[name="nilaippntitipan"]').val(number_format(nilai_ppntitipan,"2",",",".")).trigger('change');
   $('[name="nilaipphtitipan"]').val(number_format(nilai_pphtitipan,"2",",",".")).trigger('change');
   $('[name="titipan_net"]').val(number_format(titipan_net,"2",",",".")).trigger('change');
-  $('[name="nilai_pend_net_s_titipan"]').val(number_format(nilai_pend_net_s_titipan,"2",",",".")).trigger('change');
+  
+
+
+  // hitung  infaq
+if ($('#c_infaq').prop('checked') == true){
+    var nilai_infaq = pend_nett*1/100;
+    $('[name="s_infaq"]').val('1').trigger('change');
+  }else{
+    var nilai_infaq = 0;
+    $('[name="s_infaq"]').val('0').trigger('change');
+  }
+
+$('[name="infaq"]').val(number_format(nilai_infaq,"2",",",".")).trigger('change');
+
+let pendapatan_nett = nilai_pend_net_s_titipan-nilai_infaq;
+$('[name="nilai_pend_net_s_titipan"]').val(number_format(pendapatan_nett,"2",",",".")).trigger('change');
 
 // hitung PL
   var plpersen = number(document.getElementById("plpersen").value);
 
   if (plpersen!=0 || plpersen!=0.00){
-    var al_pl = nilai_pend_net_s_titipan*plpersen/100;//20%  
+    var al_pl = pendapatan_nett*plpersen/100;//20%  
     $('[name="pl"]').val(number_format(al_pl,"2",",",".")).trigger('change');
   }else{
     var al_pl = number(document.getElementById("pl").value);
-    var persenpl = al_pl/nilai_pend_net_s_titipan*100;
+    var persenpl = al_pl/pendapatan_nett*100;
     $('[name="plpersen"]').val(number_format(persenpl,"2",",",".")).trigger('change');
   }
   
@@ -293,12 +350,12 @@ function hitungtitipan() {
   
   
 // hitung HO
-  var al_HO = nilai_pend_net_s_titipan*0.15;//20%
+  var al_HO = pendapatan_nett*0.15;//20%
 
   $('[name="al_ho"]').val(number_format(al_HO,"2",",",".")).trigger('change');
 
 // Sub Total A
-  var nilai_pend_net_s_pl=nilai_pend_net_s_titipan-al_pl_final;
+  var nilai_pend_net_s_pl=pendapatan_nett-al_pl_final;
   $('[name="nilai_pend_net_s_pl"]').val(number_format(nilai_pend_net_s_pl,"2",",",".")).trigger('change');
 
 
@@ -316,10 +373,10 @@ $('#area').change(function(){
                     async : true,
                     dataType : 'json',
                     success: function(data){
-                        $('select[name="subarea"]').empty();
-                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
+                        $('select[name="subarea_1"]').empty();
+                        $('select[name="subarea_1"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
-                            $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                            $('select[name="subarea_1"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
                         });
 
                     }
@@ -410,7 +467,7 @@ $('#subarea_1').change(function(){
                           var nilai_pph = (2/100)*((100/110)*spk);
                           var nilai_ppn=ppn;
                         }else if (pilihpph==21){
-                          var nilai_pph = (50/100)*((5/110)*spk);
+                          var nilai_pph = (50/100)*((5/100)*spk);
                           nilai_ppn=0;
                         }
 

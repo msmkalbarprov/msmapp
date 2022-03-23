@@ -39,9 +39,8 @@
               <thead>
                 <tr>
                   <th>#No</th>
-                  <th>Kode PQ Operasional</th>
-                  <th>Proyek</th>
-                  <th>Item</th>
+                  <th>Kode Akun</th>
+                  <th>Nama Akun</th>
                   <th>Uraian</th>
                   <th>Volume</th>
                   <th>Satuan</th>
@@ -80,13 +79,12 @@
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
     { "targets": 1, "name": "kd_item", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "nm_paket_proyek", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "nm_item", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "uraian", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "volume", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "satuan", 'searchable':true, 'orderable':false},
-    { "targets": 7, "name": "harga", 'searchable':true, 'orderable':false},
-    { "targets": 8, "name": "total", 'searchable':true, 'orderable':false}
+    { "targets": 2, "name": "nm_item", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "uraian", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "volume", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "satuan", 'searchable':true, 'orderable':false},
+    { "targets": 6, "name": "harga", 'searchable':true, 'orderable':false},
+    { "targets": 7, "name": "total", 'searchable':true, 'orderable':false}
     ]
   });
 

@@ -32,8 +32,8 @@
          <div class="row">
           <div class="col-md-3">
            <div class="form-group">
-            <label for="tipeproyek" class="control-label">No. PQ Operasional</label>
-              <input type="text" name="kd_pq" id="kd_pq" class="form-control"  placeholder="Uraian" value="<?= substr($this->uri->segment(3),0,4) ?>/98/00" readonly>
+            <label for="tipeproyek" class="control-label">Kode PQ Operasional</label>
+              <input type="text" name="kd_pq" id="kd_pq" class="form-control"  placeholder="Kode PQ" value="<?= substr($this->uri->segment(3),0,4).'/'.substr($this->uri->segment(3),4,2); ?>/98" readonly>
           </div>
           </div>
 
@@ -171,6 +171,7 @@
 <script>
   $(document).ready(function(){
     $('.select2').select2()
+    get_area_by_operasionaltid()
 
     var table = $('#na_datatable').DataTable( {
     "processing": true,
@@ -191,6 +192,12 @@
   });
 
 
+function get_area_by_operasionaltid(){
+        var idoperasional   = "<?= $this->uri->segment(3); ?>";
+        
+        var area_id         = idoperasional.substr(4,2)
+        $('[name="area"]').val(area_id).trigger('change');
+}
 
 
 

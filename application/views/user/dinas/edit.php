@@ -37,7 +37,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="id" class="col-md-2 control-label">Area</label>
-                    <select name="area" class="form-control">
+                    <select name="area" id="area" class="form-control">
                     <option value=""><?= trans('select_role') ?></option>
                     <?php foreach($data_area as $area): ?>
                       <?php if($area['kd_area'] == $dinas['kd_area']): ?>
@@ -51,16 +51,9 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="id" class="col-md-2 control-label">Sub Area</label>
-                    <select name="subarea" class="form-control">
-                    <option value=""><?= trans('select_role') ?></option>
-                    <?php foreach($data_subarea as $subarea): ?>
-                      <?php if($subarea['kd_subarea'] == $dinas['kd_sub_area']): ?>
-                        <option value="<?= $subarea['kd_subarea']; ?>" selected><?= $subarea['nm_subarea']; ?></option>
-                        <?php else: ?>
-                          <option value="<?= $subarea['kd_subarea']; ?>"><?= $subarea['nm_subarea']; ?></option>
-                        <?php endif; ?>
-                      <?php endforeach; ?>
+                    <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
+                    <select name="subarea"  id="subarea" class="form-control" required>
+                      <option value="">No Selected</option>
                     </select>
                   </div>
                 </div>
@@ -77,3 +70,62 @@
             </div>
     </section>
   </div>
+
+
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+    
+
+    $('#area').change(function(){ 
+                var subarea=$(this).val();
+                $.ajax({
+                    url : "<?php echo site_url('dinas/get_area_by_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="subarea"]').empty();
+                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                        });
+
+                    }
+                });
+                return false;
+            });
+
+  });
+
+get_subareacombo();
+   function get_subareacombo(){ 
+                var subarea=document.getElementById("area").value;
+                $.ajax({
+                    url : "<?php echo site_url('dinas/get_area_by_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: subarea},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="subarea"]').empty();
+                        $('select[name="subarea"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+
+                           if(<?= $dinas['kd_sub_area']; ?>==value.kd_subarea){
+                              $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
+                            }else{
+                              $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                            }
+                        });
+
+                    }
+                });
+                return false;
+            };
+  </script>

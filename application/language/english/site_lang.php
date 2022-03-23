@@ -7,21 +7,27 @@ $lang['search'] = "Search";
 $lang['invoice'] = "Invoice";
 
 //Navbar
-$lang['dashboard']                               = "Dashboard";
-	$lang['dashboard_v1']                        = "Dashboard v1";
-	$lang['dashboard_v2']                        = "Dashboard v2";
-	$lang['dashboard_v3']                        = "Dashboard v3";
-$lang['admin']  								 = "Admin";
-	$lang['admin_list']                               = "Admin List";
-	$lang['add_new_admin']                               = "Add New Admin";
-$lang['profile']                               = "Profile";
-	$lang['view_profile']                               = "View Profile";
-	$lang['change_password']                               = "Change Password";
-$lang['role_and_permissions']                               = "Role & Permissions";
-	$lang['module_setting']                              = "Module Setting";
-$lang['pengesahan_pq']                              = "Pengesahan PQ";
-$lang['laporan']                              = "Laporan";
-$lang['Sub Area']                              = "Sub Area";
+$lang['dashboard']                              = "Dashboard";
+	$lang['dashboard_v1']                       = "Dashboard v1";
+	$lang['dashboard_v2']                       = "Dashboard v2";
+	$lang['dashboard_v3']                       = "Dashboard v3";
+$lang['admin']  								= "Admin";
+	$lang['admin_list']                         = "Admin List";
+	$lang['add_new_admin']                      = "Add New Admin";
+$lang['profile']                               	= "Profile";
+	$lang['view_profile']                       = "View Profile";
+	$lang['change_password']                    = "Change Password";
+$lang['role_and_permissions']                   = "Role & Permissions";
+	$lang['module_setting']                     = "Module Setting";
+$lang['pengesahan_pq']                          = "Pengesahan PQ";
+$lang['laporan']                              	= "Laporan";
+$lang['Sub Area']                              	= "Sub Area";
+
+$lang['PDO']                              		= "PDO";
+$lang['pdo_project']                            = "PDO Proyek";
+$lang['pdo_operasional']                        = "PDO Operasional";
+
+
 
 $lang['users']                               = "Users";
 	$lang['users_list']                      = "Users List";

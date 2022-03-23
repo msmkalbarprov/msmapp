@@ -79,7 +79,7 @@ $route['pq/view/(:any)'] 						= 'pq/view_pq/$1';
 
 // HPP
 $route['pq/add_hpp/(:any)'] 					= 'pq/add_hpp/$1';
-$route['pq/edit_hpp/(:any)/(:any)'] 					= 'pq/ubah_hpp/$1';
+$route['pq/edit_hpp/(:any)/(:any)'] 			= 'pq/ubah_hpp/$1';
 $route['pq/del_hpp/(:any)/(:any)'] 				= 'pq/hapus_hpp/$1';
 
 $route['pq/add_operasional'] 					= 'pq/add_pq_operasional';
@@ -88,6 +88,14 @@ $route['pq/deleterincian/(:any)'] 				= 'pq/delete_rincian_pq/$1';
 
 // sah pq
 $route['bod/view/(:any)'] 						= 'bod/view_pq/$1';
+
+
+// PDO
+$route['pdo'] 									= 'cpdo/index';
+$route['pdo/add'] 								= 'cpdo/add';
+$route['pdo/delete_pdo_project/(:any)']			= 'cpdo/delete_pdo_project/$1';
+$route['pdo/edit_pdo_project/(:any)']			= 'cpdo/edit_pdo_project/$1';
+$route['pdo/operasional']						= 'cpdo/operasional';
 
 
 
