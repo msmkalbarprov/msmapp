@@ -373,9 +373,10 @@ public function ajukan_revisi($data, $id){
 //-----------------------------------------------------
 function change_status()
 {		
-	$this->db->set('is_active', $this->input->post('status'));
-	$this->db->where('user_id', $this->input->post('id'));
-	$this->db->update('ci_users');
+	$this->db->set('status', $this->input->post('status'));
+	$this->db->set('updated_status_at', date("Y-m-d h:i:s"));
+	$this->db->where('id_pq_operasional', $this->input->post('id'));
+	$this->db->update('ci_pq_operasional');
 }
 
 

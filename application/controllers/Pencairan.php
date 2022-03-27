@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Proyek extends MY_Controller {
+class Pencairan extends MY_Controller {
 
 	public function __construct(){
 
@@ -28,7 +28,7 @@ class Proyek extends MY_Controller {
 	public function index(){
 		$data['title'] = 'Proyek';
 		$this->load->view('admin/includes/_header', $data);
-		$this->load->view('user/proyek/proyek_list');
+		$this->load->view('user/pencairan/proyek_list');
 		$this->load->view('admin/includes/_footer');
 	}
 	
@@ -331,56 +331,75 @@ class Proyek extends MY_Controller {
 		$this->rbac->check_operation_access('');
 
 		if($this->input->post('submit')){
-			$this->form_validation->set_rules('area', 'area', 'trim|required');
-			$this->form_validation->set_rules('subarea', 'subarea', 'trim|required');
-			$this->form_validation->set_rules('jnsproyek', 'Jenis Proyek', 'trim|required');
-			$this->form_validation->set_rules('jnssubproyek', 'Jenis Sub Proyek', 'trim|required');
-			$this->form_validation->set_rules('perusahaan', 'perusahaan', 'trim|required');
-			$this->form_validation->set_rules('dinas', 'dinas', 'trim|required');
-			$this->form_validation->set_rules('thn_ang', 'tahun Anggaran', 'trim|required');
-			// $this->form_validation->set_rules('jns_pph', 'Jenis PPH', 'trim|required');
-			$this->form_validation->set_rules('paketproyek', 'Nama Paket Proyek', 'trim|required');
-
-			if ($this->form_validation->run() == FALSE) {
-					$data = array(
-						'errors' => validation_errors()
-					);
-					$this->session->set_flashdata('errors', $data['errors']);
-					redirect(base_url('proyek/edit/'.$id),'refresh');
-			}
-			else{
 				$data = array(
-					'username' 			=> $this->session->userdata('username'),
-					'kd_sub_area' 		=> $this->input->post('subarea'),
-					'jns_proyek' 		=> $this->input->post('jnsproyek'),
-					'jns_sub_proyek'	=> $this->input->post('jnssubproyek'),
-					'kd_perusahaan' 	=> $this->input->post('perusahaan'),
-					'kd_dinas' 			=> $this->input->post('dinas'),
-					'thn_anggaran' 		=> $this->input->post('thn_ang'),
-					// 'jns_pph' 			=> $this->input->post('jns_pph'),
-					'nm_paket_proyek' 	=> $this->input->post('paketproyek'),
-					'catatan' 			=> $this->input->post('catatan'),
-					'updated_at' 		=> date('Y-m-d : h:m:s'),
+					'username_cair' 	=> $this->session->userdata('username'),
+					'tgl_cair' 			=> $this->input->post('tgl_cair'),
+					'status_cair'		=> 1,
+					'updated_cair' 		=> date('Y-m-d : h:m:s'),
 				);
-				$data = $this->security->xss_clean($data);
-				$result = $this->proyek_model->edit_proyek($data, $id);
+				$data 		= $this->security->xss_clean($data);
+				$id_proyek 	= $this->input->post('kd_proyek');
+				$result 	= $this->proyek_model->cair_proyek($data, $id_proyek);
 				if($result){
 					// Activity Log 
 					$this->activity_model->add_log(2);
 
-					$this->session->set_flashdata('success', 'Data proyek berhasil diupdate!');
-					redirect(base_url('proyek/edit/'.$id),'refresh');
+					$this->session->set_flashdata('success', 'Data proyek berhasil dicairkan!');
+					redirect(base_url('pencairan'),'refresh');
 				}else{
-					$this->session->set_flashdata('errors', 'Data gagal diupdate!');
-					redirect(base_url('proyek/edit/'.$id),'refresh');
+					$this->session->set_flashdata('errors', 'proyek gagal dicairkan!');
+					redirect(base_url('pencairan/edit/'.$id),'refresh');
 				}
-			}
+			
 		}
 		else{
 			$data['title'] = 'Edit Proyek';
 			$data['proyek'] = $this->proyek_model->get_proyek_by_id($id);
 			$this->load->view('admin/includes/_header');
-			$this->load->view('user/proyek/proyek_edit', $data);
+			$this->load->view('user/pencairan/proyek_edit', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	}
+
+
+	public function batal($id = 0){
+
+		$data['data_area'] 			= $this->area->get_area();
+		$data['data_subarea'] 		= $this->subarea->get_subarea();
+		$data['data_jnsproyek'] 	= $this->jnsproyek->get_jnsproyek();
+		$data['data_perusahaan'] 	= $this->perusahaan->get_perusahaan();
+		$data['data_dinas'] 		= $this->dinas->get_dinas();
+		$data['data_pagu'] 			= $this->pagu->get_pagu();
+
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('submit')){
+				$data = array(
+					'username_cair' 	=> $this->session->userdata('username'),
+					'tgl_cair' 			=> null,
+					'status_cair'		=> 0,
+					'updated_cair' 		=> date('Y-m-d : h:m:s'),
+				);
+				$data 		= $this->security->xss_clean($data);
+				$id_proyek 	= $this->input->post('kd_proyek');
+				$result 	= $this->proyek_model->cair_proyek($data, $id_proyek);
+				if($result){
+					// Activity Log 
+					$this->activity_model->add_log(2);
+
+					$this->session->set_flashdata('success', 'Data proyek berhasil dibatalcairkan!');
+					redirect(base_url('pencairan'),'refresh');
+				}else{
+					$this->session->set_flashdata('errors', 'proyek gagal dibatalcairkan!');
+					redirect(base_url('pencairan/edit/'.$id),'refresh');
+				}
+			
+		}
+		else{
+			$data['title'] = 'Edit Proyek';
+			$data['proyek'] = $this->proyek_model->get_proyek_by_id($id);
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/pencairan/proyek_batal', $data);
 			$this->load->view('admin/includes/_footer');
 		}
 	}
@@ -583,9 +602,7 @@ public function edit_rincian_proyek($id = 0){
 				'<font size="2px">'.$row['tanggal2'].'</font>',
 				'<div class="text-right"><font size="2px">'.number_format($row['nilai'],2,',','.').'</font></div>',
 				'<font size="2px">'.$row['no_dokumen'].'</font>',
-				'<font size="2px">'.$anchor.'</font>',
-				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('proyek/editrincian/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/deleterincian/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<font size="2px">'.$anchor.'</font>'
 			);
 		}
 		$records['data']=$data;
@@ -595,7 +612,7 @@ public function edit_rincian_proyek($id = 0){
 
 	function get_data_detail_edit(){
 		$id = $this->input->post('id',TRUE);
-		$data = $this->proyek_model->get_detail_proyek_by_id($id)->result();
+		$data = $this->proyek_model->get_detail_pencairan_proyek_by_id($id)->result();
 		echo json_encode($data);
 	}
 

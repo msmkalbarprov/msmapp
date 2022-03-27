@@ -32,6 +32,13 @@ class Bod extends MY_Controller {
 		$this->load->view('admin/includes/_footer');
 	}
 
+	public function operasional(){
+		$data['title'] = 'Proyek';
+		$this->load->view('admin/includes/_header', $data);
+		$this->load->view('user/bod/list_operasional');
+		$this->load->view('admin/includes/_footer');
+	}
+
 	
 	public function datatable_json(){				   					   
 		$records['data'] = $this->pq_model->get_all_pq();
@@ -72,7 +79,83 @@ class Bod extends MY_Controller {
 		echo json_encode($records);						   
 	}
 
+public function datatable_json_pq_op(){				   					   
+		$records['data'] = $this->pq_model->get_all_pq_op();
+		$data = array();
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+			
+			$data[]= array(
+				++$i,
+				'<font size="2px">'.$row['kode'].'</font>',
+				'<font size="2px">'.$row['nm_area'].'</font>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
+				'<a title="Edit" class="update btn btn-sm btn-info" href="'.base_url('bod/edit_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-list"></i></a>'
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
 
+public function edit_pq_operasional(){
+		
+		$this->rbac->check_operation_access('');
+
+		$data['data_jnspagu'] 			= $this->jnspagu->get_jnspagu();
+		$data['data_tipeproyek'] 		= $this->tipeproyek->get_tipeproyek();
+
+
+		if($this->input->post('type')==1){
+			$data['status'] 			= $this->input->post('status', TRUE);
+            $this->pq_model->save_pq_proyek_operasional($data);
+            echo json_encode(array(
+				"statusCode"=>200
+			));
+
+	          
+		}
+		else{
+			$data['data_area'] 			= $this->area->get_area();
+			$data['item_operasioanl'] = $this->pq_model->get_item_operasioanl();
+			$data['data_mprojek'] 		= $this->proyek_model->get_mprojek();
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/bod/view_operasional', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+		
+	}
+
+
+
+	public function datatable_json_operasional_view($id=0){				   					   
+		$records['data'] = $this->pq_model->get_pq_operasional_view($id);
+		$data = array();
+
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+			$status = ($row['status'] == 1)? 'checked': '';
+			$data[]= array(
+				++$i,
+				'<font size="2px">'.$row['kd_item'].'</font>',
+				'<font size="2px">'.$row['nm_item'].'</font>',
+				'<font size="2px">'.$row['uraian'].'</font>',
+				'<font size="2px">'.$row['volume'].'</font>',
+				'<font size="2px">'.$row['satuan'].'</font>',
+				'<div class="text-right"><font size="2px">'.number_format($row['harga'],2,',','.').'</font></div>',
+				'<div class="text-right"><font size="2px">'.number_format($row['total'],2,',','.').'</font></div>',
+				'<input class="tgl_checkbox tgl-ios" data-id="'.$row['id_pq_operasional'].'"  id="cb_'.$row['id_pq_operasional'].'" type="checkbox" '.$status.'><label for="cb_'.$row['id_pq_operasional'].'"></label>',		
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
+function change_status()
+	{   
+		$this->pq_model->change_status();
+	}
 
 public function datatable_json_hpp(){				   					   
 		$records['data'] = $this->pq_model->get_all_pq_hpp();
@@ -97,43 +180,6 @@ public function datatable_json_hpp(){
 	}
 
 
-
-	public function edit_pq_operasional(){
-		
-		$this->rbac->check_operation_access('');
-
-		$data['data_jnspagu'] 			= $this->jnspagu->get_jnspagu();
-		$data['data_tipeproyek'] 		= $this->tipeproyek->get_tipeproyek();
-
-
-		if($this->input->post('type')==1){
-
-			$data['kd_proyek'] 			= $this->input->post('kd_proyek', TRUE);
-			$data['kd_area'] 			= $this->input->post('area', TRUE);
-            $data['kd_item'] 			= $this->input->post('kd_item', TRUE);
-			$data['uraian'] 			= $this->input->post('uraian', TRUE);
-			$data['volume'] 			= $this->input->post('volume', TRUE);
-			$data['satuan'] 			= $this->input->post('satuan', TRUE);
-			$data['harga'] 				= $this->input->post('harga', TRUE);
-			$data['total']				= $this->input->post('total', TRUE);
-
-            $this->pq_model->save_pq_proyek_operasional($data);
-            echo json_encode(array(
-				"statusCode"=>200
-			));
-
-	          
-		}
-		else{
-			$data['data_area'] 			= $this->area->get_area();
-			$data['item_operasioanl'] = $this->pq_model->get_item_operasioanl();
-			$data['data_mprojek'] 		= $this->proyek_model->get_mprojek();
-			$this->load->view('admin/includes/_header');
-			$this->load->view('user/pq/pq_operasional_edit', $data);
-			$this->load->view('admin/includes/_footer');
-		}
-		
-	}
 
 
 	function get_subproyek(){

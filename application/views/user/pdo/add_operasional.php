@@ -15,10 +15,10 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             Tambah PDO Proyek </h3>
+             Tambah PDO Operasional </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pdo'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pdo/operasional'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -40,6 +40,7 @@
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
               <input type="text" name="kd_pdo" id="kd_pdo" class="form-control" readonly>
               <input type="hidden" name="urut" id="urut" class="form-control" readonly>
+              <input type="hidden" name="project" id="project" class="form-control" readonly>
 
             </div>
           </div>
@@ -50,6 +51,23 @@
               <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control"  required >
           </div>
           </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="proyek" class="control-label">Tahun Anggaran</label>
+                
+                <select name="thn_ang" id="thn_ang" class="form-control" required>
+                  <option value="">No Selected</option>
+                  <option value="<?= date('Y')-1;?>"><?= date('Y')-1;?></option>
+                  <option value="<?= date('Y')?>"><?= date('Y')?></option>
+                  <option value="<?= date('Y')+1;?>"><?= date('Y')+1;?></option>
+                </select>
+
+            </div>
+          </div>
+         </div>
+
+         <div class="row">
+          
           <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
@@ -66,37 +84,7 @@
 
             </div>
           </div>
-         </div>
 
-         <div class="row">
-          
-
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="proyek" class="control-label">PQ Proyek</label>
-                <select name="projek"  id="projek" class="form-control" required>
-                  <option value="">No Selected</option>
-                </select>                
-
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="proyek" class="control-label">Divisi</label>
-                
-                <select name="divisi" id ="divisi" class="form-control select2" style="width: 100%;" required>
-                <option value="">No Selected</option>
-                  <?php foreach($data_divisi as $divisi): ?>
-                      <option value="<?= $divisi['kd_projek']; ?>"><?= $divisi['nm_projek']; ?></option>
-                  <?php endforeach; ?>
-                </select>
-
-            </div>
-          </div>
-          
-         </div>
-
-         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Akun</label>
@@ -107,8 +95,13 @@
 
             </div>
           </div>
+
+          </div>
+
+         <div class="row">
           
-          <div class="col-md-6">
+          
+          <div class="col-md-12">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Uraian</label>
               <input type="text" name="uraian" id="uraian" class="form-control"  placeholder="Uraian" >
@@ -139,7 +132,7 @@
          <div class="row">
           
           <div class="col-md-9" align="right">
-            <label for="dinas" class="control-label">Nilai HPP</label>
+            <label for="dinas" class="control-label">Nilai PQ Operasional</label>
           </div>
           <div class="col-md-3">
            <div class="form-group">
@@ -219,40 +212,8 @@
     $('.select2').select2()
     // get_pqproyek()
     // get_datatable();
-    get_projekcombo()
+    
     $('#divisi').prop('disabled', true)
-
-   // $('#item_hpp').change(function(){ 
-   //              var kd_coa=$(this).val();
-   //              if (kd_coa=='5010202'){
-   //                document.getElementById("jenis_tk").disabled = false;
-   //              }else{
-   //                document.getElementById("jenis_tk").disabled = true;
-   //              }
-                
-   //              return false;
-   //          });
-
-// function get_datatable(no_acc,kode_pqproyek,jns_tekael){
-//   // $('#projek').prop('disabled', true);
-  
-//   var kode_pqproyek_new = kode_pqproyek.replace(/\//g,'Pd0JuhgMsMjKtKlbr');
-
-//     var table = $('#na_datatable').DataTable( {
-//     "processing": true,
-//     "serverSide": false,
-//     "ajax": "<?=base_url('cpdo/datatable_pdo_project/') ?>"+kode_pqproyek_new+'/'+no_acc+'/'+jns_tekael,
-//     "order": [[0,'asc']],
-//     "columnDefs": [
-//     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-//     { "targets": 1, "name": "kd_pqproyek", 'searchable':true, 'orderable':false},
-//     { "targets": 2, "name": "nm_item", 'searchable':true, 'orderable':false},
-//     { "targets": 3, "name": "total", 'searchable':true, 'orderable':false},
-//     { "targets": 4, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
-//     ]
-//   });
-
-//   }
 
 
 // get pq projek
@@ -260,59 +221,21 @@
 $('#area').change(function(){ 
     var kodearea=$(this).val();
     get_nomor_urut(kodearea)
+    var thn_ang = $('#thn_ang').val();
     $.ajax({
-        url : "<?php echo site_url('cpdo/get_pq_projek_by_area');?>",
+        url : "<?php echo site_url('cpdo/get_pq_operasional_by_area');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: kodearea},
-        async : true,
-        dataType : 'json',
-        success: function(data){
-            $('select[name="projek"]').empty();
-            $('select[name="projek"]').append('<option value="">No Selected</option>');
-            $.each(data, function(key, value) {
-                $('select[name="projek"]').append('<option value="'+ value.kd_pqproyek +'">'+ value.kd_pqproyek +' '+value.nm_paket_proyek +'</option>');
-            });
-
-        }
-    });
-    return false;
-});
-
-
-$('#projek').change(function(){ 
-    var idproyek    = $(this).val();
-    var nomorurut   = $('#urut').val();
-    $.ajax({
-        url : "<?php echo site_url('cpdo/get_item_pq_by_pq');?>",
-        method : "POST",
-        data : {
-          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: idproyek},
+          id: kodearea,tahun:thn_ang},
         async : true,
         dataType : 'json',
         success: function(data){
             $('select[name="item_hpp"]').empty();
             $('select[name="item_hpp"]').append('<option value="">No Selected</option>');
             $.each(data, function(key, value) {
-
-              var kodedivisi = idproyek.substr(11,1);
-                $('[name="divisi"]').val(kodedivisi).trigger('change');
-
-                var kodepdo = idproyek+'/'+nomorurut;
-                var nomorpdo = kodepdo.replace('PQ','PDO');
-
-                $('[name="kd_pdo"]').val(nomorpdo).trigger('change');                
-
-                if (value.jenis_tk == '' || value.jenis_tk == null){
-                  $('select[name="item_hpp"]').append('<option value="'+value.kd_item+'">'+ value.kd_item +' '+value.nm_item +'</option>');
-                }else{
-                  $('select[name="item_hpp"]').append('<option value="'+ value.kd_item+value.jenis_tk+'">'+ value.kd_item +' '+value.nm_item +' ('+ value.jenis_tk +')</option>');
-
-                }
-
-
+                
+                $('select[name="item_hpp"]').append('<option value="'+ value.kd_pq_operasional+'">'+ value.kd_item +' - '+value.nm_item +'</option>');
             });
 
         }
@@ -321,64 +244,32 @@ $('#projek').change(function(){
 });
 
 
-
 $('#item_hpp').change(function(){ 
-   var kd_coa       = $(this).val();
-   var kode_pqproyek  = $('#projek').val();
-   if (kd_coa.substr(0,7)=='5010202'){
-    
-    var no_acc = kd_coa.substr(0,7);
-    let jns_tk = kd_coa.substr(7,(kd_coa.length-7));
-    document.getElementById("jns_tkls").value=jns_tk;
-    
-    
-    get_nilai2(no_acc,kode_pqproyek,jns_tk);
-    // get_realisasi2(no_acc,kode_pqproyek,jns_tk);
-   
-   }else{
-    let jns_tk = '';
-    get_nilai(kd_coa,kode_pqproyek);
-    // get_realisasi(kd_coa,kode_pqproyek);
-   
-   }
-   return false;
+  var kode_pqoperasional  = $(this).val();
+  var nomorurut           = $('#urut').val();
+  var nomorpdo            = 'PDO/'+kode_pqoperasional+'/'+nomorurut;
+  var kd_coa              = kode_pqoperasional.substr(11,5);
+  $('[name="kd_pdo"]').val(nomorpdo).trigger('change');
+  $('[name="project"]').val(kode_pqoperasional).trigger('change');
+  get_nilai(kode_pqoperasional);
+  return false;
 });
 
 
-function get_nilai(kd_coa,kode_pqproyek){
+function get_nilai(kode_pqoperasional){
         $.ajax({
-        url : "<?php echo site_url('cpdo/get_nilai');?>",
+        url : "<?php echo site_url('cpdo/get_nilai_op');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: kode_pqproyek,no_acc:kd_coa},
+          kode_pqoperasional: kode_pqoperasional},
         async : true,
         dataType : 'json',
         success: function(data){
             $.each(data, function(key, value) {
                 $('[name="pnet"]').val(number_format(value.total,"2",",",".")).trigger('change');
 
-                get_realisasi(kd_coa,kode_pqproyek,value.total)
-            });
-
-        }
-    });
-}
-
-function get_nilai2(kd_coa,kode_pqproyek,jns_tk){
-        $.ajax({
-        url : "<?php echo site_url('cpdo/get_nilai2');?>",
-        method : "POST",
-        data : {
-          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: kode_pqproyek,no_acc:kd_coa,jns_tk:jns_tk},
-        async : true,
-        dataType : 'json',
-        success: function(data){
-            $.each(data, function(key, value) {
-                $('[name="pnet"]').val(number_format(value.total,"2",",",".")).trigger('change');
-
-                get_realisasi2(kd_coa,kode_pqproyek,jns_tk,value.total);
+                get_realisasi(kode_pqoperasional,value.total)
             });
 
         }
@@ -386,20 +277,21 @@ function get_nilai2(kd_coa,kode_pqproyek,jns_tk){
 }
 
 
-function get_realisasi(kd_coa,kode_pqproyek,nil_hpp){
+
+function get_realisasi(kode_pqoperasional,nil_pq){
         $.ajax({
-        url : "<?php echo site_url('cpdo/get_realisasi');?>",
+        url : "<?php echo site_url('cpdo/get_realisasi_op');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: kode_pqproyek,no_acc:kd_coa},
+          kode_pqoperasional: kode_pqoperasional},
         async : true,
         dataType : 'json',
         success: function(data){
             $.each(data, function(key, value) {
                 $('[name="thpp"]').val(number_format(value.total,"2",",",".")).trigger('change');
 
-                $('[name="sisa"]').val(number_format(nil_hpp - value.total,"2",",",".")).trigger('change');
+                $('[name="sisa"]').val(number_format(nil_pq - value.total,"2",",",".")).trigger('change');
 
             });
 
@@ -408,25 +300,6 @@ function get_realisasi(kd_coa,kode_pqproyek,nil_hpp){
         
 }
 
-function get_realisasi2(kd_coa,kode_pqproyek,jns_tk,nil_hpp){
-        $.ajax({
-        url : "<?php echo site_url('cpdo/get_realisasi2');?>",
-        method : "POST",
-        data : {
-          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: kode_pqproyek,no_acc:kd_coa,jns_tk:jns_tk},
-        async : true,
-        dataType : 'json',
-        success: function(data){
-            $.each(data, function(key, value) {
-                $('[name="thpp"]').val(number_format(value.total,"2",",",".")).trigger('change');
-
-                $('[name="sisa"]').val(number_format(nil_hpp - value.total,"2",",",".")).trigger('change');
-            });
-
-        }
-    });
-}
 
 function get_nomor_urut(area){
         $.ajax({
@@ -447,64 +320,38 @@ function get_nomor_urut(area){
 }
 
 
-    function get_projekcombo(){ 
-                var kodearea=document.getElementById("area").value;
-                $.ajax({
-                      url : "<?php echo site_url('cpdo/get_pq_projek_by_area');?>",
-                      method : "POST",
-                      data : {
-                        '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                        id: kodearea},
-                      async : true,
-                      dataType : 'json',
-                      success: function(data){
-                          $('select[name="projek"]').empty();
-                          $('select[name="projek"]').append('<option value="">No Selected</option>');
-                          $.each(data, function(key, value) {
-                              $('select[name="projek"]').append('<option value="'+ value.kd_pqproyek +'">'+ value.kd_pqproyek +' '+value.nm_paket_proyek +'</option>');
-                          });
-
-                      }
-                  });
-                return false;
-            };
-
 
 
     // SAVE
 $('#butsave').on('click', function() {
-    var kd_item       = $('#item_hpp').val();
+    var kd_item       = $('#item_hpp').val().substr(11,5);
     var no_pdo        = $('#kd_pdo').val();
     var tgl_pdo       = $('#tgl_pdo').val();
     var nourut        = $('#urut').val();
-    var projek        = $('#projek').val();
+    var projek        = $('#project').val();//kode_pqoperasional
     var uraian        = $('#uraian').val();
     var total         = number($('#total').val());
     var area          = $('#area').val();
-    var divisi        = $('#divisi').val();
     var idpdo         = no_pdo.replace(/\//g,'');
-    var kodeproject   = projek.replace('PQ/','');
-
-    var jenis_tkl     = $('#jns_tkls').val();
+    var kodeproject   = projek;
     var sisa          = number($('#sisa').val());
     if(total>sisa){
       $("#error").show();
       $("#success").hide();
-      $('#error').html('Gagal! Nilai Melebihi sisa HPP');
+      $('#error').html('Gagal! Nilai Melebihi sisa PQ operasional');
       return;
     }
     
-    if(divisi!="" && tgl_pdo!="" && projek != "" && kd_item!=""  && total!="" && area!=""){
+    if(tgl_pdo!="" && projek != "" && kd_item!=""  && total!="" && area!=""){
       $("#butsave").attr("disabled", "disabled");
       $.ajax({
-        url: "<?php echo base_url("cpdo/add/".$this->uri->segment(3));?>",
+        url: "<?php echo base_url("cpdo/add_operasional"); ?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
           type:1,
           area:area,
           projek:projek,
-          divisi:divisi,
           tgl_pdo:tgl_pdo,
           kd_item :kd_item,
           uraian:uraian,
@@ -512,7 +359,6 @@ $('#butsave').on('click', function() {
           idpdo:idpdo,
           no_pdo:no_pdo,
           kodeproject:kodeproject,
-          jenis_tkl:jenis_tkl,
           nourut:nourut
 
         },
@@ -521,7 +367,7 @@ $('#butsave').on('click', function() {
           var dataResult = JSON.parse(dataResult);
           if(dataResult.statusCode==200){
             document.getElementById("butsave").disabled = true;
-            window.location.replace("<?= base_url('/pdo') ?>");
+            window.location.replace("<?= base_url('/pdo/operasional') ?>");
             $("#error").hide();
           }
           else if(dataResult.statusCode==201){

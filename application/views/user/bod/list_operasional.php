@@ -10,37 +10,34 @@
 <div class="content-wrapper">
   <section class="content">
     <!-- For Messages -->
-    <?php $this->load->view('admin/includes/_messages.php') ?>
-
     <div class="card">
       <div class="card-header">
-          <div class="d-inline-block">
-            <h3 class="card-title"> <i class="fa fa-list"></i>
-             PDO Operasional </h3>
-           </div>
-           <div class="d-inline-block float-right">
-            <a href="<?= base_url('pdo/add_operasional'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
-          </div>
+        <div class="d-inline-block">
+          <h3 class="card-title"><i class="fa fa-list"></i>&nbsp; </h3>
         </div>
+        <div class="d-inline-block float-right">
+          <?php if($this->rbac->Check_operation_permission('add')): ?>
+
+
+            
+          <?php endif; ?>
+        </div>
+      </div>
     </div>
     <div class="card">
-            
-            
             <div class="card-body table-responsive">
-                <table id="na_datatable" class="table table-bordered table-striped" width="100%">
+                <table id="na_datatable3" class="table table-bordered table-striped" width="100%">
                   <thead>
                     <tr>
-                      <th width="5%">No.</th>
-                      <th>Kode</th>
-                      <th>Area</th>
-                      <th>Akun</th>
-                      <th>Nilai</th>
-                      <th width="10%"><?= trans('action') ?></th>
+                      <th width="2%">#<?= trans('id') ?></th>
+                      <th width="10%">Kode</th>
+                      <th width="63%">Area</th>
+                      <th width="15%">Nilai</th>
+                      <th width="10%" class="text-right"><?= trans('action') ?></th>
                     </tr>
                   </thead>
                 </table>
               </div>
-
 
       
     </div>
@@ -57,16 +54,19 @@
 </script>
 <script>
   
-  //---------------------------------------------------
-  var table = $('#na_datatable').DataTable( {
+
+
+
+
+  var table = $('#na_datatable3').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('cpdo/datatable_json_operasional')?>",
+    "ajax": "<?=base_url('bod/datatable_json_pq_op')?>",
     "order": [[0,'asc']],
     "columnDefs": [
-    { "targets": 0, "name": "no", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "kode_pdo", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "area", 'searchable':true, 'orderable':false},
+    { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
+    { "targets": 1, "name": "kode", 'searchable':true, 'orderable':false},
+    { "targets": 2, "name": "nm_area", 'searchable':true, 'orderable':false},
     { "targets": 3, "name": "nilai", 'searchable':true, 'orderable':false},
     { "targets": 4, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]

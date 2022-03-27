@@ -96,6 +96,10 @@ $route['pdo/add'] 								= 'cpdo/add';
 $route['pdo/delete_pdo_project/(:any)']			= 'cpdo/delete_pdo_project/$1';
 $route['pdo/edit_pdo_project/(:any)']			= 'cpdo/edit_pdo_project/$1';
 $route['pdo/operasional']						= 'cpdo/operasional';
+$route['pdo/add_operasional']					= 'cpdo/add_operasional';
+$route['pdo/edit_pdo_operasional/(:any)']		= 'cpdo/edit_pdo_operasional/$1';
+
+$route['pencairan/edit/(:any)']					= 'pencairan/edit_proyek/$1';
 
 
 

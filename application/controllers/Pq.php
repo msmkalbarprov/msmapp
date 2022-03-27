@@ -422,8 +422,10 @@ public function revisi($id='')
 		echo json_encode($data);
 	}
 
+
 	public function edit_pq($id = 0){
 		$data['data_area'] 			= $this->area->get_area();
+		$data['data_subarea'] 		= $this->subarea->get_subarea();
 		$this->rbac->check_operation_access('');
 
 		if($this->input->post('submit')){

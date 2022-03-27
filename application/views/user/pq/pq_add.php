@@ -283,7 +283,7 @@ function hitungtitipan() {
   var pend_nett   = number(document.getElementById("nilaipend_nett").value); //nilai SPK
 
   // hitung ppn titipan
-  var ppntitipan  = (10/100)*((100/110)*titipan);
+  var ppntitipan  = (11/100)*((100/110)*titipan);
   
   // hitung pph berdasarkan pajak di apbd
   if (pilihpph==22){
@@ -454,7 +454,7 @@ $('#subarea_1').change(function(){
                         
                         var spk = value.nilai;
 
-                        var ppn = (10/100)*((100/110)*spk);
+                        var ppn = (11/100)*((100/110)*spk);
                         var pilihpph = value.jns_pph;
 
                         $('[name="nilaispk"]').val(number_format(spk,"2",",",".")).trigger('change');

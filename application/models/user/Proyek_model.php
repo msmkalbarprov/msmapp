@@ -122,6 +122,17 @@
 		return $query;
 	}
 
+	public function get_detail_pencairan_proyek_by_id($id){
+		$query = $this->db->get_where('ci_proyek', array('id_proyek' =>  $id));
+
+			$this->db->select('ci_proyek.*, ci_pendapatan.tgl_cair,ci_pendapatan.status_cair');
+			$this->db->from('ci_proyek');
+			$this->db->join('ci_pendapatan','ci_pendapatan.id_proyek=ci_proyek.kd_proyek', 'left');
+			$this->db->where('ci_proyek.id_proyek',$id);	
+		$query=$this->db->get();
+		return $query;
+	}
+
 	public function get_detail_rincian_proyek_by_id($id){
 		$query = $this->db->get_where('ci_proyek_rincian', array('id' =>  $id));
 		return $query;
@@ -149,6 +160,12 @@
 		public function edit_proyek($data, $id){
 			$this->db->where('id_proyek', $id);
 			$this->db->update('ci_proyek', $data);
+			return true;
+		}
+
+		public function cair_proyek($data, $id_proyek){
+			$this->db->where('id_proyek', $id_proyek);
+			$this->db->update('ci_pendapatan', $data);
 			return true;
 		}
 

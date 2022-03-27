@@ -26,6 +26,10 @@ $lang['Sub Area']                              	= "Sub Area";
 $lang['PDO']                              		= "PDO";
 $lang['pdo_project']                            = "PDO Proyek";
 $lang['pdo_operasional']                        = "PDO Operasional";
+$lang['pq_project']                            	= "PQ Proyek";
+$lang['pq_operasional']                         = "PQ Operasional";
+
+$lang['pencairan_proyek']                         = "Pencairan";
 
 
 

@@ -31,11 +31,7 @@
               <select name="area" id ="area" class="form-control" required disabled>
                 <option value="">No Selected</option>
                 <?php foreach($data_area as $area): ?>
-                  <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
-                    <option value="<?= $area['kd_area']; ?>" selected><?= $area['nm_area']; ?></option>
-                    <?php else: ?>
                       <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
-                    <?php endif; ?>
                   <?php endforeach; ?>
                 </select>
           </div>
@@ -285,7 +281,7 @@ function hitungtitipan() {
 
 
   // hitung ppn titipan
-  var ppntitipan  = (10/100)*((100/110)*titipan);
+  var ppntitipan  = (11/100)*((100/110)*titipan);
   
   // hitung pph berdasarkan pajak di apbd
   if (pilihpph==22){
@@ -366,20 +362,24 @@ $('[name="nilai_pend_net_s_titipan"]').val(number_format(pendapatan_nett,"2",","
 
 
 $('#area').change(function(){ 
-                var subarea=$(this).val();
+                var subareas=$(this).val();
                 $.ajax({
                     url : "<?php echo site_url('proyek/get_area');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: subarea},
+                      id: subareas},
                     async : true,
                     dataType : 'json',
                     success: function(data){
                         $('select[name="subarea"]').empty();
                         $('select[name="subarea"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
+                          if (value.kd_subarea=='<?= $proyek['kd_sub_area']; ?>'){
+                            $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'" selected>'+ value.nm_subarea +'</option>');
+                          }else{
                             $('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+                          }
 
                             
                         });
@@ -390,17 +390,19 @@ $('#area').change(function(){
             });
 
 $('#subarea').change(function(){ 
-                var subarea=$(this).val();
+                var subbarea=$(this).val();
+                alert (subbarea)
                 var area=document.getElementById("area").value;
-                alert(area);
-                // var id_pqproyek = "<?= $proyek['kd_proyek']; ?>";
+                var id_pqproyek = "<?= $proyek['kd_proyek']; ?>";
+
+                alert(subbarea+'-'+area+'-'+id_pqproyek)
 
                 $.ajax({
                     url : "<?php echo site_url('pq/get_proyek_by_area_subarea_edit') ?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: subarea,area:area,id_pqproyek:id_pqproyek},
+                      id: subbarea,area:area,id_pqproyek:id_pqproyek},
                     async : true,
                     dataType : 'json',
                     success: function(data){
@@ -472,8 +474,8 @@ function set_status_infaq() {
                     dataType : 'json',
                     success: function(data){
                       $.each(data, function(key, value) {
-                        // $('[name="area"]').val(value.nm_area).trigger('change');
-                        // $('[name="subarea"]').val(value.nm_sub_area).trigger('change');
+                        $('[name="area"]').val(value.kd_area).trigger('change');
+                        // $('[name="subarea"]').val(value.kd_sub_area).trigger('change');
                         $('[name="jnsproyek"]').val(value.nm_jns_proyek).trigger('change');
                         $('[name="jnssubproyek"]').val(value.nm_jns_sub_proyek).trigger('change');
                         $('[name="perusahaan"]').val(value.nm_perusahaan).trigger('change');
@@ -484,7 +486,7 @@ function set_status_infaq() {
                         
                         var spk = value.nilai;
 
-                        var ppn = (10/100)*((100/110)*spk);
+                        var ppn = (11/100)*((100/110)*spk);
                         var pilihpph = value.jns_pph;
 
                         $('[name="nilaispk"]').val(number_format(spk,"2",",",".")).trigger('change');
@@ -516,15 +518,16 @@ function set_status_infaq() {
 
 
   function get_proyekcombo(){ 
-                var subarea     = "<?= $proyek['kd_sub_area']; ?>";
-                var area        = document.getElementById("area").value;
+                var subaarea     = "<?= $proyek['kd_sub_area']; ?>";
+                var area        = "<?= $proyek['kd_area']; ?>";
                 var id_pqproyek = "<?= $proyek['kd_proyek']; ?>";
+                alert(subaarea+'-'+area+'-'+id_pqproyek)
                 $.ajax({
                     url : "<?php echo site_url('pq/get_proyek_by_area_subarea_edit');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: subarea,area:area,id_pqproyek:id_pqproyek},
+                      id: subaarea,area:area,id_pqproyek:id_pqproyek},
                     async : true,
                     dataType : 'json',
                     success: function(data){

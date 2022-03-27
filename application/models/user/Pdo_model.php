@@ -35,14 +35,36 @@ public function get_all_pdo(){
 		}
 	}
 
+public function get_all_pdo_operasional(){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->select('*');
+			$this->db->from("v_pdo_operasional");
+       		return $this->db->get()->result_array();
+		}
+		else{
+			$this->db->select('*');
+			$this->db->from("v_pdo_operasional");
+			$this->db->where('kd_area',$this->session->userdata('kd_area'));
+       		return $this->db->get()->result_array();
+		}
+	}
+
 function get_pq_projek_by_area($area)
 	{
-		$query = $this->db->get_where('ci_pendapatan', array('kd_area' => $area, 'status' => 1));
+		$query = $this->db->get_where('ci_pendapatan', array('kd_area' => $area, 'status' => 1, 'status_cair' => 1));
 		return $query;
 	}
 
-function get_item_pq_by_pq($pq)
+function get_pq_operasional_by_area($area,$tahun)
 	{
+		$query = $this->db->get_where('ci_pq_operasional', array('kd_area' => $area, 'left(kd_pq_operasional,4)' => $tahun, 'status' => 1));
+		return $query;
+	}
+
+	
+
+function get_item_pq_by_pq($pq)
+	{	
 		$query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $pq));
 		return $query;
 	}
@@ -115,6 +137,25 @@ public function save_pdo($data){
 }
 
 
+public function save_pdo_operasional($data){
+		$insert_data['id_pdo']						= $data['id_pdo'];
+		$insert_data['kd_pdo'] 						= $data['kd_pdo'];
+		$insert_data['tgl_pdo'] 					= $data['tgl_pdo'];
+		$insert_data['kd_area'] 					= $data['kd_area'];
+		$insert_data['kd_pqproyek']					= $data['kd_pqproyek'];
+		$insert_data['kd_project']					= $data['kd_project'];
+		$insert_data['no_acc3']						= $data['no_acc3'];
+		$insert_data['no_acc']						= $data['no_acc'];
+		$insert_data['uraian'] 						= $data['uraian'];
+		$insert_data['nilai']						= $data['nilai'];
+		$insert_data['jenis']						= $data['jenis'];
+
+		$insert_data['username']					= $this->session->userdata('username');
+		$insert_data['created_at']					= date("Y-m-d h:i:s");
+		$query = $this->db->insert('ci_pdo', $insert_data);
+}
+
+
 
 
 function get_nomor($area)
@@ -141,7 +182,7 @@ public function get_pdo_project_rinci($pqproyek,$no_acc,$jenis,$jenis_tk){
 		}
 
 public function edit_pdo($data, $id_pdo){
-			$this->db->where('id_pdo', $id_pdo);
+			$this->db->where('kd_pdo', $id_pdo);
 			$this->db->update('ci_pdo', $data);
 			return true;
 		}
@@ -155,6 +196,22 @@ public function get_pdo_by_id($id){
 				 $this->db->where('ci_pdo.id_pdo', $id);
 			return $result = $this->db->get()->row_array();
 		}
+
+
+function get_nilai_op($kode_pqoperasional)
+	{
+		$query = $this->db->get_where('ci_pq_operasional', array('kd_pq_operasional' => $kode_pqoperasional));
+		return $query;
+	}
+
+function get_realisasi_op($kode_pqoperasional)
+	{
+		$this->db->select('ifnull(sum(total),0)as total');
+		$this->db->from('v_get_realisasi_hpp');
+		$this->db->where('kd_pqproyek', $kode_pqoperasional);	
+		$query=$this->db->get();
+		return $query;
+	}
 
 		// --------------------------------------- PDO END
 

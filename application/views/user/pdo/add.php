@@ -212,7 +212,7 @@
 <script src="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
   <script>
-  $("#pq> a").addClass('active');
+  $("#pdo> a").addClass('active');
 </script>
 <script>
   $(document).ready(function(){
@@ -221,38 +221,6 @@
     // get_datatable();
     get_projekcombo()
     $('#divisi').prop('disabled', true)
-
-   // $('#item_hpp').change(function(){ 
-   //              var kd_coa=$(this).val();
-   //              if (kd_coa=='5010202'){
-   //                document.getElementById("jenis_tk").disabled = false;
-   //              }else{
-   //                document.getElementById("jenis_tk").disabled = true;
-   //              }
-                
-   //              return false;
-   //          });
-
-// function get_datatable(no_acc,kode_pqproyek,jns_tekael){
-//   // $('#projek').prop('disabled', true);
-  
-//   var kode_pqproyek_new = kode_pqproyek.replace(/\//g,'Pd0JuhgMsMjKtKlbr');
-
-//     var table = $('#na_datatable').DataTable( {
-//     "processing": true,
-//     "serverSide": false,
-//     "ajax": "<?=base_url('cpdo/datatable_pdo_project/') ?>"+kode_pqproyek_new+'/'+no_acc+'/'+jns_tekael,
-//     "order": [[0,'asc']],
-//     "columnDefs": [
-//     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-//     { "targets": 1, "name": "kd_pqproyek", 'searchable':true, 'orderable':false},
-//     { "targets": 2, "name": "nm_item", 'searchable':true, 'orderable':false},
-//     { "targets": 3, "name": "total", 'searchable':true, 'orderable':false},
-//     { "targets": 4, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
-//     ]
-//   });
-
-//   }
 
 
 // get pq projek
