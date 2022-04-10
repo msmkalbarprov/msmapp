@@ -62,11 +62,13 @@ function get_area_by_pqprojectid($id)
 
 	public function get_pq_operasional($id){
 			$tahun = date("Y");
+
+			$kd_area= substr($id,4,2);
 				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 					$this->db->select('*');
 					$this->db->from("ci_pq_operasional");
 					$this->db->where('left(kd_pq_operasional,4)',$tahun);
-					$this->db->where('kd_area',$id);
+					$this->db->where('kd_area',$kd_area);
 				}else{
 					$this->db->select('*');
 					$this->db->from("ci_pq_operasional");
