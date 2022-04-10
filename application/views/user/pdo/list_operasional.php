@@ -33,7 +33,6 @@
                       <th width="5%">No.</th>
                       <th>Kode</th>
                       <th>Area</th>
-                      <th>Akun</th>
                       <th>Nilai</th>
                       <th width="10%"><?= trans('action') ?></th>
                     </tr>

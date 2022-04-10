@@ -33,7 +33,6 @@
                       <th width="5%">No.</th>
                       <th>Kode</th>
                       <th>Area</th>
-                      <th>Akun</th>
                       <th>Nilai</th>
                       <th width="10%"><?= trans('action') ?></th>
                     </tr>
@@ -61,7 +60,7 @@
   var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('cpdo/datatable_json')?>",
+    "ajax": "<?=base_url('pdo/datatable_json')?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "no", 'searchable':true, 'orderable':true},

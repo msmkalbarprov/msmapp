@@ -58,13 +58,15 @@ function get_area_by_pqprojectid($id)
 	}
 
 
+
+
 	public function get_pq_operasional($id){
 			$tahun = date("Y");
 				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 					$this->db->select('*');
 					$this->db->from("ci_pq_operasional");
 					$this->db->where('left(kd_pq_operasional,4)',$tahun);
-					$this->db->where('kd_area',substr($id,4,2));
+					$this->db->where('kd_area',$id);
 				}else{
 					$this->db->select('*');
 					$this->db->from("ci_pq_operasional");
@@ -612,7 +614,7 @@ public function get_spk_by_year($id,$tahun){
 			$this->db->where("left(kd_proyek,4)", $tahun);
 			$this->db->where("kd_area", $id);
 			return $result = $this->db->get()->row_array();
-		}
+}
 // jumlah revisi
 public function get_jumlah_revisi($id_pqproyek){
 			$this->db->select("revisi as jumlah_revisi");

@@ -29,7 +29,11 @@ $lang['pdo_operasional']                        = "PDO Operasional";
 $lang['pq_project']                            	= "PQ Proyek";
 $lang['pq_operasional']                         = "PQ Operasional";
 
-$lang['pencairan_proyek']                         = "Pencairan";
+$lang['pencairan']                         		= "Pencairan";
+$lang['pencairan_proyek']                       = "Proyek";
+$lang['pencairan_pdo']                         	= "PDO";
+$lang['penandatangan']                         	= "Penandatangan";
+$lang['ms_ttd']                         		= "List tanda tangan";
 
 
 

@@ -82,6 +82,8 @@ $route['pq/add_hpp/(:any)'] 					= 'pq/add_hpp/$1';
 $route['pq/edit_hpp/(:any)/(:any)'] 			= 'pq/ubah_hpp/$1';
 $route['pq/del_hpp/(:any)/(:any)'] 				= 'pq/hapus_hpp/$1';
 
+$route['pq/datatable_json_operasional'] 		= 'pq/datatable_json_operasional';
+
 $route['pq/add_operasional'] 					= 'pq/add_pq_operasional';
 $route['pq/editrincian/(:any)'] 				= 'pq/edit_rincian_pq/$1';
 $route['pq/deleterincian/(:any)'] 				= 'pq/delete_rincian_pq/$1';
@@ -99,7 +101,21 @@ $route['pdo/operasional']						= 'cpdo/operasional';
 $route['pdo/add_operasional']					= 'cpdo/add_operasional';
 $route['pdo/edit_pdo_operasional/(:any)']		= 'cpdo/edit_pdo_operasional/$1';
 
+$route['pdo/datatable_json/(:any)']				= 'cpdo/datatable_json/$1';
+$route['pdo/datatable_json']					= 'cpdo/datatable_json';
+$route['pdo/get_item_pq_by_pq']					= 'cpdo/get_item_pq_by_pq';
+$route['pdo/get_nilai']							= 'cpdo/get_nilai';
+$route['pdo/get_nilai2']						= 'cpdo/get_nilai2';
+$route['pdo/get_realisasi']						= 'cpdo/get_realisasi';
+$route['pdo/get_realisasi2']					= 'cpdo/get_realisasi2';
+$route['pdo/get_nomor']							= 'cpdo/get_nomor';
+$route['pdo/get_pq_projek_by_area']				= 'cpdo/get_pq_projek_by_area';
+
+
+
+
 $route['pencairan/edit/(:any)']					= 'pencairan/edit_proyek/$1';
+
 
 
 

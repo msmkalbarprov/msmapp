@@ -188,6 +188,7 @@ public function datatable_json_hpp(){
 					'pphtitipan' 		=> $this->proyek_model->number($this->input->post('nilaipphtitipan')),
 					'titipan_net' 		=> $this->proyek_model->number($this->input->post('titipan_net')),
 					'status_titipan' 	=> $this->input->post('s_titip'),
+					'status_ppn' 		=> $this->input->post('s_ppn'),
 					'status_infaq' 		=> $this->input->post('s_infaq'),
 					'infaq' 			=> $this->proyek_model->number($this->input->post('infaq')),
 					'pendapatan_nett'	=> $this->proyek_model->number($this->input->post('nilai_pend_net_s_titipan')),
@@ -431,6 +432,7 @@ public function revisi($id='')
 		if($this->input->post('submit')){
 			
 				$data = array(
+					'status_ppn' 		=> $this->input->post('s_ppn'),
 					'ppn' 				=> $this->proyek_model->number($this->input->post('nilaippn')),
 					'pph'				=> $this->proyek_model->number($this->input->post('nilaipph')),
 					'spk_net' 			=> $this->proyek_model->number($this->input->post('nilaipend_nett')),
@@ -609,8 +611,8 @@ public function edit_rincian_proyek($id = 0){
 			$this->load->view('admin/includes/_footer');
 	}
 
-	public function datatable_json_operasional(){				   					   
-		$records['data'] = $this->pq_model->get_pq_operasional();
+	public function datatable_json_operasional($id){				   					   
+		$records['data'] = $this->pq_model->get_pq_operasional($id);
 		$data = array();
 
 		$i=0;

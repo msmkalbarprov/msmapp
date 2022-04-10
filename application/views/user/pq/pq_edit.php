@@ -124,6 +124,17 @@
                  <td width="45%" align="right"><input type="text" name="nilaispk" style="background:none;border: none;text-align:right;" id="nilaispk" class="form-control" readonly></td>
                </tr>
                <tr>
+                <td width="50%">Jenis PPN</td>
+                 <td width="5%">:</td>
+                 <td align="center">
+                    <small>11%</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_ppn' name="c_ppn"  type='checkbox' />
+                    <label for='c_ppn'></label>
+                    <small>10%</small>
+                    <input id='s_ppn' name="s_ppn"  type='hidden' />
+                </td>
+               </tr>
+               <tr>
                  <td width="50%">PPN</td>
                  <td width="5%">:</td>
                  <td width="45%" align="right"><input type="text" name="nilaippn" style="background:none;border: none;text-align:right;" id="nilaippn" class="form-control" readonly></td>
@@ -250,6 +261,12 @@
 
 });
 
+ $('#c_ppn').click(function() {
+    hitungtitipan();
+
+
+});
+
  $('#c_infaq').click(function() {
     hitungtitipan();
 
@@ -275,13 +292,30 @@ function hitungtotalrow() {
 function hitungtitipan() {
   set_status_titipan();
   set_status_infaq();
+  set_status_ppn();
   var titipan     = number(document.getElementById("titipan").value);
   var pilihpph    = number(document.getElementById("jnspph").value);
   var pend_nett   = number(document.getElementById("nilaipend_nett").value);
 
+  var spk = number(document.getElementById("nilaispk").value);
+
+  
 
   // hitung ppn titipan
-  var ppntitipan  = (11/100)*((100/110)*titipan);
+    // hitung  infaq
+if ($('#c_ppn').prop('checked') == true){
+    var ppn = (10/100)*((100/110)*spk);
+    var ppntitipan = (10/100)*((100/110)*titipan);
+    $('[name="s_ppn"]').val('1').trigger('change');
+    $('[name="nilaippn"]').val(number_format(ppn,"2",",",".")).trigger('change');
+  }else{
+    var ppn = (11/100)*((100/110)*spk);
+    var ppntitipan = (11/100)*((100/110)*titipan);
+    $('[name="s_ppn"]').val('0').trigger('change');
+    $('[name="nilaippn"]').val(number_format(ppn,"2",",",".")).trigger('change');
+  }
+
+
   
   // hitung pph berdasarkan pajak di apbd
   if (pilihpph==22){
@@ -425,6 +459,14 @@ function set_status_titipan() {
 }
 
 
+function set_status_ppn() {
+  var status_ppn = "<?= $pqproyek['status_ppn'] ?>";
+  if (status_ppn==1){
+    $('#c_ppn').attr('checked', 'checked');
+  }
+}
+
+
 function set_status_infaq() {
   var status_infaq = "<?= $pqproyek['status_infaq'] ?>";
   if (status_infaq==1){
@@ -521,7 +563,6 @@ function set_status_infaq() {
                 var subaarea     = "<?= $proyek['kd_sub_area']; ?>";
                 var area        = "<?= $proyek['kd_area']; ?>";
                 var id_pqproyek = "<?= $proyek['kd_proyek']; ?>";
-                alert(subaarea+'-'+area+'-'+id_pqproyek)
                 $.ajax({
                     url : "<?php echo site_url('pq/get_proyek_by_area_subarea_edit');?>",
                     method : "POST",

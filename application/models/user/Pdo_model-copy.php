@@ -152,12 +152,9 @@ public function save_pdo($data){
 		$insert_data['kd_project']					= $data['kd_project'];
 		$insert_data['no_acc3']						= $data['no_acc3'];
 		$insert_data['no_acc']						= $data['no_acc'];
-		$insert_data['jenis_tkl']					= $data['jns_tkl'];
+		$insert_data['jenis_tkl']						= $data['jns_tkl'];
 		$insert_data['uraian'] 						= $data['uraian'];
 		$insert_data['nilai']						= $data['nilai'];
-		$insert_data['qty']							= $data['qty'];
-		$insert_data['satuan']						= $data['satuan'];
-		$insert_data['harga']						= $data['harga'];
 		$insert_data['jenis']						= $data['jenis'];
 
 		$insert_data['username']					= $this->session->userdata('username');
@@ -178,9 +175,6 @@ public function save_edit_pdo($data){
 		$insert_data['jenis_tkl']						= $data['jns_tkl'];
 		$insert_data['uraian'] 						= $data['uraian'];
 		$insert_data['nilai']						= $data['nilai'];
-		$insert_data['qty']							= $data['qty'];
-		$insert_data['satuan']						= $data['satuan'];
-		$insert_data['harga']						= $data['harga'];
 		$insert_data['jenis']						= $data['jenis'];
 
 		$insert_data['username']					= $this->session->userdata('username');
@@ -238,19 +232,11 @@ public function save_edit_pdo($data){
 
 public function add_pdo_project($kdpdo)
 		{	
-			$query = $this->db->query("INSERT into ci_pdo (id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar) 
-                           SELECT id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar FROM ci_pdo_temp
+			$query = $this->db->query("INSERT ci_pdo 
+                           SELECT * FROM ci_pdo_temp
                            WHERE kd_pdo = '$kdpdo'");
 
 			$this->db->delete('ci_pdo_temp', array('kd_pdo' => $kdpdo));
-			return true;
-		} 
-
-public function update_keterangan($kdpdo, $keterangan)
-		{	
-			$this->db->set('keterangan', $keterangan);
-			$this->db->where('kd_pdo', $kdpdo);
-			$this->db->update('ci_pdo');
 			return true;
 		} 
 
@@ -267,9 +253,6 @@ public function save_pdo_operasional($data){
 		$insert_data['uraian'] 						= $data['uraian'];
 		$insert_data['nilai']						= $data['nilai'];
 		$insert_data['jenis']						= $data['jenis'];
-		$insert_data['qty']							= $data['qty'];
-		$insert_data['satuan']						= $data['satuan'];
-		$insert_data['harga']						= $data['harga'];
 
 		$insert_data['username']					= $this->session->userdata('username');
 		$insert_data['created_at']					= date("Y-m-d h:i:s");
@@ -287,9 +270,6 @@ public function save_edit_pdo_operasional($data){
 		$insert_data['no_acc3']						= $data['no_acc3'];
 		$insert_data['no_acc']						= $data['no_acc'];
 		$insert_data['uraian'] 						= $data['uraian'];
-		$insert_data['qty']							= $data['qty'];
-		$insert_data['satuan']						= $data['satuan'];
-		$insert_data['harga']						= $data['harga'];
 		$insert_data['nilai']						= $data['nilai'];
 		$insert_data['jenis']						= $data['jenis'];
 		$insert_data['username']					= $this->session->userdata('username');
@@ -441,24 +421,10 @@ public function get_pdo_header($id){
 			$this->db->where("id_pdo",$id);
        		return $result = $this->db->get()->row_array();
 		}
-
-public function get_pdo_operasional_header($id){
-			$this->db->from("v_pdo_operasional");
-			$this->db->where("id_pdo",$id);
-       		return $result = $this->db->get()->row_array();
-		}
 public function get_ttd($id){
 			$this->db->select("v_pdo.kd_area,ci_ttd.*");
 			$this->db->from("v_pdo");
 			$this->db->join("ci_ttd", 'v_pdo.kd_area=ci_ttd.kd_area', 'inner');
-			$this->db->where("id_pdo",$id);
-       		return $result = $this->db->get()->row_array();
-		}
-
-public function get_ttd_operasional($id){
-			$this->db->select("v_pdo_operasional.kd_area,ci_ttd.*");
-			$this->db->from("v_pdo_operasional");
-			$this->db->join("ci_ttd", 'v_pdo_operasional.kd_area=ci_ttd.kd_area', 'inner');
 			$this->db->where("id_pdo",$id);
        		return $result = $this->db->get()->row_array();
 		}

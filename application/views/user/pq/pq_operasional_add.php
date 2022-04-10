@@ -171,11 +171,11 @@
 <script>
   $(document).ready(function(){
     $('.select2').select2()
-
+    area_id=0;
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('pq/datatable_json_operasional'.'/'.$this->uri->segment(2))?>",
+    "ajax": "<?=base_url('pq/datatable_json_operasional'.'/')?>"+ area_id,
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
@@ -192,6 +192,16 @@
 
 
 
+
+
+$('#area').change(function(){
+
+         var area_id = $(this).val();
+         var nomorpqoperasional = "<?= date('Y')?>/"+area_id+"/98";
+        $('[name="kd_pq"]').val(nomorpqoperasional).trigger('change');
+        table.ajax.url("<?=base_url('pq/datatable_json_operasional'.'/')?>"+ area_id);
+        table.ajax.reload();
+      });
 
 
     // SAVE

@@ -59,6 +59,13 @@ class Subarea_model extends CI_Model{
 		return $query->result_array();
 	}
 
+	function get_tandatangan()
+	{
+		$this->db->from('ci_tandatangan');
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
 	//-----------------------------------------------------
 	function get_admin_by_id($id)
 	{
@@ -73,6 +80,14 @@ function get_subarea_by_id($id)
 	{
 		$this->db->from('ci_subarea');
 		$this->db->where('id',$id);
+		$query=$this->db->get();
+		return $query->row_array();
+	}
+
+function get_ttd_by_area($id)
+	{
+		$this->db->from('ci_ttd');
+		$this->db->where('kd_area',$id);
 		$query=$this->db->get();
 		return $query->row_array();
 	}
@@ -96,6 +111,33 @@ public function get_all(){
 			$this->db->order_by('kd_area','asc');
 	}
 			
+        return $this->db->get()->result_array();
+}
+
+
+public function get_ttd(){
+
+	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		$this->db->select('ci_ttd.*,ci_area.nm_area');
+			$this->db->from('ci_ttd');
+			$this->db->join('ci_area','ci_ttd.kd_area=ci_area.kd_area', 'left');
+			$this->db->order_by('kd_area','asc');
+	}else{
+			$this->db->select('ci_ttd.*,ci_area.nm_area');
+			$this->db->from('ci_ttd');
+			$this->db->join('ci_area','ci_ttd.kd_area=ci_area.kd_area', 'left');
+			$this->db->where('ci_ttd.kd_area', $this->session->userdata('kd_area'));
+
+			$this->db->order_by('kd_area','asc');
+	}
+			
+        return $this->db->get()->result_array();
+}
+
+public function get_ttd_all(){
+
+			$this->db->select('*');
+			$this->db->from('ci_tandatangan');
         return $this->db->get()->result_array();
 }
 
@@ -168,6 +210,11 @@ public function add_subarea($data){
 	return true;
 }
 
+public function add_ttd_new($data){
+	$this->db->insert('ci_tandatangan', $data);
+	return true;
+}
+
 	//---------------------------------------------------
 	// Edit Admin Record
 public function edit_admin($data, $id){
@@ -179,6 +226,12 @@ public function edit_admin($data, $id){
 public function edit_subarea($data, $id){
 	$this->db->where('id', $id);
 	$this->db->update('ci_subarea', $data);
+	return true;
+}
+
+public function edit_ttd($data, $id){
+	$this->db->where('kd_area', $id);
+	$this->db->update('ci_ttd', $data);
 	return true;
 }
 
@@ -195,6 +248,12 @@ function delete($id)
 {		
 	$this->db->where('id',$id);
 	$this->db->delete('ci_subarea');
+} 
+
+function delete_ttd($id)
+{		
+	$this->db->where('id',$id);
+	$this->db->delete('ci_tandatangan');
 } 
 
 }
