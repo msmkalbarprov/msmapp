@@ -15,15 +15,13 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             Tambah PDO Proyek </h3>
+             Tambah PDO Gaji </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pdo'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('cpdo/gaji'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
-         
-         <!-- For Messages -->
          <div class="alert alert-success alert-dismissible" id="success" style="display:none;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
         </div>
@@ -31,8 +29,9 @@
         <div class="alert alert-danger alert-dismissible" id="error" style="display:none;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
         </div>
+         <!-- For Messages -->
         <?php $this->load->view('admin/includes/_messages.php') ?>
-         
+         <?php echo form_open(base_url('cpdo/add_pdo_gaji'), 'class="form-horizontal"' )?> 
          <div class="row">
           <div class="col-md-3">
             <div class="form-group">
@@ -69,8 +68,61 @@
          </div>
 
          <div class="row">
-          
+          <div class="col-md-12">
+           <div class="form-group">
+            <label for="tipeproyek" class="control-label">Keterangan</label>
+              <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" ></textarea>
+          </div>
+          </div>
+         </div>
 
+
+        
+        <div class="form-group">
+          <div class="col-md-12" align="center">
+            <!-- <button name="butsave" id="butsave"  class="btn btn-success btn-sm"> Tambah Rincian </button> -->
+            <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#largeModal">Tambah Rincian</a>
+            <input type="submit" name="submit" id="tombolsimpan" value="Simpan" class="btn btn-primary btn-sm">
+          </div>
+        </div>
+      <?php echo form_close(); ?>
+      <!-- datatable -->
+      
+        <div class="col-md-12">
+          <div class="card-body table-responsive">
+            <table id="na_datatable" class="table table-bordered table-striped" width="100%">
+              <thead>
+                <tr>
+                  <!-- <th>#No</th> -->
+                  <th width="10%">Kode</th>
+                  <th>Nama Akun</th>
+                  <th>Qty</th>
+                  <th>Satuan</th>
+                  <th>Harga</th>
+                  <th>Uraian</th>
+                  <th>Nilai</th>
+                  <th width="5%">Action</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+       
+
+
+<!-- large modal -->
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Tambah Rincian</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         
+        <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label for="proyek" class="control-label">PQ Proyek</label>
@@ -96,8 +148,8 @@
           
          </div>
 
-         <div class="row">
-          <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Akun</label>
               <input type="hidden" name="jns_tkls" id="jns_tkls" class="form-control" readonly>
@@ -107,42 +159,52 @@
 
             </div>
           </div>
-          
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="item_hpp" class="control-label">Qty</label>
+                <input type="number" name="qty" id="qty" class="form-control"  placeholder="" >
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="item_hpp" class="control-label">Satuan</label>
+                <input type="text" name="satuan" id="satuan" class="form-control"  placeholder="" >
+
+            </div>
+          </div>
+        </div>
+          <div class="row">
+          <div class="col-md-6">
+           <div class="form-group">
+            <label for="tipeproyek" class="control-label">Harga</label>
+              <input type="text" name="harga" id="harga" class="form-control"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
+          </div>
+          </div>
           <div class="col-md-6">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Uraian</label>
-              <input type="text" name="uraian" id="uraian" class="form-control"  placeholder="Uraian" >
+              <input type="text" name="uraian" id="uraian" class="form-control"  placeholder="" >
           </div>
           </div>
          </div>
 
          <div class="row">
-          <div class="col-md-2">
-            
-          </div>
-          <div class="col-md-2">
-          </div>
-
-          <div class="col-md-2">
-          </div>
-
-          <div class="col-md-3" align="right">
-            <label for="dinas" class="control-label">Nilai PDO </label>
-          </div>
-          <div class="col-md-3">
+          <div class="col-md-12">
            <div class="form-group">
-               <input type="text" name="total" id="total" class="form-control bg-light text-white" placeholder="Input Nilai"  style="background:none;text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
+              <label for="dinas" class="control-label">Nilai PDO </label>
+               <input type="text" name="total" id="total" class="form-control" value="0" style="background:none;text-align:right;"readonly >
           </div>
           </div>
          </div>
 
          <div class="row">
           
-          <div class="col-md-9" align="right">
-            <label for="dinas" class="control-label">Nilai HPP</label>
-          </div>
-          <div class="col-md-3">
+          <div class="col-md-12">
            <div class="form-group">
+                <label for="dinas" class="control-label">Nilai HPP</label>
                 <input type="text" name="pnet" id="pnet" class="form-control"  style="background:none;text-align:right;"readonly >
             </div>
           </div>
@@ -150,12 +212,9 @@
          </div>
 
          <div class="row">
-          
-          <div class="col-md-9" align="right">
-           <label for="dinas" class="control-label">Realisasi</label>
-          </div>
-          <div class="col-md-3" >
+          <div class="col-md-12" >
            <div class="form-group">
+                <label for="dinas" class="control-label">Realisasi</label>
                 <input type="text" name="thpp" id="thpp" class="form-control"   style="background:none;text-align:right;"readonly >
             </div>
           </div>
@@ -163,42 +222,23 @@
          </div>
 
          <div class="row">
-          
-          <div class="col-md-9" align="right">
-           <label for="dinas" class="control-label">Sisa</label>
-          </div>
-          <div class="col-md-3">
+          <div class="col-md-12">
            <div class="form-group">
+                <label for="dinas" class="control-label">Sisa</label>
                 <input type="text" name="sisa" id="sisa" class="form-control"   style="background:none;text-align:right;"readonly >
             </div>
           </div>
          
          </div>
-
-        <div class="form-group">
-          <div class="col-md-12" align="center">
-            <input type="submit" name="submit" id="butsave" value="Simpan" class="btn btn-primary btn-sm">
-          </div>
-        </div>
-      
-      <!-- datatable -->
-      
-        <!-- <div class="col-md-12">
-          <div class="card-body table-responsive">
-            <table id="na_datatable" class="table table-bordered table-striped" width="100%">
-              <thead>
-                <tr>
-                  <th>#No</th>
-                  <th>Kode Akun</th>
-                  <th>Item/uraian</th>
-                  <th>Nilai</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-            </table>
-          </div>
-        </div> -->
-       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        <button name="butsave" id="butsave"  class="btn btn-success btn-sm"> Simpan </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
       </div>
@@ -206,21 +246,97 @@
     </div>
   </section> 
 </div>
+
+
+
 <!-- <script type="text/javascript" src="<?php echo base_url().'assets/dist/js/jquery-3.3.1.js'?>"></script> -->
 <!-- Select2 -->
 <script src="<?php echo base_url(); ?>assets/plugins/select2/select2.full.min.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
   <script>
-  $("#pdo> a").addClass('active');
+  $("#cpdo> a").addClass('active');
 </script>
 <script>
   $(document).ready(function(){
     $('.select2').select2()
+    $("#tombolsimpan").attr("disabled", "disabled");
     // get_pqproyek()
     // get_datatable();
     get_projekcombo()
     $('#divisi').prop('disabled', true)
+
+
+    nomorpdo=0;
+    var table = $('#na_datatable').DataTable( {
+    "processing": true,
+    "serverSide": true,
+    "ordering": true, // Set true agar bisa di sorting
+    "ajax": 
+    // "<?=base_url('cpdo/datatable_json_pdo_proyek'.'/')?>"+ nomorpdo,
+    {
+                "url": "<?=base_url('cpdo/view'.'/')?>"+ nomorpdo, // URL file untuk proses select datanya
+                "type": "POST",
+                "data" : {
+                        "<?php echo $this->security->get_csrf_token_name(); ?>" : "<?php echo $this->security->get_csrf_hash(); ?>"
+                      }
+            },
+    "deferRender": true,
+    "aLengthMenu": [[5, 10, 50],[ 5, 10, 50]],
+
+     "columns": [
+                { "data": "no_acc" }, // Tampilkan no_acc
+                { "data": "nm_acc" },  // Tampilkan nama
+                { "data": "qty" }, // Tampilkan qty
+                { "data": "satuan" }, // Tampilkan satuan
+                { "data": "harga" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total
+                { "data": "uraian" }, // Tampilkan uraian
+                { "data": "nilai" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total
+                {
+                    "data": null,
+                    "render": function(data) {
+
+                        return '<button class="btn btn-danger btn-sm del_btn" id="'+data.no_acc+'"><i class="fa fa-trash-o"></i></button>';
+                    }
+                }
+            ],
+  });
+
+$('#na_datatable').on('click', 'tbody .del_btn', function () {
+    var data_row = table.row($(this).closest('tr')).data();
+    // alert(data_row.no_acc+' - '+data_row.id)
+
+    var id_hapus  = data_row.id;
+    var no_pdo    = $('#kd_pdo').val();
+    var nomorpdo  = no_pdo.replace(/\//g,'abcde')
+
+    // proses hapus
+    $.ajax({
+        url: "<?php echo base_url("cpdo/delete_pdo_project_temp2/");?>",
+        type: "POST",
+        data: {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          type:1,
+          id:id_hapus
+
+        },
+        cache: false,
+        success: function(dataResult){
+          var dataResult = JSON.parse(dataResult);
+          if(dataResult.statusCode==200){
+            $("#success").show();
+            $('#success').html('Data Berhasil ditambahkan !'); 
+            
+            load_rincian_temp(nomorpdo);
+          }
+          else if(dataResult.statusCode==201){
+            $("#error").show();
+            $("#success").hide();
+            $('#error').html('Gagal Simpan');
+          }
+        }
+      });
+})
 
 
 // get pq projek
@@ -253,7 +369,7 @@ $('#projek').change(function(){
     var idproyek    = $(this).val();
     var nomorurut   = $('#urut').val();
     $.ajax({
-        url : "<?php echo site_url('cpdo/get_item_pq_by_pq');?>",
+        url : "<?php echo site_url('cpdo/get_item_pq_gaji_by_pq');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -267,12 +383,6 @@ $('#projek').change(function(){
 
               var kodedivisi = idproyek.substr(11,1);
                 $('[name="divisi"]').val(kodedivisi).trigger('change');
-
-                var kodepdo = idproyek+'/'+nomorurut;
-                var nomorpdo = kodepdo.replace('PQ','PDO');
-
-                $('[name="kd_pdo"]').val(nomorpdo).trigger('change');                
-
                 if (value.jenis_tk == '' || value.jenis_tk == null){
                   $('select[name="item_hpp"]').append('<option value="'+value.kd_item+'">'+ value.kd_item +' '+value.nm_item +'</option>');
                 }else{
@@ -288,13 +398,15 @@ $('#projek').change(function(){
     return false;
 });
 
+function load_rincian_temp(nomorpdo) {
+        table.ajax.url("<?=base_url('cpdo/view'.'/')?>"+ nomorpdo);
+        table.ajax.reload();
+}
 
 
 $('#item_hpp').change(function(){ 
    var kd_coa       = $(this).val();
    var kode_pqproyek  = $('#projek').val();
-   
-
    if (kd_coa.substr(0,7)=='5010202'){
     
     var no_acc = kd_coa.substr(0,7);
@@ -305,8 +417,6 @@ $('#item_hpp').change(function(){
     get_nilai2(no_acc,kode_pqproyek,jns_tk);
     // get_realisasi2(no_acc,kode_pqproyek,jns_tk);
    
-   }else if (kd_coa.substr(0,5)=='50201'){
-      get_nilai3('50201',kode_pqproyek);
    }else{
     let jns_tk = '';
     get_nilai(kd_coa,kode_pqproyek);
@@ -320,27 +430,6 @@ $('#item_hpp').change(function(){
 function get_nilai(kd_coa,kode_pqproyek){
         $.ajax({
         url : "<?php echo site_url('cpdo/get_nilai');?>",
-        method : "POST",
-        data : {
-          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: kode_pqproyek,no_acc:kd_coa},
-        async : true,
-        dataType : 'json',
-        success: function(data){
-            $.each(data, function(key, value) {
-                $('[name="pnet"]').val(number_format(value.total,"2",",",".")).trigger('change');
-
-                get_realisasi(kd_coa,kode_pqproyek,value.total)
-            });
-
-        }
-    });
-}
-
-
-function get_nilai3(kd_coa,kode_pqproyek){
-        $.ajax({
-        url : "<?php echo site_url('cpdo/get_nilai3');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -433,6 +522,12 @@ function get_nomor_urut(area){
         success: function(data){
             $.each(data, function(key, value) {
                 $('[name="urut"]').val(value.nomor).trigger('change');
+                var nomorpdo = 'PDO/'+area+'/GJ/'+value.nomor;
+
+                $('[name="kd_pdo"]').val(nomorpdo).trigger('change');
+                nomorpdo_temp = nomorpdo.replace(/\//g,'abcde')
+                load_rincian_temp(nomorpdo_temp)
+
             });
 
         }
@@ -462,6 +557,19 @@ function get_nomor_urut(area){
                 return false;
             };
 
+// Hitung total
+document.getElementById("qty").onmouseup = function() {hitung_total()};
+document.getElementById("qty").onkeyup   = function() {hitung_total()};
+document.getElementById("harga").onkeyup   = function() {hitung_total()};
+
+function hitung_total() {
+  var harga     = number(document.getElementById("harga").value);
+  var volume    = number(document.getElementById("qty").value);
+  let totalrow = 0;
+
+  totalrow = harga*volume;
+  $('[name="total"]').val(number_format(totalrow,"2",",",".")).trigger('change');
+}
 
 
     // SAVE
@@ -474,6 +582,9 @@ $('#butsave').on('click', function() {
     var uraian        = $('#uraian').val();
     var total         = number($('#total').val());
     var area          = $('#area').val();
+    var qty           = $('#qty').val();
+    var satuan        = $('#satuan').val();
+    var harga         = number($('#harga').val());
     var divisi        = $('#divisi').val();
     var idpdo         = no_pdo.replace(/\//g,'');
     var kodeproject   = projek.replace('PQ/','');
@@ -481,16 +592,55 @@ $('#butsave').on('click', function() {
     var jenis_tkl     = $('#jns_tkls').val();
     var sisa          = number($('#sisa').val());
     if(total>sisa){
-      $("#error").show();
-      $("#success").hide();
-      $('#error').html('Gagal! Nilai Melebihi sisa HPP');
+      alert('Gagal! Nilai Melebihi sisa HPP');
       return;
     }
     
-    if(divisi!="" && tgl_pdo!="" && projek != "" && kd_item!=""  && total!="" && area!=""){
-      $("#butsave").attr("disabled", "disabled");
+    if(divisi==""){
+      alert('Divisi tidak boleh kosong')
+      return;
+    }
+
+    if(tgl_pdo==""){
+      alert('Tanggal tidak boleh kosong')
+      return;
+    }
+    if(projek==""){
+      alert('Projek tidak boleh kosong')
+      return;
+    }
+    if(kd_item==""){
+      alert('Kode Akun tidak boleh kosong')
+      return;
+    }
+    if(total=="" || total==0){
+      alert('Total tidak boleh kosong')
+      return;
+    }
+
+    if(area==""){
+      alert('Area tidak boleh kosong')
+      return;
+    }
+
+    if(qty==""){
+      alert('Quantity tidak boleh kosong')
+      return;
+    }
+
+    if(satuan==""){
+      alert('Satuan tidak boleh kosong')
+      return;
+    }
+
+    if(harga==""){
+      alert('Harga tidak boleh kosong')
+      return;
+    }
+
+      
       $.ajax({
-        url: "<?php echo base_url("cpdo/add/".$this->uri->segment(3));?>",
+        url: "<?php echo base_url("cpdo/add/");?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -501,6 +651,9 @@ $('#butsave').on('click', function() {
           tgl_pdo:tgl_pdo,
           kd_item :kd_item,
           uraian:uraian,
+          qty:qty,
+          satuan:satuan,
+          harga:harga,
           total:total,
           idpdo:idpdo,
           no_pdo:no_pdo,
@@ -513,8 +666,20 @@ $('#butsave').on('click', function() {
         success: function(dataResult){
           var dataResult = JSON.parse(dataResult);
           if(dataResult.statusCode==200){
-            document.getElementById("butsave").disabled = true;
-            window.location.replace("<?= base_url('/pdo') ?>");
+            document.getElementById("tombolsimpan").disabled = false;
+            document.getElementById("item_hpp").value='';
+            document.getElementById("uraian").value='';
+            document.getElementById("total").value='';
+            document.getElementById("total").value='';
+            document.getElementById("pnet").value='';
+            document.getElementById("thpp").value='';
+            document.getElementById("sisa").value='';
+            document.getElementById("satuan").value='';
+            document.getElementById("qty").value='';
+            document.getElementById("harga").value='';
+            nomorpdo_temp = no_pdo.replace(/\//g,'abcde');
+            load_rincian_temp(nomorpdo_temp);
+            $('#largeModal').modal('toggle');
             $("#error").hide();
           }
           else if(dataResult.statusCode==201){
@@ -524,10 +689,7 @@ $('#butsave').on('click', function() {
           }
         }
       });
-    }
-    else{
-      alert('Please fill all the field !');
-    }
+    
   });
 
   }); 

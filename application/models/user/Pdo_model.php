@@ -35,6 +35,20 @@ public function get_all_pdo(){
 		}
 	}
 
+public function get_all_pdo_gaji(){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->select('*');
+			$this->db->from("v_pdo_gaji");
+       		return $this->db->get()->result_array();
+		}
+		else{
+			$this->db->select('*');
+			$this->db->from("v_pdo_gaji");
+			$this->db->where('kd_area',$this->session->userdata('kd_area'));
+       		return $this->db->get()->result_array();
+		}
+	}
+
 public function get_all_pdo_operasional(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 			$this->db->select('*');
@@ -75,12 +89,41 @@ function get_item_pq_by_pq($pq)
 			$this->db->select('*');
 			$this->db->from('vci_hpp');
 			$this->db->where("kd_pqproyek in ('1','$pq')");	
+			$this->db->where("kd_item <>'5010202'");	
 			$query=$this->db->get();
 			return $query;
 		}else{
 			$this->db->select('*');
 			$this->db->from('ci_hpp');
 			$this->db->where('kd_pqproyek', $pq);	
+			$this->db->where("kd_item <>'5010202'");	
+			$query=$this->db->get();
+			return $query;
+		}
+
+	}
+
+
+	function get_item_pq_gaji_by_pq($pq)
+	{	
+		// $query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $pq));
+
+		$query1 ="SELECT status_cair  from ci_pendapatan where kd_pqproyek='$pq'";
+					 $hasil = $this->db->query($query1);
+					 $status_cair = $hasil->row('status_cair');
+
+		if ($status_cair==1){
+			$this->db->select('*');
+			$this->db->from('vci_hpp');
+			$this->db->where("kd_pqproyek in ('1','$pq')");	
+			$this->db->where("kd_item","5010202");	
+			$query=$this->db->get();
+			return $query;
+		}else{
+			$this->db->select('*');
+			$this->db->from('ci_hpp');
+			$this->db->where('kd_pqproyek', $pq);	
+			$this->db->where("kd_item","5010202");
 			$query=$this->db->get();
 			return $query;
 		}
@@ -96,7 +139,18 @@ function get_jenis_tk($kode_pqproyek,$no_acc)
 function get_nilai($id, $no_acc)
 	{	
 		if ($no_acc=='50201'){
-			$this->db->select('npl as total');
+		    	
+		    $query="SELECT persen_pl,ppl from ci_pendapatan where kd_pqproyek='$id'";
+					 $hasil     = $this->db->query($query);
+					 $persen_pl = $hasil->row('persen_pl');
+					 $ppl       = $hasil->row('ppl');
+					 
+			if ($ppl!=0){
+			       $this->db->select('ppl as total');
+			}else{
+			    $this->db->select('npl as total');
+			}
+			
 			$this->db->from('ci_pendapatan');
 			$this->db->where('kd_pqproyek', $id);	
 			$query=$this->db->get();
@@ -442,6 +496,12 @@ public function get_pdo_header($id){
        		return $result = $this->db->get()->row_array();
 		}
 
+public function get_pdo_header_gaji($id){
+			$this->db->from("v_pdo_gaji");
+			$this->db->where("id_pdo",$id);
+       		return $result = $this->db->get()->row_array();
+		}
+
 public function get_pdo_operasional_header($id){
 			$this->db->from("v_pdo_operasional");
 			$this->db->where("id_pdo",$id);
@@ -451,6 +511,14 @@ public function get_ttd($id){
 			$this->db->select("v_pdo.kd_area,ci_ttd.*");
 			$this->db->from("v_pdo");
 			$this->db->join("ci_ttd", 'v_pdo.kd_area=ci_ttd.kd_area', 'inner');
+			$this->db->where("id_pdo",$id);
+       		return $result = $this->db->get()->row_array();
+		}
+
+public function get_ttd_gj($id){
+			$this->db->select("v_pdo_gaji.kd_area,ci_ttd.*");
+			$this->db->from("v_pdo_gaji");
+			$this->db->join("ci_ttd", 'v_pdo_gaji.kd_area=ci_ttd.kd_area', 'inner');
 			$this->db->where("id_pdo",$id);
        		return $result = $this->db->get()->row_array();
 		}

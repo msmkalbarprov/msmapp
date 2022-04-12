@@ -16,10 +16,10 @@
       <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-list"></i>
-             PDO Proyek/Pekerjaan </h3>
+             PDO GAJI </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('cpdo/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
+            <a href="<?= base_url('cpdo/add_gaji'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
           </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
   var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('cpdo/datatable_json')?>",
+    "ajax": "<?=base_url('cpdo/datatable_json_gaji')?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "no", 'searchable':true, 'orderable':true},

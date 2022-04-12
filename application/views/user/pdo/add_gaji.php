@@ -15,7 +15,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             Tambah PDO Proyek </h3>
+             Tambah PDO GAJIk </h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('pdo'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
@@ -237,6 +237,10 @@ $('#area').change(function(){
         async : true,
         dataType : 'json',
         success: function(data){
+                var nomorpdo = 'PDO/98/'+kodearea+'/GJ/'+nomorurut;
+
+                $('[name="kd_pdo"]').val(nomorpdo).trigger('change');  
+
             $('select[name="projek"]').empty();
             $('select[name="projek"]').append('<option value="">No Selected</option>');
             $.each(data, function(key, value) {
@@ -267,12 +271,6 @@ $('#projek').change(function(){
 
               var kodedivisi = idproyek.substr(11,1);
                 $('[name="divisi"]').val(kodedivisi).trigger('change');
-
-                var kodepdo = idproyek+'/'+nomorurut;
-                var nomorpdo = kodepdo.replace('PQ','PDO');
-
-                $('[name="kd_pdo"]').val(nomorpdo).trigger('change');                
-
                 if (value.jenis_tk == '' || value.jenis_tk == null){
                   $('select[name="item_hpp"]').append('<option value="'+value.kd_item+'">'+ value.kd_item +' '+value.nm_item +'</option>');
                 }else{

@@ -189,6 +189,7 @@ public function datatable_json_hpp(){
 					'titipan_net' 		=> $this->proyek_model->number($this->input->post('titipan_net')),
 					'status_titipan' 	=> $this->input->post('s_titip'),
 					'status_ppn' 		=> $this->input->post('s_ppn'),
+					'status_pph' 		=> $this->input->post('s_pph'),
 					'status_infaq' 		=> $this->input->post('s_infaq'),
 					'infaq' 			=> $this->proyek_model->number($this->input->post('infaq')),
 					'pendapatan_nett'	=> $this->proyek_model->number($this->input->post('nilai_pend_net_s_titipan')),
@@ -444,6 +445,7 @@ public function revisi($id='')
 					
 					'status_titipan' 	=> $this->input->post('s_titip'),
 					'status_infaq' 		=> $this->input->post('s_infaq'),
+					'status_pph' 		=> $this->input->post('s_pph'),
 					'infaq' 			=> $this->proyek_model->number($this->input->post('infaq')),
 					'pendapatan_nett'	=> $this->proyek_model->number($this->input->post('nilai_pend_net_s_titipan')),
 

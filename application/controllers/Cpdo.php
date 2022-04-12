@@ -26,6 +26,13 @@ class Cpdo extends MY_Controller {
 		$this->load->view('admin/includes/_footer');
 	}
 
+	public function gaji(){
+		$data['title'] = 'PDO';
+		$this->load->view('admin/includes/_header', $data);
+		$this->load->view('user/pdo/list_gaji');
+		$this->load->view('admin/includes/_footer');
+	}
+
 	public function operasional(){
 		$data['title'] = 'PDO Operasional';
 		$this->load->view('admin/includes/_header', $data);
@@ -43,8 +50,8 @@ class Cpdo extends MY_Controller {
 			if ($row['status_bayar']==1){
 				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
 			}else{
-				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pdo/edit_pdo_project/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('pdo/delete_pdo_project/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_project/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('cpdo/delete_pdo_project/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
 				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}
 
@@ -53,6 +60,36 @@ class Cpdo extends MY_Controller {
 				++$i,
 				'<font size="2px">'.$row['kd_pdo'].'</font>',
 				'<font size="2px">'.$row['nm_area'].'</font>',
+				'<font size="2px">'.$row['tgl_pdo'].'</font>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
+				$tombol
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
+
+	public function datatable_json_gaji(){				   					   
+		$records['data'] = $this->pdo_model->get_all_pdo_gaji();
+		$data = array();
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+			if ($row['status_bayar']==1){
+				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
+			}else{
+				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('cpdo/delete_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+			}
+
+
+			$data[]= array(
+				++$i,
+				'<font size="2px">'.$row['kd_pdo'].'</font>',
+				'<font size="2px">'.$row['nm_area'].'</font>',
+				'<font size="2px">'.$row['tgl_pdo'].'</font>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
 				$tombol
 			);
@@ -70,8 +107,8 @@ public function datatable_json_operasional(){
 			if ($row['status_bayar']==1){
 				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}else{
-				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pdo/edit_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('pdo/delete_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('cpdo/delete_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
 				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}
 
@@ -79,6 +116,7 @@ public function datatable_json_operasional(){
 				++$i,
 				'<font size="2px">'.$row['kd_pdo'].'</font>',
 				'<font size="2px">'.$row['nm_area'].'</font>',
+				'<font size="2px">'.$row['tgl_pdo'].'</font>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
 				$tombol
 			);
@@ -141,6 +179,60 @@ public function add(){
 		
 	}
 
+	public function add_gaji(){
+		$this->rbac->check_operation_access('');
+		if($this->input->post('type')==1){
+			$data['id_pdo'] 			= $this->input->post('idpdo', TRUE);
+			$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
+			$data['tgl_pdo']			= $this->input->post('tgl_pdo', TRUE);
+			$data['kd_area'] 			= $this->input->post('area', TRUE);
+			$data['kd_divisi']			= $this->input->post('divisi', TRUE);
+			$data['kd_pqproyek']		= $this->input->post('projek', TRUE);
+			$data['kd_project']			= $this->input->post('kodeproject', TRUE);
+            $data['no_acc3'] 			= $this->input->post('kd_item', TRUE);
+            $data['no_acc'] 			= $this->input->post('kd_item', TRUE);
+            $data['jns_tkl'] 			= $this->input->post('jenis_tkl', TRUE);
+			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['qty']				= $this->input->post('qty', TRUE);
+			$data['satuan']				= $this->input->post('satuan', TRUE);
+			$data['harga']				= $this->input->post('harga', TRUE);
+			$data['nilai']				= $this->input->post('total', TRUE);
+			$data['jenis']				= 3; //1 untuk pdo project
+			$result = $this->pdo_model->save_pdo($data);
+			// $kodearea 					= $this->input->post('area', TRUE);
+			// $urutan 					= $this->input->post('nourut', TRUE);
+			
+			// $data2 = array(
+			// 	'no_pdo' => $urutan
+			// );
+
+			// $result = $this->pdo_model->update_nomor($data2,$kodearea);
+
+            // if($result){
+					// Activity Log 
+					// $this->activity_model->add_log(2);
+					echo json_encode(array(
+							"statusCode"=>200
+						));
+					// $this->session->set_flashdata('success', 'Data PDO berhasil disimpan!');
+					// redirect(base_url('pdo'),'refresh');
+				// }else{
+				// 	echo json_encode(array(
+				// 			"statusCode"=>201
+				// 		));
+				// }
+		}else{
+			$data['data_area'] 			= $this->area->get_area();
+			$data['data_divisi']		= $this->pdo_model->get_divisi();
+			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
+			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/pdo/tambah_gaji', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+		
+	}
+
 public function add_pdo_project(){
 		
 		if($this->input->post('submit')){
@@ -171,16 +263,58 @@ public function add_pdo_project(){
 				$result = $this->pdo_model->update_nomor($data2,$kodearea);
 				if($result){
 					$this->activity_model->add_log(1);
-					$this->session->set_flashdata('success', 'PQ Proyek berhasil ditambahkan!');
+					$this->session->set_flashdata('success', 'PDO Proyek berhasil ditambahkan!');
 					redirect(base_url('cpdo'));
 				}else{
-					$this->session->set_flashdata('errors', 'PQ Proyek gagal ditambahkan!');
+					$this->session->set_flashdata('errors', 'PDO Proyek gagal ditambahkan!');
 					redirect(base_url('cpdo/add'));
 				}
 			}
 		}
 		
 	}
+
+
+public function add_pdo_gaji(){
+		
+		if($this->input->post('submit')){
+			$this->form_validation->set_rules('kd_pdo', 'Kode PDO', 'trim|required');
+			$this->form_validation->set_rules('tgl_pdo', 'Tanggal PDO', 'trim|required');
+			$this->form_validation->set_rules('area', 'Area', 'trim|required');
+
+			if ($this->form_validation->run() == FALSE) {
+				$data = array(
+					'errors' => validation_errors()
+				);
+				$this->session->set_flashdata('errors', $data['errors']);
+			}
+			else{
+				$kdpdo 		= $this->security->xss_clean($this->input->post('kd_pdo'));
+				$keterangan 	= $this->security->xss_clean($this->input->post('keterangan'));
+				$this->pdo_model->add_pdo_project($kdpdo);
+				$this->pdo_model->update_keterangan($kdpdo, $keterangan);
+
+				$kodearea 					= $this->input->post('area', TRUE);
+				$urutan 					= $this->input->post('urut', TRUE);
+				
+					$data2 = array(
+						'no_pdo' => $urutan
+					);
+
+				$result = $this->pdo_model->update_nomor($data2,$kodearea);
+				if($result){
+					$this->activity_model->add_log(1);
+					$this->session->set_flashdata('success', 'PDO Proyek berhasil ditambahkan!');
+					redirect(base_url('cpdo/gaji'));
+				}else{
+					$this->session->set_flashdata('errors', 'PDO Proyek gagal ditambahkan!');
+					redirect(base_url('cpdo/add_gaji'));
+				}
+			}
+		}
+		
+	}
+
 
 public function edit_pdo_keterangan($id='',$jns=''){
 		
@@ -411,7 +545,7 @@ public function datatable_json_pdo_operasional_edit($id='',$kodepdo=''){
 							"statusCode"=>200
 						));
 				// 	$this->session->set_flashdata('success', 'Data PDO berhasil disimpan!');
-				// 	redirect(base_url('pdo/operasional'),'refresh');
+				// 	redirect(base_url('cpdo/operasional'),'refresh');
 				// }else{
 				// 	echo json_encode(array(
 				// 			"statusCode"=>201
@@ -465,6 +599,47 @@ public function edit_pdo_project($id_pdo='')
 			$data['title'] 				= 'Edit PDO';
 			$this->load->view('admin/includes/_header');
 			$this->load->view('user/pdo/edit', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	
+}
+
+public function edit_pdo_gaji($id_pdo='')
+{		
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('type')==1){
+			$data['id_pdo'] 			= $this->input->post('idpdo', TRUE);
+			$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
+			$data['tgl_pdo']			= $this->input->post('tgl_pdo', TRUE);
+			$data['kd_area'] 			= $this->input->post('area', TRUE);
+			$data['kd_divisi']		= $this->input->post('divisi', TRUE);
+			$data['qty']					= $this->input->post('qty', TRUE);
+			$data['satuan']				= $this->input->post('satuan', TRUE);
+			$data['harga']				= $this->input->post('harga', TRUE);
+			$data['kd_pqproyek']		= $this->input->post('projek', TRUE);
+			$data['kd_project']			= $this->input->post('kodeproject', TRUE);
+            $data['no_acc3'] 			= $this->input->post('kd_item', TRUE);
+            $data['no_acc'] 			= $this->input->post('kd_item', TRUE);
+            $data['jns_tkl'] 			= $this->input->post('jenis_tkl', TRUE);
+			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['nilai']				= $this->input->post('total', TRUE);
+			$data['jenis']				= 3; //1 untuk pdo project
+			$result = $this->pdo_model->save_edit_pdo($data);
+			
+			echo json_encode(array(
+					"statusCode"=>200
+				));
+		}
+		else{
+			$data['data_area'] 			= $this->area->get_area();
+			$data['data_divisi']		= $this->pdo_model->get_divisi();
+			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
+			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
+			$data['data_pdo'] 			= $this->pdo_model->get_pdo_by_id($id_pdo);
+			$data['title'] 				= 'Edit PDO';
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/pdo/edit_gaji', $data);
 			$this->load->view('admin/includes/_footer');
 		}
 	
@@ -554,12 +729,34 @@ public function delete_pdo_project($id = 0)
 
 			if ($status==1){
 				$this->session->set_flashdata('errors', 'PDO Sudah dicairkan!');
-				redirect(base_url('pdo/'));				
+				redirect(base_url('cpdo/'));				
 			}else{
 				$this->db->delete('ci_pdo', array('id_pdo' => $id));	
 				$this->activity_model->add_log(3);
 				$this->session->set_flashdata('success', 'Data berhasil dihapus!');
-				redirect(base_url('pdo/'));
+				redirect(base_url('cpdo/'));
+			}
+		
+	}
+
+	public function delete_pdo_gaji($id = 0)
+	{
+		$this->rbac->check_operation_access('');
+
+			$hasil=$this->db->query("SELECT status_bayar as status from ci_pdo a where id_pdo='$id'");
+				foreach ($hasil->result_array() as $row){
+					$status 	=$row['status']; 
+					
+				}
+
+			if ($status==1){
+				$this->session->set_flashdata('errors', 'PDO Sudah dicairkan!');
+				redirect(base_url('cpdo/gaji'));				
+			}else{
+				$this->db->delete('ci_pdo', array('id_pdo' => $id));	
+				$this->activity_model->add_log(3);
+				$this->session->set_flashdata('success', 'Data berhasil dihapus!');
+				redirect(base_url('cpdo/gaji'));
 			}
 		
 	}
@@ -571,9 +768,9 @@ public function delete_pdo_project_temp($id = 0,$kodepdo='',$jns='')
 		$this->activity_model->add_log(3);
 		$this->session->set_flashdata('success', 'Data berhasil dihapus!');
 		if ($jns=='1'){
-			redirect(base_url('pdo/edit_pdo_project/'.$kodepdo));
+			redirect(base_url('cpdo/edit_pdo_project/'.$kodepdo));
 		}else{
-			redirect(base_url('pdo/edit_pdo_operasional/'.$kodepdo));	
+			redirect(base_url('cpdo/edit_pdo_operasional/'.$kodepdo));	
 		}
 		
 			
@@ -618,12 +815,12 @@ public function delete_pdo_operasional($id = 0)
 
 			if ($status==1){
 				$this->session->set_flashdata('errors', 'PDO Sudah dicairkan!');
-				redirect(base_url('pdo/operasional'));				
+				redirect(base_url('cpdo/operasional'));				
 			}else{
 				$this->db->delete('ci_pdo', array('id_pdo' => $id));	
 				$this->activity_model->add_log(3);
 				$this->session->set_flashdata('success', 'PDO berhasil dihapus!');
-				redirect(base_url('pdo/operasional'));
+				redirect(base_url('cpdo/operasional'));
 			}
 		
 	}	
@@ -660,6 +857,12 @@ public function delete_pdo_operasional($id = 0)
 		echo json_encode($data);
 	}
 
+	function get_item_pq_gaji_by_pq(){
+		$pq = $this->input->post('id',TRUE);
+		$data = $this->pdo_model->get_item_pq_gaji_by_pq($pq)->result();
+		echo json_encode($data);
+	}
+
 	function get_jenis_tk(){
 		$no_acc 		= $this->input->post('kd_coa',TRUE);
 		$kode_pqproyek 	= $this->input->post('kode_pqproyek',TRUE);
@@ -672,6 +875,13 @@ public function delete_pdo_operasional($id = 0)
 		$id 		= $this->input->post('id',TRUE);
 		$no_acc 	= $this->input->post('no_acc',TRUE);
 		$data 		= $this->pdo_model->get_nilai($id, $no_acc)->result();
+		echo json_encode($data);
+	}
+
+	function get_nilai3(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$data 		= $this->pdo_model->get_nilai3($id, $no_acc)->result();
 		echo json_encode($data);
 	}
 

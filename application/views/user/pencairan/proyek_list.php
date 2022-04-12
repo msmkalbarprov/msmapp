@@ -56,7 +56,7 @@
 <!-- <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script> -->
 <script>
   // $("#proyek").addClass('menu-open');
-  $("#proyek> a").addClass('active');
+  $("#pencairan> a").addClass('active');
 </script>
 <script>
   

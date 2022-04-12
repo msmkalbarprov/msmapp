@@ -35,6 +35,8 @@ $lang['pencairan_pdo']                         	= "PDO";
 $lang['penandatangan']                         	= "Penandatangan";
 $lang['ms_ttd']                         		= "List tanda tangan";
 
+$lang['pdo_gaji']                         		= "PDO Gaji";
+
 
 
 $lang['users']                               = "Users";

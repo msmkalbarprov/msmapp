@@ -459,7 +459,7 @@ public function get_marketing_by_id($id){
 			$this->db->where("left(id_pq_operasional,4)", $tahun);
 			$this->db->where("kd_area", $area);
 			$this->db->where("left(kd_item,3)", '503');
-			$this->db->group_by("left(kd_item,3)");
+			// $this->db->group_by("left(kd_item,3)");
 			return $result = $this->db->get()->row_array();
 		}
 

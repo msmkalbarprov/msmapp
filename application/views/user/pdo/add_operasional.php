@@ -72,11 +72,7 @@
                 <select name="area" id ="area" class="form-control select2" style="width: 100%;" required >
                 <option value="">No Selected</option>
                 <?php foreach($data_area as $area): ?>
-                  <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
-                    <option value="<?= $area['kd_area']; ?>" selected><?= $area['nm_area']; ?></option>
-                    <?php else: ?>
                       <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
-                    <?php endif; ?>
                   <?php endforeach; ?>
                 </select>
 

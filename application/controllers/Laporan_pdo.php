@@ -93,6 +93,29 @@ function terbilang($nilai) {
 
 	}
 
+	public function cetak_pdo_gaji($id=0)
+	{	
+		$data['pdo_header'] 		= $this->pdo_model->get_pdo_header_gaji($id);
+		$data['pdo_detail'] 		= $this->pdo_model->get_pdo_detail($id);
+		$data['ttd'] 				= $this->pdo_model->get_ttd_gj($id);
+
+		$jenis= 0;
+		switch ($jenis)
+        {
+            case 0;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'landscape');
+			    $this->pdf->filename = "laporan_pdo.pdf";
+			    $this->pdf->load_view('user/pdo/cetak_pdo_gaji', $data);
+                break;
+            case 1;
+                echo "<title>Cetak PDO</title>";
+                echo $this->load->view('user/pdo/cetak_pdo_gaji', $data);
+               break;
+        }
+
+	}
+
 
 	public function cetak_pdo_operasional($id=0)
 	{	
