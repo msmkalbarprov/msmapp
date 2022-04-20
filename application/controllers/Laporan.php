@@ -907,6 +907,128 @@ if($kode=='10C'){
         }
     }
 
+   // cetak PQ All
+
+    public function cetak_pq_all($tahun=0,$jenis=0)
+	{	
+		$map2					= $this->pq_model->get_map2();
+		$marketing				= $this->pq_model->get_operasional_all($tahun);
+		$pendapatan_area		= $this->pq_model->get_pendapatan_all_by_year($tahun);
+		$spkperyear				= $this->pq_model->get_spk_all_by_year($tahun);
+
+
+		$html="";
+		$html.='<h4>Informasi Pekerjaan :</h4><table  border="1" style="border-spacing: -1px;border-collapse: collapse;" cellspacing="2" cellpadding="3">
+  ';
+    
+
+foreach($map2 as $map2){
+  	$urut 		= $map2["urut"];
+  	$kode 		= $map2["kode"];
+  	$kolom 		= $map2["kolom"];
+  	$kd_item 	= $map2["kd_item"];
+  		$html.='<tr>
+    			<td colspan="4" width="50%">'.$map2["nama_map"].'</td>';
+  
+
+
+		if ($kode=='0' || $kode=='4'){
+				$i=1;
+				$area = $this->pq_model->get_area($tahun);
+		    	foreach($area as $area){
+		    		$colspan1 = $i++;
+		    	}	
+
+		    	$html.='<td colspan="'.$colspan1.'">&nbsp;</td>';
+		}
+
+
+    	if ($urut==1){
+    		$area = $this->pq_model->get_area($tahun);
+		    	foreach($area as $area){
+		    		$html.='<td  align="center" width="10%">'.$area["nm_area"].'</td>';
+		    	}	
+    	}
+
+    	if ($urut==2){
+    		$area = $this->pq_model->get_area($tahun);
+		    	foreach($area as $area){
+		    		$html.='<td  align="center" width="10%">'.$tahun.'</td>';
+		    	}	
+    	}
+
+    	if ($urut==3 || $urut==6 || $urut==7 || $urut==8|| $urut==9|| $urut==10|| $urut==12|| $urut==15|| $urut==16|| $urut==57){
+    		$area = $this->pq_model->get_area($tahun);
+		    	foreach($area as $area){
+		    		$kodearea = $area["kd_area"];
+		    		$pagu = $this->pq_model->get_pq($kodearea,$tahun);
+		    		$html.='<td  align="right" width="10%">'.number_format($pagu[$map2["kolom"]],2,",",".").'</td>';
+		    	}	
+    	}
+
+    	// if ($urut==3){
+    	// 	$area = $this->pq_model->get_area($tahun);
+		   //  	foreach($area as $area){
+		   //  		$kodearea = $area["kd_area"];
+		   //  		$pagu = $this->pq_model->get_pagu($kodearea,$tahun);
+		    			
+		   //  				$html.='<td colspan="2" align="center" width="10%">'.number_format($pagu['nilai_pagu'],2,",",".").'</td>';
+		    			
+
+		    		
+		   //  	}	
+    	// }
+
+
+    	
+
+    	
+    	// // $proyek = $this->pq_model->get_proyek_by_area($map1["kolom"], $id, $tahun);
+    	// // foreach($proyek as $proyek){
+    	// // 	$jumlahkolom = $i++;
+
+    	// // 	if ($map1["kolom"]=='nilai_pagu'){
+    	// // 		$pagu = $pagu+$proyek['nilai_pagu'];
+    	// // 		$html.='<td colspan="2" align="center">'.number_format($proyek[$map1["kolom"]],2,",",".").'</td>';
+    	// // 	}else if ($map1["kolom"]=='masa_kontrak' || $map1["kolom"]=='lama_pekerjaan'){
+    	// // 		$html.='<td colspan="2" align="center">'.$proyek[$map1["kolom"]].' Bulan </td>';
+    	// // 	}else{
+    	// // 		$html.='<td colspan="2" align="center">'.$proyek[$map1["kolom"]].'</td>';	
+    	// // 	}
+    		
+    	// // }
+
+    	// // if ($map1["kolom"]=='nilai_pagu'){
+    	// // 	$html.='<td colspan="2" align="center" style="background: yellow;">'.number_format($pagu,2,",",".").'</td>';
+    	// // }else if($map1["kolom"]=='nm_paket_proyek'){
+    	// // 	$html.='<td colspan="2" align="center" style="background: yellow;">REKAPITULASI</td>';
+    	// // }else{
+    	// // 	$html.='<td colspan="2" align="center" style="background: yellow;"></td>';
+    	// // }
+  		$html.='</tr>';
+  	
+  
+
+
+  }
+
+$html.='</table>';		
+		switch ($jenis)
+        {
+            case 0;
+                header("Cache-Control: no-cache, no-store, must-revalidate");
+	            header("Content-Type: application/vnd.ms-excel");
+	            header("Content-Disposition: attachment; filename= LAPORAN PQ.xls");
+	            echo $html;
+                break;
+            case 1;
+                echo "<title>Laporan PQ</title>";
+                echo $html;
+                
+               break;
+        }
+    }
+
 
 }
 

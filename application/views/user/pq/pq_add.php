@@ -353,9 +353,11 @@ function hitungtitipan() {
   if (pilihpph==22){
     var nilai_pphtitipan = (1.5/100)*((100/110)*titipan);
     var nilai_ppntitipan=ppntitipan;
+    var nilai_pph = (1.5/100)*((100/110)*spk);
   }else if (pilihpph==23){
     var nilai_pphtitipan = (2/100)*((100/110)*titipan);
     var nilai_ppntitipan=ppntitipan;
+    var nilai_pph = (2/100)*((100/110)*spk);
   }else if (pilihpph==21){
       if(jenispph==1){
         var nilai_pphtitipan  = ((5/100)*titipan);

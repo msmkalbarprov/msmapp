@@ -487,8 +487,26 @@ public function get_proyek_by_area($kolom, $id, $tahun){
 			$query=$this->db->get();
 			return $query->result_array();
 		}
+
+public function get_area($tahun){
+			$this->db->select('kd_area,nm_area');
+			$this->db->from('ci_proyek');
+			$this->db->where('thn_anggaran',$tahun);
+			$this->db->order_by('kd_area');
+			$this->db->group_by('kd_area');
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+
 public function get_map1(){
 		$this->db->from('map_pq');
+		// $this->db->where('urut',1);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
+public function get_map2(){
+		$this->db->from('map_pq_all');
 		// $this->db->where('urut',1);
 		$query=$this->db->get();
 		return $query->result_array();
@@ -572,6 +590,18 @@ public function get_op_by_area($kd_item, $id,$tahun){
 			return $query->result_array();
 		}
 
+public function get_op_all($kd_item, $tahun){
+			$query= $this->db->query("SELECT z.*,x.uraian as keterangan,x.total from (
+							SELECT `map_pq`.`kd_item` FROM `map_pq` WHERE 
+							map_pq.kd_item = '$kd_item')z 
+							LEFT JOIN 
+							(select uraian,kd_item,sum(total)as total from `ci_pq_operasional` where 
+							left(kd_pq_operasional,4) = '$tahun' group by kd_item)x ON `x`.`kd_item`=`z`.`kd_item` 
+							ORDER BY kd_item");
+			
+			return $query->result_array();
+		}
+
 public function get_marketing_by_area($kd_item, $id,$tahun){
 			$query= $this->db->query("SELECT z.*,x.uraian as keterangan,x.total from (
 							SELECT `map_pq`.`kd_item` FROM `map_pq` WHERE 
@@ -584,9 +614,26 @@ public function get_marketing_by_area($kd_item, $id,$tahun){
 			return $query->result_array();
 		}
 
+public function get_marketing_all($kd_item, $tahun){
+			$query= $this->db->query("SELECT z.*,x.uraian as keterangan,x.total from (
+							SELECT `map_pq`.`kd_item` FROM `map_pq` WHERE 
+							map_pq.kd_item = '$kd_item')z 
+							LEFT JOIN 
+							(select uraian,kd_item,sum(total)as total from `ci_pq_operasional` where 
+							left(kd_pq_operasional,4) = '$tahun' group by kd_item)x ON left(`x`.`kd_item`,3)=`z`.`kd_item` 
+							ORDER BY kd_item");
+			
+			return $query->result_array();
+		}
+
 public function get_operasional_by_area($id, $tahun){
 			$query= $this->db->query("SELECT sum(total)as total from `ci_pq_operasional` where 
 							left(kd_pq_operasional,4) = '$tahun' and kd_area='$id'");
+			return $result = $query->row_array();
+		}
+public function get_operasional_all($tahun){
+			$query= $this->db->query("SELECT sum(total)as total from `ci_pq_operasional` where 
+							left(kd_pq_operasional,4) = '$tahun'");
 			return $result = $query->row_array();
 		}
 
@@ -610,11 +657,36 @@ public function get_pendapatanarea_by_year($id,$tahun){
 			return $result = $this->db->get()->row_array();
 		}
 
+public function get_pendapatan_all_by_year($tahun){
+
+			$this->db->select("sum(pendapatan_nett) as pendapatannetarea, sum(sub_total_a)as sub_total_a, sum(ppn)as ppn, sum(pph)as pph, ifnull(sum(infaq),0)as infaq, (select ifnull(sum(b.titipan),0) from ci_pendapatan b where b.kd_area=a.kd_area and left(b.id_proyek,4)=left(a.id_proyek,4) and (b.status_titipan='0' OR b.status_titipan is null))+(select ifnull(sum(c.titipan),0) from ci_pendapatan c where c.kd_area=a.kd_area and left(c.id_proyek,4)=left(a.id_proyek,4) and c.status_titipan='1')as titipan_net,
+
+(select ifnull(sum(d.npl),0) from ci_pendapatan d where d.kd_area=a.kd_area and left(d.id_proyek,4)=left(a.id_proyek,4) and (d.ppl ='0' OR d.ppl is null))+(select ifnull(sum(e.ppl),0) from ci_pendapatan e where e.kd_area=a.kd_area and left(e.id_proyek,4)=left(a.id_proyek,4)  and e.ppl <>'0')as nilaippl");
+			$this->db->from("ci_pendapatan a");
+			$this->db->where("left(id_proyek,4)", $tahun);
+			return $result = $this->db->get()->row_array();
+		}
+
 public function get_spk_by_year($id,$tahun){
 			$this->db->select("sum(nilai_spk) as nilai_spk");
 			$this->db->from('v_get_proyek_pq2');
 			$this->db->where("left(kd_proyek,4)", $tahun);
 			$this->db->where("kd_area", $id);
+			return $result = $this->db->get()->row_array();
+}
+
+public function get_spk_all_by_year($tahun){
+			$this->db->select("sum(nilai_spk) as nilai_spk");
+			$this->db->from('v_get_proyek_pq2');
+			$this->db->where("left(kd_proyek,4)", $tahun);
+			return $result = $this->db->get()->row_array();
+}
+
+public function get_pq($kodearea,$tahun){
+			$this->db->select("sum(nilai_pagu) as nilai_pagu,sum(nilai_spk) as nilai_spk,sum(ppn) as ppn,sum(pph) as pph,sum(infaq) as infaq,sum(titipan_net) as titipan_net,sum(pendapatan_nett)as pendapatan_nett,sum(nilaippl) as nilaippl, sum(sub_total_a) as sub_total_a,sum(nalokasi_ho) as nalokasi_ho");
+			$this->db->from('v_cetak_pq_all');
+			$this->db->where("thn_anggaran", $tahun);
+			$this->db->where("kd_area", $kodearea);
 			return $result = $this->db->get()->row_array();
 }
 // jumlah revisi
