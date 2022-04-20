@@ -1,6 +1,26 @@
 <!-- DataTables -->
 <!-- <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.css">  -->
 
+<style type="text/css">
+    .green1 {
+  background-color: #BFD834 !important;
+}
+
+   .green2 {
+  background-color: #72CC50 !important;
+}
+   .green3 {
+  background-color: #019875 !important;
+}
+.green5 {
+  background-color: #00AEAD !important;
+}
+.green4 {
+  background-color: #00A896 !important;
+}
+
+</style>
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"> 
 <style type="text/css">
  .tabs {
@@ -20,8 +40,7 @@
         </div>
         <div class="d-inline-block float-right">
           <?php if($this->rbac->Check_operation_permission('add')): ?>
-            <button class="btn btn-success btn-sm" id="button"><i class="fa fa-check"></i> Cair </button>
-            <button class="btn btn-danger btn-sm" id="button1"><i class="fa fa-close"></i> Batal Cair </button>
+            <button class="btn btn-success btn-sm" id="button"><i class="fa fa-check"></i> Detail </button>
           <?php endif; ?>
         </div>
       </div>
@@ -146,7 +165,20 @@ $(document).ready(function() {
             { "data": "nm_jns_pagu"},
             { "data": "nilai"},
             { "className" :  'dt-control', "orderable" : false, "data" : null, "defaultContent": ''},
-        ]
+        ],
+    "createdRow": function( row, data, dataIndex ) {
+        if ( data.status_cair == "1" ) {        
+            $(row).addClass('green1');
+        }else if ( data.status_cair == "2" ) {        
+            $(row).addClass('green2');
+        }else if ( data.status_cair == "3" ) {        
+            $(row).addClass('green3');
+        }else if ( data.status_cair >= 4 && data.status_cair <= 15){
+            $(row).addClass('green4');
+        }else if ( data.status_cair == "100" ){
+            $(row).addClass('green5');
+        }
+    }
         
     } );
 
@@ -187,7 +219,7 @@ $(document).ready(function() {
 
     $('#button').click( function () {
     var id_proyek = table.rows('.selected').data()[0].id_proyek;
-    window.location.href = "<?=base_url('pencairan/edit/')?>"+id_proyek;
+    window.location.href = "<?=base_url('pencairan/detail/')?>"+id_proyek;
     } );
 
     $('#button1').click( function () {

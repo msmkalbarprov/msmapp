@@ -114,7 +114,7 @@ $route['pdo/get_pq_projek_by_area']				= 'cpdo/get_pq_projek_by_area';
 
 
 
-$route['pencairan/edit/(:any)']					= 'pencairan/edit_proyek/$1';
+$route['pencairan/detail/(:any)']					= 'pencairan/edit_proyek/$1';
 
 
 

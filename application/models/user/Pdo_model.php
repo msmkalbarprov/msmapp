@@ -514,6 +514,13 @@ public function get_ttd($id){
 			$this->db->where("id_pdo",$id);
        		return $result = $this->db->get()->row_array();
 		}
+public function get_ttd_pdp($id){
+			$this->db->select("ci_proyek.kd_area,ci_ttd.*");
+			$this->db->from("ci_proyek");
+			$this->db->join("ci_ttd", 'ci_proyek.kd_area=ci_ttd.kd_area', 'inner');
+			$this->db->where("id_proyek",$id);
+       		return $result = $this->db->get()->row_array();
+		}
 
 public function get_ttd_gj($id){
 			$this->db->select("v_pdo_gaji.kd_area,ci_ttd.*");

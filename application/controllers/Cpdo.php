@@ -48,11 +48,11 @@ class Cpdo extends MY_Controller {
 		foreach ($records['data']   as $row) 
 		{  
 			if ($row['status_bayar']==1){
-				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
 			}else{
 				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_project/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('cpdo/delete_pdo_project/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
-				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}
 
 
@@ -77,11 +77,11 @@ class Cpdo extends MY_Controller {
 		foreach ($records['data']   as $row) 
 		{  
 			if ($row['status_bayar']==1){
-				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/edit_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
 			}else{
 				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('cpdo/delete_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
-				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}
 
 
@@ -105,11 +105,11 @@ public function datatable_json_operasional(){
 		foreach ($records['data']   as $row) 
 		{  
 			if ($row['status_bayar']==1){
-				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}else{
 				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('cpdo/delete_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
-				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('laporan_pdo/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}
 
 			$data[]= array(
@@ -925,9 +925,115 @@ public function delete_pdo_operasional($id = 0)
 	}
 
 
+// CETAKAN PDO
+function penyebut($nilai) {
+	$nilai = abs($nilai);
+	$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
+	$temp = "";
+	if ($nilai < 12) {
+		$temp = " ". $huruf[$nilai];
+	} else if ($nilai <20) {
+		$temp = penyebut($nilai - 10). " belas";
+	} else if ($nilai < 100) {
+		$temp = penyebut($nilai/10)." puluh". penyebut($nilai % 10);
+	} else if ($nilai < 200) {
+		$temp = " seratus" . penyebut($nilai - 100);
+	} else if ($nilai < 1000) {
+		$temp = penyebut($nilai/100) . " ratus" . penyebut($nilai % 100);
+	} else if ($nilai < 2000) {
+		$temp = " seribu" . penyebut($nilai - 1000);
+	} else if ($nilai < 1000000) {
+		$temp = penyebut($nilai/1000) . " ribu" . penyebut($nilai % 1000);
+	} else if ($nilai < 1000000000) {
+		$temp = penyebut($nilai/1000000) . " juta" . penyebut($nilai % 1000000);
+	} else if ($nilai < 1000000000000) {
+		$temp = penyebut($nilai/1000000000) . " milyar" . penyebut(fmod($nilai,1000000000));
+	} else if ($nilai < 1000000000000000) {
+		$temp = penyebut($nilai/1000000000000) . " trilyun" . penyebut(fmod($nilai,1000000000000));
+	}     
+	return $temp;
+}
 
+function terbilang($nilai) {
+	if($nilai<0) {
+		$hasil = "minus ". trim(penyebut($nilai));
+	} else {
+		$hasil = trim(penyebut($nilai));
+	}     		
+	return $hasil;
+}
+ 
+	public function cetak_pdo($id=0)
+	{	
+		$data['pdo_header'] 		= $this->pdo_model->get_pdo_header($id);
+		$data['pdo_detail'] 		= $this->pdo_model->get_pdo_detail($id);
+		$data['ttd'] 				= $this->pdo_model->get_ttd($id);
+
+		$jenis= 0;
+		switch ($jenis)
+        {
+            case 0;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'landscape');
+			    $this->pdf->filename = "laporan_pdo.pdf";
+			    $this->pdf->load_view('user/pdo/cetak_pdo', $data);
+                break;
+            case 1;
+                echo "<title>Cetak PDO</title>";
+                echo $this->load->view('user/pdo/cetak_pdo', $data);
+               break;
+        }
+
+	}
+
+	public function cetak_pdo_gaji($id=0)
+	{	
+		$data['pdo_header'] 		= $this->pdo_model->get_pdo_header_gaji($id);
+		$data['pdo_detail'] 		= $this->pdo_model->get_pdo_detail($id);
+		$data['ttd'] 				= $this->pdo_model->get_ttd_gj($id);
+
+		$jenis= 0;
+		switch ($jenis)
+        {
+            case 0;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'landscape');
+			    $this->pdf->filename = "laporan_pdo.pdf";
+			    $this->pdf->load_view('user/pdo/cetak_pdo_gaji', $data);
+                break;
+            case 1;
+                echo "<title>Cetak PDO</title>";
+                echo $this->load->view('user/pdo/cetak_pdo_gaji', $data);
+               break;
+        }
+
+	}
+
+
+	public function cetak_pdo_operasional($id=0)
+	{	
+		$data['pdo_header'] 		= $this->pdo_model->get_pdo_operasional_header($id);
+		$data['pdo_detail'] 		= $this->pdo_model->get_pdo_detail($id);
+		$data['ttd'] 				= $this->pdo_model->get_ttd_operasional($id);
+
+		$jenis= 0;
+		switch ($jenis)
+        {
+            case 0;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'landscape');
+			    $this->pdf->filename = "laporan_pdo.pdf";
+			    $this->pdf->load_view('user/pdo/cetak_pdo_operasional', $data);
+                break;
+            case 1;
+                echo "<title>Cetak PDO</title>";
+                echo $this->load->view('user/pdo/cetak_pdo_operasional', $data);
+               break;
+        }
+
+	}
 	
-
+// CETAKAN PDO
 }
 
 

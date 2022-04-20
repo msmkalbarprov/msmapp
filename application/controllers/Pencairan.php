@@ -20,6 +20,7 @@ class Pencairan extends MY_Controller {
 		$this->load->model('user/dinas_model', 'dinas_models');
 		$this->load->model('admin/jnspagu_model', 'jnspagu');
 		$this->load->model('admin/tipeproyek_model', 'tipeproyek');
+		$this->load->model('user/pdo_model', 'pdo_model');
 		$this->load->model('admin/activity_model', 'activity_model');
 		$this->load->model('user/pq_model', 'pq_model');
 	}
@@ -34,25 +35,6 @@ class Pencairan extends MY_Controller {
 	
 	public function datatable_json(){				   					   
 		$records['data'] = $this->proyek_model->get_all_proyek();
-		// $data = array();
-
-		// $i=0;
-		// foreach ($records['data']   as $row) 
-		// {  
-			
-		// 	$data[]= array(
-		// 		++$i,
-		// 		'<font size="2px"><b>Area</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$row['nm_area'].'<br> <b>Sub Area</b> &nbsp;&nbsp;: '.$row['nm_sub_area'].'</font>',
-		// 		'<font size="2px"><b>proyek</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$row['nm_jns_proyek'].'<br> <b>Sub Proyek</b> &nbsp;: '.$row['nm_jns_sub_proyek'].'</font>',
-		// 		'<font size="2px">'.$row['nm_perusahaan'].'</font>',
-		// 		'<font size="2px">'.$row['nm_dinas'].'</font>',
-		// 		'<font size="2px">'.$row['nm_jns_pagu'].'</font>',
-		// 		'<a title="View" class="view btn btn-sm btn-info" href="'.base_url('proyek/view/'.$row['id_proyek']).'"> <i class="fa fa-eye"></i></a>
-		// 		<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('proyek/edit/'.$row['id_proyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
-		// 		<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/del/".$row['id_proyek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
-		// 	);
-		// }
-		// $records['data']=$data;
 		echo json_encode($records);						   
 	}
 
@@ -332,28 +314,47 @@ class Pencairan extends MY_Controller {
 
 		if($this->input->post('submit')){
 				$data = array(
-					'username_cair' 	=> $this->session->userdata('username'),
+					'username' 			=> $this->session->userdata('username'),
 					'tgl_cair' 			=> $this->input->post('tgl_cair'),
-					'status_cair'		=> 1,
-					'updated_cair' 		=> date('Y-m-d : h:m:s'),
+					'nomor' 			=> $this->input->post('nomor'),
+					'kd_proyek'			=> $this->input->post('kd_proyek2'),
+					'id_proyek'			=> $id,
+					'jenis_cair'		=> $this->input->post('jns_pencairan'),
+					'ppn'				=> $this->proyek_model->number($this->input->post('ppn')),
+					'pph'				=> $this->proyek_model->number($this->input->post('pph')),
+					'nilai_bruto'		=> $this->proyek_model->number($this->input->post('nilai_bruto')),
+					'nilai_netto'		=> $this->proyek_model->number($this->input->post('nilai_netto')),
+					'status_ppn'		=> $this->input->post('s_ppn'),
+					'status_pph'		=> $this->input->post('s_pph'),
+					'created_at' 		=> date('Y-m-d : h:m:s'),
 				);
 				$data 		= $this->security->xss_clean($data);
 				$id_proyek 	= $this->input->post('kd_proyek');
-				$result 	= $this->proyek_model->cair_proyek($data, $id_proyek);
+
+				// SIMPAN DETAIL PENCAIRAN
+				$this->proyek_model->simpan_cair_proyek($data);
+
+				// UPDATE STATUS PENCAIRAN
+				$data2 = array(
+					'tgl_cair' 			=> $this->input->post('tgl_cair'),
+					'status_cair'		=> $this->input->post('jns_pencairan')
+				);
+				$data2 		= $this->security->xss_clean($data2);
+				$result 	= $this->proyek_model->cair_proyek($data2, $id_proyek);
 				if($result){
 					// Activity Log 
 					$this->activity_model->add_log(2);
 
 					$this->session->set_flashdata('success', 'Data proyek berhasil dicairkan!');
-					redirect(base_url('pencairan'),'refresh');
+					redirect(base_url('pencairan/detail/'.$id),'refresh');
 				}else{
 					$this->session->set_flashdata('errors', 'proyek gagal dicairkan!');
-					redirect(base_url('pencairan/edit/'.$id),'refresh');
+					redirect(base_url('pencairan/detail/'.$id),'refresh');
 				}
 			
 		}
 		else{
-			$data['title'] = 'Edit Proyek';
+			$data['title'] = 'Pencairan Proyek';
 			$data['proyek'] = $this->proyek_model->get_proyek_by_id($id);
 			$this->load->view('admin/includes/_header');
 			$this->load->view('user/pencairan/proyek_edit', $data);
@@ -610,6 +611,50 @@ public function edit_rincian_proyek($id = 0){
 	}
 
 
+	public function datatable_json_rincian_cair($id){				   					   
+		$records['data'] = $this->proyek_model->get_subproyek_cair_by_id($id);
+		$data = array();
+
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+
+			if ($row['jenis_cair']=='1'){
+				$jenis_cair ='Uang Muka';
+			}else if ($row['jenis_cair']=='2'){
+				$jenis_cair ='Termin I';
+			}else if ($row['jenis_cair']=='3'){
+				$jenis_cair ='Termin II';
+			}else if ($row['jenis_cair']>=4 && $row['jenis_cair']<=15){
+				$jenis_cair ='Termin III';
+			}else{
+				$jenis_cair ='Lunas';
+			}
+
+			if($row['status_terima']=='1'){
+				$tombol = '
+				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pencairan/cetak_pdp/'.$row['id'].'/'.$id).'" target="_blank" > <i class="fa fa-print"></i></a>';
+			}else{
+				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pencairan/delete_cair/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pencairan/cetak_pdp/'.$row['id'].'/'.$id).'" target="_blank" > <i class="fa fa-print"></i></a>';
+			}
+
+			$data[]= array(
+				++$i,
+				'<font size="2px">'.$row['nomor'].'</font>',
+				'<font size="2px">'.$row['tgl_cair'].'<br>'.$jenis_cair.'</font>',
+				'<div class="text-right"><font size="2px">'.number_format($row['nilai_bruto'],2,',','.').'</font></div>',
+				'<div class="text-right"><font size="2px">'.number_format($row['ppn'],2,',','.').'</font></div>',
+				'<div class="text-right"><font size="2px">'.number_format($row['pph'],2,',','.').'</font></div>',
+				'<div class="text-right"><font size="2px">'.number_format($row['nilai_bruto']-$row['ppn']-$row['pph'],2,',','.').'</font></div>',
+				$tombol
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
+
 	function get_data_detail_edit(){
 		$id = $this->input->post('id',TRUE);
 		$data = $this->proyek_model->get_detail_pencairan_proyek_by_id($id)->result();
@@ -619,6 +664,12 @@ public function edit_rincian_proyek($id = 0){
 	function get_data_detail_rincian_edit(){
 		$id = $this->input->post('id',TRUE);
 		$data = $this->proyek_model->get_detail_rincian_proyek_by_id($id)->result();
+		echo json_encode($data);
+	}
+
+	function get_data_detail_rincian_cair_edit(){
+		$id = $this->input->post('id',TRUE);
+		$data = $this->proyek_model->get_detail_rincian_proyek_cair_by_id($id)->result();
 		echo json_encode($data);
 	}
 
@@ -650,6 +701,21 @@ public function edit_rincian_proyek($id = 0){
 	}
 
 
+	public function delete_cair($id = 0, $id_proyek= 0)
+	{
+		$this->rbac->check_operation_access('');
+
+
+			$this->db->delete('ci_proyek_cair', array('id_proyek' => $id_proyek, 'id' => $id,));
+
+			$this->activity_model->add_log(3);
+
+			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
+			redirect(base_url('pencairan/'.$id_proyek));
+		
+	}
+
+
 	public function delete_rincian_proyek($id = 0)
 	{
 		$this->rbac->check_operation_access('');
@@ -670,6 +736,29 @@ public function edit_rincian_proyek($id = 0){
 			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
 			redirect(base_url('proyek/edit/'.$id_proyek));
 		
+	}
+
+	public function cetak_pdp($id=0,$id_proyek=0)
+	{	
+		$data['pdp_header'] 		= $this->proyek_model->get_pdp_header($id_proyek);
+		$data['pdp_detail'] 		= $this->proyek_model->get_pdp_detail($id_proyek);
+		$data['ttd'] 				= $this->pdo_model->get_ttd_pdp($id_proyek);
+
+		$jenis= 0;
+		switch ($jenis)
+        {
+            case 0;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'portrait');
+			    $this->pdf->filename = "laporan_pdo.pdf";
+			    $this->pdf->load_view('user/pencairan/cetak_pdp', $data);
+                break;
+            case 1;
+                echo "<title>Cetak PDO</title>";
+                echo $this->load->view('user/pencairan/cetak_pdp', $data);
+               break;
+        }
+
 	}
 
 }

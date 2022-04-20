@@ -71,6 +71,13 @@
 				$this->db->where('id_proyek',$id);
                 return $this->db->get()->result_array();
 		}
+
+	public function get_subproyek_cair_by_id($id){
+				$this->db->select('*');
+				$this->db->from("ci_proyek_cair");
+				$this->db->where('id_proyek',$id);
+                return $this->db->get()->result_array();
+		}
 	function get_dinas($subarea,$area)
 	{	
 		$query = $this->db->get_where('ci_dinas', array('kd_area' => $area, 'kd_sub_area' => $subarea));
@@ -122,12 +129,45 @@
 		return $query;
 	}
 
-	public function get_detail_pencairan_proyek_by_id($id){
-		$query = $this->db->get_where('ci_proyek', array('id_proyek' =>  $id));
+public function get_pdp_detail($id){
+			$this->db->select("ci_proyek_cair.*, ci_proyek.nm_paket_proyek, ci_proyek.nm_dinas, 
+								case 
+									when ci_proyek_cair.jenis_cair='1' then '(Uang Muka/DP)'
+									when ci_proyek_cair.jenis_cair='2' then 'Termin 2'
+									when ci_proyek_cair.jenis_cair='3' then 'Termin 3'
+									when ci_proyek_cair.jenis_cair='4' then 'Termin 4'
+									when ci_proyek_cair.jenis_cair='5' then 'Termin 5'
+									when ci_proyek_cair.jenis_cair='6' then 'Termin 6'
+									when ci_proyek_cair.jenis_cair='7' then 'Termin 7'
+									when ci_proyek_cair.jenis_cair='8' then 'Termin 8'
+									when ci_proyek_cair.jenis_cair='9' then 'Termin 9'
+									when ci_proyek_cair.jenis_cair='10' then 'Termin 10'
+									when ci_proyek_cair.jenis_cair='11' then 'Termin 11'
+									when ci_proyek_cair.jenis_cair='12' then 'Termin 12'
+									when ci_proyek_cair.jenis_cair='13' then 'Termin 13'
+									when ci_proyek_cair.jenis_cair='14' then 'Termin 14'
+									when ci_proyek_cair.jenis_cair='15' then 'Termin 15'
+									else '(Lunas)'
+								end as jns_cair");
+			$this->db->from("ci_proyek_cair");
+			$this->db->join("ci_proyek", "ci_proyek_cair.id_proyek=ci_proyek.id_proyek", "left");
+			$this->db->where("ci_proyek_cair.id_proyek", $id);
+			$this->db->order_by("id");
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+public function get_pdp_header($id){
+			$this->db->select("ci_proyek.*,sum(nilai_netto)as nilai,ci_proyek_cair.tgl_cair,ci_proyek_cair.nomor");
+			$this->db->from("ci_proyek");
+			$this->db->join("ci_proyek_cair", "ci_proyek_cair.id_proyek=ci_proyek.id_proyek", "left");
+			$this->db->where("ci_proyek_cair.id_proyek", $id);
+			$this->db->where("ci_proyek.id_proyek",$id);
+       		return $result = $this->db->get()->row_array();
+		}
 
-			$this->db->select('ci_proyek.*, ci_pendapatan.tgl_cair,ci_pendapatan.status_cair');
+	public function get_detail_pencairan_proyek_by_id($id){
+		$query = $this->db->select('*,( select jns_pph from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id DESC LIMIT 1 )as jns_pph,(select nilai from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id DESC LIMIT 1 )as nilai_proyek,(select sum(nilai_bruto) from ci_proyek_cair where ci_proyek_cair.id_proyek=ci_proyek.id_proyek )as realisasi');
 			$this->db->from('ci_proyek');
-			$this->db->join('ci_pendapatan','ci_pendapatan.id_proyek=ci_proyek.kd_proyek', 'left');
 			$this->db->where('ci_proyek.id_proyek',$id);	
 		$query=$this->db->get();
 		return $query;
@@ -135,6 +175,11 @@
 
 	public function get_detail_rincian_proyek_by_id($id){
 		$query = $this->db->get_where('ci_proyek_rincian', array('id' =>  $id));
+		return $query;
+	}
+
+	public function get_detail_rincian_proyek_cair_by_id($id){
+		$query = $this->db->get_where('ci_proyek_cair', array('id_proyek' =>  $id));
 		return $query;
 	}
 
@@ -163,9 +208,14 @@
 			return true;
 		}
 
-		public function cair_proyek($data, $id_proyek){
+		public function cair_proyek($data2, $id_proyek){
 			$this->db->where('id_proyek', $id_proyek);
-			$this->db->update('ci_pendapatan', $data);
+			$this->db->update('ci_pendapatan', $data2);
+			return true;
+		}
+
+		public function simpan_cair_proyek($data){
+			$this->db->insert('ci_proyek_cair', $data);
 			return true;
 		}
 
