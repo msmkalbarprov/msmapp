@@ -49,10 +49,20 @@
               <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control" value="<?= $data_pdo['tgl_pdo']; ?>"  readonly >
           </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
                 <input type="text" name="area" id="area" class="form-control" value="<?= $data_pdo['nm_area']; ?>" readonly>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label">Transfer</label><br>
+                    <small>Langsung</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' />
+                    <label for='c_transfer'></label>
+                    <small>Kas Daerah</small>
+                    <input id='s_transfer' name="s_transfer"  type='hidden' />
             </div>
           </div>
          </div>
@@ -235,6 +245,7 @@
 <script>
   $(document).ready(function(){
     get_akun();
+    set_status_transfer();
 
     var kodepdo   = $('#kd_pdo').val();
     var nomorpdo  = kodepdo.replace(/\//g,'abcde');
@@ -255,7 +266,21 @@
     ]
   });
 
+$('#c_transfer').click(function() {
+  if ($('#c_transfer').prop('checked') == true){
+      $('[name="s_transfer"]').val('1').trigger('change');
+  }else{
+    $('[name="s_transfer"]').val('0').trigger('change');
+  }
+});
 
+function set_status_transfer() {
+  var status_transfer = "<?= $data_pdo['s_transfer'] ?>";
+  if (status_transfer==1){
+    $('#c_transfer').attr('checked', 'checked');
+    $('[name="s_transfer"]').val('1').trigger('change');
+  }
+}
 
 function get_nilai(kode_pqproyek,no_acc){
         $.ajax({

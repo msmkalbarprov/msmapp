@@ -54,14 +54,15 @@ class Auth extends MY_Controller {
 					}
 					if($result['is_admin'] == 1){
 						$admin_data = array(
-							'user_id' => $result['user_id'],
-							'username' => $result['username'],
+							'user_id' 		=> $result['user_id'],
+							'username' 		=> $result['username'],
+							'nama' 			=> $result['firstname']." ".$result['lastname'],
 							'admin_role_id' => $result['admin_role_id'],
-							'admin_role' => $result['admin_role_title'],
-							'is_supper' => $result['is_supper'],
-							'kd_area' => $result['kd_area'],
-							'avatar' => $result['avatar'],
-							'is_admin_login' => TRUE
+							'admin_role'	=> $result['admin_role_title'],
+							'is_supper' 	=> $result['is_supper'],
+							'kd_area' 		=> $result['kd_area'],
+							'avatar' 		=> $result['avatar'],
+							'is_admin_login'=> TRUE
 						);
 						$this->session->set_userdata($admin_data);
 						$this->rbac->set_access_in_session(); // set access in session

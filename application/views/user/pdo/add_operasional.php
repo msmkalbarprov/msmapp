@@ -81,7 +81,17 @@
          </div>
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label">Transfer</label><br>
+                    <small>Langsung</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' />
+                    <label for='c_transfer'></label>
+                    <small>Kas Daerah</small>
+                    <input id='s_transfer' name="s_transfer"  type='hidden' />
+            </div>
+          </div>
+          <div class="col-md-9">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
               <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" ></textarea>
@@ -244,6 +254,7 @@
   $(document).ready(function(){
     $('.select2').select2()
     $("#tombolsimpan").attr("disabled", "disabled");
+    $('[name="s_transfer"]').val('0').trigger('change');
     // get_datatable();
     
     $('#divisi').prop('disabled', true)
@@ -284,6 +295,13 @@
             ],
   });
 
+$('#c_transfer').click(function() {
+      if ($('#c_transfer').prop('checked') == true){
+          $('[name="s_transfer"]').val('1').trigger('change');
+      }else{
+        $('[name="s_transfer"]').val('0').trigger('change');
+      }
+});
 
 function load_rincian_temp(nomorpdo) {
         table.ajax.url("<?=base_url('cpdo/view'.'/')?>"+ nomorpdo);

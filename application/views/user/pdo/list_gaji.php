@@ -16,7 +16,7 @@
       <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-list"></i>
-             PDO GAJI </h3>
+             PDO Gaji / Transportasi dan Akomodasi</h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('cpdo/add_gaji'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  

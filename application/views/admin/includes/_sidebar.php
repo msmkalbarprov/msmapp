@@ -20,7 +20,7 @@ $cur_tab = $this->uri->segment(1)==''?'dashboard': $this->uri->segment(1);
         <img src="<?= base_url('assets/dist/img/'.$this->session->userdata('avatar')) ?>" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        <a href="#" class="d-block"><?= ucwords($this->session->userdata('username')); ?></a>
+        <a href="#" class="d-block"><?= ucwords($this->session->userdata('nama')); ?></a>
       </div>
     </div>
 

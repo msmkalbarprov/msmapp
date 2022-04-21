@@ -69,6 +69,12 @@ function get_pq_projek_by_area($area)
 		return $query;
 	}
 
+function get_pq_projek_gaji_by_area($area)
+	{
+		$query = $this->db->get_where('ci_pendapatan', array('kd_area' => $area));
+		return $query;
+	}
+
 function get_pq_operasional_by_area($area,$tahun)
 	{
 		$query = $this->db->get_where('ci_pq_operasional', array('kd_area' => $area, 'left(kd_pq_operasional,4)' => $tahun, 'status' => 1));
@@ -89,14 +95,14 @@ function get_item_pq_by_pq($pq)
 			$this->db->select('*');
 			$this->db->from('vci_hpp');
 			$this->db->where("kd_pqproyek in ('1','$pq')");	
-			$this->db->where("kd_item <>'5010202'");	
+			$this->db->where("kd_item not in ('5010202','5010205')");	
 			$query=$this->db->get();
 			return $query;
 		}else{
 			$this->db->select('*');
 			$this->db->from('ci_hpp');
 			$this->db->where('kd_pqproyek', $pq);	
-			$this->db->where("kd_item <>'5010202'");	
+			$this->db->where("kd_item not in ('5010202','5010205')");	
 			$query=$this->db->get();
 			return $query;
 		}
@@ -104,29 +110,21 @@ function get_item_pq_by_pq($pq)
 	}
 
 
-	function get_item_pq_gaji_by_pq($pq)
+	function get_item_pq_gaji_by_pq($pq,$jnspdo)
 	{	
-		// $query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $pq));
+			
+			if($jnspdo=='GJ'){
+				$akun='5010202';
+			}else{
+				$akun='5010205';
+			}
 
-		$query1 ="SELECT status_cair  from ci_pendapatan where kd_pqproyek='$pq'";
-					 $hasil = $this->db->query($query1);
-					 $status_cair = $hasil->row('status_cair');
-
-		if ($status_cair==1){
-			$this->db->select('*');
-			$this->db->from('vci_hpp');
-			$this->db->where("kd_pqproyek in ('1','$pq')");	
-			$this->db->where("kd_item","5010202");	
-			$query=$this->db->get();
-			return $query;
-		}else{
 			$this->db->select('*');
 			$this->db->from('ci_hpp');
 			$this->db->where('kd_pqproyek', $pq);	
-			$this->db->where("kd_item","5010202");
+			$this->db->where("kd_item",$akun);
 			$query=$this->db->get();
 			return $query;
-		}
 
 	}
 
@@ -300,9 +298,19 @@ public function add_pdo_project($kdpdo)
 			return true;
 		} 
 
-public function update_keterangan($kdpdo, $keterangan)
+public function update_keterangan($kdpdo, $keterangan, $jenis_transfer)
 		{	
 			$this->db->set('keterangan', $keterangan);
+			$this->db->set('s_transfer', $jenis_transfer);
+			$this->db->where('kd_pdo', $kdpdo);
+			$this->db->update('ci_pdo');
+			return true;
+		} 
+public function update_keterangan_gaji($kdpdo, $keterangan, $jenis_transfer, $jnspdo)
+		{	
+			$this->db->set('keterangan', $keterangan);
+			$this->db->set('s_transfer', $jenis_transfer);
+			$this->db->set('jns_pdo', $jnspdo);
 			$this->db->where('kd_pdo', $kdpdo);
 			$this->db->update('ci_pdo');
 			return true;

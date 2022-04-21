@@ -15,7 +15,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             Tambah PDO Gaji </h3>
+             Tambah PDO Gaji / Transportasi dan Akomodasi</h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('cpdo/gaji'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
@@ -49,7 +49,17 @@
               <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control"  required >
           </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
+              <div class="form-group">
+                <label for="area" class="control-label">Jenis PDO</label>
+                <select class="form-control" name="jns_pdo" id="jns_pdo">
+                  <option value="">No Selected</option>
+                  <option value="GJ">Gaji</option>
+                  <option value="TA">Transport dan Akomodasi</option>
+                </select>
+              </div>
+            </div>
+          <div class="col-md-3">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
                 <select name="area" id ="area" class="form-control select2" style="width: 100%;" required >
@@ -61,10 +71,22 @@
 
             </div>
           </div>
+            
+
          </div>
 
          <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label">Transfer</label><br>
+                    <small>Langsung</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' />
+                    <label for='c_transfer'></label>
+                    <small>Kas Daerah</small>
+                    <input id='s_transfer' name="s_transfer"  type='hidden' />
+            </div>
+          </div>
+          <div class="col-md-9">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
               <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" ></textarea>
@@ -257,11 +279,19 @@
   $(document).ready(function(){
     $('.select2').select2()
     $("#tombolsimpan").attr("disabled", "disabled");
+    $('[name="s_transfer"]').val('0').trigger('change');
     // get_pqproyek()
     // get_datatable();
     get_projekcombo()
     $('#divisi').prop('disabled', true)
 
+  $('#c_transfer').click(function() {
+      if ($('#c_transfer').prop('checked') == true){
+          $('[name="s_transfer"]').val('1').trigger('change');
+      }else{
+        $('[name="s_transfer"]').val('0').trigger('change');
+      }
+});
 
     nomorpdo=0;
     var table = $('#na_datatable').DataTable( {
@@ -335,13 +365,25 @@ $('#na_datatable').on('click', 'tbody .del_btn', function () {
 })
 
 
+$('#jns_pdo').change(function(){ 
+  $('[name="area"]').val("").trigger('change');
+});
+
+
 // get pq projek
 
 $('#area').change(function(){ 
     var kodearea=$(this).val();
-    get_nomor_urut(kodearea)
+    var jnspdo  =$("#jns_pdo").val();
+
+    if(jnspdo==''){
+      alert('Silahkan pilih Jenis PDO terlebih dahulu');
+      return;
+    }
+
+    get_nomor_urut(kodearea, jnspdo)
     $.ajax({
-        url : "<?php echo site_url('cpdo/get_pq_projek_by_area');?>",
+        url : "<?php echo site_url('cpdo/get_pq_projek_gaji_by_area');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -364,12 +406,13 @@ $('#area').change(function(){
 $('#projek').change(function(){ 
     var idproyek    = $(this).val();
     var nomorurut   = $('#urut').val();
+    var jnspdo      = $('#jns_pdo').val();
     $.ajax({
         url : "<?php echo site_url('cpdo/get_item_pq_gaji_by_pq');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: idproyek},
+          id: idproyek,jnspdo:jnspdo},
         async : true,
         dataType : 'json',
         success: function(data){
@@ -506,7 +549,7 @@ function get_realisasi2(kd_coa,kode_pqproyek,jns_tk,nil_hpp){
     });
 }
 
-function get_nomor_urut(area){
+function get_nomor_urut(area,jns_pdo){
         $.ajax({
         url : "<?php echo site_url('cpdo/get_nomor');?>",
         method : "POST",
@@ -518,7 +561,7 @@ function get_nomor_urut(area){
         success: function(data){
             $.each(data, function(key, value) {
                 $('[name="urut"]').val(value.nomor).trigger('change');
-                var nomorpdo = 'PDO/'+area+'/GJ/'+value.nomor;
+                var nomorpdo = 'PDO/'+area+'/'+jns_pdo+'/'+value.nomor;
 
                 $('[name="kd_pdo"]').val(nomorpdo).trigger('change');
                 nomorpdo_temp = nomorpdo.replace(/\//g,'abcde')
@@ -534,7 +577,7 @@ function get_nomor_urut(area){
     function get_projekcombo(){ 
                 var kodearea=document.getElementById("area").value;
                 $.ajax({
-                      url : "<?php echo site_url('cpdo/get_pq_projek_by_area');?>",
+                      url : "<?php echo site_url('cpdo/get_pq_projek_gaji_by_area');?>",
                       method : "POST",
                       data : {
                         '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -636,7 +679,7 @@ $('#butsave').on('click', function() {
 
       
       $.ajax({
-        url: "<?php echo base_url("cpdo/add/");?>",
+        url: "<?php echo base_url("cpdo/add_gaji/");?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

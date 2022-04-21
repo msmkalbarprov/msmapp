@@ -15,7 +15,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             Tambah PDO Proyek </h3>
+             Tambah PDO Gaji / Transportasi dan Akomodasi</h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('cpdo'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
@@ -49,7 +49,7 @@
               <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control"  required >
           </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
                 <select name="area" id ="area" class="form-control select2" style="width: 100%;" required >
@@ -59,6 +59,16 @@
                   <?php endforeach; ?>
                 </select>
 
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label">Transfer</label><br>
+                    <small>Langsung</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' />
+                    <label for='c_transfer'></label>
+                    <small>Kas Daerah</small>
+                    <input id='s_transfer' name="s_transfer"  type='hidden' />
             </div>
           </div>
          </div>
@@ -259,11 +269,19 @@
   $(document).ready(function(){
     $('.select2').select2()
     $("#tombolsimpan").attr("disabled", "disabled");
+    $('[name="s_transfer"]').val('0').trigger('change');
     // get_pqproyek()
     // get_datatable();
     get_projekcombo()
     $('#divisi').prop('disabled', true)
 
+  $('#c_transfer').click(function() {
+      if ($('#c_transfer').prop('checked') == true){
+          $('[name="s_transfer"]').val('1').trigger('change');
+      }else{
+        $('[name="s_transfer"]').val('0').trigger('change');
+      }
+});
 
     nomorpdo=0;
     var table = $('#na_datatable').DataTable( {

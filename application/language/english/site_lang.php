@@ -36,6 +36,8 @@ $lang['penandatangan']                         	= "Penandatangan";
 $lang['ms_ttd']                         		= "List tanda tangan";
 
 $lang['pdo_gaji']                         		= "PDO Gaji";
+$lang['pdo_gaji_transportasi']                  = "PDO Gaji & Transportasi";
+
 
 
 

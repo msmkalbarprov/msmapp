@@ -289,10 +289,12 @@ public function add_pdo_gaji(){
 				$this->session->set_flashdata('errors', $data['errors']);
 			}
 			else{
-				$kdpdo 		= $this->security->xss_clean($this->input->post('kd_pdo'));
-				$keterangan 	= $this->security->xss_clean($this->input->post('keterangan'));
+				$kdpdo 					= $this->security->xss_clean($this->input->post('kd_pdo'));
+				$keterangan 		= $this->security->xss_clean($this->input->post('keterangan'));
+				$jenis_transfer = $this->security->xss_clean($this->input->post('s_transfer'));
+				$jnspdo 				= $this->security->xss_clean($this->input->post('jns_pdo'));
 				$this->pdo_model->add_pdo_project($kdpdo);
-				$this->pdo_model->update_keterangan($kdpdo, $keterangan);
+				$this->pdo_model->update_keterangan_gaji($kdpdo, $keterangan, $jenis_transfer,$jnspdo);
 
 				$kodearea 					= $this->input->post('area', TRUE);
 				$urutan 					= $this->input->post('urut', TRUE);
@@ -328,11 +330,12 @@ public function edit_pdo_keterangan($id='',$jns=''){
 				$this->session->set_flashdata('errors', $data['errors']);
 			}
 			else{
-				$kdpdo 		= $this->security->xss_clean($this->input->post('kd_pdo'));
-				$keterangan 	= $this->security->xss_clean($this->input->post('keterangan'));
+				$kdpdo 						= $this->security->xss_clean($this->input->post('kd_pdo'));
+				$keterangan 			= $this->security->xss_clean($this->input->post('keterangan'));
+				$jenis_transfer 	= $this->security->xss_clean($this->input->post('s_transfer'));
 				
 
-				$result = $this->pdo_model->update_keterangan($kdpdo, $keterangan);
+				$result = $this->pdo_model->update_keterangan($kdpdo, $keterangan, $jenis_transfer);
 				if($result){
 					$this->activity_model->add_log(1);
 					$this->session->set_flashdata('success', 'PQ Proyek berhasil diubah!');
@@ -440,10 +443,10 @@ public function datatable_json_pdo_operasional($id=''){
 
 
   public function view($id){
-  	$id_new = str_replace('abcde','/',$id);
-    $search 		= $_POST['search']['value']; // Ambil data yang di ketik user pada textbox pencarian
-    $limit 			= $_POST['length']; // Ambil data limit per page
-    $start 			= $_POST['start']; // Ambil data start
+  	$id_new 			= str_replace('abcde','/',$id);
+    $search 			= $_POST['search']['value']; // Ambil data yang di ketik user pada textbox pencarian
+    $limit 				= $_POST['length']; // Ambil data limit per page
+    $start 				= $_POST['start']; // Ambil data start
     $order_index 	= $_POST['order'][0]['column']; // Untuk mengambil index yg menjadi acuan untuk sorting
     $order_field 	= $_POST['columns'][$order_index]['data']; // Untuk mengambil nama field yg menjadi acuan untuk sorting
     $order_ascdesc 	= $_POST['order'][0]['dir']; // Untuk menentukan order by "ASC" atau "DESC"
@@ -832,6 +835,15 @@ public function delete_pdo_operasional($id = 0)
 		echo json_encode($data);
 	}
 
+
+	function get_pq_projek_gaji_by_area(){
+		$area = $this->input->post('id',TRUE);
+		$data = $this->pdo_model->get_pq_projek_gaji_by_area($area)->result();
+		echo json_encode($data);
+	}
+
+
+
 	public function keranjang_barang(){
 		// $this->load->view('admin/includes/_header', $data);
 		$this->load->view('user/pdo/keranjang');
@@ -858,8 +870,9 @@ public function delete_pdo_operasional($id = 0)
 	}
 
 	function get_item_pq_gaji_by_pq(){
-		$pq = $this->input->post('id',TRUE);
-		$data = $this->pdo_model->get_item_pq_gaji_by_pq($pq)->result();
+		$pq 			= $this->input->post('id',TRUE);
+		$jnspdo 	= $this->input->post('jnspdo',TRUE);
+		$data 		= $this->pdo_model->get_item_pq_gaji_by_pq($pq,$jnspdo)->result();
 		echo json_encode($data);
 	}
 

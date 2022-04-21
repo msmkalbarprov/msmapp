@@ -15,7 +15,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             Edit PDO Gaji </h3>
+             Tambah PDO Gaji / Transportasi dan Akomodasi</h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('cpdo/gaji'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
@@ -49,16 +49,32 @@
               <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control" value="<?= $data_pdo['tgl_pdo']; ?>"  readonly >
           </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
                 <input type="text" name="area" id="area" class="form-control" value="<?= $data_pdo['nm_area']; ?>" readonly>
             </div>
           </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label">Jenis PDO</label><br>
+              <input type="text" name="jns_pdo" id="jns_pdo" class="form-control" value="<?= $data_pdo['jns_pdo']; ?>" readonly>
+            </div>
+          </div>
          </div>
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label">Transfer</label><br>
+                    <small>Langsung</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' />
+                    <label for='c_transfer'></label>
+                    <small>Kas Daerah</small>
+                    <input id='s_transfer' name="s_transfer"  type='hidden' />
+            </div>
+          </div>
+          <div class="col-md-9">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
               <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" ><?= $data_pdo['keterangan']; ?></textarea>
@@ -241,6 +257,7 @@
   $(document).ready(function(){
     get_akun();
     get_projekcombo();
+    set_status_transfer();
      $('#divisi').prop('disabled', true)
 
 
@@ -263,7 +280,21 @@
     ]
   });
 
+$('#c_transfer').click(function() {
+  if ($('#c_transfer').prop('checked') == true){
+      $('[name="s_transfer"]').val('1').trigger('change');
+  }else{
+    $('[name="s_transfer"]').val('0').trigger('change');
+  }
+});
 
+function set_status_transfer() {
+  var status_transfer = "<?= $data_pdo['s_transfer'] ?>";
+  if (status_transfer==1){
+    $('#c_transfer').attr('checked', 'checked');
+    $('[name="s_transfer"]').val('1').trigger('change');
+  }
+}
 
 function get_nilai(kode_pqproyek,no_acc){
         $.ajax({
@@ -288,7 +319,7 @@ function get_nilai(kode_pqproyek,no_acc){
 function get_projekcombo(){ 
                 var kodearea="<?= $data_pdo['kd_area']; ?>";
                 $.ajax({
-                      url : "<?php echo site_url('cpdo/get_pq_projek_by_area');?>",
+                      url : "<?php echo site_url('cpdo/get_pq_projek_gaji_by_area');?>",
                       method : "POST",
                       data : {
                         '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -373,12 +404,14 @@ function get_realisasi2(kd_coa,kode_pqproyek,jns_tk,nil_hpp){
 $('#projek').change(function(){ 
     var idproyek    = $(this).val();
     var nomorurut   = $('#urut').val();
+    var jnspdo      = $('#jns_pdo').val();
+
     $.ajax({
         url : "<?php echo site_url('cpdo/get_item_pq_gaji_by_pq');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: idproyek},
+          id: idproyek,jnspdo:jnspdo},
         async : true,
         dataType : 'json',
         success: function(data){
