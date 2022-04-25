@@ -47,7 +47,7 @@ class Cpdo extends MY_Controller {
 		$i=0;
 		foreach ($records['data']   as $row) 
 		{  
-			if ($row['status_bayar']==1){
+			if ($row['approve']==1 ){
 				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
 			}else{
 				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_project/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
@@ -76,7 +76,7 @@ class Cpdo extends MY_Controller {
 		$i=0;
 		foreach ($records['data']   as $row) 
 		{  
-			if ($row['status_bayar']==1){
+			if ($row['approve']==1){
 				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/edit_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
 			}else{
 				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
@@ -104,7 +104,7 @@ public function datatable_json_operasional(){
 		$i=0;
 		foreach ($records['data']   as $row) 
 		{  
-			if ($row['status_bayar']==1){
+			if ($row['approve']==1){
 				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}else{
 				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
@@ -474,9 +474,9 @@ public function datatable_json_pdo_proyek_edit($id='',$kodepdo=''){
 		foreach ($records['data']   as $row) 
 		{  
 
-			$data[]= array(
-				$row['no_acc'],
-				$row['nm_acc'],
+				$data[]= array(
+				$row['kd_project'],
+				$row['no_acc'].'<br>'.$row['nm_acc'],
 				$row['qty'],
 				$row['satuan'],
 				$row['harga'],
@@ -859,6 +859,13 @@ public function delete_pdo_operasional($id = 0)
 		$area = $this->input->post('id',TRUE);
 		$tahun = $this->input->post('tahun',TRUE);
 		$data = $this->pdo_model->get_pq_operasional_by_area($area,$tahun)->result();
+		echo json_encode($data);
+	}
+
+	function get_pq_operasional_by_area2(){
+		$area = $this->input->post('id',TRUE);
+		$tahun = $this->input->post('tahun',TRUE);
+		$data = $this->pdo_model->get_pq_operasional_by_area2($area,$tahun)->result();
 		echo json_encode($data);
 	}
 

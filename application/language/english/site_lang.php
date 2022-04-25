@@ -30,7 +30,7 @@ $lang['pq_project']                            	= "PQ Proyek";
 $lang['pq_operasional']                         = "PQ Operasional";
 
 $lang['pencairan']                         		= "Pencairan";
-$lang['pencairan_proyek']                       = "Proyek";
+$lang['pencairan_proyek']                       = "Pencairan Proyek";
 $lang['pencairan_pdo']                         	= "PDO";
 $lang['penandatangan']                         	= "Penandatangan";
 $lang['ms_ttd']                         		= "List tanda tangan";
@@ -38,6 +38,15 @@ $lang['ms_ttd']                         		= "List tanda tangan";
 $lang['pdo_gaji']                         		= "PDO Gaji";
 $lang['pdo_gaji_transportasi']                  = "PDO Gaji & Transportasi";
 
+
+$lang['laporan_pq']                  			= "Laporan PQ";
+$lang['laporan_pdo']                  			= "Laporan PDO";
+$lang['laporan_pq_pdo']                  		= "Laporan PQ VS PDO";
+$lang['laporan_marketing']                  	= "Laporan Marketing";
+
+$lang['operasional']                         	= "Operasional";
+
+$lang['pengesahan_pdo']                         = "Pengesahan PDO";
 
 
 

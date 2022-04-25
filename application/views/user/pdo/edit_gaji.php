@@ -96,8 +96,8 @@
             <table id="na_datatable" class="table table-bordered table-striped" width="100%">
               <thead>
                 <tr>
-                  <th width="10%">Kode</th>
-                  <th>Nama Akun</th>
+                  <th>Kode Proyek</th>
+                  <th>Akun</th>
                   <th>Qty</th>
                   <th>Satuan</th>
                   <th>Harga</th>
@@ -269,7 +269,7 @@
     "ajax": "<?=base_url('cpdo/datatable_json_pdo_proyek_edit'.'/')?>"+ nomorpdo+'/<?= $this->uri->segment(3); ?>',
     "order": [[0,'asc']],
     "columnDefs": [
-    { "targets": 0, "name": "kd_item", 'searchable':true, 'orderable':false},
+    { "targets": 0, "name": "kd_pqproyek", 'searchable':true, 'orderable':false},
     { "targets": 1, "name": "nm_item", 'searchable':true, 'orderable':false},
     { "targets": 2, "name": "qty", 'searchable':true, 'orderable':false},
     { "targets": 3, "name": "satuan", 'searchable':true, 'orderable':false},
@@ -510,7 +510,7 @@ $('#butsave').on('click', function() {
     var no_pdo        = $('#kd_pdo').val();
     var tgl_pdo       = $('#tgl_pdo').val();
     var nourut        = $('#urut').val();
-    var projek        = "<?= $data_pdo['kd_pqproyek'] ?>";
+    var projek        = $('#projek').val();
     var uraian        = $('#uraian').val();
     var qty           = $('#qty').val();
     var satuan        = $('#satuan').val();
@@ -632,7 +632,7 @@ function load_rincian_temp(nomorpdo) {
 
 $('#item_hpp').change(function(){ 
    var kd_coa         = $(this).val();
-   var kode_pqproyek  = "<?= $data_pdo['kd_pqproyek'] ?>";
+   var kode_pqproyek  = $('#projek').val();
    if (kd_coa.substr(0,7)=='5010202'){
     
     var no_acc      = kd_coa.substr(0,7);

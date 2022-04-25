@@ -91,7 +91,7 @@
       PPN
     </td>
     <td align="right" style="color: red"><?= number_format($ppn,2,',','.'); ?></td>
-    <td align="right"><?= number_format(10,2,',','.'); ?></td>
+    <td align="right"><?= number_format(11,2,',','.'); ?></td>
   </tr>
 
   <?php $pph = $pqproyek['pph']*-1; ?>

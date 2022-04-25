@@ -115,13 +115,19 @@ class Pq extends MY_Controller {
 		foreach ($records['data']   as $row) 
 		{  
 			
+			if($row['status']=='1'){
+				$tombol = '<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-eye"></i></a>';
+			}else{
+				$tombol = '<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-eye"></i></a>
+				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-pencil-square-o"></i></a>';
+			}
+
 			$data[]= array(
 				++$i,
 				'<font size="2px">'.$row['kode'].'</font>',
 				'<font size="2px">'.$row['nm_area'].'</font>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
-				'<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-eye"></i></a>
-				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-pencil-square-o"></i></a>'
+				$tombol
 			);
 		}
 		$records['data']=$data;

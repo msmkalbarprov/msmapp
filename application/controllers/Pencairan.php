@@ -322,6 +322,7 @@ class Pencairan extends MY_Controller {
 					'jenis_cair'		=> $this->input->post('jns_pencairan'),
 					'ppn'				=> $this->proyek_model->number($this->input->post('ppn')),
 					'pph'				=> $this->proyek_model->number($this->input->post('pph')),
+					'infaq'				=> $this->proyek_model->number($this->input->post('infaq')),
 					'nilai_bruto'		=> $this->proyek_model->number($this->input->post('nilai_bruto')),
 					'nilai_netto'		=> $this->proyek_model->number($this->input->post('nilai_netto')),
 					'status_ppn'		=> $this->input->post('s_ppn'),
@@ -646,6 +647,7 @@ public function edit_rincian_proyek($id = 0){
 				'<div class="text-right"><font size="2px">'.number_format($row['nilai_bruto'],2,',','.').'</font></div>',
 				'<div class="text-right"><font size="2px">'.number_format($row['ppn'],2,',','.').'</font></div>',
 				'<div class="text-right"><font size="2px">'.number_format($row['pph'],2,',','.').'</font></div>',
+				'<div class="text-right"><font size="2px">'.number_format($row['infaq'],2,',','.').'</font></div>',
 				'<div class="text-right"><font size="2px">'.number_format($row['nilai_bruto']-$row['ppn']-$row['pph'],2,',','.').'</font></div>',
 				$tombol
 			);
@@ -749,7 +751,7 @@ public function edit_rincian_proyek($id = 0){
         {
             case 0;
                 $this->load->library('pdf');
-			    $this->pdf->setPaper('Legal', 'portrait');
+			    $this->pdf->setPaper('Legal', 'landscape');
 			    $this->pdf->filename = "laporan_pdo.pdf";
 			    $this->pdf->load_view('user/pencairan/cetak_pdp', $data);
                 break;

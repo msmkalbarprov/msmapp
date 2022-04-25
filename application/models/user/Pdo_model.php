@@ -65,7 +65,15 @@ public function get_all_pdo_operasional(){
 
 function get_pq_projek_by_area($area)
 	{
-		$query = $this->db->get_where('ci_pendapatan', array('kd_area' => $area, 'status' => 1));
+		// $query = $this->db->get_where('ci_pendapatan', array('kd_area' => $area, 'status' => 1));
+
+			$this->db->select('ci_pendapatan.*');
+			$this->db->from('ci_pendapatan');
+			$this->db->join('ci_proyek','ci_proyek.kd_proyek=ci_pendapatan.id_proyek','left');
+			$this->db->where('ci_pendapatan.kd_area', $area);	
+			$this->db->where("ci_pendapatan.status",1);
+			$this->db->where("batal <>",1);
+			$query=$this->db->get();
 		return $query;
 	}
 
@@ -78,6 +86,19 @@ function get_pq_projek_gaji_by_area($area)
 function get_pq_operasional_by_area($area,$tahun)
 	{
 		$query = $this->db->get_where('ci_pq_operasional', array('kd_area' => $area, 'left(kd_pq_operasional,4)' => $tahun, 'status' => 1));
+		return $query;
+	}
+
+	function get_pq_operasional_by_area2($area,$tahun)
+	{	
+		// $this->db->get_where('ci_pq_operasional', array('kd_area' => $area, 'left(kd_pq_operasional,4)' => $tahun, 'status' => 1));
+
+		$this->db->from("ci_pq_operasional");
+		$this->db->where('kd_area', $area);
+		$this->db->where('left(kd_pq_operasional,4)', $tahun);
+		$this->db->where('status',1);
+		$this->db->group_by('left(kd_pq_operasional,10)');
+		$query=$this->db->get();
 		return $query;
 	}
 
@@ -265,7 +286,7 @@ public function save_edit_pdo($data){
     // return $this->db->get('ci_pdo_temp')->result_array(); // Eksekusi query sql sesuai kondisi diatas
 
 
-    $this->db->select('*')->from('ci_pdo_temp');
+    $this->db->select('*,concat(no_acc,"<br>",nm_acc) as akun')->from('ci_pdo_temp');
 		        $this->db->group_start();
 		                $this->db->like('no_acc', $search); // Untuk menambahkan query where LIKE
 						$this->db->or_like('nm_acc', $search); // Untuk menambahkan query where OR LIKE
@@ -311,6 +332,14 @@ public function update_keterangan_gaji($kdpdo, $keterangan, $jenis_transfer, $jn
 			$this->db->set('keterangan', $keterangan);
 			$this->db->set('s_transfer', $jenis_transfer);
 			$this->db->set('jns_pdo', $jnspdo);
+			$this->db->where('kd_pdo', $kdpdo);
+			$this->db->update('ci_pdo');
+			return true;
+		} 
+
+public function setuju_pdo($kdpdo, $status)
+		{	
+			$this->db->set('approve', $status);
 			$this->db->where('kd_pdo', $kdpdo);
 			$this->db->update('ci_pdo');
 			return true;

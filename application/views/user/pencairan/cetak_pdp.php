@@ -176,12 +176,14 @@ function terbilang($nilai) {
           <td width="10%" align="center" bgcolor="#DCDCDC" >N. Bruto</td>
           <td width="10%" align="center" bgcolor="#DCDCDC" >PPN</td>
           <td width="10%" align="center" bgcolor="#DCDCDC" >PPH</td>
+          <td width="10%" align="center" bgcolor="#DCDCDC" >INFAQ</td>
           <td width="10%" align="center" bgcolor="#DCDCDC" >N. Netto</td>
         </tr>
         <?php 
           $totalbruto =0; 
           $totalppn   =0; 
           $totalpph   =0; 
+          $totalinfaq =0; 
           $totalnetto =0; 
           $i=1;
         ?>
@@ -191,30 +193,25 @@ function terbilang($nilai) {
               $totalbruto = $totalbruto+$pdp['nilai_bruto'];
               $totalppn   = $totalppn+$pdp['ppn'];
               $totalpph   = $totalpph+$pdp['pph'];
+              $totalinfaq = $totalinfaq+$pdp['infaq'];
               $totalnetto = $totalnetto+$pdp['nilai_netto'];  
         ?>
           <tr style="font-size:12px">
-            <td width="35%"><?= $pdp['nm_paket_proyek'].' '.$pdp['jns_cair']; ?></td>
+            <td width="25%"><?= $pdp['nm_paket_proyek'].' '.$pdp['jns_cair']; ?></td>
             <td width="25%"><?= $pdp['nm_dinas']; ?></td>
             <td width="10%" align="right"><?= number_format($pdp['nilai_bruto'],2,',','.'); ?></td>
             <td width="10%" align="right"><?= number_format($pdp['ppn'],2,',','.'); ?></td>
             <td width="10%" align="right"><?= number_format($pdp['pph'],2,',','.'); ?></td>
+            <td width="10%" align="right"><?= number_format($pdp['infaq'],2,',','.'); ?></td>
             <td width="10%" align="right"><?= number_format($pdp['nilai_netto'],2,',','.'); ?></td>
           </tr>
         <?php endforeach; ?>
-        <tr style="font-size:12px">
-            <td width="35%"></td>
-            <td width="25%"></td>
-            <td width="10%" align="right">&nbsp;</td>
-            <td width="10%" align="right">&nbsp;</td>
-            <td width="10%" align="right">&nbsp;</td>
-            <td width="10%" align="right">&nbsp;</td>
-          </tr>
         <tr style="font-size:12px">
           <td colspan="2" align="right">Jumlah</td>
           <td width="10%" align="right"><?= number_format($totalbruto,2,',','.'); ?></td>
           <td width="10%" align="right"><?= number_format($totalppn,2,',','.'); ?></td>
           <td width="10%" align="right"><?= number_format($totalpph,2,',','.'); ?></td>
+          <td width="10%" align="right"><?= number_format($totalinfaq,2,',','.'); ?></td>
           <td width="10%" align="right"><?= number_format($totalnetto,2,',','.'); ?></td>
         </tr>
       </table>

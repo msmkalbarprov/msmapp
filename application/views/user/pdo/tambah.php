@@ -15,7 +15,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             Tambah PDO Gaji / Transportasi dan Akomodasi</h3>
+             Tambah PDO Proyek</h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('cpdo'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
@@ -127,8 +127,8 @@
               <thead>
                 <tr>
                   <!-- <th>#No</th> -->
-                  <th width="10%">Kode</th>
-                  <th>Nama Akun</th>
+                  <th width="10%">Kode Proyek</th>
+                  <th>Akun</th>
                   <th>Qty</th>
                   <th>Satuan</th>
                   <th>Harga</th>
@@ -301,8 +301,8 @@
     "aLengthMenu": [[5, 10, 50],[ 5, 10, 50]],
 
      "columns": [
-                { "data": "no_acc" }, // Tampilkan no_acc
-                { "data": "nm_acc" },  // Tampilkan nama
+                { "data": "kd_project" }, // Tampilkan no_acc
+                { "data": "nama" },  // Tampilkan nama
                 { "data": "qty" }, // Tampilkan qty
                 { "data": "satuan" }, // Tampilkan satuan
                 { "data": "harga" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total

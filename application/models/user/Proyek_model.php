@@ -208,6 +208,13 @@ public function get_pdp_header($id){
 			return true;
 		}
 
+		public function batal($id){
+			$this->db->where('id_proyek', $id);
+			$this->db->set('batal','1');
+			$this->db->update('ci_proyek');
+			return true;
+		}
+
 		public function cair_proyek($data2, $id_proyek){
 			$this->db->where('id_proyek', $id_proyek);
 			$this->db->update('ci_pendapatan', $data2);

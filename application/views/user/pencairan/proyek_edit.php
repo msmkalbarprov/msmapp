@@ -37,7 +37,7 @@
           <div class="col-md-6">
             <div class="form-group">
                 <label for="area" class="control-label">&nbsp;</label>
-                <input type="text" name="status_cair" class="form-control" id="status_cair" style="border:none;background:none" readonly>
+                <input type="hidden" name="status_cair" class="form-control" id="status_cair" style="border:none;background:none" readonly>
                 <input type="hidden" name="status_cair2" class="form-control" id="status_cair2" >
             </div>
           </div>
@@ -238,7 +238,7 @@
                 <input type="text" name="nilai_bruto" class="form-control" id="nilai_bruto" value="0" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"  required>
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
                     <label for="area" class="control-label">Jenis PPN</label><br>
                     <small>11%</small>
                     <input class='tgl-ios tgl_checkbox' id='c_ppn' name="c_ppn"  type='checkbox' />
@@ -246,14 +246,18 @@
                     <small>10%</small>
                     <input id='s_ppn' name="s_ppn"  type='hidden' />
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="form-group">
                 <label for="area" class="control-label">Nilai PPN</label>
-                <input type="text" name="ppn" class="form-control" value="0" id="ppn" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"  required>
+                <input type="text" name="ppn" class="form-control" value="0" id="ppn" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"  readonly>
             </div>
           </div>
          </div>
+
          <div class="row">
+          <div class="col-md-6">
+            &nbsp;
+          </div>
           <div class="col-md-3">
                   <label for="area" class="control-label">jenis PPH 21 <small>(Hanya untuk PPH 21)</small> </label><br>
                     <input type="radio" name="jenispph" id="jenispph1" class="radio" value="1"> 5%&nbsp;&nbsp;
@@ -268,14 +272,38 @@
             <div class="form-group">
                 <label for="area" class="control-label">Nilai PPH <span id="nilaijnspph"></span></label>
                 <input type="hidden" name="jnspph" id="jnspph">
-                <input type="text" name="pph" class="form-control" id="pph" value="0" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"  required>
+                <input type="text" name="pph" class="form-control" id="pph" value="0" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"  readonly>
             </div>
+          </div>
+         </div>
+
+         <div class="row">
+          <div class="col-md-9">
+            &nbsp;
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+                <label for="area" class="control-label">Infaq</label>
+                <input type="text" name="infaq" class="form-control" id="infaq" value="0" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"  readonly>
+            </div>
+          </div>
+         </div>
+
+         <div class="row">
+          <div class="col-md-9">
+            &nbsp;
           </div>
           <div class="col-md-3">
             <div class="form-group">
                 <label for="area" class="control-label">Nilai Netto</label>
                 <input type="text" name="nilai_netto" class="form-control" id="nilai_netto" placeholder="Nilai" style="text-align:right;"  readonly>
             </div>
+          </div>
+         </div>
+
+         <div class="row">
+          <div class="col-md-9">
+            &nbsp;
           </div>
           <div class="col-md-3">
             <div class="form-group">
@@ -284,6 +312,8 @@
             </div>
           </div>
          </div>
+
+
           <div class="form-group">
             <div class="col-md-12" align="right">
               <input type="submit" name="submit" value="Submit" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -306,6 +336,7 @@
                       <th>Nilai Bruto</th>
                       <th>PPN</th>
                       <th>PPH</th>
+                      <th>Infaq</th>
                       <th>Netto</th>
                       <th width="10%">Action</th>
                     </tr>
@@ -571,8 +602,9 @@ $('#c_ppn').click(function() {
     { "targets": 3, "name": "nilai", 'searchable':true, 'orderable':false},
     { "targets": 4, "name": "ppn", 'searchable':true, 'orderable':false},
     { "targets": 5, "name": "pph", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "netto", 'searchable':true, 'orderable':false},
-    { "targets": 7, "name": "Action", 'searchable':false, 'orderable':false}
+    { "targets": 6, "name": "infaq", 'searchable':true, 'orderable':false},
+    { "targets": 7, "name": "netto", 'searchable':true, 'orderable':false},
+    { "targets": 8, "name": "Action", 'searchable':false, 'orderable':false}
     ]
   });
 
@@ -580,6 +612,7 @@ $('#c_ppn').click(function() {
   document.getElementById("nilai_bruto").onkeyup   = function() {hitung_total()};
   document.getElementById("pph").onkeyup   = function() {hitung_total()};
   document.getElementById("ppn").onkeyup   = function() {hitung_total()};
+  document.getElementById("infaq").onkeyup   = function() {hitung_total()};
 
   function hitung_total() {
   var nilai_bruto     = number(document.getElementById("nilai_bruto").value);
@@ -640,12 +673,16 @@ $('#c_ppn').click(function() {
   }
 
 
+  var infaq = nilai_bruto*1/100;
+
+
   let totalrow = 0;
 
-  totalrow = nilai_bruto-nilai_pph-ppn;
+  totalrow = nilai_bruto-nilai_pph-ppn-infaq;
 
 
   $('[name="pph"]').val(number_format(nilai_pph,"2",",",".")).trigger('change');
+  $('[name="infaq"]').val(number_format(infaq,"2",",",".")).trigger('change');
   $('[name="nilai_netto"]').val(number_format(totalrow,"2",",",".")).trigger('change');
   if (totalrow>sisa){
     alert('Nilai Melebihi Sisa Nilai Proyek');

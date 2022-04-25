@@ -632,6 +632,33 @@ public function edit_rincian_proyek($id = 0){
 		
 	}
 
+	public function batal($id = 0)
+	{
+		$this->rbac->check_operation_access('');
+
+
+		$hasil=$this->db->query("SELECT ifnull(sum(status_cair),0) as status_cair  from ci_pendapatan a left join ci_proyek b on a.id_proyek=b.kd_proyek where b.id_proyek='$id'");
+		foreach ($hasil->result_array() as $row){
+			$result=$row['status_cair']; 
+		}
+		
+		if ($result>0){
+			$this->session->set_flashdata('errors', 'Data gagal dihapus, Proyek sudah cair');			
+			redirect(base_url('proyek'));
+		}else{
+			$result = $this->proyek_model->batal($id);
+				if($result){
+					$this->activity_model->add_log(3);
+
+					$this->session->set_flashdata('success', 'Data berhasil dibatalkan!');
+					redirect(base_url('proyek'));
+				}
+
+			
+		}
+		
+	}
+
 
 	public function delete_rincian_proyek($id = 0)
 	{

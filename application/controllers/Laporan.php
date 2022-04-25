@@ -927,43 +927,106 @@ foreach($map2 as $map2){
   	$kode 		= $map2["kode"];
   	$kolom 		= $map2["kolom"];
   	$kd_item 	= $map2["kd_item"];
-  		$html.='<tr>
-    			<td colspan="4" width="50%">'.$map2["nama_map"].'</td>';
-  
+  	$jenis_tk 	= $map2["jenis"];
 
-
-		if ($kode=='0' || $kode=='4'){
+  	// GET AREA
+  	$area = $this->pq_model->get_area($tahun);
+  		
+  		if ($kode=='0' || $kode=='4'){
 				$i=1;
-				$area = $this->pq_model->get_area($tahun);
+				
 		    	foreach($area as $area){
 		    		$colspan1 = $i++;
 		    	}	
-
+		    	$html.='<tr>
+    					<td colspan="4" width="50%">'.$map2["nama_map"].'</td>';
 		    	$html.='<td colspan="'.$colspan1.'">&nbsp;</td>';
 		}
 
 
     	if ($urut==1){
-    		$area = $this->pq_model->get_area($tahun);
+    			$html.='<tr>
+    				<td colspan="4" width="50%">'.$map2["nama_map"].'</td>';
 		    	foreach($area as $area){
-		    		$html.='<td  align="center" width="10%">'.$area["nm_area"].'</td>';
+		    		$html.='<td  align="center" colspan="2" width="10%">'.$area["nm_area"].'</td>';
 		    	}	
     	}
 
     	if ($urut==2){
-    		$area = $this->pq_model->get_area($tahun);
+    			$html.='<tr>
+    			<td colspan="4" width="50%">'.$map2["nama_map"].'</td>';
 		    	foreach($area as $area){
-		    		$html.='<td  align="center" width="10%">'.$tahun.'</td>';
+		    		$html.='<td  align="center" colspan="2" width="10%">'.$tahun.'</td>';
 		    	}	
     	}
 
     	if ($urut==3 || $urut==6 || $urut==7 || $urut==8|| $urut==9|| $urut==10|| $urut==12|| $urut==15|| $urut==16|| $urut==57){
-    		$area = $this->pq_model->get_area($tahun);
+    			
+    			if ($urut==6 || $urut==7 || $urut==8|| $urut==9|| $urut==10|| $urut==15){
+    				$html.='<tr>
+    				<td width="5%"></td>
+    				<td colspan="3" width="50%">'.$map2["nama_map"].'</td>';
+    			}else{
+    				$html.='<tr>
+    			<td colspan="4" width="50%">'.$map2["nama_map"].'</td>';	
+    			}
+    			
+    			$nilai_spk=0;
 		    	foreach($area as $area){
 		    		$kodearea = $area["kd_area"];
 		    		$pagu = $this->pq_model->get_pq($kodearea,$tahun);
-		    		$html.='<td  align="right" width="10%">'.number_format($pagu[$map2["kolom"]],2,",",".").'</td>';
+		    		if ($map2["kolom"]=='pendapatan_nett'){
+		    			$pendapatan_nett=$pagu[$map2["kolom"]];
+		    		}
+		    		if ($map2["kolom"]=='nilai_spk'){
+		    			$nilai_spk		=$pagu[$map2["kolom"]];
+		    		}
+
+		    		if ($nilai_spk!=0 && $pagu[$map2["kolom"]]!=0){
+		    			$persen1 = $pagu[$map2["kolom"]]/$nilai_spk*100;
+		    		}else{
+		    			$persen1=0;
+		    		}
+
+		    		$html.='<td  align="right" width="10%">'.number_format($pagu[$map2["kolom"]],2,",",".").'</td>
+		    				<td  align="right" width="10%">'.number_format($persen1,2,",",".").'</td>';
 		    	}	
+    	}
+
+    	if ($urut>=19 && $urut <=27){
+    		$jumlahhpp=0;
+    		$nilaihppperitem=0;
+    		$html.='<tr>
+    			<td colspan="4" width="50%">'.$map2["nama_map"].'</td>';
+    		foreach($area as $area){
+		    		$kodearea = $area["kd_area"];
+		    		$hpp 	= $this->pq_model->get_cetak_hpp_all_by_area($kd_item, $jenis_tk, $kodearea);
+
+		    		foreach($hpp as $hpp){
+		    			$nilaihppperitem=$nilaihppperitem+$hpp['nilai_hpp'];
+		    			if ($pendapatan_nett!=0){
+		    				$persen_pen_hpp = $hpp['nilai_hpp']/$pendapatan_nett*100;
+		    			}else if($hpp['nilai_hpp']!=0 && $pendapatan_nett!=0){
+		    			    $persen_pen_hpp = $hpp['nilai_hpp']/$pendapatan_nett*100;
+		    			} else{
+		    				$persen_pen_hpp = 0;	
+		    			}
+		    			
+		    			$html.='<td align="right" style="color: red">'. number_format($hpp['nilai_hpp']*-1,2,',','.') .'</td>
+		    					<td align="right" style="color: red">'. number_format($persen_pen_hpp*-1,2,',','.') .'</td>';
+		       		}
+
+
+
+
+		    	}
+
+
+    		
+
+    		
+    		
+
     	}
 
     	// if ($urut==3){

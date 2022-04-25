@@ -110,8 +110,8 @@
             <table id="na_datatable" class="table table-bordered table-striped" width="100%">
               <thead>
                 <tr>
-                  <th width="10%">Kode</th>
-                  <th>Nama Akun</th>
+                  <th>Kode Proyek</th>
+                  <th>Akun</th>
                   <th>Qty</th>
                   <th>Satuan</th>
                   <th>Harga</th>

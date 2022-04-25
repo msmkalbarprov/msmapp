@@ -3,6 +3,11 @@
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"> 
 <style type="text/css">
+    .green1 {
+  background-color: #a70000 !important;
+  color: white;
+}
+
  .tabs {
     display: inline-block;
     margin-left: 40px;
@@ -23,6 +28,7 @@
             <a href="<?= base_url('proyek/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>
             <button class="btn btn-warning btn-sm" id="button"><i class="fa fa-pencil-square-o"></i> Edit </button>
             <button class="btn btn-danger btn-sm" id="buttonhps"><i class="fa fa-trash"></i> Hapus </button>
+            <button class="btn btn-secondary btn-sm" id="buttonbtl"><i class="fa fa-window-close"></i> Batal </button>
           <?php endif; ?>
         </div>
       </div>
@@ -147,7 +153,12 @@ $(document).ready(function() {
             { "data": "nm_jns_pagu"},
             { "data": "nilai"},
             { "className" :  'dt-control', "orderable" : false, "data" : null, "defaultContent": ''},
-        ]
+        ],
+    "createdRow": function( row, data, dataIndex ) {
+        if ( data.batal == "1" ) {        
+            $(row).addClass('green1');
+        }
+    }
         
     } );
 
@@ -194,6 +205,11 @@ $(document).ready(function() {
     $('#buttonhps').click( function () {
     var id_proyek = table.rows('.selected').data()[0].id_proyek;
     window.location.href = "<?=base_url('proyek/delete/')?>"+id_proyek;
+    } );
+
+    $('#buttonbtl').click( function () {
+    var id_proyek = table.rows('.selected').data()[0].id_proyek;
+    window.location.href = "<?=base_url('proyek/batal/')?>"+id_proyek;
     } );
 
 } );

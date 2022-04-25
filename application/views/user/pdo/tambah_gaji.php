@@ -112,8 +112,8 @@
               <thead>
                 <tr>
                   <!-- <th>#No</th> -->
-                  <th width="10%">Kode</th>
-                  <th>Nama Akun</th>
+                  <th width="10%">Kode Proyek</th>
+                  <th>Akun</th>
                   <th>Qty</th>
                   <th>Satuan</th>
                   <th>Harga</th>
@@ -311,8 +311,8 @@
     "aLengthMenu": [[5, 10, 50],[ 5, 10, 50]],
 
      "columns": [
-                { "data": "no_acc" }, // Tampilkan no_acc
-                { "data": "nm_acc" },  // Tampilkan nama
+                { "data": "kd_project" }, // Tampilkan no_acc
+                { "data": "akun" },  // Tampilkan nama
                 { "data": "qty" }, // Tampilkan qty
                 { "data": "satuan" }, // Tampilkan satuan
                 { "data": "harga" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total
