@@ -7,27 +7,38 @@
     <td colspan="2">
       Nama Pekerjaan
     </td>
-    <td colspan="2" align="center"><?= $proyek['nm_paket_proyek']; ?></td>
+    <td colspan="3" align="center"><?= $proyek['nm_paket_proyek']; ?></td>
   </tr>
   <tr>
     <td colspan="2">
       Nilai Pagu
     </td>
-    <td colspan="2" align="center"><?= number_format($proyek['nilai_pagu'],2,',','.'); ?></td>
+    <td colspan="3" align="center"><?= number_format($proyek['nilai_pagu'],2,',','.'); ?></td>
   </tr>
   
   <tr>
-    <td colspan="2" align="center" style="background: black;color: white;border-right:white;">
+    <td colspan="2" align="center" style="background: #B9C0C5;color: #000;">
     </td>
-    <td align="center" style="background: black;border-right:white; color: white;">Nilai PQ</td>
-    <td align="center" style="background: black;border-left:white;color: white;">Realisasi PDO</td>
+    <td align="center" style="background: #B9C0C5; color: #000;">Nilai PQ</td>
+    <td align="center" style="background: #B9C0C5;border-left:white;color: #000;">Realisasi PDO</td>
+    <td align="center" style="background: #B9C0C5;border-left:white;color: #000;">%</td>
   </tr>
   <tr>
-    <td colspan="4" >
+    <td colspan="5" >
       1. PENDAPATAN GROSS
     </td>
   </tr>
   <?php $ppn = $pqproyek['ppn']; ?>
+
+  <?php 
+    if($ppn==0){
+      $persenppn=0;
+    }else if($ppn!=0 && $pencairan['ppn']==0){
+      $persenppn=0;
+    }else{
+      $persenppn=$pencairan['ppn']/$ppn*100;
+    } 
+  ?>
 
   <tr>
     <td colspan="2">
@@ -35,9 +46,19 @@
     </td>
     <td align="right" ><?= number_format($ppn,2,',','.'); ?></td>
     <td align="right" ><?= number_format($pencairan['ppn'],2,',','.'); ?></td>
+    <td align="right" ><?= number_format($persenppn,2,',','.'); ?></td>
   </tr>
 
   <?php $pph = $pqproyek['pph']; ?>
+  <?php 
+    if($pph==0){
+      $persenpph=0;
+    }else if($pph!=0 && $pencairan['pph']==0){
+      $persenpph=0;
+    }else{
+      $persenpph=$pencairan['pph']/$pph*100;
+    } 
+  ?>
 
   <tr>
     <td colspan="2">
@@ -45,13 +66,26 @@
     </td>
     <td align="right" ><?= number_format($pph,2,',','.'); ?></td>
     <td align="right" ><?= number_format($pencairan['pph'],2,',','.'); ?></td>
+    <td align="right" ><?= number_format($persenpph,2,',','.'); ?></td>
   </tr>
   <tr>
     <td colspan="2">
       Pajak Lainnya (Infaq, SP3)
+
+      <?php 
+    if($pqproyek['infaq']==0){
+      $persen_infaq=0;
+    }else if($pqproyek['infaq']!=0 && $pencairan['infaq']==0){
+      $persen_infaq=0;
+    }else{
+      $persen_infaq=$pencairan['infaq']/$pqproyek['infaq']*100;
+    } 
+  ?>
+
     </td>
     <td align="right"><?= number_format($pqproyek['infaq'],2,',','.'); ?></td>
     <td align="right"><?= number_format($pencairan['infaq'],2,',','.'); ?></td>
+    <td align="right"><?= number_format($persen_infaq,2,',','.'); ?></td>
   </tr>
   <?php $titipan = $pqproyek['titipan_net']; ?>
   <tr>
@@ -60,9 +94,10 @@
     </td>
     <td align="right" ><?= number_format($titipan,2,',','.'); ?></td>
     <td align="right"></td>
+    <td align="right"></td>
   </tr>
   <tr>
-    <td colspan="4">&nbsp;</td>
+    <td colspan="5">&nbsp;</td>
   </tr>
 <?php foreach($titip_pl as $titip_pl): ?>
 
@@ -75,11 +110,22 @@
           <td colspan="2">
             2. PENDAPATAN NETT
           </td>
-          <td align="right" style="background: black;border-right:white; color: white;"><?= number_format($pqproyek['pendapatan_nett'],2,',','.'); ?></td>
-          <td align="right" style="background: black;border-right:white; color: white;"><?= number_format($nett ,2,',','.'); ?></td>
+          <?php 
+            if($pqproyek['pendapatan_nett']==0){
+              $persennett=0;
+            }else if($pqproyek['pendapatan_nett']!=0 && $nett==0){
+              $persennett=0;
+            }else{
+              $persennett=$nett/$pqproyek['pendapatan_nett']*100;
+            } 
+          ?>
+
+          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($pqproyek['pendapatan_nett'],2,',','.'); ?></td>
+          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett ,2,',','.'); ?></td>
+          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($persennett ,2,',','.'); ?></td>
         </tr>
         <tr>
-          <td colspan="4">&nbsp;</td>
+          <td colspan="5">&nbsp;</td>
         </tr>
         
     
@@ -88,7 +134,7 @@
     <td colspan="2">
       3. PL
     </td>
-    <td colspan="2">&nbsp;</td>
+    <td colspan="3">&nbsp;</td>
   </tr>
   <tr>
     <td colspan="2">
@@ -104,15 +150,38 @@
             <?php endif; ?>
       </td>
     <td align="right"><?= number_format($titip_pl['nilai'],2,',','.'); ?></td>
+    <?php 
+        if($nilai_pl==0){
+          $persenpl=0;
+        }else if($nilai_pl!=0 && $titip_pl['nilai']==0){
+          $persenpl=0;
+        }else{
+          $persenpl=$titip_pl['nilai']/$nilai_pl*100;
+        } 
+      ?>
+    <td align="right"><?= number_format($persenpl,2,',','.'); ?></td>
   </tr>
   <?php $sub_total_a=$pqproyek['sub_total_a']; ?>
 
   <tr>
     <td colspan="2" align="center">
       Pendapatan Nett setelah PL
+
+      <?php 
+      $net_s_pl = $nett-$titip_pl['nilai'];
+
+        if($sub_total_a==0){
+          $persen_subtotala=0;
+        }else if($sub_total_a!=0 && $net_s_pl==0){
+          $persen_subtotala=0;
+        }else{
+          $persen_subtotala=$net_s_pl/$sub_total_a*100;
+        } 
+      ?>
     </td>
-    <td align="right" style="background: black;border-right:white; color: white;"><?= number_format($sub_total_a,2,',','.'); ?></td>
-    <td align="right" style="background: black;border-right:white; color: white;"><?= number_format($nett-$titip_pl['nilai'],2,',','.'); ?></td>
+    <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($sub_total_a,2,',','.'); ?></td>
+    <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett-$titip_pl['nilai'],2,',','.'); ?></td>
+    <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($persen_subtotala,2,',','.'); ?></td>
   </tr>
 
   <?php endif; ?> 
@@ -122,16 +191,15 @@
 
 
   <tr>
-    <td colspan="4">
+    <td colspan="5">
       &nbsp;
     </td>
   </tr>
   <tr>
-    <td colspan="2" align="center" style="background: black;color: white;border-right:white;">
+    <td colspan="2" align="center" style="background: #B9C0C5;color: #000;">
       B. BIAYA HPP PROJECT
     </td>
-    <td align="center" style="background: black;border-right:white; color: white;">Rp</td>
-    <td align="center" style="background: black;border-left:white;color: white;">%</td>
+    <td align="center" colspan="3" style="background: #B9C0C5; color: #000;"></td>
   </tr>
   <?php 
     $totalhpp=0; 
@@ -154,9 +222,23 @@
             <?= $hpp['nama_map']; ?>
           </td>
 
+              <?php 
+
+                  if($hpp['nilai_hpp']==0){
+                    $persen_hpp1=0;
+                  }else if($hpp['nilai_hpp']!=0 && $hpp['pdo']==0){
+                    $persen_hpp1=0;
+                  }else{
+                    $persen_hpp1=$hpp['pdo']/$hpp['nilai_hpp']*100;
+                  } 
+                ?>
+
+
           <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
           <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
+          <td align="right"><?= number_format($persen_hpp1,2,',','.'); ?></td>
         </tr>
+
         <?php elseif ($hpp['kd_item'] == '5010202' && $hpp['keterangan']==''): ?>
           <tr>
               <td width="3%">
@@ -165,7 +247,10 @@
               <td>
                 <?= $hpp['nama_map']; ?>
               </td>
+              
+
               <td align="right" ></td>
+              <td align="right"></td>
               <td align="right"></td>
             </tr>
           <?php elseif ($hpp['kd_item'] == '5010202' && $hpp['keterangan']!=''): ?>
@@ -176,8 +261,20 @@
               <td>
                 <?= $hpp['nama_map'] ?>
               </td>
+              <?php 
+
+                  if($hpp['nilai_hpp']==0){
+                    $persen_hpp2=0;
+                  }else if($hpp['nilai_hpp']!=0 && $hpp['pdo']==0){
+                    $persen_hpp2=0;
+                  }else{
+                    $persen_hpp2=$hpp['pdo']/$hpp['nilai_hpp']*100;
+                  } 
+                ?>
+
               <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
               <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
+              <td align="right"><?= number_format($persen_hpp2,2,',','.'); ?></td>
             </tr>
           <?php elseif ($hpp['kd_item'] == '5010203'): ?>
           <tr>
@@ -187,8 +284,20 @@
               <td>
                 HPP - Biaya Pengiriman/Angkut
               </td>
+              <?php 
+
+                  if($hpp['nilai_hpp']==0){
+                    $persen_hpp3=0;
+                  }else if($hpp['nilai_hpp']!=0 && $hpp['pdo']==0){
+                    $persen_hpp3=0;
+                  }else{
+                    $persen_hpp3=$hpp['pdo']/$hpp['nilai_hpp']*100;
+                  } 
+                ?>
+
               <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
               <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
+              <td align="right"><?= number_format($persen_hpp3,2,',','.'); ?></td>
             </tr>
        <?php elseif ($hpp['kd_item'] == '5010204'): ?>
           <tr>
@@ -198,8 +307,19 @@
               <td>
                 HPP - Jasa Pihak Lain
               </td>
+              <?php 
+
+                  if($hpp['nilai_hpp']==0){
+                    $persen_hpp4=0;
+                  }else if($hpp['nilai_hpp']!=0 && $hpp['pdo']==0){
+                    $persen_hpp4=0;
+                  }else{
+                    $persen_hpp4=$hpp['pdo']/$hpp['nilai_hpp']*100;
+                  } 
+                ?>
               <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
               <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
+              <td align="right"><?= number_format($persen_hpp4,2,',','.'); ?></td>
             </tr>
 
       <?php elseif ($hpp['kd_item'] == '5010205'): ?>
@@ -210,8 +330,19 @@
               <td>
                 HP Sistem - Transport dan Akomodasi Projek
               </td>
+              <?php 
+
+                  if($hpp['nilai_hpp']==0){
+                    $persen_hpp5=0;
+                  }else if($hpp['nilai_hpp']!=0 && $hpp['pdo']==0){
+                    $persen_hpp5=0;
+                  }else{
+                    $persen_hpp5=$hpp['pdo']/$hpp['nilai_hpp']*100;
+                  } 
+                ?>
               <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
               <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
+              <td align="right"><?= number_format($persen_hpp5,2,',','.'); ?></td>
             </tr>
           
       <?php else: ?>    
@@ -222,8 +353,19 @@
               <td>
                 HP Sistem - Administrasi Projek
               </td>
+              <?php 
+
+                  if($hpp['nilai_hpp']==0){
+                    $persen_hpp6=0;
+                  }else if($hpp['nilai_hpp']!=0 && $hpp['pdo']==0){
+                    $persen_hpp6=0;
+                  }else{
+                    $persen_hpp6=$hpp['pdo']/$hpp['nilai_hpp']*100;
+                  } 
+                ?>
               <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
               <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
+              <td align="right"><?= number_format($persen_hpp6,2,',','.'); ?></td>
             </tr>
       <?php endif; ?> 
     <?php endforeach; ?>
@@ -234,9 +376,23 @@
 
       <?php $sub_total_b=$totalhpp;?>
       <?php $sub_total_b_a=$totalhpp_pdo;?>
+
+      <?php 
+
+        if($sub_total_b==0){
+          $persentotal=0;
+        }else if($sub_total_b!=0 && $sub_total_b_a==0){
+          $persentotal=0;
+        }else{
+          $persentotal=$sub_total_b_a/$sub_total_b*100;
+        } 
+      ?>
+
+
     </td>
-    <td align="right" style="background: black;color: white;"><?= number_format($sub_total_b,2,',','.'); ?></td>
-    <td align="right" style="background: black;color: white;"><?= number_format($sub_total_b_a,2,',','.'); ?></td>
+    <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($sub_total_b,2,',','.'); ?></td>
+    <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($sub_total_b_a,2,',','.'); ?></td>
+    <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($persentotal,2,',','.'); ?></td>
   </tr>
 
 </table>

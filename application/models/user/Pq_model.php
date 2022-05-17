@@ -498,8 +498,8 @@ public function get_cetak_hpp_pq_pdo_by_id($id){
 								end as nilai_hpp,
 								case 
 									when kd_item='5010202' then 
-										(select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and replace(kd_pqproyek,'/','')='$id' and jenis_tkl=map_pq_pdo_proyek.jenis) 
-									else (select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and replace(kd_pqproyek,'/','')='$id') 
+										(select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and replace(kd_pqproyek,'/','')='$id' and jenis_tkl=map_pq_pdo_proyek.jenis and approve='1') 
+									else (select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and replace(kd_pqproyek,'/','')='$id' and approve='1') 
 								end as pdo 
 							");
 			$this->db->from("map_pq_pdo_proyek");
@@ -518,8 +518,8 @@ public function get_cetak_hpp_pq_pdo_by_idtahun($id, $tahun){
 								end as nilai_hpp,
 								case 
 									when kd_item='5010202' then 
-										(select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and left(kd_project,4)='$tahun' and jenis_tkl=map_pq_pdo_proyek.jenis) 
-									else (select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and left(kd_project,4)='$tahun') 
+										(select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and left(kd_project,4)='$tahun' and jenis_tkl=map_pq_pdo_proyek.jenis and approve='1') 
+									else (select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and left(kd_project,4)='$tahun' and approve='1') 
 								end as pdo 
 							");
 			$this->db->from("map_pq_pdo_proyek");
