@@ -242,7 +242,7 @@ function terbilang($nilai) {
       :
     </td>
     <td align="left" style="font-size:12px" width="78%">
-      <?= $ttd['nm_bank1'].' ('.$ttd['rekening1']. ') an.' .$ttd['nama_rekening1'];; ?> ()
+      <?= $ttd['nm_bank1'].' ('.$ttd['rekening1']. ') an.' .$ttd['nama_rekening1'];; ?>
     </td>
   </tr>
   <?php }else{ ?>
@@ -254,7 +254,7 @@ function terbilang($nilai) {
       :
     </td>
     <td align="left" style="font-size:12px" width="78%">
-      LS
+      LS (<?= $pdo_header['nm_bank'].' / '.$pdo_header['no_rekening'].' / '.$pdo_header['nm_rekening']; ?>)
     </td>
   </tr>
   <?php } ?>

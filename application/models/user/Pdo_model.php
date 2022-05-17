@@ -63,6 +63,12 @@ public function get_all_pdo_operasional(){
 		}
 	}
 
+function get_rekening()
+	{	
+			$query=$this->db->get('ci_rekening_bank');
+		return $query->result_array();
+	}
+
 function get_pq_projek_by_area($area)
 	{
 		// $query = $this->db->get_where('ci_pendapatan', array('kd_area' => $area, 'status' => 1));
@@ -311,8 +317,8 @@ public function save_edit_pdo($data){
 
 public function add_pdo_project($kdpdo)
 		{	
-			$query = $this->db->query("INSERT into ci_pdo (id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar) 
-                           SELECT id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar FROM ci_pdo_temp
+			$query = $this->db->query("INSERT into ci_pdo (id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar,no_rekening,nm_rekening,nm_bank) 
+                           SELECT id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar,no_rekening,nm_rekening,nm_bank FROM ci_pdo_temp
                            WHERE kd_pdo = '$kdpdo'");
 
 			$this->db->delete('ci_pdo_temp', array('kd_pdo' => $kdpdo));
@@ -351,17 +357,17 @@ public function save_pdo_operasional($data){
 		$insert_data['kd_pdo'] 						= $data['kd_pdo'];
 		$insert_data['tgl_pdo'] 					= $data['tgl_pdo'];
 		$insert_data['kd_area'] 					= $data['kd_area'];
-		$insert_data['kd_pqproyek']					= $data['kd_pqproyek'];
-		$insert_data['kd_project']					= $data['kd_project'];
+		$insert_data['kd_pqproyek']				= $data['kd_pqproyek'];
+		$insert_data['kd_project']				= $data['kd_project'];
 		$insert_data['no_acc3']						= $data['no_acc3'];
 		$insert_data['no_acc']						= $data['no_acc'];
 		$insert_data['uraian'] 						= $data['uraian'];
-		$insert_data['nilai']						= $data['nilai'];
-		$insert_data['jenis']						= $data['jenis'];
-		$insert_data['qty']							= $data['qty'];
+		$insert_data['nilai']							= $data['nilai'];
+		$insert_data['jenis']							= $data['jenis'];
+		$insert_data['qty']								= $data['qty'];
 		$insert_data['satuan']						= $data['satuan'];
-		$insert_data['harga']						= $data['harga'];
-
+		$insert_data['harga']							= $data['harga'];
+		$insert_data['no_rekening']				= $data['no_rekening'];
 		$insert_data['username']					= $this->session->userdata('username');
 		$insert_data['created_at']					= date("Y-m-d h:i:s");
 		$query = $this->db->insert('ci_pdo_temp', $insert_data);
@@ -373,18 +379,19 @@ public function save_edit_pdo_operasional($data){
 		$insert_data['kd_pdo'] 						= $data['kd_pdo'];
 		$insert_data['tgl_pdo'] 					= $data['tgl_pdo'];
 		$insert_data['kd_area'] 					= $data['kd_area'];
-		$insert_data['kd_pqproyek']					= $data['kd_pqproyek'];
-		$insert_data['kd_project']					= $data['kd_project'];
+		$insert_data['kd_pqproyek']				= $data['kd_pqproyek'];
+		$insert_data['kd_project']				= $data['kd_project'];
 		$insert_data['no_acc3']						= $data['no_acc3'];
 		$insert_data['no_acc']						= $data['no_acc'];
 		$insert_data['uraian'] 						= $data['uraian'];
-		$insert_data['qty']							= $data['qty'];
+		$insert_data['qty']								= $data['qty'];
 		$insert_data['satuan']						= $data['satuan'];
-		$insert_data['harga']						= $data['harga'];
-		$insert_data['nilai']						= $data['nilai'];
-		$insert_data['jenis']						= $data['jenis'];
+		$insert_data['harga']							= $data['harga'];
+		$insert_data['nilai']							= $data['nilai'];
+		$insert_data['jenis']							= $data['jenis'];
+		$insert_data['no_rekening']				= $data['no_rekening'];
 		$insert_data['username']					= $this->session->userdata('username');
-		$insert_data['created_at']					= date("Y-m-d h:i:s");
+		$insert_data['created_at']				= date("Y-m-d h:i:s");
 		$query = $this->db->insert('ci_pdo', $insert_data);
 }
 

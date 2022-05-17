@@ -320,20 +320,26 @@ class Pencairan extends MY_Controller {
 					'kd_proyek'			=> $this->input->post('kd_proyek2'),
 					'id_proyek'			=> $id,
 					'jenis_cair'		=> $this->input->post('jns_pencairan'),
-					'ppn'				=> $this->proyek_model->number($this->input->post('ppn')),
-					'pph'				=> $this->proyek_model->number($this->input->post('pph')),
-					'infaq'				=> $this->proyek_model->number($this->input->post('infaq')),
+					'rek_pencairan'		=> $this->input->post('rek_pencairan'),
 					'nilai_bruto'		=> $this->proyek_model->number($this->input->post('nilai_bruto')),
-					'nilai_netto'		=> $this->proyek_model->number($this->input->post('nilai_netto')),
-					'status_ppn'		=> $this->input->post('s_ppn'),
-					'status_pph'		=> $this->input->post('s_pph'),
 					'created_at' 		=> date('Y-m-d : h:m:s'),
 				);
 				$data 		= $this->security->xss_clean($data);
 				$id_proyek 	= $this->input->post('kd_proyek');
 
+				$rek_pencairan = $this->input->post('rek_pencairan');
+
 				// SIMPAN DETAIL PENCAIRAN
 				$this->proyek_model->simpan_cair_proyek($data);
+
+				$kodearea 					= $this->input->post('areas', TRUE);
+				$urutan 					= $this->input->post('urut', TRUE);
+				
+					$data2 = array(
+						'no_pdp' => $urutan
+					);
+
+				$result = $this->pdo_model->update_nomor($data2,$kodearea);
 
 				// UPDATE STATUS PENCAIRAN
 				$data2 = array(
@@ -361,6 +367,53 @@ class Pencairan extends MY_Controller {
 			$this->load->view('user/pencairan/proyek_edit', $data);
 			$this->load->view('admin/includes/_footer');
 		}
+	}
+
+
+	public function potongan($id = 0, $id_proyek= 0, $nomor= 0){
+
+		$nomor_new = str_replace('ab56b4d92b40713acc5af89985d4b786','/',$nomor);
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('submit')){
+				$data = array(
+					'username' 			=> $this->session->userdata('username'),
+					'id_cair' 			=> $id,
+					'nomor' 			=> $nomor_new,
+					'id_proyek'			=> $id_proyek,
+					'kd_acc'			=> $this->input->post('kd_acc'),
+					'nm_acc'			=> $this->input->post('nm_acc'),
+					'nilai'				=> $this->proyek_model->number($this->input->post('nilai')),
+					'created_at' 		=> date('Y-m-d : h:m:s'),
+				);
+				$data 		= $this->security->xss_clean($data);
+				$result 	= $this->proyek_model->simpan_cair_potongan($data);
+				if($result){
+					// Activity Log 
+					$this->activity_model->add_log(2);
+					$this->session->set_flashdata('success', 'Potongan berhasil diinput!');
+					redirect(base_url('pencairan/potongan/'.$id.'/'.$id_proyek.'/'.$nomor),'refresh');
+				}else{
+					$this->session->set_flashdata('errors', 'Potongan gagal diinput!');
+					redirect(base_url('pencairan/potongan/'.$id.'/'.$id_proyek.'/'.$nomor),'refresh');
+				}
+			
+		}
+		else{
+			$data['pencairan'] 		= $this->proyek_model->get_nilai_cair($nomor);
+			$data['title'] 			= 'Potongan Pencairan';
+			$data['proyek'] 		= $this->proyek_model->get_proyek_by_id($id_proyek);
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/pencairan/proyek_potongan', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	}
+
+
+	function get_nomor(){
+		$area 		= $this->input->post('area',TRUE);
+		$data 		= $this->proyek_model->get_nomor_pdp($area)->result();
+		echo json_encode($data);
 	}
 
 
@@ -632,23 +685,76 @@ public function edit_rincian_proyek($id = 0){
 				$jenis_cair ='Lunas';
 			}
 
+
+			if ($row['rek_pencairan']=='1'){
+				$rek_pencairan ='Rekening Lokal';
+			}else if ($row['rek_pencairan']=='101010301'){
+				$rek_pencairan ='Bank BRI MSM - Veteran Rek. 10302';
+			}else if ($row['rek_pencairan']=='101010302'){
+				$rek_pencairan ='Bank BRI UMI - Veteran Rek. 12304';
+			}else if ($row['rek_pencairan']=='101010303'){
+				$rek_pencairan ='Bank BRI RUB - Tanah Abang Rek. 23305';
+			}else if ($row['rek_pencairan']=='101010304'){
+				$rek_pencairan ='Bank BRI PSK - Tanah Abang Rek. 24308';
+			}else if ($row['rek_pencairan']=='101010305'){
+				$rek_pencairan ='Bank BRI MSM - Veteran 42152';
+			}else if ($row['rek_pencairan']=='101010306'){
+				$rek_pencairan ='Bank BRI RUB - Veteran Rek. 87303';
+			}else if ($row['rek_pencairan']=='101010307'){
+				$rek_pencairan ='Bank Rekening Pandawa 81304';
+			}else if ($row['rek_pencairan']=='101010308'){
+				$rek_pencairan ='Bank BCA MSM Harmoni Plaza';
+			}else if ($row['rek_pencairan']=='101010309'){
+				$rek_pencairan ='BRI umi veteran rek 032901003618309';
+			}else if ($row['rek_pencairan']=='101010310'){
+				$rek_pencairan ='BPD Papua PT UMI';
+			}else{
+				$rek_pencairan='-';
+			}
+
+			$nomor = str_replace('/','ab56b4d92b40713acc5af89985d4b786',$row['nomor']);
+
 			if($row['status_terima']=='1'){
 				$tombol = '
 				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pencairan/cetak_pdp/'.$row['id'].'/'.$id).'" target="_blank" > <i class="fa fa-print"></i></a>';
 			}else{
-				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pencairan/delete_cair/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pencairan/delete_cair/".$row['id']."/".$id).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				<a title="Potongan" class="potongan btn btn-sm btn-warning" href='.base_url("pencairan/potongan/".$row['id']."/".$id."/".$nomor).' title="Potongan"> <i class="fa fa-percent"></i></a>
 				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pencairan/cetak_pdp/'.$row['id'].'/'.$id).'" target="_blank" > <i class="fa fa-print"></i></a>';
 			}
+
+
 
 			$data[]= array(
 				++$i,
 				'<font size="2px">'.$row['nomor'].'</font>',
 				'<font size="2px">'.$row['tgl_cair'].'<br>'.$jenis_cair.'</font>',
 				'<div class="text-right"><font size="2px">'.number_format($row['nilai_bruto'],2,',','.').'</font></div>',
-				'<div class="text-right"><font size="2px">'.number_format($row['ppn'],2,',','.').'</font></div>',
-				'<div class="text-right"><font size="2px">'.number_format($row['pph'],2,',','.').'</font></div>',
-				'<div class="text-right"><font size="2px">'.number_format($row['infaq'],2,',','.').'</font></div>',
-				'<div class="text-right"><font size="2px">'.number_format($row['nilai_bruto']-$row['ppn']-$row['pph'],2,',','.').'</font></div>',
+				'<font size="2px">'.$rek_pencairan.'</font>',
+				'<div class="text-right"><font size="2px">'.number_format($row['potongan'],2,',','.').'</font></div>',
+				$tombol
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
+
+	public function datatable_json_rincian_potongan($id,$id_proyek,$nomor){				   					   
+		$records['data'] = $this->proyek_model->get_potongan_cair_by_id($id_proyek);
+		$data = array();
+
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+
+				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pencairan/delete_potongan/".$id.'/'.$id_proyek.'/'.$nomor.'/'.$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+
+			$data[]= array(
+				++$i,
+				'<font size="2px">'.$row['kd_acc'].'</font>',
+				'<font size="2px">'.$row['nm_acc'].'</font>',
+				'<div class="text-right"><font size="2px">'.number_format($row['nilai'],2,',','.').'</font></div>',
 				$tombol
 			);
 		}
@@ -713,7 +819,20 @@ public function edit_rincian_proyek($id = 0){
 			$this->activity_model->add_log(3);
 
 			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
-			redirect(base_url('pencairan/'.$id_proyek));
+			redirect(base_url('pencairan/detail/'.$id_proyek));
+		
+	}
+
+	public function delete_potongan($id = 0, $id_proyek= 0, $nomor=0, $id_potongan= 0)
+	{
+		$this->rbac->check_operation_access('');
+
+			$this->db->delete('ci_proyek_cair_potongan', array('id' => $id_potongan));
+
+			$this->activity_model->add_log(3);
+
+			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
+			redirect(base_url('pencairan/potongan/'.$id.'/'.$id_proyek.'/'.$nomor));
 		
 	}
 
@@ -742,8 +861,8 @@ public function edit_rincian_proyek($id = 0){
 
 	public function cetak_pdp($id=0,$id_proyek=0)
 	{	
-		$data['pdp_header'] 		= $this->proyek_model->get_pdp_header($id_proyek);
-		$data['pdp_detail'] 		= $this->proyek_model->get_pdp_detail($id_proyek);
+		$data['pdp_header'] 		= $this->proyek_model->get_pdp_header($id,$id_proyek);
+		$data['pdp_detail'] 		= $this->proyek_model->get_pdp_detail($id,$id_proyek);
 		$data['ttd'] 				= $this->pdo_model->get_ttd_pdp($id_proyek);
 
 		$jenis= 0;
@@ -762,6 +881,9 @@ public function edit_rincian_proyek($id = 0){
         }
 
 	}
+
+
+	
 
 }
 

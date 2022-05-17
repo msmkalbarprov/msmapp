@@ -26,19 +26,27 @@ class Dashboard extends My_Controller {
 	public function index(){
 
 		$data['title'] = 'Dashboard';
+		$data['all_proyek'] = $this->dashboard_model->get_all_proyek();
+
+		$data['all_proyek_cair'] = $this->dashboard_model->get_all_proyek_cair();
+
+		$data['all_pdo'] = $this->dashboard_model->get_all_pdo();
+
+		$data['deactive_users'] = $this->dashboard_model->get_deactive_users();
+
 
 		$this->load->view('admin/includes/_header', $data);
 		
 		if($this->session->userdata('is_supper')){
     		// redirect(base_url('admin/dashboard/general'));
-    		$this->load->view('admin/dashboard/general');
+    		$this->load->view('admin/dashboard/index');
 		}
 		else if($this->session->userdata('is_supper') && $this->session->userdata('admin_role')=='Direktur Utama'){
     		// redirect(base_url('admin/dashboard/general'));
-    		$this->load->view('admin/dashboard/general');
+    		$this->load->view('admin/dashboard/index');
 		}
 		else{
-			$this->load->view('admin/dashboard/general');
+			$this->load->view('admin/dashboard/index');
 		}
 
     	$this->load->view('admin/includes/_footer');
@@ -49,12 +57,7 @@ class Dashboard extends My_Controller {
 
 	public function index_1(){
 
-		$data['all_users'] = $this->dashboard_model->get_all_users();
-
-		$data['active_users'] = $this->dashboard_model->get_active_users();
-
-		$data['deactive_users'] = $this->dashboard_model->get_deactive_users();
-
+		
 		$data['title'] = 'Dashboard';
 
 		$this->load->view('admin/includes/_header', $data);

@@ -247,8 +247,8 @@
         <td colspan="2">
           Gaji dan Tunjangan
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
 
   <?php elseif ($operasional['kd_item'] == '50402'): ?>
@@ -257,8 +257,8 @@
         <td colspan="2">
           Biaya Transportasi dan Kendaraan
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50403'): ?>
       <tr>
@@ -266,8 +266,8 @@
         <td colspan="2">
           Biaya Pos, Pengiriman - Operasional
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50404'): ?>
       <tr>
@@ -275,8 +275,8 @@
         <td colspan="2">
           Biaya Penyusutan
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50405'): ?>
       <tr>
@@ -284,8 +284,8 @@
         <td colspan="2">
           Biaya Amortisasi
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
 <?php elseif ($operasional['kd_item'] == '50406'): ?>
       <tr>
@@ -293,8 +293,8 @@
         <td colspan="2">
           Biaya Pelatihan & Rekreasi
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
 <?php elseif ($operasional['kd_item'] == '50407'): ?>
       <tr>
@@ -302,8 +302,8 @@
         <td colspan="2">
             Jasa Profesional
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
 <?php elseif ($operasional['kd_item'] == '50408'): ?>
     <tr>
@@ -311,8 +311,8 @@
         <td colspan="2">
             Biaya Rumah Tangga
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50409'): ?>
       <tr>
@@ -320,8 +320,8 @@
         <td colspan="2">
             Biaya Operasional Lain-Lain
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50410'): ?>
       <tr>
@@ -329,8 +329,8 @@
         <td colspan="2">
             Biaya Alat Tulis Kantor
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50411'): ?>
       <tr>
@@ -338,8 +338,8 @@
         <td colspan="2">
             Biaya Sewa
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50412'): ?>
       <tr>
@@ -347,8 +347,8 @@
         <td colspan="2">
             Biaya Perbaikan & Pemeliharaan
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50413'): ?>
       <tr>
@@ -356,8 +356,8 @@
         <td colspan="2">  
             Biaya Asuransi
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50414'): ?>
       <tr>
@@ -365,8 +365,8 @@
         <td colspan="2">
             Pajak & Denda Pajak
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50415'): ?>
       <tr>
@@ -374,8 +374,8 @@
         <td colspan="2">
             Biaya Bank dan Bunga Pinjaman
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50416'): ?>
       <tr>
@@ -383,8 +383,8 @@
         <td colspan="2">
             Biaya Administrasi dan Umum Lain-lain
         </td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
       </tr>
       <?php endif; ?>
     <?php endforeach; ?>
@@ -395,8 +395,8 @@
         <td colspan="2">
           Biaya Marketing
         </td>
-        <td align="right" style="color: red"><?= number_format($marketing['nilai_op'],2,',','.'); ?></td>
-        <td align="right" style="color: red"><?= number_format($marketing['nilai_pdo'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($marketing['nilai_op'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($marketing['nilai_pdo'],2,',','.'); ?></td>
       </tr>
 
       <?php 

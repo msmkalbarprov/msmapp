@@ -37,19 +37,31 @@ class Laporan_marketing extends MY_Controller {
 	{	
 		
 		$data['proyek']		= $this->pq_model->cetak_marketing($id,$tahun);
+			
+		if($id=='all'){
+			$file = 'laporan_marketing';
+		}else if($id=='allarea'){
+			$file = 'laporan_marketing2';
+		}else{
+			$file = 'laporan_marketing';
+		}
+
 		switch ($jenis)
         {
             case 1;
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'landscape');
 			    $this->pdf->filename = "$file_name.pdf";
-			    $this->pdf->load_view('user/proyek/laporan_marketing', $data);
+			    $this->pdf->load_view('user/proyek/'.$file, $data);
                 break;
             case 0;
                 header("Cache-Control: no-cache, no-store, must-revalidate");
 	            header("Content-Type: application/vnd.ms-excel");
 	            header("Content-Disposition: attachment; filename= $file_name $id.xls");
-                $this->load->view('user/proyek/laporan_marketing', $data);
+                $this->load->view('user/proyek/'.$file, $data);
+               break;
+            case 2;
+                $this->load->view('user/proyek/'.$file, $data);
                break;
         }
 

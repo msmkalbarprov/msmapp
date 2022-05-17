@@ -19,9 +19,9 @@
         <th align="center" width="6%"><b>APBD</b></th>
         <th align="center" width="6%"><b>APBD-P</b></th>
         <th align="center" width="6%"><b>PRASPK</b></th>
-        <th align="center" width="6%"><b>Tanggal</b></th>
         <th align="center" width="6%"><b>SPK</b></th>
         <th align="center" width="6%"><b>Tanggal</b></th>
+        <th align="center" width="6%"><b>Pencairan</b></th>
   </tr>
 </thead>
   <?php 
@@ -32,46 +32,125 @@
       $total_praspk =0;
       $total_spk    =0; 
   ?>
-<?php foreach($proyek as $proyek): ?>
+<?php foreach($proyek as $proyek_list): ?>
+      
+      <?php if($proyek_list['pagu']==6) : 
+        $total_spk        = $total_spk+$proyek_list['spk']; 
+      ?>
+          <tr>
+            <td><?= $proyek_list['nm_area']; ?></td>
+            <td><?= $proyek_list['nm_sub_area']; ?></td>
+            <td><?= $proyek_list['nm_paket_proyek']; ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format($proyek_list['spk'],2,',','.'); ?></td>
+            <td align="right" ><?php if( $proyek_list['tglspk'] == 0 || $proyek_list['tglspk']=='0000-00-00') :
+              echo "-";
+            else:
+              echo $proyek_list['tglspk'];
+              endif; ?></td>
+            <td align="right" >-</td>
+          </tr>
 
-  <?php 
-    $total_target     = $total_target+$proyek['target'];  
-    $total_renja      = $total_renja+$proyek['renja'];  
-    $total_apbd       = $total_apbd+$proyek['apbd'];  
-    $total_apbdp      = $total_apbdp+$proyek['apbdp'];  
-    $total_praspk     = $total_praspk+$proyek['praspk'];  
-    $total_spk        = $total_spk+$proyek['spk'];  
-    
-  ?> 
-      <tr>
-        <td>
-          <?= $proyek['nm_area']; ?>
-        </td>
-        <td>
-          <?= $proyek['nm_sub_area']; ?>
-        </td>
-        <td>
-          <?= $proyek['nm_paket_proyek']; ?>
-        </td>
-        <td align="right" ><?= number_format($proyek['target'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($proyek['renja'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($proyek['apbd'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($proyek['apbdp'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($proyek['praspk'],2,',','.'); ?></td>
-        <td align="right" >
-          <?php if($proyek['tglpraspk'] == 0 || $proyek['tglpraspk']=='0000-00-00') :
-          echo "-";
-        else:
-          echo $proyek['tglpraspk'];
-          endif; ?>
-          </td>
-        <td align="right" ><?= number_format($proyek['spk'],2,',','.'); ?></td>
-        <td align="right" ><?php if( $proyek['tglspk'] == 0 || $proyek['tglspk']=='0000-00-00') :
-          echo "-";
-        else:
-          echo $proyek['tglspk'];
-          endif; ?></td>
-      </tr>
+      <?php elseif ($proyek_list['pagu']==5) : 
+        $total_praspk     = $total_praspk+$proyek_list['praspk'];
+      ?>
+          <tr>
+            <td><?= $proyek_list['nm_area']; ?></td>
+            <td><?= $proyek_list['nm_sub_area']; ?></td>
+            <td><?= $proyek_list['nm_paket_proyek']; ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format($proyek_list['praspk'],2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" >-</td>
+            <td align="right" >-</td>
+          </tr>
+
+      <?php elseif ($proyek_list['pagu']==4) : 
+        $total_apbdp      = $total_apbdp+$proyek_list['apbdp'];
+      ?>
+          <tr>
+            <td><?= $proyek_list['nm_area']; ?></td>
+            <td><?= $proyek_list['nm_sub_area']; ?></td>
+            <td><?= $proyek_list['nm_paket_proyek']; ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format($proyek_list['apbdp'],2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" >-</td>
+            <td align="right" >-</td>
+
+      <?php elseif ($proyek_list['pagu']==3) : 
+        $total_apbd       = $total_apbd+$proyek_list['apbd'];
+      ?>
+          <tr>
+            <td><?= $proyek_list['nm_area']; ?></td>
+            <td><?= $proyek_list['nm_sub_area']; ?></td>
+            <td><?= $proyek_list['nm_paket_proyek']; ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format($proyek_list['apbd'],2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" >-</td>
+            <td align="right" >-</td>
+          </tr>
+        <?php elseif ($proyek_list['pagu']==2) : 
+          $total_renja      = $total_renja+$proyek_list['renja'];
+        ?>
+          <tr>
+            <td><?= $proyek_list['nm_area']; ?></td>
+            <td><?= $proyek_list['nm_sub_area']; ?></td>
+            <td><?= $proyek_list['nm_paket_proyek']; ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format($proyek_list['renja'],2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" >-</td>
+            <td align="right" >-</td>
+          </tr>
+        <?php elseif ($proyek_list['pagu']==1) : 
+          $total_target     = $total_target+$proyek_list['target'];  
+        ?>
+          <tr>
+            <td><?= $proyek_list['nm_area']; ?></td>
+            <td><?= $proyek_list['nm_sub_area']; ?></td>
+            <td><?= $proyek_list['nm_paket_proyek']; ?></td>
+            <td align="right" ><?= number_format($proyek_list['target'],2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" >-</td>
+            <td align="right" >-</td>
+          </tr>
+        <?php elseif ($proyek_list['pagu']==0) : ?>
+          <tr>
+            <td><?= $proyek_list['nm_area']; ?></td>
+            <td><?= $proyek_list['nm_sub_area']; ?></td>
+            <td><?= $proyek_list['nm_paket_proyek']; ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" ><?= number_format(0,2,',','.'); ?></td>
+            <td align="right" >-</td>
+            <td align="right" >-</td>
+          </tr>
+        <?php endif; ?>        
 <?php endforeach; ?>
 
       <tr>
@@ -83,8 +162,8 @@
         <td align="right" style="background: black;color: white;border-right:white;"><?= number_format($total_apbd,2,',','.'); ?></td>
         <td align="right" style="background: black;color: white;border-right:white;"><?= number_format($total_apbdp,2,',','.'); ?></td>
         <td align="right" style="background: black;color: white;border-right:white;"><?= number_format($total_praspk,2,',','.'); ?></td>
-        <td align="right" style="background: black;color: white;border-right:white;"></td>
         <td align="right" style="background: black;color: white;border-right:white;"><?= number_format($total_spk,2,',','.'); ?></td>
+        <td align="right" style="background: black;color: white;border-right:white;"></td>
         <td align="right" style="background: black;color: white;border-right:white;"></td>
       </tr>
 

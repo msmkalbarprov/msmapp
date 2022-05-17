@@ -47,6 +47,13 @@ $lang['laporan_marketing']                  	= "Laporan Marketing";
 $lang['operasional']                         	= "Operasional";
 
 $lang['pengesahan_pdo']                         = "Pengesahan PDO";
+$lang['bank']                         			= "Bank";
+$lang['transfer']                         		= "Transfer";
+$lang['bendahara_umum']                         = "Bendahara Umum";
+$lang['PB Rek. Perusahaan']                     = "PB Rek. Perusahaan";
+$lang['daerah']                     			= "Daerah";
+
+
 
 
 

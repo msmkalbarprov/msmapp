@@ -77,7 +77,7 @@ class Cpdo extends MY_Controller {
 		foreach ($records['data']   as $row) 
 		{  
 			if ($row['approve']==1){
-				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/edit_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
 			}else{
 				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('cpdo/delete_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
@@ -199,28 +199,11 @@ public function add(){
 			$data['nilai']				= $this->input->post('total', TRUE);
 			$data['jenis']				= 3; //1 untuk pdo project
 			$result = $this->pdo_model->save_pdo($data);
-			// $kodearea 					= $this->input->post('area', TRUE);
-			// $urutan 					= $this->input->post('nourut', TRUE);
 			
-			// $data2 = array(
-			// 	'no_pdo' => $urutan
-			// );
-
-			// $result = $this->pdo_model->update_nomor($data2,$kodearea);
-
-            // if($result){
-					// Activity Log 
-					// $this->activity_model->add_log(2);
 					echo json_encode(array(
 							"statusCode"=>200
 						));
-					// $this->session->set_flashdata('success', 'Data PDO berhasil disimpan!');
-					// redirect(base_url('pdo'),'refresh');
-				// }else{
-				// 	echo json_encode(array(
-				// 			"statusCode"=>201
-				// 		));
-				// }
+				
 		}else{
 			$data['data_area'] 			= $this->area->get_area();
 			$data['data_divisi']		= $this->pdo_model->get_divisi();
@@ -248,10 +231,12 @@ public function add_pdo_project(){
 				$this->session->set_flashdata('errors', $data['errors']);
 			}
 			else{
-				$kdpdo 		= $this->security->xss_clean($this->input->post('kd_pdo'));
-				$keterangan 	= $this->security->xss_clean($this->input->post('keterangan'));
+				$kdpdo 					= $this->security->xss_clean($this->input->post('kd_pdo'));
+				$keterangan 			= $this->security->xss_clean($this->input->post('keterangan'));
+				$jenis_transfer 		= $this->security->xss_clean($this->input->post('s_transfer'));
+
 				$this->pdo_model->add_pdo_project($kdpdo);
-				$this->pdo_model->update_keterangan($kdpdo, $keterangan);
+				$this->pdo_model->update_keterangan($kdpdo, $keterangan, $jenis_transfer );
 
 				$kodearea 					= $this->input->post('area', TRUE);
 				$urutan 					= $this->input->post('urut', TRUE);
@@ -290,8 +275,8 @@ public function add_pdo_gaji(){
 			}
 			else{
 				$kdpdo 					= $this->security->xss_clean($this->input->post('kd_pdo'));
-				$keterangan 		= $this->security->xss_clean($this->input->post('keterangan'));
-				$jenis_transfer = $this->security->xss_clean($this->input->post('s_transfer'));
+				$keterangan 			= $this->security->xss_clean($this->input->post('keterangan'));
+				$jenis_transfer 		= $this->security->xss_clean($this->input->post('s_transfer'));
 				$jnspdo 				= $this->security->xss_clean($this->input->post('jns_pdo'));
 				$this->pdo_model->add_pdo_project($kdpdo);
 				$this->pdo_model->update_keterangan_gaji($kdpdo, $keterangan, $jenis_transfer,$jnspdo);
@@ -368,10 +353,12 @@ public function add_pdo_operasional(){
 				$this->session->set_flashdata('errors', $data['errors']);
 			}
 			else{
-				$kdpdo 			= $this->security->xss_clean($this->input->post('kd_pdo'));
-				$keterangan 	= $this->security->xss_clean($this->input->post('keterangan'));
+				$kdpdo 				= $this->security->xss_clean($this->input->post('kd_pdo'));
+				$keterangan 		= $this->security->xss_clean($this->input->post('keterangan'));
+				$jenis_transfer 	= $this->security->xss_clean($this->input->post('s_transfer'));
 				$this->pdo_model->add_pdo_project($kdpdo);
-				$this->pdo_model->update_keterangan($kdpdo, $keterangan);
+
+				$this->pdo_model->update_keterangan($kdpdo, $keterangan, $jenis_transfer);
 
 				$kodearea 					= $this->input->post('area', TRUE);
 				$urutan 					= $this->input->post('urut', TRUE);
@@ -506,6 +493,7 @@ public function datatable_json_pdo_operasional_edit($id='',$kodepdo=''){
 				$row['satuan'],
 				$row['harga'],
 				$row['uraian'],
+				$row['no_rekening'],
 				number_format($row['nilai'],2,',','.'),
 				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("cpdo/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/2'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
@@ -530,6 +518,7 @@ public function datatable_json_pdo_operasional_edit($id='',$kodepdo=''){
 			$data['satuan']				= $this->input->post('satuan', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);
 			$data['nilai']				= $this->input->post('total', TRUE);
+			$data['no_rekening']		= $this->input->post('no_rekening', TRUE);
 			$data['jenis']				= 2; //1 untuk pdo project
 			$result 					= $this->pdo_model->save_pdo_operasional($data);
 			// $kodearea 					= $this->input->post('area', TRUE);
@@ -556,6 +545,7 @@ public function datatable_json_pdo_operasional_edit($id='',$kodepdo=''){
 				// }
 		}else{
 			$data['data_area'] 			= $this->area->get_area();
+			$data['data_rekening']		= $this->pdo_model->get_rekening();
 			$data['data_divisi']		= $this->pdo_model->get_divisi();
 			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
 			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
@@ -667,6 +657,7 @@ public function edit_pdo_operasional($id_pdo='')
 			$data['satuan']				= $this->input->post('satuan', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);
 			$data['nilai']				= $this->input->post('total', TRUE);
+			$data['no_rekening']		= $this->input->post('no_rekening', TRUE);
 			$data['jenis']				= 2; //1 untuk pdo project
 			$result = $this->pdo_model->save_edit_pdo_operasional($data);
 			
@@ -676,6 +667,7 @@ public function edit_pdo_operasional($id_pdo='')
 		}
 		else{
 			$data['data_area'] 			= $this->area->get_area();
+			$data['data_rekening']		= $this->pdo_model->get_rekening();
 			$data['data_divisi']		= $this->pdo_model->get_divisi();
 			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
 			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();

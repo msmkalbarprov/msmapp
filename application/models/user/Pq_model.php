@@ -551,14 +551,22 @@ public function cetak_operasional_by_area($id,$tahun){
 
 public function cetak_marketing($id,$tahun){
 			
-			if ($id!='all'){
+			if ($id=='all'){
 				$this->db->from("cetak_marketing");
-				$this->db->where("kd_area", $id);
+				$this->db->where("thn_anggaran", $tahun);
+				$this->db->order_by("kd_area");
+			}else if ($id=='allarea'){
+				$this->db->from("cetak_marketing_all");
+				$this->db->where("thn_anggaran", $tahun);
+				$this->db->group_by("kd_area");
+				$this->db->order_by("kd_area");
 			}else{
 				$this->db->from("cetak_marketing");
+				$this->db->where("kd_area", $id);
+				$this->db->where("thn_anggaran", $tahun);
+				$this->db->order_by("kd_area");
 			}
-			$this->db->where("thn_anggaran", $tahun);
-			$this->db->order_by("kd_area");
+			
 			$query=$this->db->get();
 			return $query->result_array();
 		}

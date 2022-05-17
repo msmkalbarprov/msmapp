@@ -39,7 +39,7 @@
           <h3 class="card-title"><i class="fa fa-list"></i>&nbsp; <?= trans('proyek_list') ?></h3>
         </div>
         <div class="d-inline-block float-right">
-          <?php if($this->rbac->Check_operation_permission('add')): ?>
+          <?php if($this->rbac->Check_operation_permission('detail')): ?>
             <button class="btn btn-success btn-sm" id="button"><i class="fa fa-check"></i> Detail </button>
           <?php endif; ?>
         </div>

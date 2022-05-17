@@ -91,10 +91,11 @@
                     <input id='s_transfer' name="s_transfer"  type='hidden' />
             </div>
           </div>
+          
           <div class="col-md-9">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
-              <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" ></textarea>
+              <textarea type="text" name="keterangan" id="keterangan" class="form-control" rows="1" placeholder="" ></textarea>
           </div>
           </div>
          </div>
@@ -121,6 +122,7 @@
                   <th>Satuan</th>
                   <th>Harga</th>
                   <th>Uraian</th>
+                  <th>Rekening</th>
                   <th>Nilai</th>
                   <th width="5%">Action</th>
                 </tr>
@@ -156,6 +158,21 @@
                 <select name="item_hpp"  id="item_hpp" class="form-control" required>
                   <option value="">No Selected</option>
                 </select> 
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="no_rek" class="control-label">Rek. Tujuan</label>
+                <select name="no_rekening" id ="no_rekening" class="form-control select2" style="width: 100%;" required >
+                <option value="">No Selected</option>
+                <?php foreach($data_rekening as $rekening): ?>
+                      <option value="<?= $rekening['no_rekening']; ?>"><?= $rekening['pemilik'].' - '.$rekening['nm_bank'].' - '.$rekening['no_rekening']; ?></option>
+                  <?php endforeach; ?>
+                </select>
 
             </div>
           </div>
@@ -284,6 +301,7 @@
                 { "data": "satuan" }, // Tampilkan satuan
                 { "data": "harga" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total
                 { "data": "uraian" }, // Tampilkan uraian
+                { "data": "no_rekening" }, // Tampilkan no_rekening
                 { "data": "nilai" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total
                 {
                     "data": null,
@@ -298,8 +316,12 @@
 $('#c_transfer').click(function() {
       if ($('#c_transfer').prop('checked') == true){
           $('[name="s_transfer"]').val('1').trigger('change');
+          document.getElementById("no_rekening").disabled = true;
+          $('[name="no_rekening"]').val('').trigger('change');
       }else{
         $('[name="s_transfer"]').val('0').trigger('change');
+
+        document.getElementById("no_rekening").disabled = false;
       }
 });
 
@@ -308,12 +330,19 @@ function load_rincian_temp(nomorpdo) {
         table.ajax.reload();
 }
 
+$('#thn_ang').change(function(){ 
+    $('[name="area"]').val('').trigger('change');
+  });
 
 // get pq projek
 
 $('#area').change(function(){ 
     var kodearea=$(this).val();
     var thn_ang = $('#thn_ang').val();
+    if (thn_ang==''){
+      alert('Silahkan Pilih tahun anggaran');
+      return;
+    }
     get_nomor_urut(kodearea,thn_ang);
     $.ajax({
         url : "<?php echo site_url('cpdo/get_pq_operasional_by_area');?>",
@@ -447,6 +476,7 @@ $('#butsave').on('click', function() {
     var idpdo         = no_pdo.replace(/\//g,'');
     var kodeproject   = projek;
     var sisa          = number($('#sisa').val());
+    var no_rekening   = $('#no_rekening').val();
     if(total>sisa){
       alert('Gagal! Nilai Melebihi sisa HPP');
       return;
@@ -509,7 +539,8 @@ $('#butsave').on('click', function() {
           idpdo:idpdo,
           no_pdo:no_pdo,
           kodeproject:kodeproject,
-          nourut:nourut
+          nourut:nourut,
+          no_rekening:no_rekening
 
         },
         cache: false,
@@ -522,6 +553,7 @@ $('#butsave').on('click', function() {
             document.getElementById("total").value='';
             document.getElementById("total").value='';
             document.getElementById("pnet").value='';
+            document.getElementById("no_rekening").value='';
             document.getElementById("thpp").value='';
             document.getElementById("sisa").value='';
             document.getElementById("satuan").value='';

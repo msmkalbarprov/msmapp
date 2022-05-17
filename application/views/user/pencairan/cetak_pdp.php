@@ -44,48 +44,32 @@ function terbilang($nilai) {
 
 <table width="100%" border="1" style="border-spacing: -1px;border-collapse: collapse;" cellspacing="2" cellpadding="3">
   <tr>
-    <td align="left" style="font-size:16px;border-bottom:solid 1px white;border-right:solid 1px white;" colspan="4">
-      <b>To : PT. MSM CONSULTANTS</b>
-    </td>
-    <td align="right" style="font-size:16px;border-bottom:solid 1px white;border-left:solid 1px white;border-right:solid 1px black;" colspan="4">
-      <b>From : Kantor Area <?= ucwords(strtolower($pdp_header['nm_area'])); ?></b>
-    </td>
-  </tr>
-  <tr>
-    <td align="left" style="font-size:16px;" colspan="8">
-      <b>UB. Finance & Accounting Jakarta : (021) 384.0412</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="left" style="font-size:13px;border-bottom:solid 1px white;border-right:solid 1px white;" colspan="4">
-    </td>
-    <td align="right" style="font-size:13px;border-bottom:solid 1px white;border-left:solid 1px white;" colspan="2">
-      <b>Tanggal</b>
-    </td>
-    <td align="left" style="font-size:13px;border-bottom:solid 1px white;border-left:solid 1px white;" colspan="2">
-      <b>: <?= date('d F Y', strtotime($pdp_header['tgl_cair'])); ?></b>
-    </td>
-  </tr>
-  
-  <tr>
-    <td align="left" style="font-size:13px;border-bottom:solid 1px white;border-right:solid 1px white;" colspan="4">
-    </td>
-    <td width="20%" align="right" style="font-size:13px;border-bottom:solid 1px white;border-left:solid 1px white;" colspan="2">
-      <b>Nomor</b>
-    </td>
-    <td align="left" style="font-size:13px;border-bottom:solid 1px white;border-left:solid 1px white;" colspan="2">
-      <b>: <?= $pdp_header['nomor']; ?></b>
-    </td>
-  </tr>
-
-  <tr>
     <td align="center" style="font-size:18px;" colspan="8">
-      <b>PENGIRIMAN DANA PROJECT</b>
+      <b>PENCAIRAN DANA PROJECT</b>
+      <br>
+      <b>AREA <?= $pdp_header['nm_area']; ?></b>
     </td>
   </tr>
   <tr>
-    <td align="left" style="font-size:13px;" colspan="8">
-      Sehubungan dengan adanya pencairan proyek di Area <b><?= ucwords(strtolower($pdp_header['nm_area'])); ?></b>, dengan ini saya sampaikan bahwa dana pencairan project tersebut telah ditransfer ke <b>Pak Ruslan</b>. Dengan rincian sbb :
+    <td align="left" style="font-size:13px;border-right:solid 1px white;border-bottom:solid 1px white;" colspan="2">
+      No. Pencairan
+    </td>
+    <td align="center" style="font-size:13px;border-right:solid 1px white;border-bottom:solid 1px white;" width="2%">
+      :
+    </td>
+    <td align="left" style="font-size:13px;border-bottom:solid 1px white;" colspan="5">
+      <?= $pdp_header['nomor']; ?>
+    </td>
+  </tr>
+  <tr>
+    <td align="left" style="font-size:13px;border-right:solid 1px white;border-bottom:solid 1px white;" colspan="2">
+      Tanggal Pencairan
+    </td>
+    <td align="center" style="font-size:13px;border-right:solid 1px white;border-bottom:solid 1px white;" width="2%">
+      :
+    </td>
+    <td align="left" style="font-size:13px;border-bottom:solid 1px white;" colspan="5">
+      <?= date('d F Y', strtotime($pdp_header['tgl_cair'])); ?>
     </td>
   </tr>
   <tr>
@@ -134,7 +118,7 @@ function terbilang($nilai) {
   </tr>
   <tr>
     <td align="left" style="font-size:13px;border-right:solid 1px white;border-bottom:solid 1px white;" colspan="2">
-      Jumlah yang ditransfer
+      Jumlah dana yang dicairkan
     </td>
     <td align="center" style="font-size:13px;border-right:solid 1px white;border-bottom:solid 1px white;" width="2%">
       :
@@ -194,7 +178,9 @@ function terbilang($nilai) {
               $totalppn   = $totalppn+$pdp['ppn'];
               $totalpph   = $totalpph+$pdp['pph'];
               $totalinfaq = $totalinfaq+$pdp['infaq'];
-              $totalnetto = $totalnetto+$pdp['nilai_netto'];  
+              $potongan = $pdp['infaq']+$pdp['pph']+$pdp['ppn'];
+              $netto = $pdp['nilai_bruto']-$potongan;
+              $totalnetto = $totalnetto+$netto;  
         ?>
           <tr style="font-size:12px">
             <td width="25%"><?= $pdp['nm_paket_proyek'].' '.$pdp['jns_cair']; ?></td>
@@ -203,7 +189,7 @@ function terbilang($nilai) {
             <td width="10%" align="right"><?= number_format($pdp['ppn'],2,',','.'); ?></td>
             <td width="10%" align="right"><?= number_format($pdp['pph'],2,',','.'); ?></td>
             <td width="10%" align="right"><?= number_format($pdp['infaq'],2,',','.'); ?></td>
-            <td width="10%" align="right"><?= number_format($pdp['nilai_netto'],2,',','.'); ?></td>
+            <td width="10%" align="right"><?= number_format($netto,2,',','.'); ?></td>
           </tr>
         <?php endforeach; ?>
         <tr style="font-size:12px">
