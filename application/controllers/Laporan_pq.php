@@ -109,13 +109,13 @@ class Laporan_pq extends MY_Controller {
 		$data['marketing']			= $this->pq_model->cetak_marketing_by_id($id,$tahun);
 		switch ($jenis)
         {
-            case 0;
+            case 1;
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'portrait');
 			    $this->pdf->filename = "laporan.pdf";
 			    $this->pdf->load_view('user/pq/cetak_pq_pdo_all', $data);
                 break;
-            case 1;
+            case 0;
                 $this->load->view('user/pq/cetak_pq_pdo_all', $data);
                break;
         }

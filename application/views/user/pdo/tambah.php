@@ -133,6 +133,7 @@
                   <th>Satuan</th>
                   <th>Harga</th>
                   <th>Uraian</th>
+                  <th>Rekening</th>
                   <th>Nilai</th>
                   <th width="5%">Action</th>
                 </tr>
@@ -164,6 +165,20 @@
                 <select name="item_hpp"  id="item_hpp" class="form-control" required>
                   <option value="">No Selected</option>
                 </select> 
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="no_rek" class="control-label">Rek. Tujuan</label>
+                <select name="no_rekening" id ="no_rekening" class="form-control select2" style="width: 100%;" required >
+                <option value="">No Selected</option>
+                <?php foreach($data_rekening as $rekening): ?>
+                      <option value="<?= $rekening['no_rekening']; ?>"><?= $rekening['pemilik'].' - '.$rekening['nm_bank'].' - '.$rekening['no_rekening']; ?></option>
+                  <?php endforeach; ?>
+                </select>
 
             </div>
           </div>
@@ -278,10 +293,16 @@
   $('#c_transfer').click(function() {
       if ($('#c_transfer').prop('checked') == true){
           $('[name="s_transfer"]').val('1').trigger('change');
+          document.getElementById("no_rekening").disabled = true;
+          $('[name="no_rekening"]').val('').trigger('change');
       }else{
         $('[name="s_transfer"]').val('0').trigger('change');
+        document.getElementById("no_rekening").disabled = false;
       }
 });
+
+
+
 
     nomorpdo=0;
     var table = $('#na_datatable').DataTable( {
@@ -302,11 +323,12 @@
 
      "columns": [
                 { "data": "kd_project" }, // Tampilkan no_acc
-                { "data": "nama" },  // Tampilkan nama
+                { "data": "nm_acc" },  // Tampilkan nama
                 { "data": "qty" }, // Tampilkan qty
                 { "data": "satuan" }, // Tampilkan satuan
                 { "data": "harga" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total
                 { "data": "uraian" }, // Tampilkan uraian
+                { "data": "no_rekening" }, // Tampilkan no_rekening
                 { "data": "nilai" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total
                 {
                     "data": null,
@@ -609,7 +631,7 @@ $('#butsave').on('click', function() {
     var divisi        = $('#divisi').val();
     var idpdo         = no_pdo.replace(/\//g,'');
     var kodeproject   = projek.replace('PQ/','');
-
+    var no_rekening   = $('#no_rekening').val();
     var jenis_tkl     = $('#jns_tkls').val();
     var sisa          = number($('#sisa').val());
     if(total>sisa){
@@ -680,7 +702,8 @@ $('#butsave').on('click', function() {
           no_pdo:no_pdo,
           kodeproject:kodeproject,
           jenis_tkl:jenis_tkl,
-          nourut:nourut
+          nourut:nourut,
+          no_rekening:no_rekening
 
         },
         cache: false,
@@ -694,6 +717,7 @@ $('#butsave').on('click', function() {
             document.getElementById("total").value='';
             document.getElementById("pnet").value='';
             document.getElementById("thpp").value='';
+            document.getElementById("no_rekening").value='';
             document.getElementById("sisa").value='';
             document.getElementById("satuan").value='';
             document.getElementById("qty").value='';

@@ -28,14 +28,14 @@
             <!-- small box -->
             <div class="small-box bg-white">
               <div class="inner">
-                <h3><?= $all_proyek; ?></h3>
+                <font size="5px"><b><?= $all_proyek; ?></b></font>
 
                 <p>Proyek/Pekerjaan</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bookmark"></i>
+                <font color="#0A62A9"><i class="ion ion-bookmark"></i></font>
               </div>
-              
+              <br>
             </div>
           </div>
           <!-- ./col -->
@@ -43,14 +43,14 @@
             <!-- small box -->
             <div class="small-box bg-white">
               <div class="inner">
-                <h3><?= number_format($all_proyek_cair['nilai'],2,',','.'); ?></h3>
+                <font size="5px"><b><?= number_format($all_proyek_cair['nilai'],2,',','.'); ?></b></font>
 
                 <p>Jumlah pencairan</p>
               </div>
               <div class="icon">
-                <i class="ion ion-ios-download"></i>
+                <font color="#50B83C"><i class="ion ion-ios-download"></i></font>
               </div>
-              
+              <br>
             </div>
           </div>
           <!-- ./col -->
@@ -58,14 +58,14 @@
             <!-- small box -->
             <div class="small-box bg-white">
               <div class="inner">
-                <h3><?= number_format($all_pdo['nilai'],2,',','.'); ?></h3>
+                <font size="5px"><b><?= number_format($all_pdo['nilai'],2,',','.'); ?></b></font>
 
                 <p>Jumlah PDO</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <font color="#D91331"><i class="ion ion-bag"></i></font>
               </div>
-              
+              <br>
             </div>
           </div>
           
@@ -74,14 +74,14 @@
             <!-- small box -->
             <div class="small-box bg-white">
               <div class="inner">
-                <h3>0,00</h3>
+                <font size="5px"><b>0,00</b></font>
 
                 <p>Jumlah SPJ</p>
               </div>
               <div class="icon">
-                <i class="ion ion-ios-upload"></i>
+                <font color="#267778"><i class="ion ion-ios-upload"></i></font>
               </div>
-              
+              <br>
             </div>
           </div>
           <!-- ./col -->

@@ -34,7 +34,7 @@ public function get_all_transfer_pencairan(){
 			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area');
 			$this->db->from("ci_proyek_transfer");
 			$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
-			$this->db->where('kd_area',$this->session->userdata('kd_area'));
+			$this->db->where('ci_area.kd_area',$this->session->userdata('kd_area'));
 			$this->db->group_by('no_transfer');
        		return $this->db->get()->result_array();
 		}

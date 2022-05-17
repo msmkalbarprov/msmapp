@@ -116,6 +116,7 @@
                   <th>Satuan</th>
                   <th>Harga</th>
                   <th>Uraian</th>
+                  <th>Rekening</th>
                   <th>Nilai</th>
                   <th width="5%">Action</th>
                 </tr>
@@ -147,6 +148,20 @@
                 <select name="item_hpp"  id="item_hpp" class="form-control" required>
                   <option value="">No Selected</option>
                 </select> 
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="no_rek" class="control-label">Rek. Tujuan</label>
+                <select name="no_rekening" id ="no_rekening" class="form-control select2" style="width: 100%;" required >
+                <option value="">No Selected</option>
+                <?php foreach($data_rekening as $rekening): ?>
+                      <option value="<?= $rekening['no_rekening']; ?>"><?= $rekening['pemilik'].' - '.$rekening['nm_bank'].' - '.$rekening['no_rekening']; ?></option>
+                  <?php endforeach; ?>
+                </select>
 
             </div>
           </div>
@@ -261,8 +276,9 @@
     { "targets": 3, "name": "satuan", 'searchable':true, 'orderable':false},
     { "targets": 4, "name": "harga", 'searchable':true, 'orderable':false},
     { "targets": 5, "name": "uraian", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "Nilai", 'searchable':true, 'orderable':false},
-    { "targets": 7, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 6, "name": "rekening", 'searchable':true, 'orderable':false},
+    { "targets": 7, "name": "Nilai", 'searchable':true, 'orderable':false},
+    { "targets": 8, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
 
@@ -532,7 +548,7 @@ $('#butsave').on('click', function() {
   });
 
 function load_rincian_temp(nomorpdo) {
-        table.ajax.url("<?=base_url('cpdo/datatable_json_pdo_proyek_edit'.'/')?>"+ nomorpdo);
+        table.ajax.url("<?=base_url('cpdo/datatable_json_pdo_proyek_edit'.'/')?>"+ nomorpdo+'/'+"<?= $this->uri->segment(3) ?>");
         table.ajax.reload();
 }
 

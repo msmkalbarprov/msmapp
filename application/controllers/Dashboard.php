@@ -102,5 +102,18 @@ class Dashboard extends My_Controller {
 	}
 
 
+	public function index_4(){
+
+		$data['title'] = 'Dashboard';
+
+		$this->load->view('admin/includes/_header');
+
+    	$this->load->view('admin/dashboard/index4');
+
+    	$this->load->view('admin/includes/_footer');
+
+	}
+
+
 }
 ?>	

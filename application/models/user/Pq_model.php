@@ -266,18 +266,28 @@ public function get_pq_operasional_view($id){
 		}
 
 	public function get_pencairan_by_id($id){
-				 $this->db->select('ifnull(sum(ci_proyek_cair.ppn),0) as ppn,ifnull(sum(ci_proyek_cair.pph),0) as pph, ifnull(sum(ci_proyek_cair.infaq),0) as infaq, ifnull(sum(ci_proyek_cair.nilai_netto),0) as netto');
+				 $this->db->select("
+					sum( case when ci_proyek_cair_potongan.kd_acc='5041405' then ci_proyek_cair_potongan.nilai else 0 end) as ppn,
+					sum( case when ci_proyek_cair_potongan.kd_acc in ('5041401','5041402','5041403') then ci_proyek_cair_potongan.nilai else 0 end) as pph,
+					sum( case when ci_proyek_cair_potongan.kd_acc='5020501' then ci_proyek_cair_potongan.nilai else 0 end) as infaq,
+				 	ifnull(sum(ci_proyek_cair.nilai_bruto)-sum(ci_proyek_cair_potongan.nilai),0) as netto");
 				 $this->db->from("ci_pendapatan");
 				 $this->db->join("ci_proyek_cair","ci_pendapatan.id_proyek=ci_proyek_cair.kd_proyek","left");
+				 $this->db->join("ci_proyek_cair_potongan","ci_proyek_cair_potongan.id_proyek=ci_proyek_cair.kd_proyek","left");
                  $this->db->where('id_pqproyek', $id);
                  $this->db->group_by('id_pqproyek');
 			return $result = $this->db->get()->row_array();
 		}
 
 public function get_pencairan_by_idtahun($id,$tahun){
-				 $this->db->select('ifnull(sum(ci_proyek_cair.ppn),0) as ppn,ifnull(sum(ci_proyek_cair.pph),0) as pph, ifnull(sum(ci_proyek_cair.infaq),0) as infaq, ifnull(sum(ci_proyek_cair.nilai_netto),0) as netto');
+				 $this->db->select("
+					sum( case when ci_proyek_cair_potongan.kd_acc='5041405' then ci_proyek_cair_potongan.nilai else 0 end) as ppn,
+					sum( case when ci_proyek_cair_potongan.kd_acc in ('5041401','5041402','5041403') then ci_proyek_cair_potongan.nilai else 0 end) as pph,
+					sum( case when ci_proyek_cair_potongan.kd_acc='5020501' then ci_proyek_cair_potongan.nilai else 0 end) as infaq,
+				 	ifnull(sum(ci_proyek_cair.nilai_bruto)-sum(ci_proyek_cair_potongan.nilai),0) as netto");
 				 $this->db->from("ci_pendapatan");
 				 $this->db->join("ci_proyek_cair","ci_pendapatan.id_proyek=ci_proyek_cair.kd_proyek","left");
+				 $this->db->join("ci_proyek_cair_potongan","ci_proyek_cair_potongan.id_proyek=ci_proyek_cair.kd_proyek","left");
                  $this->db->where('left(ci_pendapatan.id_proyek,4)', $tahun);
                  $this->db->where('kd_area', $id);;
                  $this->db->group_by('kd_area');
