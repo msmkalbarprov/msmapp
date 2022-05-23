@@ -35,12 +35,11 @@ class Laporan_marketing extends MY_Controller {
  
 	public function cetak_marketing($id=0,$tahun=0,$jenis=0, $file_name='')
 	{	
-		
+		ini_set('max_execution_time', -1);
+		ini_set('memory_limit',-1);
 		$data['proyek']		= $this->pq_model->cetak_marketing($id,$tahun);
 			
-		if($id=='all'){
-			$file = 'laporan_marketing';
-		}else if($id=='allarea'){
+		if($id=='allarea'){
 			$file = 'laporan_marketing2';
 		}else{
 			$file = 'laporan_marketing';

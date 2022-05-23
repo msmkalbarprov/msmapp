@@ -16,10 +16,10 @@
       <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-list"></i>
-            List Transfer Dana Pencairan</h3>
+             SPJ </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('transfer/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
+            <a href="<?= base_url('spj/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
           </div>
         </div>
     </div>
@@ -31,12 +31,11 @@
                   <thead>
                     <tr>
                       <th width="5%">No.</th>
-                      <th>No Transfer</th>
-                      <th>Tanggal Transfer</th>
+                      <th>No. SPJ</th>
                       <th>Area</th>
-                      <th>Tujuan</th>
+                      <th>Tanggal SPJ</th>
+                      <th>Keterangan</th>
                       <th>Nilai</th>
-                      <th>Status</th>
                       <th width="10%"><?= trans('action') ?></th>
                     </tr>
                   </thead>
@@ -55,7 +54,7 @@
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
 <script>
   // $("#proyek").addClass('menu-open');
-  $("#transfer").addClass('active');
+  $("#pq").addClass('active');
 </script>
 <script>
   
@@ -63,15 +62,16 @@
   var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('transfer/datatable_json')?>",
+    "ajax": "<?=base_url('spj/datatable_json')?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "no", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "kode_pdo", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "area", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "tgl_pdo", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "nilai", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 1, "name": "no_spj", 'searchable':true, 'orderable':false},
+    { "targets": 2, "name": "kd_area", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "tgl_spj", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "keterangan", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "nilai", 'searchable':true, 'orderable':false},
+    { "targets": 6, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
 </script>

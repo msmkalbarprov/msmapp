@@ -18,8 +18,8 @@
         <th align="center" width="10%"><b>APBD-P</b></th>
         <th align="center" width="10%"><b>PRASPK</b></th>
         <th align="center" width="10%"><b>SPK</b></th>
-        <th align="center" width="10%"><b>Tanggal</b></th>
         <th align="center" width="10%"><b>Pencairan</b></th>
+        <th align="center" width="10%"><b>Sisa</b></th>
   </tr>
 </thead>
   <?php 
@@ -28,7 +28,9 @@
       $total_apbd   =0;
       $total_apbdp  =0;
       $total_praspk =0;
-      $total_spk    =0; 
+      $total_spk    =0;
+      $total_cair   =0;
+      $total_sisa   =0; 
   ?>
 <?php foreach($proyek as $proyek): ?>
 
@@ -39,6 +41,8 @@
     $total_apbdp      = $total_apbdp+$proyek['apbdp'];  
     $total_praspk     = $total_praspk+$proyek['praspk'];  
     $total_spk        = $total_spk+$proyek['spk'];  
+    $total_cair        = $total_cair+$proyek['cair'];  
+    $total_sisa        = $total_sisa+$proyek['sisa'];  
     
   ?> 
       <tr>
@@ -51,12 +55,8 @@
         <td align="right" ><?= number_format($proyek['apbdp'],2,',','.'); ?></td>
         <td align="right" ><?= number_format($proyek['praspk'],2,',','.'); ?></td>
         <td align="right" ><?= number_format($proyek['spk'],2,',','.'); ?></td>
-        <td align="right" ><?php if( $proyek['tglspk'] == 0 || $proyek['tglspk']=='0000-00-00') :
-          echo "-";
-        else:
-          echo $proyek['tglspk'];
-          endif; ?></td>
-          <td align="right" >-</td>
+        <td align="right" ><?= number_format($proyek['cair'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($proyek['sisa'],2,',','.'); ?></td>
       </tr>
 <?php endforeach; ?>
 
@@ -70,8 +70,8 @@
         <td align="right" style="background: black;color: white;border-right:white;"><?= number_format($total_apbdp,2,',','.'); ?></td>
         <td align="right" style="background: black;color: white;border-right:white;"><?= number_format($total_praspk,2,',','.'); ?></td>
         <td align="right" style="background: black;color: white;border-right:white;"><?= number_format($total_spk,2,',','.'); ?></td>
-        <td align="right" style="background: black;color: white;border-right:white;"></td>
-        <td align="right" style="background: black;color: white;border-right:white;"></td>
+        <td align="right" style="background: black;color: white;border-right:white;"><?= number_format($total_cair,2,',','.'); ?></td>
+        <td align="right" style="background: black;color: white;border-right:white;"><?= number_format($total_sisa,2,',','.'); ?></td>
       </tr>
 
 </table>

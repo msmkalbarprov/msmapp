@@ -93,7 +93,7 @@ function terbilang($nilai) {
       :
     </td>
     <td align="left" style="font-size:12px">
-      <?= $pdo_header['kd_area'].'/'.$pdo_header['nm_area']; ?>
+      <?= $pdo_header['kd_area'].'/'.$pdo_header['nm_sub_area']; ?>
     </td>
   </tr>
   <tr>
@@ -104,7 +104,7 @@ function terbilang($nilai) {
       :
     </td>
     <td align="left" style="font-size:12px">
-      -
+      <?= $pdo_header['kd_project']; ?>
     </td>
   </tr>
   <tr>

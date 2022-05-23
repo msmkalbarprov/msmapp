@@ -175,8 +175,66 @@ public function get_transfer_by_id($id){
 		$query = $this->db->insert('ci_proyek_transfer', $insert_data);
 }
 
-public function simpan_cair_potongan($data){
+public function simpan_cair_potongan($data,$kd_acc,$tgl_pdo,$no_rekening,$created_at,$username,$nilai,$keterangan,$nomor_new){
 			$this->db->insert('ci_proyek_transfer_potongan', $data);
+
+			$query1 		= "SELECT id_proyek  from ci_proyek_transfer where no_transfer='$nomor_new' limit 1";
+			$hasil 		= $this->db->query($query1);
+			$id_proyek 	= $hasil->row('id_proyek');
+			$kd_area 	= substr($id_proyek, 0,2);
+
+
+			$query2 		= "SELECT nomor from get_urut_pdo where kd_area=left('$id_proyek',2)";
+			$hasil2 		= $this->db->query($query2);
+			$nomor 		= $hasil2->row('nomor');
+
+			$asg = $this->db->query("
+				INSERT INTO ci_pdo
+				(id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,no_acc,qty,satuan,harga,uraian,keterangan,nilai,no_rekening,jenis,username,created_at,s_transfer,approve)
+
+				SELECT 
+ 					 CONCAT('PDO',REPLACE(id_proyek,'/',''),(select nomor from get_urut_pdo where kd_area=substring(id_proyek,6,2))) as id_pdo
+					,CONCAT('PDO/',id_proyek,'/',(select nomor from get_urut_pdo where kd_area=substring(id_proyek,6,2))) as kd_pdo 
+					,'$tgl_pdo'as tgl_pdo
+					,substring(id_proyek,6,2) as kd_area
+					,substring(id_proyek,9,1) as kd_divisi
+					,CONCAT('PQ/',id_proyek) as kd_pqproyek
+					,id_proyek as kd_project
+					,left('$kd_acc',5) as no_acc3
+					,'$kd_acc' as no_acc
+					, 1 as qty
+					, 'paket' as satuan
+					,'$nilai' as harga
+					,'$keterangan' as uraian
+					,'$keterangan' as keterangan
+					,'$nilai' as harga
+					,'$no_rekening' as no_rekening
+					,4 as  jenis
+					,'$username' as username
+					,'$created_at' as created_at
+					,0 as s_transfer
+					,1 as approve
+					from ci_pendapatan where id_proyek=(SELECT kd_proyek from ci_proyek where id_proyek='$id_proyek')
+					");
+
+					if ($asg){
+						$query3 		= "SELECT 
+ 					 							CONCAT('PDO',REPLACE(id_proyek,'/',''),(select nomor from get_urut_pdo where kd_area=substring(id_proyek,6,2))) as id_pdo
+												from ci_pendapatan where id_proyek=(SELECT kd_proyek from ci_proyek where id_proyek='$id_proyek')";
+						$hasil3 		= $this->db->query($query3);
+						$id_pdo 		= $hasil3->row('id_pdo');
+
+						$this->db->set('id_pdo', $id_pdo);
+						$this->db->where("nomor", $nomor_new);
+						$this->db->where("kd_acc", $kd_acc);
+						$this->db->update('ci_proyek_transfer_potongan');
+					}
+
+					$this->db->set('no_pdo', $nomor);
+					$this->db->where("kd_area", $kd_area);
+					$this->db->update('ci_nomor_pdo');
+					
+
 			return true;
 		}
 
@@ -219,6 +277,77 @@ public function get_ttd_transfer($id){
 			$this->db->where("no_transfer",$id);
        		return $result = $this->db->get()->row_array();
 		}
+
+function get_nilai($id, $no_acc)
+	{	
+
+		$query="SELECT b.kd_proyek,(select kd_pqproyek from ci_pendapatan c where b.kd_proyek=c.id_proyek)as kd_pqproyek from ci_proyek_transfer a inner join
+		 			ci_proyek_cair b on a.no_cair=b.nomor
+		 		where a.no_transfer='$id' limit 1";
+					 $hasil     = $this->db->query($query);
+					 $id_new    = $hasil->row('kd_proyek');
+					 $id_pq    	= $hasil->row('kd_pqproyek');
+
+
+		if ($no_acc=='50201' || $no_acc=='5020101'){
+		    	
+		    $query="SELECT persen_pl,ppl from ci_pendapatan where id_proyek='$id_new'";
+					 $hasil     = $this->db->query($query);
+					 $persen_pl = $hasil->row('persen_pl');
+					 $ppl       = $hasil->row('ppl');
+					 
+			if ($ppl!=0){
+			       $this->db->select('ppl as total');
+			}else{
+			    $this->db->select('npl as total');
+			}
+			
+			$this->db->from('ci_pendapatan');
+			$this->db->where('kd_pqproyek', $id_pq);	
+			$query=$this->db->get();
+		}else if ($no_acc=='5020501'){
+		    	
+		    $query="SELECT titipan,titipan_net,status_titipan from ci_pendapatan where kd_pqproyek='$id'";
+					 $hasil     		= $this->db->query($query);
+					 $titipan 			= $hasil->row('titipan');
+					 $titipan_net 	= $hasil->row('titipan_net');
+					 $status_titipan= $hasil->row('status_titipan');
+					 
+			if ($status_titipan==1){
+			       $this->db->select('titipan_net as total');
+			}else{
+			    $this->db->select('titipan as total');
+			}
+			
+			$this->db->from('ci_pendapatan');
+			$this->db->where('kd_pqproyek', $id_pq);	
+			$query=$this->db->get();
+		}else{
+			$query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $id_pq, 'kd_item' => $no_acc));	
+		}
+		
+		return $query;
+	}
+
+
+function get_realisasi($id, $no_acc)
+	{	
+
+		$query="SELECT b.kd_proyek,(select kd_pqproyek from ci_pendapatan c where b.kd_proyek=c.id_proyek)as kd_pqproyek from ci_proyek_transfer a inner join
+		 			ci_proyek_cair b on a.no_cair=b.nomor
+		 		where a.no_transfer='$id' limit 1";
+					 $hasil     = $this->db->query($query);
+					 $id_new    = $hasil->row('kd_proyek');
+					 $id_pq    	= $hasil->row('kd_pqproyek');
+
+
+		$this->db->select('ifnull(sum(total),0)as total');
+		$this->db->from('v_get_realisasi_hpp');
+		$this->db->where('kd_pqproyek', $id_pq);	
+		$this->db->where('no_acc', $no_acc);	
+		$query=$this->db->get();
+		return $query;
+	}
 
 // SELESAI
 
@@ -353,58 +482,6 @@ function get_jenis_tk($kode_pqproyek,$no_acc)
 		return $query;
 	}
 
-function get_nilai($id, $no_acc)
-	{	
-		if ($no_acc=='50201'){
-		    	
-		    $query="SELECT persen_pl,ppl from ci_pendapatan where kd_pqproyek='$id'";
-					 $hasil     = $this->db->query($query);
-					 $persen_pl = $hasil->row('persen_pl');
-					 $ppl       = $hasil->row('ppl');
-					 
-			if ($ppl!=0){
-			       $this->db->select('ppl as total');
-			}else{
-			    $this->db->select('npl as total');
-			}
-			
-			$this->db->from('ci_pendapatan');
-			$this->db->where('kd_pqproyek', $id);	
-			$query=$this->db->get();
-		}else{
-			$query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $id, 'kd_item' => $no_acc));	
-		}
-		
-		return $query;
-	}
-
-function get_nilai2($id, $no_acc, $jns_tk)
-	{
-		$query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $id, 'kd_item' => $no_acc, 'jenis_tk' => $jns_tk));
-		return $query;
-	}
-
-function get_realisasi($id, $no_acc)
-	{	
-		$this->db->select('ifnull(sum(total),0)as total');
-		$this->db->from('v_get_realisasi_hpp');
-		$this->db->where('kd_pqproyek', $id);	
-		$this->db->where('no_acc', $no_acc);	
-		$query=$this->db->get();
-		return $query;
-	}
-
-function get_realisasi2($id, $no_acc, $jns_tk)
-	{
-		
-		$this->db->select('ifnull(sum(total),0)as total');
-		$this->db->from('v_get_realisasi_hpp');
-		$this->db->where('kd_pqproyek', $id);	
-		$this->db->where('no_acc', $no_acc);	
-		$this->db->where('jenis_tkl', $jns_tk);	
-		$query=$this->db->get();
-		return $query;
-	}
 
 function get_divisi()
 	{	

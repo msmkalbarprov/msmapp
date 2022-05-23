@@ -1,5 +1,5 @@
 <?php
-	class Pdo_model extends CI_Model{
+	class Spj_model extends CI_Model{
 
 	public function angka($nilai){
 		$nilai=str_replace(',','',$nilai);
@@ -20,20 +20,91 @@
 	}
 
 
+
+// MULAI
 	// get all users for server-side datatable processing (ajax based)
-public function get_all_pdo(){
+public function get_all_spj(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 			$this->db->select('*');
-			$this->db->from("v_pdo");
+			$this->db->from("v_spj");
        		return $this->db->get()->result_array();
 		}
 		else{
 			$this->db->select('*');
-			$this->db->from("v_pdo");
+			$this->db->from("v_spj");
 			$this->db->where('kd_area',$this->session->userdata('kd_area'));
        		return $this->db->get()->result_array();
 		}
 	}
+
+
+	function get_pdo_by_area($area)
+	{
+		// $query = $this->db->get_where('ci_pendapatan', array('kd_area' => $area, 'status' => 1));
+
+			$this->db->select('ci_pdo.*');
+			$this->db->from('ci_pdo');
+			$this->db->where('ci_pdo.kd_area', $area);	
+			$this->db->where("ci_pdo.approve",1);
+			$this->db->where("s_transfer", 1);
+			$this->db->group_by("kd_pdo");
+			$query=$this->db->get();
+		return $query;
+	}
+
+
+
+function get_item_by_pdo($pq)
+	{	
+
+			$this->db->select('*');
+			$this->db->from('ci_pdo');
+			$this->db->where('kd_pdo', $pq);	
+			$this->db->where("s_transfer", 1);
+			$this->db->where("status_bayar", 0);	
+			$query=$this->db->get();
+			return $query;
+	}
+
+	function get_item_spj_by_pdo($pq)
+	{	
+
+			$this->db->select('*');
+			$this->db->from('ci_coa_msm');
+			$this->db->where('left(no_acc,5)', $pq);	
+			$this->db->where('level', 4);	
+			$query=$this->db->get();
+			return $query;
+	}
+
+
+	function get_nomor($area)
+	{
+		$query = $this->db->get_where('get_urut_spj', array('kd_area' => $area));
+		return $query;
+	}
+
+
+	function get_nilai($id, $no_acc)
+	{	
+			$query = $this->db->get_where('ci_pdos', array('kd_pdo' => $id, 'no_acc' => $no_acc));	
+			return $query;
+	}
+
+	function get_realisasi($id, $no_acc)
+	{	
+		$this->db->select('ifnull(sum(nilai),0)as total');
+		$this->db->from('ci_spj');
+		$this->db->where('kd_pdo', $id);	
+		$this->db->where('no_acc', $no_acc);	
+		$query=$this->db->get();
+		return $query;
+	}
+
+
+// SELESAI
+
+
 
 public function get_all_pdo_gaji(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
@@ -161,30 +232,7 @@ function get_jenis_tk($kode_pqproyek,$no_acc)
 		return $query;
 	}
 
-function get_nilai($id, $no_acc)
-	{	
-		if ($no_acc=='50201' || $no_acc=='5020101'){
-		    	
-		    $query="SELECT persen_pl,ppl from ci_pendapatan where kd_pqproyek='$id'";
-					 $hasil     = $this->db->query($query);
-					 $persen_pl = $hasil->row('persen_pl');
-					 $ppl       = $hasil->row('ppl');
-					 
-			if ($ppl!=0){
-			       $this->db->select('ppl as total');
-			}else{
-			    $this->db->select('npl as total');
-			}
-			
-			$this->db->from('ci_pendapatan');
-			$this->db->where('kd_pqproyek', $id);	
-			$query=$this->db->get();
-		}else{
-			$query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $id, 'kd_item' => $no_acc));	
-		}
-		
-		return $query;
-	}
+
 
 function get_nilai2($id, $no_acc, $jns_tk)
 	{
@@ -192,15 +240,7 @@ function get_nilai2($id, $no_acc, $jns_tk)
 		return $query;
 	}
 
-function get_realisasi($id, $no_acc)
-	{	
-		$this->db->select('ifnull(sum(total),0)as total');
-		$this->db->from('v_get_realisasi_hpp');
-		$this->db->where('kd_pqproyek', $id);	
-		$this->db->where('no_acc', $no_acc);	
-		$query=$this->db->get();
-		return $query;
-	}
+
 
 function get_realisasi2($id, $no_acc, $jns_tk)
 	{
@@ -398,11 +438,7 @@ public function save_edit_pdo_operasional($data){
 
 
 
-function get_nomor($area)
-	{
-		$query = $this->db->get_where('get_urut_pdo', array('kd_area' => $area));
-		return $query;
-	}
+
 
 public function update_nomor($data2, $kodearea){
 

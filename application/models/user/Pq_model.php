@@ -560,7 +560,8 @@ public function cetak_operasional_by_area($id,$tahun){
 		}
 
 public function cetak_marketing($id,$tahun){
-			
+			ini_set('max_execution_time', -1);
+			ini_set('memory_limit',-1);
 			if ($id=='all'){
 				$this->db->from("cetak_marketing");
 				$this->db->where("thn_anggaran", $tahun);

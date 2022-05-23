@@ -198,6 +198,7 @@ public function add(){
 			$data['qty']				= $this->input->post('qty', TRUE);
 			$data['satuan']				= $this->input->post('satuan', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);
+			$data['no_rekening']		= '';
 			$data['nilai']				= $this->input->post('total', TRUE);
 			$data['jenis']				= 3; //1 untuk pdo project
 			$result = $this->pdo_model->save_pdo($data);
@@ -479,6 +480,31 @@ public function datatable_json_pdo_proyek_edit($id='',$kodepdo=''){
 		echo json_encode($records);						   
 	}
 
+	public function datatable_json_pdo_proyek_gaji_edit($id='',$kodepdo=''){				
+		
+		$id_new = str_replace('abcde','/',$id);
+		$records['data'] = $this->pdo_model->get_pdo_proyek($id_new);
+		$data = array();
+
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+
+				$data[]= array(
+				$row['kd_project'],
+				$row['no_acc'].'<br>'.$row['nm_acc'],
+				$row['qty'],
+				$row['satuan'],
+				$row['harga'],
+				$row['uraian'],
+				number_format($row['nilai'],2,',','.'),
+				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("cpdo/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/1'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
 public function datatable_json_pdo_operasional_edit($id='',$kodepdo=''){				
 		
 		$id_new = str_replace('abcde','/',$id);
@@ -620,6 +646,7 @@ public function edit_pdo_gaji($id_pdo='')
             $data['no_acc3'] 			= $this->input->post('kd_item', TRUE);
             $data['no_acc'] 			= $this->input->post('kd_item', TRUE);
             $data['jns_tkl'] 			= $this->input->post('jenis_tkl', TRUE);
+            $data['no_rekening']		= '';
 			$data['uraian']				= $this->input->post('uraian', TRUE);
 			$data['nilai']				= $this->input->post('total', TRUE);
 			$data['jenis']				= 3; //1 untuk pdo project

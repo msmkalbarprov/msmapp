@@ -9,7 +9,7 @@ class Transfer extends MY_Controller {
 		$this->rbac->check_module_access();
 
 		$this->load->model('user/proyek_model', 'proyek_model');
-		$this->load->model('user/pq_model', 'pq_model');
+		$this->load->model('user/pdo_model', 'pdo_model');
 		$this->load->model('user/transfer_model', 'transfer_model');
 		$this->load->model('admin/admin_model', 'admin');
 		$this->load->model('admin/area_model', 'area');
@@ -32,12 +32,12 @@ public function datatable_json(){
 		foreach ($records['data']   as $row) 
 		{  
 			if ($row['approve']==1){
-				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('transfer/cetak_pdo_gaji/'.str_replace("/","",$row['no_transfer'])).'"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('transfer/cetak_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-print"></i></a>';
 				$status='<span class="badge badge-success">Diterima</span>';
 			}else{
 				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('transfer/edit/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('transfer/delete_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
-				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('transfer/cetak_pdo_gaji/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('transfer/cetak_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 				$status='<span class="badge badge-danger">Belum diterima</span>';
 			}
 
@@ -178,13 +178,11 @@ public function edit($no_transfer='')
 					));
 			}
 			else{
+				$data2['title'] 				= 'Edit Transfer';
 				$data['data_area'] 			= $this->area->get_area();
-				// $data['data_divisi']		= $this->pdo_model->get_divisi();
 				$data['item_hpp'] 			= $this->transfer_model->get_coa_item();
-				// $data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
 				$data['data_transfer'] 		= $this->transfer_model->get_transfer_by_id($no_transfer);
-				$data['title'] 				= 'Edit PDO';
-				$this->load->view('admin/includes/_header');
+				$this->load->view('admin/includes/_header', $data2);
 				$this->load->view('user/transfer/edit', $data);
 				$this->load->view('admin/includes/_footer');
 			}
@@ -281,12 +279,31 @@ public function potongan($id = 0, $nomor= 0, $no_cair=0){
 					'nomor' 			=> $nomor_new,
 					'no_cair'			=> $nocair_new,
 					'kd_acc'			=> $this->input->post('kd_acc'),
-					'nm_acc'			=> $this->input->post('nm_acc'),
 					'nilai'				=> $this->proyek_model->number($this->input->post('nilai')),
 					'created_at' 		=> date('Y-m-d : h:m:s'),
 				);
-				$data 		= $this->security->xss_clean($data);
-				$result 	= $this->transfer_model->simpan_cair_potongan($data);
+				$kd_acc 			= $this->security->xss_clean($this->input->post('kd_acc'));
+				
+				if ($kd_acc=='5020101'){
+					$tgl_pdo 		= $this->security->xss_clean($this->input->post('tgl_pdo'));
+					$no_rekening 	= $this->security->xss_clean($this->input->post('no_rekening'));
+					$keterangan 	= "Pembayaran Partner Lokal";
+				}else if ($kd_acc=='5020501'){
+					$tgl_pdo 		= $this->security->xss_clean($this->input->post('tgl_pdo'));
+					$no_rekening 	= $this->security->xss_clean($this->input->post('no_rekening'));
+					$keterangan 	="Pembayaran Titipan";
+				}else{
+					$tgl_pdo 		= "";
+					$no_rekening 	= "";
+					$keterangan 	= "";
+				}
+				$nilai				= $this->security->xss_clean($this->proyek_model->number($this->input->post('nilai')));
+				$created_at			= date('Y-m-d : h:m:s');
+				$username 			= $this->security->xss_clean($this->session->userdata('username'));
+
+				$data 				= $this->security->xss_clean($data);
+				$result 			= $this->transfer_model->simpan_cair_potongan($data,$kd_acc,$tgl_pdo,$no_rekening,$created_at,$username,$nilai,$keterangan,$nomor_new);
+
 				if($result){
 					// Activity Log 
 					$this->activity_model->add_log(2);
@@ -300,9 +317,10 @@ public function potongan($id = 0, $nomor= 0, $no_cair=0){
 		}
 		else{
 			$data['transfer'] 		= $this->transfer_model->get_data_transfer($nomor);
-			$data['title'] 			= 'Potongan transfer';
+			$data['data_rekening']	= $this->pdo_model->get_rekening();
+			$data2['title'] 			= 'Potongan transfer';
 			// $data['proyek'] 		= $this->transfer_model->get_proyek_by_id($id_proyek);
-			$this->load->view('admin/includes/_header');
+			$this->load->view('admin/includes/_header', $data2);
 			$this->load->view('user/transfer/proyek_potongan', $data);
 			$this->load->view('admin/includes/_footer');
 		}
@@ -316,7 +334,7 @@ public function datatable_json_rincian_potongan($id,$nomor,$no_cair){
 		foreach ($records['data']   as $row) 
 		{  
 
-				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("transfer/delete_potongan/".$id.'/'.$nomor.'/'.$no_cair.'/'.$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("transfer/delete_potongan/".$id.'/'.$nomor.'/'.$no_cair.'/'.$row['id'].'/'.$row['kd_acc']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
 
 			$data[]= array(
 				++$i,
@@ -330,10 +348,16 @@ public function datatable_json_rincian_potongan($id,$nomor,$no_cair){
 		echo json_encode($records);						   
 	}
 
-public function delete_potongan($id = 0, $nomor= 0, $no_cair=0, $id_potongan= 0)
+public function delete_potongan($id = 0, $nomor= 0, $no_cair=0, $id_potongan= 0,$kd_acc=0)
 	{
 		$this->rbac->check_operation_access('');
 
+			$query3 		= "SELECT id_pdo from ci_proyek_transfer_potongan where id='$id_potongan'";
+			$hasil3 		= $this->db->query($query3);
+			$id_pdo 		= $hasil3->row('id_pdo');
+
+			$this->db->delete('ci_pdo', array('id_pdo' => $id_pdo));
+			
 			$this->db->delete('ci_proyek_transfer_potongan', array('id' => $id_potongan));
 
 			$this->activity_model->add_log(3);
@@ -390,6 +414,20 @@ public function cetak_transfer($id=0)
                break;
         }
 
+	}
+
+function get_nilai(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$data 		= $this->transfer_model->get_nilai($id, $no_acc)->result();
+		echo json_encode($data);
+	}
+
+function get_realisasi(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$data 		= $this->transfer_model->get_realisasi($id, $no_acc)->result();
+		echo json_encode($data);
 	}
 
 
