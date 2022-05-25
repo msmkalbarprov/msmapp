@@ -43,7 +43,21 @@
 
   <?php if(!isset($navbar)): ?>
 
-  <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+    <?php 
+      if($this->session->userdata('is_supper')){
+        $warna3 = 'bg-white';
+      }else if ($this->session->userdata('admin_role')=='Direktur Utama'){
+        $warna3 = 'bg-danger';
+      }else if ($this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+        $warna3 = 'bg-info';
+      }else if ($this->session->userdata('admin_role')=='Divisi Finance'){
+        $warna3 = 'bg-primary';
+      }else{
+        $warna3 = 'bg-white';
+      }
+    ?>
+
+  <nav class="main-header navbar navbar-expand <?= $warna3; ?> navbar-light border-bottom">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">

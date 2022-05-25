@@ -79,10 +79,11 @@
                 return $this->db->get()->result_array();
 		}
 
-	public function get_potongan_cair_by_id($id){
+	public function get_potongan_cair_by_id($id,$nomor){
 				$this->db->select('*');
 				$this->db->from("ci_proyek_cair_potongan");
 				$this->db->where('id_proyek',$id);
+				$this->db->where('nomor',$nomor);
                 return $this->db->get()->result_array();
 		}
 	function get_dinas($subarea,$area)
@@ -100,7 +101,91 @@
 			return $result = $this->db->get()->row_array();
 	}
 
+function get_nilai_hpp($id, $no_acc)
+	{	
+		if ($no_acc=='5041405'){
+		    $this->db->select('ppn as total');
+			$this->db->from('ci_pendapatan');
+			$this->db->where('id_proyek', $id);	
+			$query=$this->db->get();
+		}else if ($no_acc=='5041401'){ // pph 21
 
+			$query="SELECT a.id, a.jns_pph from ci_proyek_rincian a inner join ci_proyek b on a.id_proyek=b.id_proyek where b.kd_proyek='$id' order by a.id desc limit 1";
+					 $hasil     		= $this->db->query($query);
+					 $jns_pph 			= $hasil->row('jns_pph');
+					 $id_rincian		= $hasil->row('id');
+
+		    $this->db->select('pph as total,ci_proyek_rincian.jns_pph');
+			$this->db->from('ci_pendapatan');
+			$this->db->join('ci_proyek_rincian',"ci_pendapatan.kd_proyek=ci_proyek_rincian.id_proyek","left");
+			$this->db->where('ci_pendapatan.id_proyek', $id);	
+			$this->db->where('ci_proyek_rincian.jns_pph', 21);	
+			$query=$this->db->get();
+		}else if ($no_acc=='5041402'){ // pph 22
+
+			$query="SELECT a.id, a.jns_pph from ci_proyek_rincian a inner join ci_proyek b on a.id_proyek=b.id_proyek where b.kd_proyek='$id' order by a.id desc limit 1";
+					 $hasil     		= $this->db->query($query);
+					 $jns_pph 			= $hasil->row('jns_pph');
+					 $id_rincian		= $hasil->row('id');
+
+		    $this->db->select('pph as total,ci_proyek_rincian.jns_pph');
+			$this->db->from('ci_pendapatan');
+			$this->db->join('ci_proyek_rincian',"ci_pendapatan.kd_proyek=ci_proyek_rincian.id_proyek","left");
+			$this->db->where('ci_pendapatan.id_proyek', $id);	
+			$this->db->where('ci_proyek_rincian.jns_pph', 22);	
+			$query=$this->db->get();
+		}else if ($no_acc=='5041403'){ // pph 23
+
+			$query="SELECT a.id, a.jns_pph from ci_proyek_rincian a inner join ci_proyek b on a.id_proyek=b.id_proyek where b.kd_proyek='$id' order by a.id desc limit 1";
+					 $hasil     		= $this->db->query($query);
+					 $jns_pph 			= $hasil->row('jns_pph');
+					 $id_rincian		= $hasil->row('id');
+
+		    $this->db->select('pph as total,ci_proyek_rincian.jns_pph');
+			$this->db->from('ci_pendapatan');
+			$this->db->join('ci_proyek_rincian',"ci_pendapatan.kd_proyek=ci_proyek_rincian.id_proyek","left");
+			$this->db->where('ci_pendapatan.id_proyek', $id);	
+			$this->db->where('ci_proyek_rincian.jns_pph', 23);	
+			$query=$this->db->get();
+		}else if ($no_acc=='5041406'){ // infaq
+
+			$this->db->select('infaq as total');
+			$this->db->from('ci_pendapatan');
+			$this->db->where('ci_pendapatan.id_proyek', $id);	
+			$query=$this->db->get();
+		}
+		
+		return $query;
+	}
+
+function get_realisasi_hpp($id, $no_acc)
+	{	
+
+		// $query="SELECT b.kd_proyek,(select kd_pqproyek from ci_pendapatan c where b.kd_proyek=c.id_proyek)as kd_pqproyek from ci_proyek_transfer a inner join
+		//  			ci_proyek_cair b on a.no_cair=b.nomor
+		//  		where a.no_transfer='$id' limit 1";
+		// 			 $hasil     = $this->db->query($query);
+		// 			 $id_new    = $hasil->row('kd_proyek');
+		// 			 $id_pq    	= $hasil->row('kd_pqproyek');
+
+
+		$this->db->select('ifnull(sum(nilai),0)as total');
+		$this->db->from('ci_proyek_cair_potongan');
+		$this->db->where('id_proyek', $id);	
+		$this->db->where('kd_acc', $no_acc);	
+		$query=$this->db->get();
+		return $query;
+	}
+
+function get_realisasi_hpp2($id)
+	{	
+
+		$this->db->select('ifnull(sum(nilai),0)as total');
+		$this->db->from('ci_proyek_cair_potongan');
+		$this->db->where('id_proyek', $id);
+		$query=$this->db->get();
+		return $query;
+	}
 
 	function get_subarea($area)
 	{

@@ -35,6 +35,14 @@ public function get_all_pdo(){
 		}
 	}
 
+public function get_all_pdo_approve(){
+			$this->db->select('*');
+			$this->db->from("v_pdo_cair");
+			$this->db->where("approve", 1);
+			$this->db->order_by("tgl_pdo", "ASC");
+       		return $this->db->get()->result_array();
+	}
+
 public function get_all_pdo_gaji(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 			$this->db->select('*');
@@ -62,6 +70,7 @@ public function get_all_pdo_operasional(){
        		return $this->db->get()->result_array();
 		}
 	}
+
 
 function get_rekening()
 	{	
@@ -351,6 +360,16 @@ public function setuju_pdo($kdpdo, $status)
 			return true;
 		} 
 
+public function cair_pdo($kdpdo, $status, $no_cair, $tgl_cair)
+		{	
+			$this->db->set('status_bayar', $status);
+			$this->db->set('no_cair', $no_cair);
+			$this->db->set('tgl_cair', $tgl_cair);
+			$this->db->where('kd_pdo', $kdpdo);
+			$this->db->update('ci_pdo');
+			return true;
+		} 
+
 
 public function save_pdo_operasional($data){
 		$insert_data['id_pdo']						= $data['id_pdo'];
@@ -401,6 +420,12 @@ public function save_edit_pdo_operasional($data){
 function get_nomor($area)
 	{
 		$query = $this->db->get_where('get_urut_pdo', array('kd_area' => $area));
+		return $query;
+	}
+
+function get_nomor_bud()
+	{
+		$query = $this->db->get('get_urut_bud');
 		return $query;
 	}
 

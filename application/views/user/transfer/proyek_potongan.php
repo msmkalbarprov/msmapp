@@ -57,20 +57,8 @@
          <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="no_rek" class="control-label">Rek. Tujuan <small> (Khusus PL dan titipan)</small></label>
-                <select name="no_rekening" id ="no_rekening" class="form-control select2" style="width: 100%;" required >
-                <option value="">No Selected</option>
-                <?php foreach($data_rekening as $rekening): ?>
-                      <option value="<?= $rekening['no_rekening']; ?>"><?= $rekening['pemilik'].' - '.$rekening['nm_bank'].' - '.$rekening['no_rekening']; ?></option>
-                  <?php endforeach; ?>
-                </select>
-
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
               <label for="no_rek" class="control-label">Tanggal Transfer Potongan<small> (Khusus PL dan titipan)</small></label>
-                <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control">
+                <input type="date" name="tgl_spj" id="tgl_spj" class="form-control">
             </div>
           </div>
           <div class="col-md-4">
@@ -79,23 +67,20 @@
                 <input type="text" name="nilai" class="form-control" id="nilai" value="0" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"  required>
             </div>
           </div>
-
-         </div>
-
-         <div class="row" id="myDIV1">
-          <div class="col-md-8">
-          </div>
           <div class="col-md-4">
            <div class="form-group">
                 <label for="dinas" class="control-label">Nilai HPP<small> (Khusus PL dan titipan)</small></label>
                 <input type="text" name="pnet" id="pnet" class="form-control"  style="background:none;text-align:right;" readonly >
             </div>
           </div>
-         
          </div>
 
          <div class="row" id="myDIV2">
-          <div class="col-md-8">
+          <div class="col-md-4">
+            <div class="form-group">
+                <label for="dinas" class="control-label">Keterangan</small></label>
+                <textarea name="keterangan" id="keterangan" class="form-control" rows="1"></textarea>
+            </div>
           </div>
           <div class="col-md-4" >
            <div class="form-group" id="myDIV2">
@@ -103,24 +88,13 @@
                 <input type="text" name="thpp" id="thpp" class="form-control"   style="background:none;text-align:right;"readonly >
             </div>
           </div>
-         
-         </div>
-
-         <div class="row" id="myDIV3">
-          <div class="col-md-8">
-          </div>
           <div class="col-md-4">
            <div class="form-group">
                 <label for="dinas" class="control-label">Sisa<small> (Khusus PL dan titipan)</small></label>
                 <input type="text" name="sisa" id="sisa" class="form-control"   style="background:none;text-align:right;"readonly >
             </div>
           </div>
-         
          </div>
-
-
-         
-        
           <div class="form-group">
             <div class="col-md-12" align="right">
               <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-primary btn-sm">
@@ -163,8 +137,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
       $('.select2').select2()
-      document.getElementById('no_rekening').disabled=true;
-      document.getElementById('tgl_pdo').disabled=true;
+      document.getElementById('tgl_spj').disabled=true;
 
 document.getElementById("nilai").onkeyup   = function() {hitung()};
 
@@ -172,12 +145,10 @@ document.getElementById("nilai").onkeyup   = function() {hitung()};
       var kd_coa        = $(this).val();
       var kode_pqproyek = $('#no_transfer').val();
       if (kd_coa.substr(0,7)=='5020101'|| kd_coa.substr(0,7)=='5020501'){
-        document.getElementById('no_rekening').disabled=false;
-        document.getElementById('tgl_pdo').disabled=false;
+        document.getElementById('tgl_spj').disabled=false;
         get_nilai(kd_coa,kode_pqproyek);
       }else{
-        document.getElementById('no_rekening').disabled=true;
-        document.getElementById('tgl_pdo').disabled=true;
+        document.getElementById('tgl_spj').disabled=true;
 
         document.getElementById('thpp').value='';
         document.getElementById('sisa').value='';

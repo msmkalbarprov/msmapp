@@ -175,7 +175,7 @@ public function get_transfer_by_id($id){
 		$query = $this->db->insert('ci_proyek_transfer', $insert_data);
 }
 
-public function simpan_cair_potongan($data,$kd_acc,$tgl_pdo,$no_rekening,$created_at,$username,$nilai,$keterangan,$nomor_new){
+public function simpan_cair_potongan($data,$kd_acc,$tgl_spj,$created_at,$username,$nilai,$keterangan,$nomor_new){
 			$this->db->insert('ci_proyek_transfer_potongan', $data);
 
 			$query1 		= "SELECT id_proyek  from ci_proyek_transfer where no_transfer='$nomor_new' limit 1";
@@ -184,53 +184,43 @@ public function simpan_cair_potongan($data,$kd_acc,$tgl_pdo,$no_rekening,$create
 			$kd_area 	= substr($id_proyek, 0,2);
 
 
-			$query2 		= "SELECT nomor from get_urut_pdo where kd_area=left('$id_proyek',2)";
+			$query2 		= "SELECT nomor from get_urut_spj where kd_area=left('$id_proyek',2)";
 			$hasil2 		= $this->db->query($query2);
 			$nomor 		= $hasil2->row('nomor');
 
 			$asg = $this->db->query("
-				INSERT INTO ci_pdo
-				(id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,no_acc,qty,satuan,harga,uraian,keterangan,nilai,no_rekening,jenis,username,created_at,s_transfer,approve)
+				INSERT INTO ci_spj
+				(no_spj,tgl_spj,keterangan,kd_area,kd_divisi,kd_pq_proyek,kd_project,no_acc,nilai,jns_spj,username,created_at)
+
 
 				SELECT 
- 					 CONCAT('PDO',REPLACE(id_proyek,'/',''),(select nomor from get_urut_pdo where kd_area=substring(id_proyek,6,2))) as id_pdo
-					,CONCAT('PDO/',id_proyek,'/',(select nomor from get_urut_pdo where kd_area=substring(id_proyek,6,2))) as kd_pdo 
-					,'$tgl_pdo'as tgl_pdo
+					(select nomor from get_urut_spj where kd_area=substring(id_proyek,6,2)) as no_spj 
+					,'$tgl_spj'as tgl_spj
+					,'$keterangan' as keterangan
 					,substring(id_proyek,6,2) as kd_area
 					,substring(id_proyek,9,1) as kd_divisi
 					,CONCAT('PQ/',id_proyek) as kd_pqproyek
 					,id_proyek as kd_project
-					,left('$kd_acc',5) as no_acc3
 					,'$kd_acc' as no_acc
-					, 1 as qty
-					, 'paket' as satuan
-					,'$nilai' as harga
-					,'$keterangan' as uraian
-					,'$keterangan' as keterangan
-					,'$nilai' as harga
-					,'$no_rekening' as no_rekening
-					,4 as  jenis
+					,'$nilai' as nilai
+					,4 as  jns_spj
 					,'$username' as username
 					,'$created_at' as created_at
-					,0 as s_transfer
-					,1 as approve
 					from ci_pendapatan where id_proyek=(SELECT kd_proyek from ci_proyek where id_proyek='$id_proyek')
 					");
 
 					if ($asg){
-						$query3 		= "SELECT 
- 					 							CONCAT('PDO',REPLACE(id_proyek,'/',''),(select nomor from get_urut_pdo where kd_area=substring(id_proyek,6,2))) as id_pdo
-												from ci_pendapatan where id_proyek=(SELECT kd_proyek from ci_proyek where id_proyek='$id_proyek')";
+						$query3 		= "SELECT nomor from get_urut_spj where kd_area = '$kd_area '";
 						$hasil3 		= $this->db->query($query3);
-						$id_pdo 		= $hasil3->row('id_pdo');
+						$id_spj 		= $hasil3->row('nomor');
 
-						$this->db->set('id_pdo', $id_pdo);
+						$this->db->set('id_spj', $id_spj);
 						$this->db->where("nomor", $nomor_new);
 						$this->db->where("kd_acc", $kd_acc);
 						$this->db->update('ci_proyek_transfer_potongan');
 					}
 
-					$this->db->set('no_pdo', $nomor);
+					$this->db->set('no_spj', $nomor);
 					$this->db->where("kd_area", $kd_area);
 					$this->db->update('ci_nomor_pdo');
 					
@@ -341,7 +331,7 @@ function get_realisasi($id, $no_acc)
 					 $id_pq    	= $hasil->row('kd_pqproyek');
 
 
-		$this->db->select('ifnull(sum(total),0)as total');
+		$this->db->select("ifnull(sum(total),0)+(select sum(nilai) from ci_spj where kd_pq_proyek='$id_pq' and no_acc='$no_acc' ) as total");
 		$this->db->from('v_get_realisasi_hpp');
 		$this->db->where('kd_pqproyek', $id_pq);	
 		$this->db->where('no_acc', $no_acc);	

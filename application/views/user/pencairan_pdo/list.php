@@ -16,7 +16,7 @@
       <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-list"></i>
-             PDO Proyek/Pekerjaan </h3>
+             List PDO</h3>
            </div>
            <div class="d-inline-block float-right">
           </div>
@@ -33,8 +33,10 @@
                       <th>Kode</th>
                       <th>Area</th>
                       <th>Tanggal PDO</th>
+                      <th>Tanggal Cair</th>
+                      <th>No. Cair</th>
                       <th>Nilai</th>
-                      <th width="10%"><?= trans('action') ?></th>
+                      <th width="2%"><?= trans('action') ?></th>
                     </tr>
                   </thead>
                 </table>
@@ -60,15 +62,17 @@
   var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('pengesahan_pdo/datatable_json')?>",
+    "ajax": "<?=base_url('pencairan_pdo/datatable_json')?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "no", 'searchable':true, 'orderable':true},
     { "targets": 1, "name": "kode_pdo", 'searchable':true, 'orderable':false},
     { "targets": 2, "name": "area", 'searchable':true, 'orderable':false},
     { "targets": 3, "name": "tgl_pdo", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "nilai", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 4, "name": "tgl_cair", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "no_cair", 'searchable':true, 'orderable':false},
+    { "targets": 6, "name": "nilai", 'searchable':true, 'orderable':false},
+    { "targets": 7, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
 </script>

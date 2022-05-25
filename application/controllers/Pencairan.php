@@ -282,6 +282,27 @@ class Pencairan extends MY_Controller {
 		
 	}
 
+
+	function get_nilai(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$data 		= $this->proyek_model->get_nilai_hpp($id, $no_acc)->result();
+		echo json_encode($data);
+	}
+
+function get_realisasi(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$data 		= $this->proyek_model->get_realisasi_hpp($id, $no_acc)->result();
+		echo json_encode($data);
+	}
+
+	function get_realisasi2(){
+		$id 		= $this->input->post('id',TRUE);
+		$data 		= $this->proyek_model->get_realisasi_hpp2($id)->result();
+		echo json_encode($data);
+	}
+
 	function get_subproyek(){
 		$jnsproyek = $this->input->post('id',TRUE);
 		$data = $this->jnssubproyek_model->get_subproyek($jnsproyek)->result();
@@ -740,8 +761,10 @@ public function edit_rincian_proyek($id = 0){
 	}
 
 
-	public function datatable_json_rincian_potongan($id,$id_proyek,$nomor){				   					   
-		$records['data'] = $this->proyek_model->get_potongan_cair_by_id($id_proyek);
+	public function datatable_json_rincian_potongan($id,$id_proyek,$nomor){				 
+
+		$nomor_new = str_replace('ab56b4d92b40713acc5af89985d4b786','/',$nomor);  					   
+		$records['data'] = $this->proyek_model->get_potongan_cair_by_id($id_proyek,$nomor_new);
 		$data = array();
 
 		$i=0;

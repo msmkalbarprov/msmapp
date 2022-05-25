@@ -285,16 +285,13 @@ public function potongan($id = 0, $nomor= 0, $no_cair=0){
 				$kd_acc 			= $this->security->xss_clean($this->input->post('kd_acc'));
 				
 				if ($kd_acc=='5020101'){
-					$tgl_pdo 		= $this->security->xss_clean($this->input->post('tgl_pdo'));
-					$no_rekening 	= $this->security->xss_clean($this->input->post('no_rekening'));
-					$keterangan 	= "Pembayaran Partner Lokal";
+					$tgl_spj 		= $this->security->xss_clean($this->input->post('tgl_spj'));
+					$keterangan 	= $this->security->xss_clean($this->input->post('keterangan'));
 				}else if ($kd_acc=='5020501'){
-					$tgl_pdo 		= $this->security->xss_clean($this->input->post('tgl_pdo'));
-					$no_rekening 	= $this->security->xss_clean($this->input->post('no_rekening'));
-					$keterangan 	="Pembayaran Titipan";
+					$tgl_spj 		= $this->security->xss_clean($this->input->post('tgl_spj'));
+					$keterangan 	= $this->security->xss_clean($this->input->post('keterangan'));
 				}else{
-					$tgl_pdo 		= "";
-					$no_rekening 	= "";
+					$tgl_spj 		= "";
 					$keterangan 	= "";
 				}
 				$nilai				= $this->security->xss_clean($this->proyek_model->number($this->input->post('nilai')));
@@ -302,7 +299,7 @@ public function potongan($id = 0, $nomor= 0, $no_cair=0){
 				$username 			= $this->security->xss_clean($this->session->userdata('username'));
 
 				$data 				= $this->security->xss_clean($data);
-				$result 			= $this->transfer_model->simpan_cair_potongan($data,$kd_acc,$tgl_pdo,$no_rekening,$created_at,$username,$nilai,$keterangan,$nomor_new);
+				$result 			= $this->transfer_model->simpan_cair_potongan($data,$kd_acc,$tgl_spj,$created_at,$username,$nilai,$keterangan,$nomor_new);
 
 				if($result){
 					// Activity Log 
@@ -352,11 +349,12 @@ public function delete_potongan($id = 0, $nomor= 0, $no_cair=0, $id_potongan= 0,
 	{
 		$this->rbac->check_operation_access('');
 
-			$query3 		= "SELECT id_pdo from ci_proyek_transfer_potongan where id='$id_potongan'";
+			$query3 		= "SELECT id_spj,substring(no_cair,10,2)as kd_area from ci_proyek_transfer_potongan where id='$id_potongan'";
 			$hasil3 		= $this->db->query($query3);
-			$id_pdo 		= $hasil3->row('id_pdo');
+			$id_spj 		= $hasil3->row('id_spj');
+			$kd_area 		= $hasil3->row('kd_area');
 
-			$this->db->delete('ci_pdo', array('id_pdo' => $id_pdo));
+			$this->db->delete('ci_spj', array('no_spj' => $id_spj, 'kd_area' => $kd_area));
 			
 			$this->db->delete('ci_proyek_transfer_potongan', array('id' => $id_potongan));
 

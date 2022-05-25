@@ -201,11 +201,11 @@ class Proyek extends MY_Controller {
             	$idPQproyekedit = $pqproyek['id_pqproyek'];
 
             	if($jenispph==22){
-            		$pph = (1.5/100)*((100/110)*$nilaispk);
-            		$ppn = (10/100)*((100/110)*$nilaispk);
+            		$pph = (1.5/100)*((100/111)*$nilaispk);
+            		$ppn = (10/100)*((100/111)*$nilaispk);
             	}else if($jenispph==23){
-            		$pph = (2/100)*((100/110)*$nilaispk);
-            		$ppn = (10/100)*((100/110)*$nilaispk);
+            		$pph = (2/100)*((100/111)*$nilaispk);
+            		$ppn = (10/100)*((100/111)*$nilaispk);
             	}else if($jenispph==21){
             		$pph = (50/100)*((5/100)*$nilaispk);
             		$ppn =0;
@@ -450,11 +450,11 @@ public function edit_rincian_proyek($id = 0){
             	$idPQproyekedit = $pqproyek['id_pqproyek'];
 
             	if($jenispph==22){
-            		$pph = (1.5/100)*((100/110)*$nilaispk);
-            		$ppn = (11/100)*((100/110)*$nilaispk);
+            		$pph = (1.5/100)*((100/111)*$nilaispk);
+            		$ppn = (11/100)*((100/111)*$nilaispk);
             	}else if($jenispph==23){
-            		$pph = (2/100)*((100/110)*$nilaispk);
-            		$ppn = (11/100)*((100/110)*$nilaispk);
+            		$pph = (2/100)*((100/111)*$nilaispk);
+            		$ppn = (11/100)*((100/111)*$nilaispk);
             	}else if($jenispph==21){
             		$pph = (50/100)*((5/100)*$nilaispk);
             		$ppn =0;

@@ -273,7 +273,7 @@ public function get_pq_operasional_view($id){
 				 	ifnull(sum(ci_proyek_cair.nilai_bruto)-sum(ci_proyek_cair_potongan.nilai),0) as netto");
 				 $this->db->from("ci_pendapatan");
 				 $this->db->join("ci_proyek_cair","ci_pendapatan.id_proyek=ci_proyek_cair.kd_proyek","left");
-				 $this->db->join("ci_proyek_cair_potongan","ci_proyek_cair_potongan.id_proyek=ci_proyek_cair.kd_proyek","left");
+				 $this->db->join("ci_proyek_cair_potongan","ci_proyek_cair_potongan.id_proyek=ci_proyek_cair.id_proyek","left");
                  $this->db->where('id_pqproyek', $id);
                  $this->db->group_by('id_pqproyek');
 			return $result = $this->db->get()->row_array();
@@ -296,7 +296,7 @@ public function get_pencairan_by_idtahun($id,$tahun){
 
 	public function get_titip_pl_by_id($id){
 				 $this->db->select("ci_coa.no_acc,ci_coa.nm_acc,
-				 	(select sum(nilai) from ci_pdo where ci_coa.no_acc=ci_pdo.no_acc and replace(ci_pdo.kd_pqproyek,'/','') = '$id' ) as nilai");
+				 	(select sum(nilai) from ci_pdo where ci_coa.no_acc=ci_pdo.no_acc and replace(ci_pdo.kd_pqproyek,'/','') = '$id' and approve=1) as nilai");
 				 $this->db->from("ci_coa");
                  $this->db->where("ci_coa.no_acc in ('5020101','5020501')");
                  $this->db->order_by("ci_coa.no_acc", "DESC");

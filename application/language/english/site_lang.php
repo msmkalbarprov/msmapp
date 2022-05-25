@@ -54,6 +54,9 @@ $lang['bendahara_umum']                         = "Bendahara Umum";
 $lang['PB Rek. Perusahaan']                     = "PB Rek. Perusahaan";
 $lang['daerah']                     			= "Daerah";
 $lang['spj']                     				= "SPJ";
+$lang['saldo_awal']               				= "Saldo Awal";
+
+$lang['bod']               						= "BOD";
 
 
 
