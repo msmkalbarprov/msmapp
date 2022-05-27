@@ -517,6 +517,28 @@ function get_realisasi_op($kode_pqoperasional)
                 return $this->db->get()->result_array();
 		}
 
+public function get_nama_area($id){
+			$this->db->from("ci_area");
+			$this->db->where("kd_area",$id);
+       		return $result = $this->db->get()->row_array();
+		}
+
+	public function get_register_pdo($id,$tahun,$bulan){
+			$this->db->select("*");
+			$this->db->from("cetak_register_pdo");
+			$this->db->where("kd_area", $id);
+
+			if($bulan==0){
+				$this->db->where("year(tgl_pdo)", $tahun);
+			}else{
+				$this->db->where("year(tgl_pdo)", $tahun);
+				$this->db->where("month(tgl_pdo)", $bulan);
+			}
+			$this->db->order_by("kd_area,right(kd_pdo,4)");
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+
 
 	public function get_pdo_operasional($id){
 			$tahun = date("Y");

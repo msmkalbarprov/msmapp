@@ -59,6 +59,25 @@
 			
 		}
 
+		public function get_all_spj(){
+
+			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek')
+			{
+				$this->db->where('left(tgl_spj,4)',date("Y"));
+				$this->db->from("ci_spj");
+				$this->db->select("ifnull(sum(nilai),0)as nilai");
+				return $result = $this->db->get()->row_array();
+			}else{
+				$this->db->where('kd_area',$this->session->userdata('kd_area'));
+				$this->db->where('left(tgl_spj,4)',date("Y"));
+				$this->db->from("ci_spj");
+				$this->db->select("ifnull(sum(nilai),0) nilai");
+				return $result = $this->db->get()->row_array();
+			}
+
+			
+		}
+
 		public function get_active_users(){
 			$this->db->where('is_active', 1);
 			return $this->db->count_all_results('ci_users');

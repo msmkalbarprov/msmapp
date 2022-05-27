@@ -209,8 +209,18 @@
          <div class="row">
           <div class="col-md-12" >
            <div class="form-group">
-                <label for="dinas" class="control-label">Realisasi</label>
+                <label for="dinas" class="control-label">Realisasi Akun PDO</label>
                 <input type="text" name="thpp" id="thpp" class="form-control"   style="background:none;text-align:right;"readonly >
+            </div>
+          </div>
+         
+         </div>
+
+         <div class="row">
+          <div class="col-md-12" >
+           <div class="form-group">
+                <label for="dinas" class="control-label">Realisasi Akun SPJ</label>
+                <input type="text" name="shpp" id="shpp" class="form-control"   style="background:none;text-align:right;"readonly >
             </div>
           </div>
          
@@ -447,42 +457,47 @@ $('#item_hpp').change(function(){
 });
 
 
-$('#no_acc').change(function(){ 
-  var kd_coa      = $(this).val();
-  var item_pdo    = $('#item_hpp').val();
+$('#item_hpp').change(function(){ 
+  var item_pdo      = $(this).val();
   var no_pdo      = $('#no_pdo').val();
   get_nilai(item_pdo,no_pdo);
    return false;
 });
 
+$('#no_acc').change(function(){ 
+  var item_spj      = $(this).val();
+  var no_pdo      = $('#no_pdo').val();
+  get_realisasi2(item_spj,no_pdo);
+   return false;
+});
 
-function get_nilai(kd_coa,no_pdo){
+
+function get_nilai(item_pdo,no_pdo){
         $.ajax({
         url : "<?php echo site_url('spj/get_nilai');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: no_pdo,no_acc:kd_coa},
+          id: no_pdo,no_acc:item_pdo},
         async : true,
         dataType : 'json',
         success: function(data){
             $.each(data, function(key, value) {
-                $('[name="pnet"]').val(number_format(value.total,"2",",",".")).trigger('change');
-
-                get_realisasi(kd_coa,no_pdo,value.total)
+                $('[name="pnet"]').val(number_format(value.nilai,"2",",",".")).trigger('change');
+                get_realisasi(item_pdo,no_pdo,value.nilai);
             });
 
         }
     });
 }
 
-function get_realisasi(kd_coa,no_pdo,nil_hpp){
+function get_realisasi(item_pdo,no_pdo,nil_hpp){
         $.ajax({
         url : "<?php echo site_url('spj/get_realisasi');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: no_pdo,no_acc:kd_coa},
+          id: no_pdo,no_acc:item_pdo},
         async : true,
         dataType : 'json',
         success: function(data){
@@ -490,6 +505,26 @@ function get_realisasi(kd_coa,no_pdo,nil_hpp){
                 $('[name="thpp"]').val(number_format(value.total,"2",",",".")).trigger('change');
 
                 $('[name="sisa"]').val(number_format(nil_hpp - value.total,"2",",",".")).trigger('change');
+
+            });
+
+        }
+    });
+        
+}
+
+function get_realisasi2(item_spj,no_pdo){
+        $.ajax({
+        url : "<?php echo site_url('spj/get_realisasi2');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: no_pdo,no_acc:item_spj},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="shpp"]').val(number_format(value.total,"2",",",".")).trigger('change');
 
             });
 

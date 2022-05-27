@@ -74,7 +74,7 @@
             <!-- small box -->
             <div class="small-box bg-white">
               <div class="inner">
-                <font size="5px"><b>0,00</b></font>
+                <font size="5px"><b><?= number_format($all_spj['nilai'],2,',','.'); ?></b></font>
 
                 <p>Jumlah SPJ</p>
               </div>

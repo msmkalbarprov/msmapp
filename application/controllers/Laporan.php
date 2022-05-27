@@ -210,7 +210,54 @@ $colspan1=($jumlahkolom*2)+4+2;
 					$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,2,",",".").'</td>
 							<td align="right">'. number_format($persen99,2,",",".").'</td>';
 				}
-				if ($kolom!='spk' && $kolom!='nilaippl'){
+
+				if ($kolom=='ppn'){
+				
+						$total5_per_item=$total5_per_item+$pqproyek[$kolom];
+
+						if($spk_perprojek==0){
+							$persen99 = 0;
+						}else if($spk_perprojek!=0 && $pqproyek[$kolom]!=0){
+							$persen99 = $pqproyek[$kolom]/$spk_perprojek*111/100*100;
+						}else{
+							$persen99 = 100;
+						}
+						
+						$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,2,",",".").'</td>
+								<td align="right">'. number_format($persen99,2,",",".").'</td>';
+					}
+
+				if ($kolom=='pph'){
+				
+						$total5_per_item=$total5_per_item+$pqproyek[$kolom];
+						$jns_pph=$pqproyek['jns_pph'];
+						if($spk_perprojek==0){
+							$persen99 = 0;
+							
+						}else if($spk_perprojek!=0 && $pqproyek[$kolom]!=0){
+							if ($jns_pph=='21'){
+
+								if ($pqproyek['status_pph']==1){
+									$persen99 = $pqproyek[$kolom]/$spk_perprojek*100;
+		                          }else if ($pqproyek['status_pph']==2){
+		                            $persen99 = $pqproyek[$kolom]/$spk_perprojek*100;
+		                          }else if ($pqproyek['status_pph']==3){
+		                            $persen99 = $pqproyek[$kolom]/$spk_perprojek*100;
+		                          }else{
+		                          	$persen99 = 2.5;
+		                          }
+							}else{
+								$persen99 = $pqproyek[$kolom]/$spk_perprojek*111/100*100;
+							}
+						}else{
+							$persen99 = 100;
+						}
+						
+						$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,2,",",".").'</td>
+								<td align="right">'. number_format($persen99,2,",",".").'</td>';
+					}
+
+				if ($kolom!='spk' && $kolom!='nilaippl' && $kolom!='ppn'){
 					$total5_per_item=$total5_per_item+$pqproyek[$kolom];
 
 					if($spk_perprojek==0){

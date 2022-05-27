@@ -409,6 +409,23 @@ public function pq_proyek($idproyek){
 			return $result = $this->db->get()->row_array();
 		}
 
+public function get_register_pdp($id,$tahun,$bulan){
+			$this->db->select("*");
+			$this->db->from("cetak_register_pdp");
+			$this->db->where("kd_area", $id);
+
+			if($bulan==0){
+				$this->db->where("year(tgl_cair)", $tahun);
+			}else{
+				$this->db->where("year(tgl_cair)", $tahun);
+				$this->db->where("month(tgl_cair)", $bulan);
+			}
+			$this->db->order_by("kd_area,right(nomor,4)");
+			$query=$this->db->get();
+			return $query->result_array();
+		}
+
+
 	}
 
 ?>

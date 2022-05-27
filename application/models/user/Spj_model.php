@@ -27,12 +27,14 @@ public function get_all_spj(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 			$this->db->select('*');
 			$this->db->from("v_spj");
+			$this->db->where("jns_spj <>", 4);
        		return $this->db->get()->result_array();
 		}
 		else{
 			$this->db->select('*');
 			$this->db->from("v_spj");
 			$this->db->where('kd_area',$this->session->userdata('kd_area'));
+			$this->db->where("jns_spj <>", 4);
        		return $this->db->get()->result_array();
 		}
 	}
@@ -46,7 +48,7 @@ public function get_all_spj(){
 			$this->db->from('ci_pdo');
 			$this->db->where('ci_pdo.kd_area', $area);	
 			$this->db->where("ci_pdo.approve",1);
-			$this->db->where("s_transfer", 1);
+			$this->db->where("status_bayar", 1);
 			$this->db->group_by("kd_pdo");
 			$query=$this->db->get();
 		return $query;
@@ -60,8 +62,7 @@ function get_item_by_pdo($pq)
 			$this->db->select('*');
 			$this->db->from('ci_pdo');
 			$this->db->where('kd_pdo', $pq);	
-			$this->db->where("s_transfer", 1);
-			$this->db->where("status_bayar", 0);	
+			$this->db->where("status_bayar", 1);	
 			$query=$this->db->get();
 			return $query;
 	}
@@ -87,11 +88,21 @@ function get_item_by_pdo($pq)
 
 	function get_nilai($id, $no_acc)
 	{	
-			$query = $this->db->get_where('ci_pdos', array('kd_pdo' => $id, 'no_acc' => $no_acc));	
+			$query = $this->db->get_where('ci_pdo', array('kd_pdo' => $id, 'no_acc' => $no_acc));	
 			return $query;
 	}
 
 	function get_realisasi($id, $no_acc)
+	{	
+		$this->db->select('ifnull(sum(nilai),0)as total');
+		$this->db->from('ci_spj');
+		$this->db->where('kd_pdo', $id);	
+		$this->db->where('no_acc_pdo2', $no_acc);	
+		$query=$this->db->get();
+		return $query;
+	}
+
+	function get_realisasi2($id, $no_acc)
 	{	
 		$this->db->select('ifnull(sum(nilai),0)as total');
 		$this->db->from('ci_spj');
@@ -237,20 +248,6 @@ function get_jenis_tk($kode_pqproyek,$no_acc)
 function get_nilai2($id, $no_acc, $jns_tk)
 	{
 		$query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $id, 'kd_item' => $no_acc, 'jenis_tk' => $jns_tk));
-		return $query;
-	}
-
-
-
-function get_realisasi2($id, $no_acc, $jns_tk)
-	{
-		
-		$this->db->select('ifnull(sum(total),0)as total');
-		$this->db->from('v_get_realisasi_hpp');
-		$this->db->where('kd_pqproyek', $id);	
-		$this->db->where('no_acc', $no_acc);	
-		$this->db->where('jenis_tkl', $jns_tk);	
-		$query=$this->db->get();
 		return $query;
 	}
 

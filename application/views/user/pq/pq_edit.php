@@ -325,8 +325,8 @@ if (pilihpph==21){
   
 // hitung ppn lagi
   if ($('#c_ppn').prop('checked') == true && pilihpph!=21){
-    var ppn = (10/100)*((100/110)*spk);
-    var ppntitipan = (10/100)*((100/110)*titipan);
+    var ppn = (10/100)*((100/111)*spk);
+    var ppntitipan = (10/100)*((100/111)*titipan);
     $('[name="s_ppn"]').val('1').trigger('change');
     $('[name="nilaippn"]').val(number_format(ppn,"2",",",".")).trigger('change');
   }else if ( ($('#c_ppn').prop('checked') == true && pilihpph==21) ){
@@ -338,8 +338,8 @@ if (pilihpph==21){
     $('[name="s_ppn"]').val('0').trigger('change');
     $('[name="nilaippn"]').val(number_format(0,"2",",",".")).trigger('change');
   }else{
-    var ppn = (11/100)*((100/110)*spk);
-    var ppntitipan = (11/100)*((100/110)*titipan);
+    var ppn = (11/100)*((100/111)*spk);
+    var ppntitipan = (11/100)*((100/111)*titipan);
     $('[name="s_ppn"]').val('0').trigger('change');
     $('[name="nilaippn"]').val(number_format(ppn,"2",",",".")).trigger('change');
   }
@@ -347,13 +347,13 @@ if (pilihpph==21){
   
   // hitung pph berdasarkan pajak di apbd
   if (pilihpph==22){
-    var nilai_pphtitipan = (1.5/100)*((100/110)*titipan);
+    var nilai_pphtitipan = (1.5/100)*((100/111)*titipan);
     var nilai_ppntitipan=ppntitipan;
-    var nilai_pph         = (1.5/100)*((100/110)*spk);
+    var nilai_pph         = (1.5/100)*((100/111)*spk);
   }else if (pilihpph==23){
-    var nilai_pphtitipan = (2/100)*((100/110)*titipan);
+    var nilai_pphtitipan = (2/100)*((100/111)*titipan);
     var nilai_ppntitipan=ppntitipan;
-    var nilai_pph         = (2/100)*((100/110)*spk);
+    var nilai_pph         = (2/100)*((100/111)*spk);
   }else if (pilihpph==21){
     if(jenispph==1){
         var nilai_pphtitipan  = ((5/100)*titipan);
@@ -595,17 +595,17 @@ function set_status_infaq() {
                         
                         var spk = value.nilai;
 
-                        var ppn = (11/100)*((100/110)*spk);
+                        var ppn = (11/100)*((100/111)*spk);
                         var pilihpph = value.jns_pph;
 
                         $('[name="nilaispk"]').val(number_format(spk,"2",",",".")).trigger('change');
                         $('[name="jnspph"]').val(pilihpph).trigger('change');
                         
                         if (pilihpph==22){
-                          var nilai_pph = (1.5/100)*((100/110)*spk);
+                          var nilai_pph = (1.5/100)*((100/111)*spk);
                           var nilai_ppn=ppn;
                         }else if (pilihpph==23){
-                          var nilai_pph = (2/100)*((100/110)*spk);
+                          var nilai_pph = (2/100)*((100/111)*spk);
                           var nilai_ppn=ppn;
                         }else if (pilihpph==21){
                           var nilai_pph = (50/100)*((5/100)*spk);

@@ -32,6 +32,12 @@ class SPJ extends MY_Controller {
 		$i=0;
 		foreach ($records['data']   as $row) 
 		{  
+
+			
+				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('spj/edit_spj/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$row['kd_area']).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('spj/delete_spj/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$row['kd_area']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+
+// <a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>
 			$data[]= array(
 				++$i,
 				'<font size="2px">'.$row['no_spj'].'</font>',
@@ -120,6 +126,13 @@ function get_realisasi(){
 		$id 		= $this->input->post('id',TRUE);
 		$no_acc 	= $this->input->post('no_acc',TRUE);
 		$data 		= $this->spj_model->get_realisasi($id, $no_acc)->result();
+		echo json_encode($data);
+	}
+
+function get_realisasi2(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$data 		= $this->spj_model->get_realisasi2($id, $no_acc)->result();
 		echo json_encode($data);
 	}
 

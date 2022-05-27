@@ -31,6 +31,7 @@ class Dashboard extends My_Controller {
 		$data['all_proyek_cair'] = $this->dashboard_model->get_all_proyek_cair();
 
 		$data['all_pdo'] = $this->dashboard_model->get_all_pdo();
+		$data['all_spj'] = $this->dashboard_model->get_all_spj();
 
 		$data['deactive_users'] = $this->dashboard_model->get_deactive_users();
 

@@ -103,6 +103,8 @@ $lang['teknis_proyek']                       	= "Teknis Proyek";
 $lang['proyek_pekerjaan']                       = "Proyek/Pekerjaan";
 
 $lang['pq']                       				= "Project Qualifying";
+$lang['register_pdo']                       	= "Register PDO";
+$lang['register_pdp']                       	= "Register PDP";
 
 
 

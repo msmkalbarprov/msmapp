@@ -660,7 +660,7 @@ public function get_map2(){
 	}
 public function get_pq_by_area($kolom,$id, $tahun, $proyek){
 
-				$this->db->select($kolom);
+				
 				$this->db->from("v_get_pq");
 				$this->db->where('kd_area',$id);
 				$this->db->where('left(id_proyek,4)',$tahun);

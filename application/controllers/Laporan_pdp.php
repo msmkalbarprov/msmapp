@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Laporan_pdo extends MY_Controller {
+class Laporan_pdp extends MY_Controller {
 
 	public function __construct(){
 
@@ -9,35 +9,18 @@ class Laporan_pdo extends MY_Controller {
 		$this->rbac->check_module_access();
 
 		$this->load->model('user/pdo_model', 'pdo_model');
-	// 	$this->load->model('user/pq_model', 'pq_model');
-
-	// 	$this->load->model('admin/admin_model', 'admin');
+		$this->load->model('user/proyek_model', 'proyek_model');
 		$this->load->model('admin/area_model', 'area');
-	// 	$this->load->model('admin/subarea_model', 'subarea');
-	// 	$this->load->model('admin/jnsproyek_model', 'jnsproyek');
-	// 	$this->load->model('admin/jnssubproyek_model', 'jnssubproyek_model');
-	// 	$this->load->model('admin/perusahaan_model', 'perusahaan');
-	// 	$this->load->model('admin/pagu_model', 'pagu');
-	// 	$this->load->model('admin/dinas_model', 'dinas');
-	// 	$this->load->model('admin/jnspagu_model', 'jnspagu');
-	// 	$this->load->model('admin/tipeproyek_model', 'tipeproyek');
-	// 	$this->load->model('admin/activity_model', 'activity_model');
+	
 	}
 
 	//-----------------------------------------------------------
-	public function index2(){
-		$data['data_area'] 			= $this->area->get_area();
-		$data['title'] = 'Proyek';
-		$this->load->view('admin/includes/_header', $data);
-		$this->load->view('user/laporan/laporan_pq');
-		$this->load->view('admin/includes/_footer');
-	}
 
 	public function index(){
 		$data['data_area'] 	= $this->area->get_area();
-		$data2['title'] 		= 'Register PDO';
+		$data2['title'] 		= 'Register PDP';
 		$this->load->view('admin/includes/_header', $data2);
-		$this->load->view('user/laporan/register_pdo', $data);
+		$this->load->view('user/laporan/register_pdp', $data);
 		$this->load->view('admin/includes/_footer');
 	}
 
@@ -110,9 +93,9 @@ function terbilang($nilai) {
 	}
 
 
-	public function cetak_register_pdo($id=0,$tahun=0,$jenis=0,$bulan=0)
+	public function cetak_register_pdp($id=0,$tahun=0,$jenis=0,$bulan=0)
 	{	
-		$data['register_pdo'] 		= $this->pdo_model->get_register_pdo($id,$tahun,$bulan);
+		$data['register_pdp'] 		= $this->proyek_model->get_register_pdp($id,$tahun,$bulan);
 		$data['area'] 				= $this->pdo_model->get_nama_area($id);
 		$data['tahun'] 				= $tahun;
 
@@ -128,72 +111,21 @@ function terbilang($nilai) {
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'landscape');
 			    $this->pdf->filename = "laporan_pdo.pdf";
-			    $this->pdf->load_view('user/pdo/register_pdo', $data);
+			    $this->pdf->load_view('user/pencairan/register_pdp', $data);
                 break;
             case 0;
-				$html = $this->load->view('user/pdo/register_pdo', $data);
+				$html = $this->load->view('user/pencairan/register_pdp', $data);
 				header("Cache-Control: no-cache, no-store, must-revalidate");
 				header("Content-Type: application/vnd.ms-excel");
-				header("Content-Disposition: attachment; filename= register_pdo_$id.xls");
+				header("Content-Disposition: attachment; filename= register_pdp_$id.xls");
 				$html;
                	break;
              case 2;
-				$this->load->view('user/pdo/register_pdo', $data);
+				$this->load->view('user/pencairan/register_pdp', $data);
                	break;
         }
 
 	}
-
-
-	
-
-	public function cetak_pdo_gaji($id=0)
-	{	
-		$data['pdo_header'] 		= $this->pdo_model->get_pdo_header_gaji($id);
-		$data['pdo_detail'] 		= $this->pdo_model->get_pdo_detail($id);
-		$data['ttd'] 				= $this->pdo_model->get_ttd_gj($id);
-
-		$jenis= 0;
-		switch ($jenis)
-        {
-            case 0;
-                $this->load->library('pdf');
-			    $this->pdf->setPaper('Legal', 'landscape');
-			    $this->pdf->filename = "laporan_pdo.pdf";
-			    $this->pdf->load_view('user/pdo/cetak_pdo_gaji', $data);
-                break;
-            case 1;
-                echo "<title>Cetak PDO</title>";
-                echo $this->load->view('user/pdo/cetak_pdo_gaji', $data);
-               break;
-        }
-
-	}
-
-
-	public function cetak_pdo_operasional($id=0)
-	{	
-		$data['pdo_header'] 		= $this->pdo_model->get_pdo_operasional_header($id);
-		$data['pdo_detail'] 		= $this->pdo_model->get_pdo_detail($id);
-		$data['ttd'] 				= $this->pdo_model->get_ttd_operasional($id);
-
-		$jenis= 0;
-		switch ($jenis)
-        {
-            case 0;
-                $this->load->library('pdf');
-			    $this->pdf->setPaper('Legal', 'landscape');
-			    $this->pdf->filename = "laporan_pdo.pdf";
-			    $this->pdf->load_view('user/pdo/cetak_pdo_operasional', $data);
-                break;
-            case 1;
-                echo "<title>Cetak PDO</title>";
-                echo $this->load->view('user/pdo/cetak_pdo_operasional', $data);
-               break;
-        }
-
-	}
-
 }
 
 ?>
