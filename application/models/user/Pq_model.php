@@ -122,12 +122,14 @@ public function get_pq_operasional_view($id){
 				$this->db->select('*,(select nilai from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as spk,(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan.kd_pqproyek)as hpp,(select nama from ci_jnspagu where id=ci_pendapatan.jns_pagu) as pagu,(select nm_area from ci_area where kd_area=ci_pendapatan.kd_area)as area');
 				$this->db->from("ci_pendapatan");
 				$this->db->Join('ci_proyek','ci_pendapatan.id_proyek=ci_proyek.kd_proyek', 'inner');
+				$this->db->where('ci_proyek.batal',0);
         		return $this->db->get()->result_array();
 			}
 			else{
 				$this->db->select('*,(select nilai from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as spk,(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan.kd_pqproyek)as hpp,(select nama from ci_jnspagu where id=ci_pendapatan.jns_pagu) as pagu,(select nm_area from ci_area where kd_area=ci_pendapatan.kd_area)as area');
 				$this->db->from("ci_pendapatan");
 				$this->db->Join('ci_proyek','ci_pendapatan.id_proyek=ci_proyek.kd_proyek', 'inner');
+				$this->db->where('ci_proyek.batal',0);
 				$this->db->where('ci_pendapatan.kd_area',$this->session->userdata('kd_area'));
         		return $this->db->get()->result_array();
 			}
@@ -630,6 +632,7 @@ public function get_proyek_by_area($kolom, $id, $tahun){
 			$this->db->from('v_get_proyek_pq2');
 			$this->db->where('kd_area',$id);
 			$this->db->where('thn_anggaran',$tahun);
+			$this->db->where('batal',0);
 			$this->db->order_by('kd_proyek');
 			$query=$this->db->get();
 			return $query->result_array();

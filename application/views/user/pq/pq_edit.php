@@ -325,8 +325,8 @@ if (pilihpph==21){
   
 // hitung ppn lagi
   if ($('#c_ppn').prop('checked') == true && pilihpph!=21){
-    var ppn = (10/100)*((100/111)*spk);
-    var ppntitipan = (10/100)*((100/111)*titipan);
+    var ppn = (10/100)*((100/110)*spk);
+    var ppntitipan = (10/100)*((100/110)*titipan);
     $('[name="s_ppn"]').val('1').trigger('change');
     $('[name="nilaippn"]').val(number_format(ppn,"2",",",".")).trigger('change');
   }else if ( ($('#c_ppn').prop('checked') == true && pilihpph==21) ){
@@ -346,14 +346,21 @@ if (pilihpph==21){
 
   
   // hitung pph berdasarkan pajak di apbd
+  if ($('#c_ppn').prop('checked')==true){
+    $pembagi = 110;
+  }else{
+    $pembagi = 111;
+  }
+
+
   if (pilihpph==22){
-    var nilai_pphtitipan = (1.5/100)*((100/111)*titipan);
+    var nilai_pphtitipan = (1.5/100)*((100/$pembagi)*titipan);
     var nilai_ppntitipan=ppntitipan;
-    var nilai_pph         = (1.5/100)*((100/111)*spk);
+    var nilai_pph         = (1.5/100)*((100/$pembagi)*spk);
   }else if (pilihpph==23){
-    var nilai_pphtitipan = (2/100)*((100/111)*titipan);
+    var nilai_pphtitipan = (2/100)*((100/$pembagi)*titipan);
     var nilai_ppntitipan=ppntitipan;
-    var nilai_pph         = (2/100)*((100/111)*spk);
+    var nilai_pph         = (2/100)*((100/$pembagi)*spk);
   }else if (pilihpph==21){
     if(jenispph==1){
         var nilai_pphtitipan  = ((5/100)*titipan);

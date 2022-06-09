@@ -4,7 +4,7 @@
 
 <table border="0" width="100%">
   <tr>
-    <td colspan="4" style="text-align:center"><h3>PT. MURFA SURYA MAHARDIKA<br>REGISTER PDP (PENCAIRAN DANA PROYEK)</h3></td>
+    <td colspan="4" style="text-align:center"><h3>PT. MURFA SURYA MAHARDIKA<br>REGISTER PENCAIRAN DANA PROYEK</h3></td>
   </tr>
   <tr>
     <td colspan="4" style="text-align:center">&nbsp;</td>
@@ -30,6 +30,7 @@
         <th align="center" rowspan="2"><b>Nilai</b></th>
         <th align="center" colspan="6"><b>Pajak/Potongan</b></th>
         <th align="center" rowspan="2"><b>Netto</b></th>
+        <th align="center" rowspan="2"><b>Rek. Tujuan</b></th>
         
   </tr>
   <tr style="background: #CACACA;">
@@ -66,6 +67,7 @@
             <td align="right" ><?= number_format($register_pdp['infaq'],2,',','.'); ?></td>
             <td align="right" ><?= number_format($register_pdp['adm'],2,',','.'); ?></td>
             <td align="right" ><?= number_format($netto,2,',','.'); ?></td>
+            <td align="right" ><?= $register_pdp['rek_cair']; ?></td>
           </tr>
 
           <?php 
@@ -94,6 +96,7 @@
         <td align="right" style="background: #CACACA;"><?= number_format($total_infaq,2,',','.'); ?></td>
         <td align="right" style="background: #CACACA;"><?= number_format($total_adm,2,',','.'); ?></td>
         <td align="right" style="background: #CACACA;"><?= number_format($total_netto,2,',','.'); ?></td>
+        <td align="right">&nbsp;</td>
       </tr>
 
 </table>

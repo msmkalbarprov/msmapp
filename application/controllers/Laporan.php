@@ -257,7 +257,7 @@ $colspan1=($jumlahkolom*2)+4+2;
 								<td align="right">'. number_format($persen99,2,",",".").'</td>';
 					}
 
-				if ($kolom!='spk' && $kolom!='nilaippl' && $kolom!='ppn'){
+				if ($kolom!='spk' && $kolom!='nilaippl' && $kolom!='ppn' && $kolom!='pph'){
 					$total5_per_item=$total5_per_item+$pqproyek[$kolom];
 
 					if($spk_perprojek==0){

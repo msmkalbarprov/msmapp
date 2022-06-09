@@ -31,7 +31,7 @@
         </div>
          <!-- For Messages -->
         <?php $this->load->view('admin/includes/_messages.php') ?>
-         <?php echo form_open(base_url('cpdo/add_pdo_project'), 'class="form-horizontal"' )?> 
+         <?php echo form_open(base_url('spj/add_spj'), 'class="form-horizontal"' )?> 
          <div class="row">
           <div class="col-md-3">
             <div class="form-group">
@@ -46,7 +46,7 @@
           <div class="col-md-3">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Tanggal SPJ</label>
-              <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control"  required >
+              <input type="date" name="tgl_spj" id="tgl_spj" class="form-control"  required >
           </div>
           </div>
           <div class="col-md-6">
@@ -66,7 +66,18 @@
          <div class="row">
           
 
-          <div class="col-md-6">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="proyek" class="control-label">Jenis PDO</label>
+                <select name="jns_pdo"  id="jns_pdo" class="form-control" required>
+                  <option value="">No Selected</option>
+                  <option value="1">Proyek</option>
+                  <option value="2">Operasional</option>
+                </select>                
+
+            </div>
+          </div>
+          <div class="col-md-3">
             <div class="form-group">
               <label for="proyek" class="control-label">No. PDO</label>
                 <select name="no_pdo"  id="no_pdo" class="form-control" required>
@@ -102,10 +113,8 @@
                 <tr>
                   <!-- <th>#No</th> -->
                   <th width="10%">No. SPJ</th>
+                  <th width="10%">No. PDO</th>
                   <th>Akun</th>
-                  <th>Qty</th>
-                  <th>Satuan</th>
-                  <th>Harga</th>
                   <th>Uraian</th>
                   <th>Nilai</th>
                   <th width="5%">Action</th>
@@ -118,8 +127,8 @@
 
 
 <!-- large modal -->
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade bd-example-modal-lg" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">Tambah Rincian</h4>
@@ -131,7 +140,18 @@
          
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="item_hpp" class="control-label">Proyek</label>
+              <input type="hidden" name="proyek" id="proyek" class="form-control" readonly>
+                <select name="project"  id="project" class="form-control" required>
+                  <option value="">No Selected</option>
+                </select> 
+
+            </div>
+          </div>
+
+          <div class="col-md-6">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Akun PDO</label>
               <input type="hidden" name="jns_tkls" id="jns_tkls" class="form-control" readonly>
@@ -144,7 +164,7 @@
         </div>
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Akun SPJ</label>
               <input type="hidden" name="jns_tkls" id="jns_tkls" class="form-control" readonly>
@@ -154,50 +174,23 @@
 
             </div>
           </div>
-        </div>
-        <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="item_hpp" class="control-label">Qty</label>
-                <input type="number" name="qty" id="qty" class="form-control"  placeholder="" >
-
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="item_hpp" class="control-label">Satuan</label>
-                <input type="text" name="satuan" id="satuan" class="form-control"  placeholder="" >
-
+              <label for="item_hpp" class="control-label">Uraian</label>
+              <input type="text" name="uraian" id="uraian" class="form-control"  readonly >
             </div>
           </div>
         </div>
-          <div class="row">
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="tipeproyek" class="control-label">Harga</label>
-              <input type="text" name="harga" id="harga" class="form-control"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
-          </div>
-          </div>
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="tipeproyek" class="control-label">Uraian</label>
-              <input type="text" name="uraian" id="uraian" class="form-control"  placeholder="" >
-          </div>
-          </div>
-         </div>
+
 
          <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
            <div class="form-group">
               <label for="dinas" class="control-label">Nilai SPJ </label>
-               <input type="text" name="total" id="total" class="form-control" value="0" style="background:none;text-align:right;"readonly >
+               <input type="text" name="total" id="total" class="form-control"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
           </div>
           </div>
-         </div>
-
-         <div class="row">
-          
-          <div class="col-md-12">
+          <div class="col-md-6">
            <div class="form-group">
                 <label for="dinas" class="control-label">Nilai PDO</label>
                 <input type="text" name="pnet" id="pnet" class="form-control"  style="background:none;text-align:right;"readonly >
@@ -207,17 +200,13 @@
          </div>
 
          <div class="row">
-          <div class="col-md-12" >
+          <div class="col-md-6" >
            <div class="form-group">
                 <label for="dinas" class="control-label">Realisasi Akun PDO</label>
                 <input type="text" name="thpp" id="thpp" class="form-control"   style="background:none;text-align:right;"readonly >
             </div>
           </div>
-         
-         </div>
-
-         <div class="row">
-          <div class="col-md-12" >
+          <div class="col-md-6" >
            <div class="form-group">
                 <label for="dinas" class="control-label">Realisasi Akun SPJ</label>
                 <input type="text" name="shpp" id="shpp" class="form-control"   style="background:none;text-align:right;"readonly >
@@ -227,7 +216,10 @@
          </div>
 
          <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
+            &nbsp;
+          </div>
+          <div class="col-md-6">
            <div class="form-group">
                 <label for="dinas" class="control-label">Sisa</label>
                 <input type="text" name="sisa" id="sisa" class="form-control"   style="background:none;text-align:right;"readonly >
@@ -265,7 +257,7 @@
 <script>
   $(document).ready(function(){
     $('.select2').select2()
-    $("#tombolsimpan").attr("disabled", "disabled");
+    // $("#tombolsimpan").attr("disabled", "disabled");
     $('[name="s_transfer"]').val('0').trigger('change');
     // get_pqproyek()
     // get_datatable();
@@ -287,6 +279,7 @@
 
 
     nomorpdo=0;
+    no_pdo=0;
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": true,
@@ -294,7 +287,7 @@
     "ajax": 
     // "<?=base_url('cpdo/datatable_json_pdo_proyek'.'/')?>"+ nomorpdo,
     {
-                "url": "<?=base_url('cpdo/view'.'/')?>"+ nomorpdo, // URL file untuk proses select datanya
+                "url": "<?=base_url('cpdo/view'.'/')?>"+ nomorpdo+'/'+no_pdo, // URL file untuk proses select datanya
                 "type": "POST",
                 "data" : {
                         "<?php echo $this->security->get_csrf_token_name(); ?>" : "<?php echo $this->security->get_csrf_hash(); ?>"
@@ -305,10 +298,8 @@
 
      "columns": [
                 { "data": "kd_project" }, // Tampilkan no_acc
+                { "data": "kd_pdo" }, // Tampilkan kd_pdo
                 { "data": "nm_acc" },  // Tampilkan nama
-                { "data": "qty" }, // Tampilkan qty
-                { "data": "satuan" }, // Tampilkan satuan
-                { "data": "harga" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total
                 { "data": "uraian" }, // Tampilkan uraian
                 { "data": "nilai" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total
                 {
@@ -326,12 +317,12 @@ $('#na_datatable').on('click', 'tbody .del_btn', function () {
     // alert(data_row.no_acc+' - '+data_row.id)
 
     var id_hapus  = data_row.id;
-    var no_pdo    = $('#no_spj').val();
-    var nomorpdo  = no_pdo.replace(/\//g,'abcde')
+    var no_spj    = $('#no_spj').val();
+    var nomorpdo  = no_spj.replace(/\//g,'abcde')
 
     // proses hapus
     $.ajax({
-        url: "<?php echo base_url("cpdo/delete_pdo_project_temp2/");?>",
+        url: "<?php echo base_url("spj/delete_spj_temp2/");?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -344,7 +335,7 @@ $('#na_datatable').on('click', 'tbody .del_btn', function () {
           var dataResult = JSON.parse(dataResult);
           if(dataResult.statusCode==200){
             $("#success").show();
-            $('#success').html('Data Berhasil ditambahkan !'); 
+            $('#success').html('Data Berhasil dihapus !'); 
             
             load_rincian_temp(nomorpdo);
           }
@@ -360,15 +351,16 @@ $('#na_datatable').on('click', 'tbody .del_btn', function () {
 
 // get pq projek
 
-$('#area').change(function(){ 
-    var kodearea=$(this).val();
+$('#jns_pdo').change(function(){ 
+    var kodearea    = $('#area').val();
+    var jenis_pdo   = $(this).val();
     get_nomor_urut(kodearea);
     $.ajax({
         url : "<?php echo site_url('spj/get_pdo_by_area');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: kodearea},
+          id: kodearea,jenis_pdo:jenis_pdo},
         async : true,
         dataType : 'json',
         success: function(data){
@@ -385,36 +377,65 @@ $('#area').change(function(){
 
 
 $('#no_pdo').change(function(){ 
+    var no_pdos    = $(this).val();
+    var nomorurut   = $('#urut').val();
+    var jenis_pdo   = $('#jns_pdo').val();
+    $.ajax({
+        url : "<?php echo site_url('spj/get_project_by_pdo');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: no_pdos,jenis_pdo:jenis_pdo},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $('select[name="project"]').empty();
+            $('select[name="project"]').append('<option value="">No Selected</option>');
+
+                load_rincian_temp(nomorurut)
+
+            $.each(data, function(key, value) {
+
+              var kodedivisi = no_pdos.substr(11,1);
+                $('[name="divisi"]').val(kodedivisi).trigger('change');
+
+                                
+
+                if (value.jenis_tk == '' || value.jenis_tk == null){
+                  $('select[name="project"]').append('<option value="'+value.kd_project+'">'+ value.kd_project +' '+value.nm_paket_proyek +'</option>');
+                }else{
+                  $('select[name="project"]').append('<option value="'+ value.kd_project+value.jenis_tk+'">'+ value.kd_project +' '+value.nm_paket_proyek +'</option>');
+
+                }
+
+
+            });
+
+        }
+    });
+    return false;
+});
+
+$('#project').change(function(){ 
     var idproyek    = $(this).val();
     var nomorurut   = $('#urut').val();
+    var jenis_pdo   = $('#jns_pdo').val();
     $.ajax({
         url : "<?php echo site_url('spj/get_item_by_pdo');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: idproyek},
+          id: idproyek,jenis_pdo:jenis_pdo},
         async : true,
         dataType : 'json',
         success: function(data){
             $('select[name="item_hpp"]').empty();
             $('select[name="item_hpp"]').append('<option value="">No Selected</option>');
 
-            var kodepdo = idproyek+'/'+nomorurut;
-                var nomorpdo = kodepdo.replace('PQ','PDO');
-
-                $('[name="kd_pdo"]').val(nomorpdo).trigger('change');
-                nomorpdo_temp = nomorpdo.replace(/\//g,'abcde')
-                load_rincian_temp(nomorpdo_temp)
-
             $.each(data, function(key, value) {
-
-              var kodedivisi = idproyek.substr(11,1);
-                $('[name="divisi"]').val(kodedivisi).trigger('change');
-
-                                
-
+                
                 if (value.jenis_tk == '' || value.jenis_tk == null){
-                  $('select[name="item_hpp"]').append('<option value="'+value.no_acc+'">'+ value.no_acc +' '+value.nm_acc +'</option>');
+                  $('select[name="item_hpp"]').append('<option value="'+value.no_acc+value.uraian+'">'+ value.no_acc +' '+value.nm_acc +'</option>');
                 }else{
                   $('select[name="item_hpp"]').append('<option value="'+ value.no_acc+value.jenis_tk+'">'+ value.no_acc +' '+value.nm_acc +' ('+ value.jenis_tk +')</option>');
 
@@ -428,27 +449,40 @@ $('#no_pdo').change(function(){
     return false;
 });
 
+
 function load_rincian_temp(nomorpdo) {
-        table.ajax.url("<?=base_url('cpdo/view'.'/')?>"+ nomorpdo);
+        var no_pdo      = $('#no_pdo').val().replace(/\//g,'abcde');
+
+        table.ajax.url("<?=base_url('spj/view'.'/')?>"+ nomorpdo+'/'+no_pdo);
         table.ajax.reload();
 }
 
 
 $('#item_hpp').change(function(){ 
-    var itemhpp    = $(this).val();
+    var jenis_pdo   = $('#jns_pdo').val();
+    if (jenis_pdo=='1'){
+      var itemhpp    = $(this).val().substr('0','7');
+    var uraian_hpp    = $(this).val().substr(7);
+    }else{
+      var itemhpp    = $(this).val().substr('0','5');
+      var uraian_hpp    = $(this).val().substr(5);
+    }
+    
+
+    document.getElementById("uraian").value=uraian_hpp;
     $.ajax({
         url : "<?php echo site_url('spj/get_item_spj_by_pdo');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: itemhpp},
+          id: itemhpp,jenis_pdo:jenis_pdo},
         async : true,
         dataType : 'json',
         success: function(data){
             $('select[name="no_acc"]').empty();
             $('select[name="no_acc"]').append('<option value="">No Selected</option>');
             $.each(data, function(key, value) {
-                  $('select[name="no_acc"]').append('<option value="'+ value.no_acc+value.jenis_tk+'">'+ value.no_acc +' '+value.nm_acc +'</option>');
+                  $('select[name="no_acc"]').append('<option value="'+ value.no_acc+'">'+ value.no_acc +' '+value.nm_acc +'</option>');
             });
 
         }
@@ -458,7 +492,13 @@ $('#item_hpp').change(function(){
 
 
 $('#item_hpp').change(function(){ 
-  var item_pdo      = $(this).val();
+  var jenis_pdo   = $('#jns_pdo').val();
+  if (jenis_pdo=='1'){
+    var item_pdo      = $(this).val().substr('0','7');
+  }else{
+    var item_pdo      = $(this).val().substr('0','5');
+  }
+  
   var no_pdo      = $('#no_pdo').val();
   get_nilai(item_pdo,no_pdo);
    return false;
@@ -492,12 +532,13 @@ function get_nilai(item_pdo,no_pdo){
 }
 
 function get_realisasi(item_pdo,no_pdo,nil_hpp){
+      var project           = $('#project').val();
         $.ajax({
         url : "<?php echo site_url('spj/get_realisasi');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: no_pdo,no_acc:item_pdo},
+          id: no_pdo,no_acc:item_pdo,project:project},
         async : true,
         dataType : 'json',
         success: function(data){
@@ -514,12 +555,13 @@ function get_realisasi(item_pdo,no_pdo,nil_hpp){
 }
 
 function get_realisasi2(item_spj,no_pdo){
+        var project           = $('#project').val();
         $.ajax({
         url : "<?php echo site_url('spj/get_realisasi2');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: no_pdo,no_acc:item_spj},
+          id: no_pdo,no_acc:item_spj,project:project},
         async : true,
         dataType : 'json',
         success: function(data){
@@ -546,6 +588,7 @@ function get_nomor_urut(area){
         success: function(data){
             $.each(data, function(key, value) {
                 $('[name="urut"]').val(value.nomor).trigger('change');
+                $('[name="no_spj"]').val(value.nomor).trigger('change');
             });
 
         }
@@ -575,10 +618,6 @@ function get_nomor_urut(area){
                 return false;
             };
 
-// Hitung total
-document.getElementById("qty").onmouseup = function() {hitung_total()};
-document.getElementById("qty").onkeyup   = function() {hitung_total()};
-document.getElementById("harga").onkeyup   = function() {hitung_total()};
 
 function hitung_total() {
   var harga     = number(document.getElementById("harga").value);
@@ -592,46 +631,49 @@ function hitung_total() {
 
     // SAVE
 $('#butsave').on('click', function() {
-    var kd_item       = $('#item_hpp').val();
-    var no_pdo        = $('#kd_pdo').val();
-    var tgl_pdo       = $('#tgl_pdo').val();
-    var nourut        = $('#urut').val();
-    var projek        = $('#projek').val();
-    var uraian        = $('#uraian').val();
-    var total         = number($('#total').val());
-    var area          = $('#area').val();
-    var qty           = $('#qty').val();
-    var satuan        = $('#satuan').val();
-    var harga         = number($('#harga').val());
-    var divisi        = $('#divisi').val();
-    var idpdo         = no_pdo.replace(/\//g,'');
-    var kodeproject   = projek.replace('PQ/','');
-    var no_rekening   = $('#no_rekening').val();
-    var jenis_tkl     = $('#jns_tkls').val();
-    var sisa          = number($('#sisa').val());
-    if(total>sisa){
-      alert('Gagal! Nilai Melebihi sisa HPP');
-      return;
-    }
+    var kd_item_pdo       = $('#item_hpp').val();
+    var kd_item_spj       = $('#no_acc').val();
+    var no_spj            = $('#no_spj').val();
+    var tgl_spj           = $('#tgl_spj').val();
+    var jns_pdo           = $('#jns_pdo').val();
+    var nourut            = $('#urut').val();
+    var no_pdo            = $('#no_pdo').val();
+    var nilai             = number($('#total').val());
+    var area              = $('#area').val();
+    var uraian            = $('#uraian').val();
+    var divisi            = $('#divisi').val();
+    var project           = $('#project').val();
+    var sisa              = number($('#sisa').val());
+    var kode_pqproyek     = 'PQ/'+project;
     
-    if(divisi==""){
-      alert('Divisi tidak boleh kosong')
+    if (jns_pdo=='1'){
+      var kd_divisi = project.substr(8,1);
+    }else{
+      var kd_divisi= null;
+    }
+    if(nilai>sisa){
+      alert('Gagal! Nilai Melebihi sisa PDO');
       return;
     }
 
-    if(tgl_pdo==""){
+
+    if(tgl_spj==""){
       alert('Tanggal tidak boleh kosong')
       return;
     }
-    if(projek==""){
+    if(project==""){
       alert('Projek tidak boleh kosong')
       return;
     }
-    if(kd_item==""){
-      alert('Kode Akun tidak boleh kosong')
+    if(kd_item_pdo==""){
+      alert('Kode Akun PDO tidak boleh kosong')
       return;
     }
-    if(total=="" || total==0){
+    if(kd_item_spj==""){
+      alert('Kode Akun spj tidak boleh kosong')
+      return;
+    }
+    if(nilai=="" || total==0){
       alert('Total tidak boleh kosong')
       return;
     }
@@ -641,64 +683,42 @@ $('#butsave').on('click', function() {
       return;
     }
 
-    if(qty==""){
-      alert('Quantity tidak boleh kosong')
-      return;
-    }
-
-    if(satuan==""){
-      alert('Satuan tidak boleh kosong')
-      return;
-    }
-
-    if(harga==""){
-      alert('Harga tidak boleh kosong')
-      return;
-    }
-
       
       $.ajax({
-        url: "<?php echo base_url("cpdo/add/");?>",
+        url: "<?php echo base_url("spj/add/");?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
           type:1,
           area:area,
-          projek:projek,
-          divisi:divisi,
-          tgl_pdo:tgl_pdo,
-          kd_item :kd_item,
-          uraian:uraian,
-          qty:qty,
-          satuan:satuan,
-          harga:harga,
-          total:total,
-          idpdo:idpdo,
+          project:project,
+          kd_divisi:kd_divisi,
           no_pdo:no_pdo,
-          kodeproject:kodeproject,
-          jenis_tkl:jenis_tkl,
+          kode_pqproyek:kode_pqproyek,
+          tgl_spj:tgl_spj,
+          kd_item_pdo :kd_item_pdo,
+          kd_item_spj :kd_item_spj,
+          uraian:uraian,
+          nilai:nilai,
+          no_spj:no_spj,
           nourut:nourut,
-          no_rekening:no_rekening
-
+          jns_pdo:jns_pdo
         },
         cache: false,
         success: function(dataResult){
           var dataResult = JSON.parse(dataResult);
           if(dataResult.statusCode==200){
-            document.getElementById("tombolsimpan").disabled = false;
+            // document.getElementById("tombolsimpan").disabled = false;
             document.getElementById("item_hpp").value='';
+            document.getElementById("no_acc").value='';
             document.getElementById("uraian").value='';
-            document.getElementById("total").value='';
+            document.getElementById("project").value='';
             document.getElementById("total").value='';
             document.getElementById("pnet").value='';
             document.getElementById("thpp").value='';
-            document.getElementById("no_rekening").value='';
+            document.getElementById("shpp").value='';
             document.getElementById("sisa").value='';
-            document.getElementById("satuan").value='';
-            document.getElementById("qty").value='';
-            document.getElementById("harga").value='';
-            nomorpdo_temp = no_pdo.replace(/\//g,'abcde');
-            load_rincian_temp(nomorpdo_temp);
+            load_rincian_temp(no_spj);
             $('#largeModal').modal('toggle');
             $("#error").hide();
           }

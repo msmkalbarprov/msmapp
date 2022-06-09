@@ -45,6 +45,22 @@ class Area_model extends CI_Model{
 		return $query->result_array();
 	}
 
+	function get_area_pdp()
+	{	
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->from('ci_area');
+			$this->db->where('kd_area <>','all');	
+		}else{
+			$userarea = $this->session->userdata('kd_area');
+			$this->db->from('ci_area');
+			$this->db->where('kd_area',$userarea);	
+			$this->db->where('id <>','0');
+		}
+		
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
 	function get_area2()
 	{	
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){

@@ -43,6 +43,14 @@ public function get_all_pdo_approve(){
        		return $this->db->get()->result_array();
 	}
 
+public function get_all_pdo_cair(){
+			$this->db->select('*');
+			$this->db->from("v_pdo_terima");
+			$this->db->where("status_bayar", 1);
+			$this->db->order_by("tgl_pdo", "ASC");
+       		return $this->db->get()->result_array();
+	}
+
 public function get_all_pdo_gaji(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 			$this->db->select('*');
@@ -368,7 +376,104 @@ public function cair_pdo($kdpdo, $status, $no_cair, $tgl_cair)
 			$this->db->where('kd_pdo', $kdpdo);
 			$this->db->update('ci_pdo');
 			return true;
-		} 
+		}
+
+
+	public function terima_pdo($kdpdo, $status, $tgl_terima)
+		{	
+
+			if ($status=='1'){
+				$username 	= $this->session->userdata('username');
+				$created_at = date('Y-m-d : h:m:s');
+
+				$query1 		= "SELECT s_transfer,kd_area from ci_pdo where kd_pdo='$kdpdo' limit 1";
+				$hasil1 		= $this->db->query($query1);
+				$s_transfer	= $hasil1->row('s_transfer');
+				$kd_area 		= $hasil1->row('kd_area');
+
+					if ($s_transfer=='0'){
+						$query2 		= "SELECT nomor from get_urut_spj where kd_area='$kd_area'";
+						$hasil2 		= $this->db->query($query2);
+						$nomor 			= $hasil2->row('nomor');
+
+						$this->db->set('status_terima', $status);
+						$this->db->set('no_terima', $nomor );
+						$this->db->set('tgl_terima', $tgl_terima);
+						$this->db->where('kd_pdo', $kdpdo);
+						$this->db->update('ci_pdo');
+
+						$this->db->set('no_spj', $nomor);
+						$this->db->where("kd_area", $kd_area);
+						$asg1 = $this->db->update('ci_nomor_pdo');
+
+						if ($asg1){
+							$query3 		= "SELECT nomor from get_urut_spj where kd_area='$kd_area'";
+							$hasil3 		= $this->db->query($query3);
+							$nomor3			= $hasil3->row('nomor');
+
+
+
+							$asg = $this->db->query("
+							INSERT INTO ci_spj
+							(no_spj,kd_pdo,tgl_spj,keterangan,kd_area,kd_divisi,kd_pq_proyek,kd_project,no_acc_pdo2,no_acc,nilai,jns_spj,jns_tkl,username,created_at)
+							SELECT 
+								'$nomor3' as no_spj
+								,kd_pdo
+								,'$tgl_terima'as tgl_spj
+								,keterangan,
+								kd_area
+								,kd_divisi
+								,kd_pqproyek as kd_pq_proyek
+								,kd_project
+								,no_acc as no_acc_pdo2
+								,no_acc
+								,nilai
+								,jenis as jns_spj
+								,jenis_tkl as jns_tkl
+								,'$username' as username
+								,'$created_at' as created_at
+								from ci_pdo where kd_pdo='$kdpdo'
+								");
+
+							
+									
+
+									$this->db->set('no_spj', $nomor3);
+									$this->db->where("kd_area", $kd_area);
+									$this->db->update('ci_nomor_pdo');
+						}
+
+					}else{
+						$query4 		= "SELECT nomor from get_urut_spj where kd_area='$kd_area'";
+						$hasil4 		= $this->db->query($query4);
+						$nomor4 			= $hasil4->row('nomor');
+
+						$this->db->set('status_terima', $status);
+						$this->db->set('no_terima', $nomor4 );
+						$this->db->set('tgl_terima', $tgl_terima);
+						$this->db->where('kd_pdo', $kdpdo);
+						$this->db->update('ci_pdo');
+
+						$this->db->set('no_spj', $nomor4);
+						$this->db->where("kd_area", $kd_area);
+						$asg1 = $this->db->update('ci_nomor_pdo');
+					}
+
+
+			}else{
+				$this->db->delete('ci_spj', array('kd_pdo' => $kdpdo));	
+				
+				$this->db->set('status_terima', null);
+				$this->db->set('no_terima', null);
+				$this->db->set('tgl_terima', null);
+				$this->db->where('kd_pdo', $kdpdo);
+				$this->db->update('ci_pdo');
+			}
+			
+
+			
+			return true;
+		}  
 
 
 public function save_pdo_operasional($data){

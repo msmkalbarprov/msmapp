@@ -17,7 +17,7 @@ class Laporan_pdp extends MY_Controller {
 	//-----------------------------------------------------------
 
 	public function index(){
-		$data['data_area'] 	= $this->area->get_area();
+		$data['data_area'] 	= $this->area->get_area_pdp();
 		$data2['title'] 		= 'Register PDP';
 		$this->load->view('admin/includes/_header', $data2);
 		$this->load->view('user/laporan/register_pdp', $data);
@@ -104,6 +104,12 @@ function terbilang($nilai) {
 		}else{
 			$data['bulan'] 				= $this->format_indo($bulan);
 		}
+
+		if ($id='allarea'){
+			$filename = 'register_pdp_all';
+		}else{
+			$filename = 'register_pdp';
+		}
 		
 		switch ($jenis)
         {
@@ -111,17 +117,17 @@ function terbilang($nilai) {
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'landscape');
 			    $this->pdf->filename = "laporan_pdo.pdf";
-			    $this->pdf->load_view('user/pencairan/register_pdp', $data);
+			    $this->pdf->load_view('user/pencairan/'.$filename, $data);
                 break;
             case 0;
-				$html = $this->load->view('user/pencairan/register_pdp', $data);
+				$html = $this->load->view('user/pencairan/'.$filename, $data);
 				header("Cache-Control: no-cache, no-store, must-revalidate");
 				header("Content-Type: application/vnd.ms-excel");
 				header("Content-Disposition: attachment; filename= register_pdp_$id.xls");
 				$html;
                	break;
              case 2;
-				$this->load->view('user/pencairan/register_pdp', $data);
+				$this->load->view('user/pencairan/'.$filename, $data);
                	break;
         }
 

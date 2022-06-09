@@ -40,15 +40,16 @@ public function get_all_spj(){
 	}
 
 
-	function get_pdo_by_area($area)
+	function get_pdo_by_area($area,$jenis_pdo)
 	{
 		// $query = $this->db->get_where('ci_pendapatan', array('kd_area' => $area, 'status' => 1));
 
 			$this->db->select('ci_pdo.*');
 			$this->db->from('ci_pdo');
 			$this->db->where('ci_pdo.kd_area', $area);	
-			$this->db->where("ci_pdo.approve",1);
-			$this->db->where("status_bayar", 1);
+			$this->db->where("status_terima", 1);
+			$this->db->where("jenis", $jenis_pdo);
+			$this->db->where("s_transfer", 1);
 			$this->db->group_by("kd_pdo");
 			$query=$this->db->get();
 		return $query;
@@ -56,23 +57,49 @@ public function get_all_spj(){
 
 
 
-function get_item_by_pdo($pq)
+function get_item_by_pdo($pq,$jenis_pdo)
 	{	
 
 			$this->db->select('*');
 			$this->db->from('ci_pdo');
-			$this->db->where('kd_pdo', $pq);	
+			if ($jenis_pdo=='2'){
+				$this->db->where("left(kd_project,10)", substr($pq,'0','10'));	
+			}else{
+				$this->db->where('kd_project', $pq);	
+			}
 			$this->db->where("status_bayar", 1);	
 			$query=$this->db->get();
 			return $query;
 	}
 
-	function get_item_spj_by_pdo($pq)
+	function get_project_by_pdo($pq,$jenis_pdo)
+	{	
+
+			$this->db->select("*, case when jenis='2' then 'Operasional' else (select nm_paket_proyek from ci_proyek where ci_proyek.kd_proyek=ci_pdo.kd_project) end as nm_paket_proyek");
+			$this->db->from('ci_pdo');
+			$this->db->where('kd_pdo', $pq);	
+			$this->db->where("status_bayar", 1);	
+			if ($jenis_pdo=='1'){
+				$this->db->group_by("kd_project");
+			}else{
+				$this->db->group_by("left(kd_project,10)");
+			}
+			
+			$query=$this->db->get();
+			return $query;
+	}
+
+	function get_item_spj_by_pdo($pq,$jenis_pdo)
 	{	
 
 			$this->db->select('*');
 			$this->db->from('ci_coa_msm');
-			$this->db->where('left(no_acc,5)', $pq);	
+			if ($jenis_pdo=='1'){
+				$this->db->where('left(no_acc,7)', $pq);	
+			}else{
+				$this->db->where('left(no_acc,5)', $pq);		
+			}
+			
 			$this->db->where('level', 4);	
 			$query=$this->db->get();
 			return $query;
@@ -92,26 +119,86 @@ function get_item_by_pdo($pq)
 			return $query;
 	}
 
-	function get_realisasi($id, $no_acc)
+	function get_realisasi($id, $no_acc, $project)
 	{	
-		$this->db->select('ifnull(sum(nilai),0)as total');
+		$this->db->select("ifnull(sum(nilai),0)+(select ifnull(sum(nilai),0) from ci_spj_temp where kd_pdo='$id' and kd_project='$project' and no_acc_pdo2='$no_acc') as total");
 		$this->db->from('ci_spj');
-		$this->db->where('kd_pdo', $id);	
+		$this->db->where('kd_pdo', $id);
+		$this->db->where('kd_project', $project);	
 		$this->db->where('no_acc_pdo2', $no_acc);	
 		$query=$this->db->get();
 		return $query;
 	}
 
-	function get_realisasi2($id, $no_acc)
+	function get_realisasi2($id, $no_acc, $project)
 	{	
-		$this->db->select('ifnull(sum(nilai),0)as total');
+		$this->db->select("ifnull(sum(nilai),0)+(select ifnull(sum(nilai),0) from ci_spj_temp where kd_pdo='$id' and kd_project='$project' and no_acc='$no_acc') as total");
 		$this->db->from('ci_spj');
 		$this->db->where('kd_pdo', $id);	
+		$this->db->where('kd_project', $project);
 		$this->db->where('no_acc', $no_acc);	
 		$query=$this->db->get();
 		return $query;
 	}
 
+
+	public function count_all($id,$no_pdo){
+	$this->db->from('ci_spj_temp');
+	$this->db->where('no_spj',$id);
+	$this->db->where('kd_pdo',$no_pdo);
+	return $this->db->count_all_results();
+
+	// echo $count;
+
+  }
+
+
+  public function filter($search, $limit, $start, $order_field, $order_ascdesc,$id, $no_pdo){
+    $this->db->select('*,concat(no_acc,"<br>",nm_acc) as akun')->from('ci_spj_temp');
+		        $this->db->group_start();
+		                $this->db->like('no_acc', $search); // Untuk menambahkan query where LIKE
+										$this->db->or_like('nm_acc', $search); // Untuk menambahkan query where OR LIKE
+										$this->db->or_like('uraian', $search); // Untuk menambahkan query where OR LIKE
+										$this->db->or_like('nilai', $search); // Untuk menambahkan query where OR LIKE
+		        $this->db->group_end();
+		        $this->db->where('no_spj', $id);
+		        $this->db->where('kd_pdo', $no_pdo);
+		        $this->db->order_by($order_field, $order_ascdesc); // Untuk menambahkan query ORDER BY
+		        $this->db->limit($limit, $start); // Untuk menambahkan query LIMIT
+	return  $this->db->get()->result_array();
+
+
+  }
+
+   public function count_filter($search){
+    $this->db->like('no_acc', $search); // Untuk menambahkan query where LIKE
+    $this->db->or_like('nm_acc', $search); // Untuk menambahkan query where OR LIKE
+    $this->db->or_like('uraian', $search); // Untuk menambahkan query where OR LIKE
+    $this->db->or_like('nilai', $search); // Untuk menambahkan query where OR LIKE
+    return $this->db->get('ci_spj_temp')->num_rows(); // Untuk menghitung jumlah data sesuai dengan filter pada textbox pencarian
+  }
+
+public function get_spj_by_id($id,$kd_area){
+
+				$no_spj= str_replace('4e9e388e9acfde04d6bd661a6294f8a0','',str_replace('054d4a4653a16b49c49c49e000075d10','',$id));
+				 $this->db->select('ci_spj.*,ci_projek.nm_projek as nm_divisi,concat(ci_spj.kd_pdo," - ",ci_proyek.nm_paket_proyek) as nm_proyek, ci_area.nm_area');
+				 $this->db->from('ci_spj');
+                 $this->db->Join('ci_proyek','ci_proyek.kd_proyek=ci_spj.kd_project', 'left');
+                 $this->db->Join('ci_area','ci_area.kd_area=ci_spj.kd_area', 'left');
+                 $this->db->Join('ci_projek','ci_projek.kd_projek=ci_spj.kd_divisi', 'left');
+				 $this->db->where('ci_spj.no_spj', $no_spj);
+				 $this->db->where('ci_spj.kd_area', $kd_area);
+			return $result = $this->db->get()->row_array();
+		}
+
+
+	public function get_rincian_spj($no_spj,$kd_area){
+					$this->db->select('*');
+					$this->db->from("ci_spj");
+					$this->db->where('kd_area',$kd_area);
+					$this->db->where('no_spj',$no_spj);
+                return $this->db->get()->result_array();
+		}
 
 // SELESAI
 
@@ -258,116 +345,62 @@ function get_divisi()
 		$query=$this->db->get();
 		return $query->result_array();
 	}
-public function save_pdo($data){
-		$insert_data['id_pdo']						= $data['id_pdo'];
+public function save_spj($data){
+		$insert_data['no_spj'] 						= $data['no_spj'];
 		$insert_data['kd_pdo'] 						= $data['kd_pdo'];
-		$insert_data['tgl_pdo'] 					= $data['tgl_pdo'];
+		$insert_data['tgl_spj'] 					= $data['tgl_spj'];
 		$insert_data['kd_area'] 					= $data['kd_area'];
 		$insert_data['kd_divisi'] 				= $data['kd_divisi'];
-		$insert_data['kd_pqproyek']				= $data['kd_pqproyek'];
+		$insert_data['kd_pq_proyek']				= $data['kd_pqproyek'];
 		$insert_data['kd_project']				= $data['kd_project'];
-		$insert_data['no_acc3']						= $data['no_acc3'];
+		$insert_data['no_acc_pdo2']				= $data['no_acc_pdo2'];
 		$insert_data['no_acc']						= $data['no_acc'];
-		$insert_data['jenis_tkl']					= $data['jns_tkl'];
+		// $insert_data['jenis_tkl']					= $data['jns_tkl'];
 		$insert_data['uraian'] 						= $data['uraian'];
 		$insert_data['nilai']							= $data['nilai'];
-		$insert_data['qty']								= $data['qty'];
-		$insert_data['satuan']						= $data['satuan'];
-		$insert_data['harga']							= $data['harga'];
-		$insert_data['jenis']							= $data['jenis'];
-		$insert_data['no_rekening']				= $data['no_rekening'];
+		$insert_data['jns_spj']						= $data['jns_spj'];
 		$insert_data['username']					= $this->session->userdata('username');
 		$insert_data['created_at']				= date("Y-m-d h:i:s");
-		$query = $this->db->insert('ci_pdo_temp', $insert_data);
+		$query = $this->db->insert('ci_spj_temp', $insert_data);
 }
 
-public function save_edit_pdo($data){
-		$insert_data['id_pdo']						= $data['id_pdo'];
+public function save_edit_spj($data){
+		$insert_data['no_spj'] 						= $data['no_spj'];
 		$insert_data['kd_pdo'] 						= $data['kd_pdo'];
-		$insert_data['tgl_pdo'] 					= $data['tgl_pdo'];
+		$insert_data['tgl_spj'] 					= $data['tgl_spj'];
 		$insert_data['kd_area'] 					= $data['kd_area'];
 		$insert_data['kd_divisi'] 				= $data['kd_divisi'];
-		$insert_data['kd_pqproyek']				= $data['kd_pqproyek'];
+		$insert_data['kd_pq_proyek']				= $data['kd_pqproyek'];
 		$insert_data['kd_project']				= $data['kd_project'];
-		$insert_data['no_acc3']						= $data['no_acc3'];
+		$insert_data['no_acc_pdo2']				= $data['no_acc_pdo2'];
 		$insert_data['no_acc']						= $data['no_acc'];
-		$insert_data['jenis_tkl']					= $data['jns_tkl'];
+		// $insert_data['jenis_tkl']					= $data['jns_tkl'];
 		$insert_data['uraian'] 						= $data['uraian'];
-		$insert_data['nilai']							=	$data['nilai'];
-		$insert_data['qty']								= $data['qty'];
-		$insert_data['satuan']						= $data['satuan'];
-		$insert_data['harga']							= $data['harga'];
-		$insert_data['jenis']							= $data['jenis'];
-		$insert_data['no_rekening']				= $data['no_rekening'];
+		$insert_data['nilai']							= $data['nilai'];
+		$insert_data['jns_spj']						= $data['jns_spj'];
 		$insert_data['username']					= $this->session->userdata('username');
 		$insert_data['created_at']				= date("Y-m-d h:i:s");
-		$query = $this->db->insert('ci_pdo', $insert_data);
+		$query = $this->db->insert('ci_spj', $insert_data);
 }
 
 
- public function count_all($id){
-    // return $this->db->count_all('ci_pdo_temp'); // Untuk menghitung semua data siswa
-
-	$this->db->from('ci_pdo_temp');
-	$this->db->where('kd_pdo',$id);
-	return $this->db->count_all_results();
-
-	// echo $count;
-
-  }
-
-
-
-  public function filter($search, $limit, $start, $order_field, $order_ascdesc,$id){
-    // $this->db->where('kd_pdo', $id); // Untuk menambahkan query where LIKE
-    // $this->db->like('no_acc', $search); // Untuk menambahkan query where LIKE
-    // $this->db->or_like('nm_acc', $search); // Untuk menambahkan query where OR LIKE
-    // $this->db->or_like('uraian', $search); // Untuk menambahkan query where OR LIKE
-    // $this->db->or_like('nilai', $search); // Untuk menambahkan query where OR LIKE
-    // $this->db->order_by($order_field, $order_ascdesc); // Untuk menambahkan query ORDER BY
-    // $this->db->limit($limit, $start); // Untuk menambahkan query LIMIT
-    // return $this->db->get('ci_pdo_temp')->result_array(); // Eksekusi query sql sesuai kondisi diatas
-
-
-    $this->db->select('*,concat(no_acc,"<br>",nm_acc) as akun')->from('ci_pdo_temp');
-		        $this->db->group_start();
-		                $this->db->like('no_acc', $search); // Untuk menambahkan query where LIKE
-						$this->db->or_like('nm_acc', $search); // Untuk menambahkan query where OR LIKE
-						$this->db->or_like('uraian', $search); // Untuk menambahkan query where OR LIKE
-						$this->db->or_like('nilai', $search); // Untuk menambahkan query where OR LIKE
-		        $this->db->group_end();
-		        $this->db->where('kd_pdo', $id);
-		        $this->db->order_by($order_field, $order_ascdesc); // Untuk menambahkan query ORDER BY
-		        $this->db->limit($limit, $start); // Untuk menambahkan query LIMIT
-	return  $this->db->get()->result_array();
-
-
-  }
-
-   public function count_filter($search){
-    $this->db->like('no_acc', $search); // Untuk menambahkan query where LIKE
-    $this->db->or_like('nm_acc', $search); // Untuk menambahkan query where OR LIKE
-    $this->db->or_like('uraian', $search); // Untuk menambahkan query where OR LIKE
-    $this->db->or_like('nilai', $search); // Untuk menambahkan query where OR LIKE
-    return $this->db->get('ci_pdo_temp')->num_rows(); // Untuk menghitung jumlah data sesuai dengan filter pada textbox pencarian
-  }
-
-public function add_pdo_project($kdpdo)
+public function simpan_spj($kdpdo, $nospj)
 		{	
-			$query = $this->db->query("INSERT into ci_pdo (id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar,no_rekening,nm_rekening,nm_bank) 
-                           SELECT id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar,no_rekening,nm_rekening,nm_bank FROM ci_pdo_temp
-                           WHERE kd_pdo = '$kdpdo'");
+			$query = $this->db->query("INSERT into ci_spj (no_spj,tgl_spj,kd_pdo,keterangan,kd_area,kd_divisi,kd_pq_proyek,kd_project,no_acc_pdo1,nm_acc_pdo1,no_acc_pdo2,nm_acc_pdo2,no_acc,nm_acc,uraian,jns_tkl,nilai,jns_spj,username,created_at,username_update,updated_at
+) 
+                           SELECT no_spj,tgl_spj,kd_pdo,keterangan,kd_area,kd_divisi,kd_pq_proyek,kd_project,no_acc_pdo1,nm_acc_pdo1,no_acc_pdo2,nm_acc_pdo2,no_acc,nm_acc,uraian,jns_tkl,nilai,jns_spj,username,created_at,username_update,updated_at FROM ci_spj_temp
+                           WHERE kd_pdo = '$kdpdo' and no_spj='$nospj'");
 
-			$this->db->delete('ci_pdo_temp', array('kd_pdo' => $kdpdo));
+			$this->db->delete('ci_spj_temp', array('kd_pdo' => $kdpdo,'no_spj' => $nospj));
 			return true;
 		} 
 
-public function update_keterangan($kdpdo, $keterangan, $jenis_transfer)
+public function update_keterangan($kdpdo, $nospj, $keterangan)
 		{	
 			$this->db->set('keterangan', $keterangan);
-			$this->db->set('s_transfer', $jenis_transfer);
 			$this->db->where('kd_pdo', $kdpdo);
-			$this->db->update('ci_pdo');
+			$this->db->where('no_spj', $nospj);
+			$this->db->update('ci_spj');
 			return true;
 		} 
 public function update_keterangan_gaji($kdpdo, $keterangan, $jenis_transfer, $jnspdo)
@@ -460,15 +493,7 @@ public function edit_pdo($data, $id_pdo){
 			return true;
 		}
 
-public function get_pdo_by_id($id){
-				 $this->db->select('ci_pdo.*,ci_projek.nm_projek as nm_divisi,concat(ci_pdo.kd_pqproyek," - ",ci_proyek.nm_paket_proyek) as nm_proyek, ci_area.nm_area');
-				 $this->db->from('ci_pdo');
-                 $this->db->Join('ci_proyek','ci_proyek.kd_proyek=ci_pdo.kd_project', 'left');
-                 $this->db->Join('ci_area','ci_area.kd_area=ci_pdo.kd_area', 'left');
-                 $this->db->Join('ci_projek','ci_projek.kd_projek=ci_pdo.kd_divisi', 'left');
-				 $this->db->where('ci_pdo.id_pdo', $id);
-			return $result = $this->db->get()->row_array();
-		}
+
 
 
 function get_nilai_op($kode_pqoperasional)
@@ -517,13 +542,7 @@ function get_realisasi_op($kode_pqoperasional)
 	}
 
 
-	public function get_pdo_proyek($id){
-			$tahun = date("Y");
-					$this->db->select('*');
-					$this->db->from("ci_pdo");
-					$this->db->where('kd_pdo',$id);
-                return $this->db->get()->result_array();
-		}
+
 
 
 	public function get_pdo_operasional($id){

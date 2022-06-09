@@ -55,8 +55,9 @@ $lang['PB Rek. Perusahaan']                     = "PB Rek. Perusahaan";
 $lang['daerah']                     			= "Daerah";
 $lang['spj']                     				= "SPJ";
 $lang['saldo_awal']               				= "Saldo Awal";
-
+$lang['terima_pdo']       						= "Terima PDO Cair";
 $lang['bod']               						= "BOD";
+$lang['bku']               						= "BKU";
 
 
 

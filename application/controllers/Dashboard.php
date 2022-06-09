@@ -25,15 +25,27 @@ class Dashboard extends My_Controller {
 
 	public function index(){
 
-		$data['title'] = 'Dashboard';
-		$data['all_proyek'] = $this->dashboard_model->get_all_proyek();
+		$data['title'] 					= 'Dashboard';
+		$data['all_proyek'] 			= $this->dashboard_model->get_all_proyek();
+		$data['all_proyek_count'] 		= $this->dashboard_model->get_all_proyek_count();
 
-		$data['all_proyek_cair'] = $this->dashboard_model->get_all_proyek_cair();
+		$data['all_proyek_cair'] 		= $this->dashboard_model->get_all_proyek_cair();
+		$data['all_proyek_cair_count'] 	= $this->dashboard_model->get_all_proyek_cair_count();
 
-		$data['all_pdo'] = $this->dashboard_model->get_all_pdo();
-		$data['all_spj'] = $this->dashboard_model->get_all_spj();
+		$data['all_pdo'] 				= $this->dashboard_model->get_all_pdo();
+		$data['all_pdo_count'] 			= $this->dashboard_model->get_all_pdo_count();
 
-		$data['deactive_users'] = $this->dashboard_model->get_deactive_users();
+		$data['all_spj'] 				= $this->dashboard_model->get_all_spj();
+		$data['all_spj_count'] 			= $this->dashboard_model->get_all_spj_count();
+
+		$data['deactive_users'] 		= $this->dashboard_model->get_deactive_users();
+
+
+		$data['proyek'] 				= $this->dashboard_model->get_proyek();
+		$data['area'] 					= $this->dashboard_model->get_area();
+		$data['pdp'] 					= $this->dashboard_model->get_pdp();
+		$data['pdo'] 					= $this->dashboard_model->get_pdo();
+		$data['spj'] 					= $this->dashboard_model->get_spj();
 
 
 		$this->load->view('admin/includes/_header', $data);

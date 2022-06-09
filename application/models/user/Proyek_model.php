@@ -410,9 +410,15 @@ public function pq_proyek($idproyek){
 		}
 
 public function get_register_pdp($id,$tahun,$bulan){
-			$this->db->select("*");
+			
+			if ($id=='allarea'){
+				$this->db->select("*");
 			$this->db->from("cetak_register_pdp");
-			$this->db->where("kd_area", $id);
+			}else{
+				$this->db->select("*");
+				$this->db->from("cetak_register_pdp");
+				$this->db->where("kd_area", $id);
+			}
 
 			if($bulan==0){
 				$this->db->where("year(tgl_cair)", $tahun);

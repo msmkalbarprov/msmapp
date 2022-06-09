@@ -8,7 +8,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-print"></i>
-             Cetak Register PDP </h3>
+             Cetak Register Pencairan Dana Proyek </h3>
            </div>
            <div class="d-inline-block float-right">
           </div>

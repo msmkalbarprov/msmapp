@@ -4,7 +4,7 @@
 
 <table border="0" width="100%">
   <tr>
-    <td colspan="4" style="text-align:center"><h3>REGISTER PDO</h3></td>
+    <td colspan="4" style="text-align:center"><h3>PT. MURFA SURYA MAHARDIKA<br>REGISTER PDO</h3></td>
   </tr>
   <tr>
     <td colspan="4" style="text-align:center">&nbsp;</td>
