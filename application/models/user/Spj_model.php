@@ -350,17 +350,19 @@ public function save_spj($data){
 		$insert_data['kd_pdo'] 						= $data['kd_pdo'];
 		$insert_data['tgl_spj'] 					= $data['tgl_spj'];
 		$insert_data['kd_area'] 					= $data['kd_area'];
-		$insert_data['kd_divisi'] 				= $data['kd_divisi'];
+		$insert_data['kd_divisi'] 					= $data['kd_divisi'];
 		$insert_data['kd_pq_proyek']				= $data['kd_pqproyek'];
-		$insert_data['kd_project']				= $data['kd_project'];
-		$insert_data['no_acc_pdo2']				= $data['no_acc_pdo2'];
+		$insert_data['kd_project']					= $data['kd_project'];
+		$insert_data['no_acc_pdo2']					= $data['no_acc_pdo2'];
 		$insert_data['no_acc']						= $data['no_acc'];
 		// $insert_data['jenis_tkl']					= $data['jns_tkl'];
 		$insert_data['uraian'] 						= $data['uraian'];
-		$insert_data['nilai']							= $data['nilai'];
+		$insert_data['uraian_spj']					= $data['uraian_spj'];
+		$insert_data['nilai']						= $data['nilai'];
 		$insert_data['jns_spj']						= $data['jns_spj'];
+		$insert_data['bukti']						= $data['bukti'];
 		$insert_data['username']					= $this->session->userdata('username');
-		$insert_data['created_at']				= date("Y-m-d h:i:s");
+		$insert_data['created_at']					= date("Y-m-d h:i:s");
 		$query = $this->db->insert('ci_spj_temp', $insert_data);
 }
 
@@ -376,8 +378,10 @@ public function save_edit_spj($data){
 		$insert_data['no_acc']						= $data['no_acc'];
 		// $insert_data['jenis_tkl']					= $data['jns_tkl'];
 		$insert_data['uraian'] 						= $data['uraian'];
+		$insert_data['uraian_spj']					= $data['uraian_spj'];
 		$insert_data['nilai']							= $data['nilai'];
 		$insert_data['jns_spj']						= $data['jns_spj'];
+		$insert_data['bukti']						= $data['bukti'];
 		$insert_data['username']					= $this->session->userdata('username');
 		$insert_data['created_at']				= date("Y-m-d h:i:s");
 		$query = $this->db->insert('ci_spj', $insert_data);
@@ -386,9 +390,9 @@ public function save_edit_spj($data){
 
 public function simpan_spj($kdpdo, $nospj)
 		{	
-			$query = $this->db->query("INSERT into ci_spj (no_spj,tgl_spj,kd_pdo,keterangan,kd_area,kd_divisi,kd_pq_proyek,kd_project,no_acc_pdo1,nm_acc_pdo1,no_acc_pdo2,nm_acc_pdo2,no_acc,nm_acc,uraian,jns_tkl,nilai,jns_spj,username,created_at,username_update,updated_at
+			$query = $this->db->query("INSERT into ci_spj (no_spj,tgl_spj,kd_pdo,keterangan,kd_area,kd_divisi,kd_pq_proyek,kd_project,no_acc_pdo1,nm_acc_pdo1,no_acc_pdo2,nm_acc_pdo2,no_acc,nm_acc,uraian,jns_tkl,nilai,jns_spj,username,created_at,username_update,updated_at,bukti
 ) 
-                           SELECT no_spj,tgl_spj,kd_pdo,keterangan,kd_area,kd_divisi,kd_pq_proyek,kd_project,no_acc_pdo1,nm_acc_pdo1,no_acc_pdo2,nm_acc_pdo2,no_acc,nm_acc,uraian,jns_tkl,nilai,jns_spj,username,created_at,username_update,updated_at FROM ci_spj_temp
+                           SELECT no_spj,tgl_spj,kd_pdo,keterangan,kd_area,kd_divisi,kd_pq_proyek,kd_project,no_acc_pdo1,nm_acc_pdo1,no_acc_pdo2,nm_acc_pdo2,no_acc,nm_acc,uraian,jns_tkl,nilai,jns_spj,username,created_at,username_update,updated_at,bukti FROM ci_spj_temp
                            WHERE kd_pdo = '$kdpdo' and no_spj='$nospj'");
 
 			$this->db->delete('ci_spj_temp', array('kd_pdo' => $kdpdo,'no_spj' => $nospj));

@@ -71,7 +71,7 @@
 
 		public function get_all_proyek(){
 
-			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek')
+			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance')
 			{
 				$this->db->where('thn_anggaran',date("Y"));
 				$this->db->from("get_count_nominal_proyek");
@@ -90,7 +90,7 @@
 
 		public function get_all_proyek_count(){
 
-			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek')
+			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance')
 			{
 				$this->db->where('thn_anggaran',date("Y"));
 				$this->db->from("ci_proyek");
@@ -108,7 +108,7 @@
 
 		public function get_all_proyek_cair(){
 
-			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek')
+			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance')
 			{
 				$this->db->where('left(kd_proyek,4)',date("Y"));
 				$this->db->from("ci_proyek_cair");
@@ -127,7 +127,7 @@
 
 		public function get_all_proyek_cair_count(){
 
-			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek')
+			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance')
 			{
 				
 				$this->db->where('left(kd_proyek,4)',date("Y"));
@@ -145,7 +145,7 @@
 
 		public function get_all_pdo(){
 
-			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek')
+			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance')
 			{
 				$this->db->where('left(tgl_pdo,4)',date("Y"));
 				$this->db->from("ci_pdo");
@@ -164,7 +164,7 @@
 
 		public function get_all_pdo_count(){
 
-			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek')
+			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance')
 			{
 				
 				$this->db->where('left(tgl_pdo,4)',date("Y"));
@@ -183,7 +183,7 @@
 
 		public function get_all_spj_count(){
 
-			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek')
+			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance')
 			{
 				$this->db->where('left(tgl_spj,4)',date("Y"));
 				$this->db->from("ci_spj");
@@ -200,7 +200,7 @@
 
 		public function get_all_spj(){
 
-			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek')
+			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance')
 			{
 				$this->db->where('left(tgl_spj,4)',date("Y"));
 				$this->db->from("ci_spj");

@@ -57,6 +57,7 @@ $lang['spj']                     				= "SPJ";
 $lang['saldo_awal']               				= "Saldo Awal";
 $lang['terima_pdo']       						= "Terima PDO Cair";
 $lang['bod']               						= "BOD";
+$lang['pusat']               					= "Pusat";
 $lang['bku']               						= "BKU";
 
 

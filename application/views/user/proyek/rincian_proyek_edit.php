@@ -152,7 +152,7 @@
                   document.getElementById("tipeproyek").disabled = false;
                   document.getElementById("nodpa").disabled = true;
                   document.getElementById("tanggal").disabled = true;
-                  document.getElementById("pic_file").disabled = true;
+                  document.getElementById("pic_file").disabled = false;
                   document.getElementById("tanggal2").disabled = true;
                   document.getElementById("jns_pph").disabled = false;
                   document.getElementById("lama_pekerjaan").disabled = false;

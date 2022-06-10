@@ -172,7 +172,7 @@
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('pengesahan_pdo/datatable_json_pdo_proyek_edit'.'/')?>"+ nomorpdo+'/<?= $this->uri->segment(3); ?>',
+    "ajax": "<?=base_url('pencairan_pdo/datatable_json_pdo_proyek_edit'.'/')?>"+ nomorpdo+'/<?= $this->uri->segment(3); ?>',
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "kd_item", 'searchable':true, 'orderable':false},
@@ -247,7 +247,7 @@ function hitung_total() {
 function get_akun() {
     var idproyek   = "<?= $data_pdo['kd_pqproyek']; ?>";
     $.ajax({
-        url : "<?php echo site_url('pengesahan_pdo/get_item_pq_by_pq');?>",
+        url : "<?php echo site_url('pencairan_pdo/get_item_pq_by_pq');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -276,7 +276,7 @@ function get_akun() {
 
 
 function load_rincian_temp(nomorpdo) {
-        table.ajax.url("<?=base_url('pengesahan_pdo/datatable_json_pdo_proyek_edit'.'/')?>"+ nomorpdo);
+        table.ajax.url("<?=base_url('pencairan_pdo/datatable_json_pdo_proyek_edit'.'/')?>"+ nomorpdo);
         table.ajax.reload();
 }
 

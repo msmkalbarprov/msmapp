@@ -163,6 +163,10 @@ class Proyek extends MY_Controller {
 				$this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
 			}else if ($this->input->post('jnspagu', TRUE)==5){
 				$this->form_validation->set_rules('tipeproyek', 'Tipe Proyek', 'trim|required');
+				$this->form_validation->set_rules('tanggal2', 'tanggal selesai SPK', 'trim|required');
+				$this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
+			}else if ($this->input->post('jnspagu', TRUE)==6){
+				$this->form_validation->set_rules('tipeproyek', 'Tipe Proyek', 'trim|required');
 				$this->form_validation->set_rules('nodpa', 'No SPK', 'trim|required');
 				$this->form_validation->set_rules('tanggal', 'tanggal SPK', 'trim|required');
 				$this->form_validation->set_rules('tanggal2', 'tanggal selesai SPK', 'trim|required');
@@ -569,7 +573,7 @@ public function edit_rincian_proyek($id = 0){
 		foreach ($records['data']   as $row) 
 		{  
 
-			if ($row['no_dokumen']=="" || $row['no_dokumen']==null){
+			if ($row['dokumen']=="uploads/" || $row['dokumen']==null){
 				$anchor='';
 			}else{
 				$anchor = anchor($row['dokumen'], 'preview','target="_blank"');

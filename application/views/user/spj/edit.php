@@ -117,6 +117,7 @@
                   <th>Akun</th>
                   <th>Uraian</th>
                   <th>Nilai</th>
+                  <th>Bukti</th>
                   <th width="5%">Action</th>
                 </tr>
               </thead>
@@ -136,6 +137,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <form class="form-horizontal" id="formtest">
       <div class="modal-body">
          
 
@@ -143,6 +145,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Proyek</label>
+              <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
               <input type="hidden" name="proyek" id="proyek" class="form-control" readonly>
                 <select name="project"  id="project" class="form-control" required>
                   <option value="">No Selected</option>
@@ -177,7 +180,8 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Uraian</label>
-              <input type="text" name="uraian" id="uraian" class="form-control"  readonly >
+              <input type="hidden" name="uraian" id="uraian" class="form-control"  readonly >
+              <input type="text" name="uraian_spj" id="uraian_spj" class="form-control"  >
             </div>
           </div>
         </div>
@@ -216,8 +220,11 @@
          </div>
 
          <div class="row">
-          <div class="col-md-6">
-            &nbsp;
+         <div class="col-md-6">
+           <div class="form-group">
+            <label for="dinas" class="control-label">Bukti kwitansi</label>
+               <input type="file" name="gambar" class="form-control" id="gambar">
+          </div>
           </div>
           <div class="col-md-6">
            <div class="form-group">
@@ -230,9 +237,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-        <button name="butsave" id="butsave"  class="btn btn-success btn-sm"> Simpan </button>
+        <button class="btn btn-success" id="btn_upload" type="submit">Upload</button>
+        <!-- <button name="butsave" id="butsave"  class="btn btn-success btn-sm"> Simpan </button> -->
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -268,7 +276,8 @@
     { "targets": 2, "name": "akun", 'searchable':true, 'orderable':false},
     { "targets": 3, "name": "uraian", 'searchable':true, 'orderable':false},
     { "targets": 4, "name": "Nilai", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 5, "name": "bukti", 'searchable':true, 'orderable':false},
+    { "targets": 6, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
 
@@ -560,107 +569,214 @@ function get_realisasi2(item_spj,no_pdo){
         
 }
 
-$('#butsave').on('click', function() {
-    var kd_item_pdo       = $('#item_hpp').val();
-    var kd_item_spj       = $('#no_acc').val();
-    var no_spj            = $('#no_spj').val();
-    var tgl_spj           = $('#tgl_spj').val();
-    var jns_pdo           = $('#jns_pdo').val();
-    var nourut            = $('#urut').val();
-    var no_pdo            = $('#no_pdo').val();
-    var nilai             = number($('#total').val());
-    var area              = $('#kdarea').val();
-    var uraian            = $('#uraian').val();
-    var divisi            = $('#divisi').val();
-    var project           = $('#project').val();
-    var sisa              = number($('#sisa').val());
-    var kode_pqproyek     = 'PQ/'+project;
+
+
+$('#formtest').submit(function(e){
+            e.preventDefault();
+            var file_data = $('#gambar').prop('files')[0];
+            var form_data = new FormData(this);
+          
+            
+            var kd_item_pdo       = $('#item_hpp').val();
+            var kd_item_spj       = $('#no_acc').val();
+            var no_spj            = $('#no_spj').val();
+            var tgl_spj           = $('#tgl_spj').val();
+            var jns_pdo           = $('#jns_pdo').val();
+            var nourut            = $('#urut').val();
+            var no_pdo            = $('#no_pdo').val();
+            var nilai             = number($('#total').val());
+            var kdarea              = $('#kdarea').val();
+            var uraian            = $('#uraian_spj').val();
+            var divisi            = $('#project').val().substr(8,1);
+            var project           = $('#project').val();
+            var sisa              = number($('#sisa').val());
+            var kode_pqproyek     = 'PQ/'+project;
+
+
+            if (jns_pdo=='1'){
+                var kd_divisi = project.substr(8,1);
+              }else{
+                var kd_divisi= null;
+              }
+              if(nilai>sisa){
+                alert('Gagal! Nilai Melebihi sisa PDO');
+                return;
+              }
+
+
+              if(tgl_spj==""){
+                alert('Tanggal tidak boleh kosong')
+                return;
+              }
+              if(project==""){
+                alert('Projek tidak boleh kosong')
+                return;
+              }
+              if(kd_item_pdo==""){
+                alert('Kode Akun PDO tidak boleh kosong')
+                return;
+              }
+              if(kd_item_spj==""){
+                alert('Kode Akun spj tidak boleh kosong')
+                return;
+              }
+              if(nilai=="" || total==0){
+                alert('Total tidak boleh kosong')
+                return;
+              }
+
+              if(area==""){
+                alert('Area tidak boleh kosong')
+                return;
+              }
+              
+            
+            form_data.append('no_spj', no_spj);
+            form_data.append('kdarea', kdarea);
+            form_data.append('divisi', divisi);
+            form_data.append('tgl_spj', tgl_spj);
+            form_data.append('jns_pdo', jns_pdo);
+            form_data.append('urut', nourut);
+            form_data.append('no_pdo', no_pdo);
+            form_data.append('kode_pqproyek', kode_pqproyek);
+            form_data.append('file', file_data);
+
+            
+            $.ajax({
+                url:'<?php echo base_url();?>index.php/spj/uploadgambar2',
+                dataType: 'json',  // what to expect back from the PHP script, if anything
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function(data,status){
+                    //alert(php_script_response); // display response from the PHP script, if any
+                    if (data.status!='error') {
+                        $('#gambar').val('');
+                          document.getElementById("item_hpp").value='';
+                          document.getElementById("no_acc").value='';
+                          document.getElementById("uraian").value='';
+                          document.getElementById("uraian_spj").value='';
+                          document.getElementById("project").value='';
+                          document.getElementById("total").value='';
+                          document.getElementById("pnet").value='';
+                          document.getElementById("thpp").value='';
+                          document.getElementById("shpp").value='';
+                          document.getElementById("sisa").value='';
+                          load_rincian_temp(no_spj);
+                          $('#largeModal').modal('toggle');
+                          $("#error").hide();
+
+                        alert(data.msg);
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+        })
+
+// $('#butsave').on('click', function() {
+//     var kd_item_pdo       = $('#item_hpp').val();
+//     var kd_item_spj       = $('#no_acc').val();
+//     var no_spj            = $('#no_spj').val();
+//     var tgl_spj           = $('#tgl_spj').val();
+//     var jns_pdo           = $('#jns_pdo').val();
+//     var nourut            = $('#urut').val();
+//     var no_pdo            = $('#no_pdo').val();
+//     var nilai             = number($('#total').val());
+//     var area              = $('#kdarea').val();
+//     var uraian            = $('#uraian').val();
+//     var divisi            = $('#divisi').val();
+//     var project           = $('#project').val();
+//     var sisa              = number($('#sisa').val());
+//     var kode_pqproyek     = 'PQ/'+project;
     
-    if (jns_pdo=='1'){
-      var kd_divisi = project.substr(8,1);
-    }else{
-      var kd_divisi= null;
-    }
-    if(nilai>sisa){
-      alert('Gagal! Nilai Melebihi sisa PDO');
-      return;
-    }
+//     if (jns_pdo=='1'){
+//       var kd_divisi = project.substr(8,1);
+//     }else{
+//       var kd_divisi= null;
+//     }
+//     if(nilai>sisa){
+//       alert('Gagal! Nilai Melebihi sisa PDO');
+//       return;
+//     }
 
 
-    if(tgl_spj==""){
-      alert('Tanggal tidak boleh kosong')
-      return;
-    }
-    if(project==""){
-      alert('Projek tidak boleh kosong')
-      return;
-    }
-    if(kd_item_pdo==""){
-      alert('Kode Akun PDO tidak boleh kosong')
-      return;
-    }
-    if(kd_item_spj==""){
-      alert('Kode Akun spj tidak boleh kosong')
-      return;
-    }
-    if(nilai=="" || total==0){
-      alert('Total tidak boleh kosong')
-      return;
-    }
+//     if(tgl_spj==""){
+//       alert('Tanggal tidak boleh kosong')
+//       return;
+//     }
+//     if(project==""){
+//       alert('Projek tidak boleh kosong')
+//       return;
+//     }
+//     if(kd_item_pdo==""){
+//       alert('Kode Akun PDO tidak boleh kosong')
+//       return;
+//     }
+//     if(kd_item_spj==""){
+//       alert('Kode Akun spj tidak boleh kosong')
+//       return;
+//     }
+//     if(nilai=="" || total==0){
+//       alert('Total tidak boleh kosong')
+//       return;
+//     }
 
-    if(area==""){
-      alert('Area tidak boleh kosong')
-      return;
-    }
+//     if(area==""){
+//       alert('Area tidak boleh kosong')
+//       return;
+//     }
 
       
-      $.ajax({
-        url: "<?php echo base_url("spj/edit_spj/");?>",
-        type: "POST",
-        data: {
-          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          type:1,
-          area:area,
-          project:project,
-          kd_divisi:kd_divisi,
-          no_pdo:no_pdo,
-          kode_pqproyek:kode_pqproyek,
-          tgl_spj:tgl_spj,
-          kd_item_pdo :kd_item_pdo,
-          kd_item_spj :kd_item_spj,
-          uraian:uraian,
-          nilai:nilai,
-          no_spj:no_spj,
-          nourut:nourut,
-          jns_pdo:jns_pdo
-        },
-        cache: false,
-        success: function(dataResult){
-          var dataResult = JSON.parse(dataResult);
-          if(dataResult.statusCode==200){
-            // document.getElementById("tombolsimpan").disabled = false;
-            document.getElementById("item_hpp").value='';
-            document.getElementById("no_acc").value='';
-            document.getElementById("uraian").value='';
-            document.getElementById("project").value='';
-            document.getElementById("total").value='';
-            document.getElementById("pnet").value='';
-            document.getElementById("thpp").value='';
-            document.getElementById("shpp").value='';
-            document.getElementById("sisa").value='';
-            load_rincian_temp(no_spj);
-            $('#largeModal').modal('toggle');
-            $("#error").hide();
-          }
-          else if(dataResult.statusCode==201){
-            $("#error").show();
-            $("#success").hide();
-            $('#error').html('Gagal Simpan');
-          }
-        }
-      });
+//       $.ajax({
+//         url: "<?php echo base_url("spj/edit_spj/");?>",
+//         type: "POST",
+//         data: {
+//           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+//           type:1,
+//           area:area,
+//           project:project,
+//           kd_divisi:kd_divisi,
+//           no_pdo:no_pdo,
+//           kode_pqproyek:kode_pqproyek,
+//           tgl_spj:tgl_spj,
+//           kd_item_pdo :kd_item_pdo,
+//           kd_item_spj :kd_item_spj,
+//           uraian:uraian,
+//           nilai:nilai,
+//           no_spj:no_spj,
+//           nourut:nourut,
+//           jns_pdo:jns_pdo
+//         },
+//         cache: false,
+//         success: function(dataResult){
+//           var dataResult = JSON.parse(dataResult);
+//           if(dataResult.statusCode==200){
+//             // document.getElementById("tombolsimpan").disabled = false;
+//             document.getElementById("item_hpp").value='';
+//             document.getElementById("no_acc").value='';
+//             document.getElementById("uraian").value='';
+//             document.getElementById("project").value='';
+//             document.getElementById("total").value='';
+//             document.getElementById("pnet").value='';
+//             document.getElementById("thpp").value='';
+//             document.getElementById("shpp").value='';
+//             document.getElementById("sisa").value='';
+//             load_rincian_temp(no_spj);
+//             $('#largeModal').modal('toggle');
+//             $("#error").hide();
+//           }
+//           else if(dataResult.statusCode==201){
+//             $("#error").show();
+//             $("#success").hide();
+//             $('#error').html('Gagal Simpan');
+//           }
+//         }
+//       });
     
-  });
+//   });
 
 function load_rincian_temp(nomorspj) {
         var area      = $('#kdarea').val();
@@ -670,26 +786,28 @@ function load_rincian_temp(nomorspj) {
 }
 
 $('#item_hpp').change(function(){ 
-   var kd_coa         = $(this).val();
-   var kode_pqproyek  = "<?= $data_spj['kd_pq_proyek'] ?>";
-   if (kd_coa.substr(0,7)=='5010202'){
-    
-    var no_acc      = kd_coa.substr(0,7);
-    let jenis_tk    = kd_coa.substr(7,(kd_coa.length-7));
-    document.getElementById("jns_tkls").value=jenis_tk;
-    
-    
-    get_nilai2(kode_pqproyek,no_acc,jenis_tk);
-    // get_realisasi2(no_acc,kode_pqproyek,jns_tk);
-   
-   }else{
-    let jns_tk = '';
-    get_nilai(kode_pqproyek,kd_coa);
-    // get_realisasi(kd_coa,kode_pqproyek);
-   
-   }
+  var jenis_pdo   = $('#jns_pdo').val();
+  if (jenis_pdo=='1'){
+    var item_pdo      = $(this).val().substr('0','7');
+  }else{
+    var item_pdo      = $(this).val().substr('0','5');
+  }
+  
+  var no_pdo      = $('#no_pdo').val();
+  get_nilai(item_pdo,no_pdo);
    return false;
 });
+
+
+$('#no_acc').change(function(){ 
+  var item_spj      = $(this).val();
+  var no_pdo      = $('#no_pdo').val();
+  get_realisasi2(item_spj,no_pdo);
+   return false;
+});
+
+
+
 
   }); 
 

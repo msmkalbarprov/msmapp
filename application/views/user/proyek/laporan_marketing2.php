@@ -8,7 +8,7 @@
 <thead>
   <tr style="background: #CACACA;">
         <th align="center" rowspan="2"><b>Nama Area</b> </th>
-        <th align="center" colspan="8"><b>Tahap Lelang</b></th>
+        <th align="center" colspan="8"><b>Tahap</b></th>
   </tr>
 
   <tr style="background: #CACACA;">
