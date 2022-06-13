@@ -58,6 +58,10 @@ $lang['saldo_awal']               				= "Saldo Awal";
 $lang['terima_pdo']       						= "Terima PDO Cair";
 $lang['bod']               						= "BOD";
 $lang['pusat']               					= "Pusat";
+$lang['pegawai']               					= "Pegawai";
+$lang['karyawan']               				= "Karyawan";
+$lang['spj_pegawai']               				= "SPJ Pegawai";
+$lang['lapker']               					= "Lapker";
 $lang['bku']               						= "BKU";
 
 

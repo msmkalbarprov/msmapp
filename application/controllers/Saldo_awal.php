@@ -40,12 +40,20 @@ public function datatable_json(){
 		foreach ($records['data']   as $row) 
 		{  
 
+			if ($row['kd_area']!='01'){
+				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('saldo_awal/edit/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("saldo_awal/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+			}else{
+				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('saldo_awal/edit/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
+';
+			}
+
 			$data[]= array(
 				$i++,
 				$row['nm_area'],
 				$row['no_rekening'].'<br>'.$row['nm_rekening'],
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['saldo'],2,",",".").'</font></span></div>',
-				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('saldo_awal/edit/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>'
+				$button
 			);
 		}
 		$records['data']=$data;
@@ -59,7 +67,68 @@ public function datatable_json(){
 
 		$this->admin->change_status();
 	}
+
+
+	function add(){
+
+		$this->rbac->check_operation_access(); // check opration permission
+
+			$data['data_area'] 			= $this->area->get_area();
+			$data['data_subarea'] 		= $this->subarea->get_subarea();
+
+		if($this->input->post('submit')){
+				$this->form_validation->set_rules('area', 'Area', 'trim|required');
+				$this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
+				$this->form_validation->set_rules('rekening', 'Pegawai/Rekening', 'trim|required');
+				
+				if ($this->form_validation->run() == FALSE) {
+					$data = array(
+						'errors' => validation_errors()
+					);
+					$this->session->set_flashdata('errors', $data['errors']);
+					redirect(base_url('saldo_awal/add'),'refresh');
+				}
+				else{
+
+					if ($this->input->post('area')=='01'){
+						$rekening=$this->input->post('rekening');
+					}else{
+						$rekening='1010105';
+					}
+
+					$data = array(
+						'kd_area' 		=> $this->input->post('area'),
+						'no_rekening' 	=> $rekening,
+						'kd_pegawai' 	=> $this->input->post('rekening'),
+						'saldo' 		=> $this->proyek_model->number($this->input->post('saldo')),
+						'username' 		=>  $this->session->userdata('username'),
+						'created_at' 	=> date('Y-m-d : h:m:s')
+					);
+					$data = $this->security->xss_clean($data);
+					$result = $this->saldoawal_model->add_saldoawal($data);
+					if($result){
+
+						// Activity Log 
+						$this->activity_model->add_log(4);
+
+						$this->session->set_flashdata('success', 'Saldo Awal berhasil ditambahkan!');
+						redirect(base_url('saldo_awal/index'));
+					}
+				}
+			}
+			else
+			{
+				$this->load->view('admin/includes/_header', $data);
+        		$this->load->view('user/saldo_awal/add');
+        		$this->load->view('admin/includes/_footer');
+			}
+	}
 	
+	function get_pegawai_by_area(){
+		$area = $this->input->post('id',TRUE);
+		$data = $this->saldoawal_model->get_pegawai_by_area($area)->result();
+		echo json_encode($data);
+	}
 
 	//--------------------------------------------------
 	function edit($id=""){
@@ -122,13 +191,13 @@ public function datatable_json(){
 	   
 		$this->rbac->check_operation_access(); // check opration permission
 
-		$this->bank->delete($id);
+		$this->saldoawal_model->delete($id);
 
 		// Activity Log 
 		$this->activity_model->add_log(6);
 
-		$this->session->set_flashdata('success','Perusahaan berhasil dihapus.');	
-		redirect('bank/index');
+		$this->session->set_flashdata('success','Saldo Awal berhasil dihapus.');	
+		redirect('saldo_awal/index');
 	}
 	
 }

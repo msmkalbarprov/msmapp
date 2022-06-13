@@ -61,7 +61,7 @@ class Admin extends MY_Controller
 		$data['data_area']=$this->admin->get_area();
 
 		if($this->input->post('submit')){
-				$this->form_validation->set_rules('username', 'Username', 'trim|alpha_numeric|is_unique[ci_users.username]|required');
+				$this->form_validation->set_rules('username', 'Username', 'trim|is_unique[ci_users.username]|required');
 				$this->form_validation->set_rules('firstname', 'Firstname', 'trim|required');
 				$this->form_validation->set_rules('password', 'Password', 'trim|required');
 				$this->form_validation->set_rules('role', 'Role', 'trim|required');

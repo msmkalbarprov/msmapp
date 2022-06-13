@@ -13,7 +13,21 @@ class Saldoawal_model extends CI_Model{
 			$this->db->order_by('id','asc');
         return $this->db->get()->result_array();
 		}
+	
+	public function angka($nilai){
+		$nilai=str_replace(',','',$nilai);
+		return $nilai;
+	}
 
+	function get_pegawai_by_area($area)
+	{
+		$query = $this->db->get_where('get_pegawai', array('kd_area' => $area));
+		return $query;
+	}
+	public function add_saldoawal($data){
+		$this->db->insert('ci_saldo_awal', $data);
+		return true;
+	}
 
 	function get_bank()
 	{
@@ -52,7 +66,7 @@ function change_status()
 function delete($id)
 {		
 	$this->db->where('id',$id);
-	$this->db->delete('ci_rekening_bank');
+	$this->db->delete('ci_saldo_awal');
 } 
 
 }

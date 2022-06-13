@@ -36,15 +36,14 @@ class SPJ extends MY_Controller {
 			
 				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('spj/edit_spj/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$row['kd_area']).'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('spj/delete_spj_temp/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$row['kd_area']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
-
-// <a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>
-			$data[]= array(
+			
+				$data[]= array(
 				++$i,
 				'<font size="2px">'.$row['no_spj'].'</font>',
 				'<font size="2px">'.$row['nm_area'].'</font>',
 				'<font size="2px">'.$row['tgl_spj'].'</font>',
 				'<font size="2px">'.$row['keterangan'].'</font>',
-				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['total'],2,",",".").'</font></span></div>',
 				$tombol
 			);
 		}
@@ -52,43 +51,108 @@ class SPJ extends MY_Controller {
 		echo json_encode($records);						   
 	}
 
-public function add(){
+	public function add(){
 		$this->rbac->check_operation_access('');
-		// if($this->input->post('type')==1){
-		// 	$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
-		// 	$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
-		// 	$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
-		// 	$data['kd_area'] 			= $this->input->post('area', TRUE);
-		// 	$data['kd_divisi']			= $this->input->post('kd_divisi', TRUE);
-		// 	$data['kd_pqproyek']		= $this->input->post('kode_pqproyek', TRUE);
-		// 	$data['kd_project']			= $this->input->post('project', TRUE);
-        //  $data['no_acc_pdo2']		= $this->input->post('kd_item_pdo', TRUE);
-        //  $data['no_acc'] 			= $this->input->post('kd_item_spj', TRUE);
-		// 	$data['uraian']				= $this->input->post('uraian', TRUE);
-		// 	$data['nilai']				= $this->input->post('nilai', TRUE);
-		// 	$data['jns_spj']			= $this->input->post('jns_pdo', TRUE);; //1 untuk pdo project
+		if($this->input->post('type')==1){
+			$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
+			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
+			$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
+			$data['kd_area'] 			= $this->input->post('area', TRUE);
+			$data['jns_spj'] 			= $this->input->post('jns_spj', TRUE);
+			$data['kd_pqproyek']		= $this->input->post('kd_pqproyek', TRUE);
+         	$data['no_acc']				= $this->input->post('no_akun', TRUE);
+			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['nilai']				= $this->input->post('nilai', TRUE);
+			$data['jns_tkl']			= $this->input->post('jns_tkl', TRUE);
 			
-		// 	$result 					= $this->spj_model->save_spj($data);
 			
-		// 			echo json_encode(array(
-		// 					"statusCode"=>200
-		// 				));
 
-		// }else{
+			$result 					= $this->spj_model->save_spj($data);
+			
+					echo json_encode(array(
+							"statusCode"=>200
+						));
+
+		}else{
 			$data2['title'] 			= 'SPJ';
 			$data['data_area'] 			= $this->area->get_area_pusat();
-			$data['data_rekening']		= $this->pdo_model->get_rekening();
-			$data['data_divisi']		= $this->pdo_model->get_divisi();
-			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
-			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
 			$this->load->view('admin/includes/_header' , $data2);
 			$this->load->view('user/spj/add', $data);
 			$this->load->view('admin/includes/_footer');
-		// }
+		}
 		
 	}
 
-public function uploadgambar(){
+	function get_nomor(){
+		$area 		= $this->input->post('area',TRUE);
+		$data 		= $this->spj_model->get_nomor($area)->result();
+		echo json_encode($data);
+	}
+
+	function get_pq_by_area(){
+		$area 		= $this->input->post('id',TRUE);
+		$jns_spj 	= $this->input->post('jns_spj',TRUE);
+		$data 		= $this->spj_model->get_pq_by_area($area,$jns_spj)->result();
+		echo json_encode($data);
+	}
+
+	function get_item_spj(){
+		$no_pq 		= $this->input->post('no_pq',TRUE);
+		$jns_spj 	= $this->input->post('jns_spj',TRUE);
+
+		$data = $this->spj_model->get_item_spj($no_pq,$jns_spj)->result();
+		echo json_encode($data);
+	}
+
+	function get_kas(){
+		$id 		= $this->input->post('id',TRUE);
+		$data 		= $this->spj_model->get_kas($id)->result();
+		echo json_encode($data);
+	}
+
+	function get_nilai(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$jns_spj 	= $this->input->post('jns_spj',TRUE);
+		$jns_tkl 	= $this->input->post('jns_tkl',TRUE);
+		$data 		= $this->spj_model->get_nilai($id, $no_acc,$jns_spj,$jns_tkl)->result();
+		echo json_encode($data);
+	}
+
+	function get_realisasi(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$jns_spj 	= $this->input->post('jns_spj',TRUE);
+		$jns_tkl 	= $this->input->post('jns_tkl',TRUE);
+		$data 		= $this->spj_model->get_realisasi($id, $no_acc,$jns_spj,$jns_tkl)->result();
+		echo json_encode($data);
+	}
+
+	public function view($id,$area){
+	  $area_new			= str_replace('abcde','/',$area);
+	  $search 			= $_POST['search']['value']; // Ambil data yang di ketik user pada textbox pencarian
+	  $limit 				= $_POST['length']; // Ambil data limit per page
+	  $start 				= $_POST['start']; // Ambil data start
+	  $order_index 	= $_POST['order'][0]['column']; // Untuk mengambil index yg menjadi acuan untuk sorting
+	  $order_field 	= $_POST['columns'][$order_index]['data']; // Untuk mengambil nama field yg menjadi acuan untuk sorting
+	  $order_ascdesc 	= $_POST['order'][0]['dir']; // Untuk menentukan order by "ASC" atau "DESC"
+	  
+	  $sql_total 		= $this->spj_model->count_all($id,$area_new); // Panggil fungsi count_all pada SiswaModel
+	  $sql_data 		= $this->spj_model->filter($search, $limit, $start, $order_field, $order_ascdesc,$id,$area_new); // Panggil fungsi filter pada SiswaModel
+	  $sql_filter 	= $this->spj_model->count_filter($search); // Panggil fungsi count_filter pada SiswaModel
+	  $callback = array(
+		  'draw'=>$_POST['draw'], // Ini dari datatablenya
+		  'recordsTotal'=>$sql_total,
+		  'recordsFiltered'=>$sql_filter,
+		  'data'=>$sql_data
+	  );
+	  header('Content-Type: application/json');
+	  echo json_encode($callback); // Convert array $callback ke json
+	}
+
+
+
+public function simpan_spj_file(){
 	$config['upload_path'] 		= './uploads/spj/';
 	$config['allowed_types']   	= '*';
     $config['max_size']         = '0';
@@ -96,32 +160,72 @@ public function uploadgambar(){
 
 	$this->load->library('upload', $config);
 
+	$status = "success";
+	$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
+	$data['jns_spj'] 			= $this->input->post('jns_spj', TRUE);
+	$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
+	$data['jns_tkl']			= $this->input->post('jns_tkl', TRUE);
+	$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
+	$data['kd_area'] 			= $this->input->post('kdarea', TRUE);
+	$data['kd_divisi']			= $this->input->post('divisi', TRUE);
+	$data['kd_pqproyek']		= $this->input->post('kd_pqproyek', TRUE);
+	$data['no_acc'] 			= $this->input->post('no_acc', TRUE);
+	$data['uraian']				= $this->input->post('uraian', TRUE);
+	$data['nilai']				= $this->spj_model->number($this->input->post('total', TRUE));
+	
+	
 	if ( ! $this->upload->do_upload('file')){
-		$status = "error";
-		$msg = $this->upload->display_errors();
+		$status = "success";
+		$data['bukti']				= '';
+		$result 					= $this->spj_model->save_spj($data);
+		$msg = "Data berhasil disimpan tanpa bukti";
 	}
 	else{
 
 		$dataupload = $this->upload->data();
-		$status = "success";
-			$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
-			$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
-			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
-			$data['kd_area'] 			= $this->input->post('kdarea', TRUE);
-			$data['kd_divisi']			= $this->input->post('divisi', TRUE);
-			$data['kd_pqproyek']		= $this->input->post('kode_pqproyek', TRUE);
-			$data['kd_project']			= $this->input->post('project', TRUE);
-			$data['no_acc_pdo2']		= $this->input->post('item_hpp', TRUE);
-			$data['no_acc'] 			= $this->input->post('no_acc', TRUE);
-			$data['uraian']				= $this->input->post('uraian', TRUE);
-			$data['uraian_spj']			= $this->input->post('uraian_spj', TRUE);
-			$data['nilai']				= $this->input->post('total', TRUE);
-			$data['bukti']				= $dataupload['file_name'];
-			$data['jns_spj']			= $this->input->post('jns_pdo', TRUE); //1 untuk pdo project
-			
-			$result 					= $this->spj_model->save_spj($data);
+		$data['bukti']				= $dataupload['file_name'];
+		$result 					= $this->spj_model->save_spj($data);
+		$msg = "Data Berhasil disimpan dengan bukti ".$data['bukti'];
+	}
 
-		$msg = $dataupload['file_name']." berhasil diupload untuk ".$this->input->post('uraian_spj', TRUE);;
+	$this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
+}
+
+
+public function simpan_spj_file2(){
+	$config['upload_path'] 		= './uploads/spj/';
+	$config['allowed_types']   	= '*';
+    $config['max_size']         = '0';
+	$config['encrypt_name'] 	= TRUE;
+
+	$this->load->library('upload', $config);
+
+	$status = "success";
+	$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
+	$data['jns_spj'] 			= $this->input->post('jns_spj', TRUE);
+	$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
+	$data['jns_tkl']			= $this->input->post('jns_tkl', TRUE);
+	$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
+	$data['kd_area'] 			= $this->input->post('kdarea', TRUE);
+	$data['kd_divisi']			= $this->input->post('divisi', TRUE);
+	$data['kd_pqproyek']		= $this->input->post('kd_pqproyek', TRUE);
+	$data['no_acc'] 			= $this->input->post('no_acc', TRUE);
+	$data['uraian']				= $this->input->post('uraian', TRUE);
+	$data['nilai']				= $this->spj_model->number($this->input->post('total', TRUE));
+	
+	
+	if ( ! $this->upload->do_upload('file')){
+		$status = "success";
+		$data['bukti']				= '';
+		$result 					= $this->spj_model->save_edit_spj($data);
+		$msg = "Data berhasil disimpan tanpa bukti";
+	}
+	else{
+
+		$dataupload = $this->upload->data();
+		$data['bukti']				= $dataupload['file_name'];
+		$result 					= $this->spj_model->save_edit_spj($data);
+		$msg = "Data Berhasil disimpan dengan bukti ".$data['bukti'];
 	}
 
 	$this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
@@ -199,8 +303,6 @@ public function datatable_json_pdo_proyek($id='',$kodepdo=''){
 public function add_spj(){
 		
 		if($this->input->post('submit')){
-			$this->form_validation->set_rules('no_pdo', 'Kode PDO', 'trim|required');
-			$this->form_validation->set_rules('tgl_spj', 'Tanggal SPJ', 'trim|required');
 			$this->form_validation->set_rules('area', 'Area', 'trim|required');
 			$this->form_validation->set_rules('no_spj', 'No SPJ', 'trim|required');
 
@@ -211,19 +313,18 @@ public function add_spj(){
 				$this->session->set_flashdata('errors', $data['errors']);
 			}
 			else{
-				$kdpdo 					= $this->security->xss_clean($this->input->post('no_pdo'));
 				$nospj 					= $this->security->xss_clean($this->input->post('no_spj'));
 				$keterangan 			= $this->security->xss_clean($this->input->post('keterangan'));
-				$jns_pdo 				= $this->security->xss_clean($this->input->post('jns_pdo'));
+				$area 					= $this->security->xss_clean($this->input->post('area'));
 
-				$this->spj_model->simpan_spj($kdpdo,$nospj);
-				$this->spj_model->update_keterangan($kdpdo, $nospj, $keterangan);
+				$this->spj_model->simpan_spj($area,$nospj);
+				$this->spj_model->update_keterangan($area, $nospj, $keterangan);
 
 				$kodearea 					= $this->input->post('area', TRUE);
 				$urutan 					= $this->input->post('urut', TRUE);
 				
 					$data2 = array(
-						'no_spj' => $urutan
+						'no_spj_area' => $urutan
 					);
 
 				$result = $this->pdo_model->update_nomor($data2,$kodearea);
@@ -244,7 +345,6 @@ public function edit_keterangan($id='',$kd_area=''){
 		
 		if($this->input->post('submit')){
 			$this->form_validation->set_rules('no_spj', 'No. SPJ', 'trim|required');
-			$this->form_validation->set_rules('no_pdo', 'Kode PDO', 'trim|required');
 
 			if ($this->form_validation->run() == FALSE) {
 				$data = array(
@@ -253,10 +353,9 @@ public function edit_keterangan($id='',$kd_area=''){
 				$this->session->set_flashdata('errors', $data['errors']);
 			}
 			else{
-				$kdpdo 						= $this->security->xss_clean($this->input->post('no_pdo'));
 				$nospj 						= $this->security->xss_clean($this->input->post('no_spj'));
 				$keterangan 				= $this->security->xss_clean($this->input->post('keterangan'));
-				$result = $this->spj_model->update_keterangan($kdpdo, $nospj, $keterangan);
+				$result = $this->spj_model->update_keterangan($kd_area, $nospj, $keterangan);
 				if($result){
 					$this->activity_model->add_log(1);
 					$this->session->set_flashdata('success', 'SPJ berhasil diubah!');
@@ -282,7 +381,7 @@ public function delete_spj_temp2()
 			if ($id_file!='' || $id_file!= null){
 				unlink('./uploads/spj/'.$id_file);
 			}
-			$result = $this->db->delete('ci_spj_temp', array('id' => $id));	
+			$result = $this->db->delete('ci_spj_kantor_temp', array('id' => $id));	
 			if($result){
 					echo json_encode(array(
 						"statusCode"=>200
@@ -297,8 +396,7 @@ public function delete_spj_temp2()
 	}
 
 public function edit_spj($nospj='',$kd_area='')
-
-{		
+{
 		$this->rbac->check_operation_access('');
 
 		if($this->input->post('type')==1){
@@ -351,7 +449,7 @@ public function datatable_json_spj_edit($id='',$kd_area=''){
 		{  
 
 
-			if ($row['bukti']=="uploads/" || $row['bukti']==null){
+			if ($row['bukti']=="" || $row['bukti']==null){
 				$anchor='';
 			}else{
 				$anchor = anchor('uploads/spj/'.$row['bukti'], 'preview','target="_blank"');
@@ -360,11 +458,11 @@ public function datatable_json_spj_edit($id='',$kd_area=''){
 
 				$data[]= array(
 				$row['no_spj'],
-				$row['kd_pdo'],
+				$row['tgl_spj'],
 				$row['no_acc'].'<br>'.$row['nm_acc'],
-				$row['uraian_spj'],
-				number_format($row['nilai'],2,',','.'),
+				$row['uraian'],
 				$anchor,
+				number_format($row['nilai'],2,',','.'),
 				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("spj/delete_spj/".$row['id']).'/'.$id.'/'.$kd_area.'/'.$row['bukti'].' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
 		}
@@ -373,14 +471,17 @@ public function datatable_json_spj_edit($id='',$kd_area=''){
 	}
 
 
-public function delete_spj_temp($id = 0,$no_spj='',$kd_area='')
-	{
+public function delete_spj_temp($no_spj='',$kd_area='')
+	{	
+		$no_spj_new = str_replace('054d4a4653a16b49c49c49e000075d10','',$no_spj);
+		$nospj = str_replace('4e9e388e9acfde04d6bd661a6294f8a0','',$no_spj_new);
+
 		$this->rbac->check_operation_access('');
-		$this->db->delete('ci_spj_temp', array('id' => $id, 'no_spj' => $no_spj));	
+		$this->db->delete('ci_spj_kantor', array('kd_area' => $kd_area, 'no_spj' => $nospj));	
 		$this->activity_model->add_log(3);
 		$this->session->set_flashdata('success', 'Data berhasil dihapus!');
 		
-			redirect(base_url('spj/edit_spj/054d4a4653a16b49c49c49e000075d10'.$no_spj.'4e9e388e9acfde04d6bd661a6294f8a0/'.$kd_area));	
+			redirect(base_url('spj'));	
 	}
 
 public function delete_spj($id = 0,$no_spj='',$kd_area='',$file='')
@@ -391,19 +492,14 @@ public function delete_spj($id = 0,$no_spj='',$kd_area='',$file='')
 			unlink('./uploads/spj/'.$file);
 		}
 
-		$this->db->delete('ci_spj', array('id' => $id, 'no_spj' => $no_spj));	
+		$this->db->delete('ci_spj_kantor', array('id' => $id, 'no_spj' => $no_spj));	
 		$this->activity_model->add_log(3);
 		$this->session->set_flashdata('success', 'Data berhasil dihapus!');
 		redirect(base_url('spj/edit_spj/054d4a4653a16b49c49c49e000075d10'.$no_spj.'4e9e388e9acfde04d6bd661a6294f8a0/'.$kd_area));			
 	}
 
 
-	function get_pdo_by_area(){
-		$area 		= $this->input->post('id',TRUE);
-		$jenis_pdo 	= $this->input->post('jenis_pdo',TRUE);
-		$data 		= $this->spj_model->get_pdo_by_area($area,$jenis_pdo)->result();
-		echo json_encode($data);
-	}
+	
 
 	function get_item_by_pdo(){
 		$pq = $this->input->post('id',TRUE);
@@ -426,25 +522,9 @@ public function delete_spj($id = 0,$no_spj='',$kd_area='',$file='')
 		echo json_encode($data);
 	}
 
-function get_nomor(){
-		$area 		= $this->input->post('area',TRUE);
-		$data 		= $this->spj_model->get_nomor($area)->result();
-		echo json_encode($data);
-	}
 
-function get_nilai(){
-		$id 		= $this->input->post('id',TRUE);
-		$no_acc 	= $this->input->post('no_acc',TRUE);
-		$data 		= $this->spj_model->get_nilai($id, $no_acc)->result();
-		echo json_encode($data);
-	}
-function get_realisasi(){
-		$id 		= $this->input->post('id',TRUE);
-		$no_acc 	= $this->input->post('no_acc',TRUE);
-		$project 	= $this->input->post('project',TRUE);
-		$data 		= $this->spj_model->get_realisasi($id, $no_acc,$project)->result();
-		echo json_encode($data);
-	}
+
+
 
 function get_realisasi2(){
 		$id 		= $this->input->post('id',TRUE);
@@ -454,27 +534,7 @@ function get_realisasi2(){
 		echo json_encode($data);
 	}
 
-  public function view($id,$no_pdo){
-  	$no_pdo_new			= str_replace('abcde','/',$no_pdo);
-    $search 			= $_POST['search']['value']; // Ambil data yang di ketik user pada textbox pencarian
-    $limit 				= $_POST['length']; // Ambil data limit per page
-    $start 				= $_POST['start']; // Ambil data start
-    $order_index 	= $_POST['order'][0]['column']; // Untuk mengambil index yg menjadi acuan untuk sorting
-    $order_field 	= $_POST['columns'][$order_index]['data']; // Untuk mengambil nama field yg menjadi acuan untuk sorting
-    $order_ascdesc 	= $_POST['order'][0]['dir']; // Untuk menentukan order by "ASC" atau "DESC"
-    
-    $sql_total 		= $this->spj_model->count_all($id,$no_pdo_new); // Panggil fungsi count_all pada SiswaModel
-    $sql_data 		= $this->spj_model->filter($search, $limit, $start, $order_field, $order_ascdesc,$id,$no_pdo_new); // Panggil fungsi filter pada SiswaModel
-    $sql_filter 	= $this->spj_model->count_filter($search); // Panggil fungsi count_filter pada SiswaModel
-    $callback = array(
-        'draw'=>$_POST['draw'], // Ini dari datatablenya
-        'recordsTotal'=>$sql_total,
-        'recordsFiltered'=>$sql_filter,
-        'data'=>$sql_data
-    );
-    header('Content-Type: application/json');
-    echo json_encode($callback); // Convert array $callback ke json
-  }
+
 
 }
 ?>

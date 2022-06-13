@@ -805,12 +805,16 @@ public function get_pq_by_projek($id, $proyek){
 		}
 public function get_pendapatanarea_by_year($id,$tahun){
 
-			$this->db->select("sum(pendapatan_nett) as pendapatannetarea, sum(sub_total_a)as sub_total_a, sum(ppn)as ppn, sum(pph)as pph, ifnull(sum(infaq),0)as infaq, (select ifnull(sum(b.titipan),0) from ci_pendapatan b where b.kd_area=a.kd_area and left(b.id_proyek,4)=left(a.id_proyek,4) and (b.status_titipan='0' OR b.status_titipan is null))+(select ifnull(sum(c.titipan),0) from ci_pendapatan c where c.kd_area=a.kd_area and left(c.id_proyek,4)=left(a.id_proyek,4) and c.status_titipan='1')as titipan_net,
+			$this->db->select("sum(pendapatan_nett) as pendapatannetarea, sum(sub_total_a)as sub_total_a, sum(ppn)as ppn, sum(pph)as pph, ifnull(sum(infaq),0)as infaq, 
+			(select ifnull(sum(b.titipan),0) from ci_pendapatan b where b.kd_area=a.kd_area and left(b.id_proyek,4)=left(a.id_proyek,4) and (b.status_titipan='0' OR b.status_titipan is null))+
+			(select ifnull(sum(c.titipan_net),0) from ci_pendapatan c where c.kd_area=a.kd_area and left(c.id_proyek,4)=left(a.id_proyek,4) and c.status_titipan='1')as titipan_net,
 
 (select ifnull(sum(d.npl),0) from ci_pendapatan d where d.kd_area=a.kd_area and left(d.id_proyek,4)=left(a.id_proyek,4) and (d.ppl ='0' OR d.ppl is null))+(select ifnull(sum(e.ppl),0) from ci_pendapatan e where e.kd_area=a.kd_area and left(e.id_proyek,4)=left(a.id_proyek,4)  and e.ppl <>'0')as nilaippl");
 			$this->db->from("ci_pendapatan a");
+			$this->db->join("ci_proyek k","a.id_proyek=k.id_proyek", 'left');
 			$this->db->where("left(id_proyek,4)", $tahun);
 			$this->db->where("kd_area", $id);
+			$this->db->where("batal <>", 1);
 			return $result = $this->db->get()->row_array();
 		}
 

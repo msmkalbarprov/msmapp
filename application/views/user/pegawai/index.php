@@ -9,10 +9,10 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-list"></i>
-             Saldo Awal </h3>
+             List Sub Area </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('saldo_awal/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
+            <a href="<?= base_url('pegawai/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
           </div>
         </div>
       <!-- /.box-body -->
@@ -27,10 +27,11 @@
                   <thead>
                     <tr>
                       <th>#id</th>
-                      <th>Araa</th>
-                      <th>No. Rekening</th>
-                      <th>Nilai</th>
-                      <th>Action</th>
+                      <th>Area</th>
+                      <th>Kode Pegawai</th>
+                      <th>Nama Pegawai</th>
+                      <th>Jabatan</th>
+                      <th width='10%'>Action</th>
                     </tr>
                   </thead>
                 </table>
@@ -46,7 +47,7 @@
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
   <script>
   // $("#proyek").addClass('menu-open');
-  $("#saldo_awal> a").addClass('active');
+  $("#pegawai> a").addClass('active');
 </script>
 <script type="text/javascript">
 
@@ -54,14 +55,15 @@
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('saldo_awal/datatable_json/')?>",
+    "ajax": "<?=base_url('pegawai/datatable_json/')?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "area", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "no_rekening", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "saldo", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 1, "name": "kd_area", 'searchable':true, 'orderable':false},
+    { "targets": 2, "name": "kd_pegawai", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "nama", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "jabatan", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
   </script>
