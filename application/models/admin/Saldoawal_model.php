@@ -39,6 +39,11 @@ class Saldoawal_model extends CI_Model{
 	//-----------------------------------------------------
 	function get_saldo_by_id($id)
 	{
+		$this->db->select("*, case 
+								when left(kd_pegawai,2)='PG' then (select nama from ci_pegawai where kd_pegawai=ci_saldo_awal.kd_pegawai) 
+								else 
+								(select nm_rekening from ci_rekening_kas where no_rekening=ci_saldo_awal.kd_pegawai LIMIT 1) 
+								end as nama");
 		$this->db->from('ci_saldo_awal');
 		$this->db->where('id',$id);
 		$query=$this->db->get();

@@ -21,20 +21,28 @@
             <?php echo form_open(base_url('saldo_awal/edit/'.$bank['id']), 'class="form-horizontal"' )?> 
 
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="nama_dinas" class=" control-label">Area</label>
+                      <input type="text" name="nm_area" value="<?= $bank['nm_area']; ?>"  class="form-control" id="nm_area" placeholder="" readonly>
+                      <input type="hidden" name="kd_area" value="<?= $bank['kd_area']; ?>"  class="form-control" id="kd_area" placeholder="">
+                    </div>
+                </div>
+                <div class="col-md-3">
                   <div class="form-group">
-                    <label for="id" class=" control-label">No. Rekening</label>
-                    <input type="text" name="no_rekening" value="<?= $bank['no_rekening']; ?>" class="form-control" id="no_rekening"  placeholder="" readonly>
+                    <label for="id" class=" control-label">Pegawai/Rekening</label>
+                    <input type="text" name="nama" value="<?= $bank['nama']; ?>" class="form-control" id="nama"  placeholder="" readonly>
+                    <input type="hidden" name="kd_pegawai" value="<?= $bank['kd_pegawai']; ?>" class="form-control" id="kd_pegawai"  placeholder="" readonly>
+                    <input type="hidden" name="no_rekening" value="<?= $bank['kd_pegawai']; ?>" class="form-control" id="no_rekening"  placeholder="" readonly>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
-                    <label for="nama_dinas" class=" control-label">Area</label>
-                    <input type="text" name="nm_area" value="<?= $bank['nm_area']; ?>"  class="form-control" id="nm_area" placeholder="" readonly>
-                    <input type="hidden" name="kd_area" value="<?= $bank['kd_area']; ?>"  class="form-control" id="kd_area" placeholder="">
+                    <label for="id" class=" control-label">Pemilik</label>
+                    <input type="text" name="pemilik" value="<?= $bank['pemilik']; ?>" class="form-control" id="pemilik"  placeholder="">
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="id" class=" control-label">Saldo</label>
                     <input type="text" name="saldo" id="saldo" class="form-control" value="<?= number_format($bank['saldo'],2,',','.'); ?>"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">

@@ -22,7 +22,7 @@
             <?php echo form_open(base_url('saldo_awal/add/'), 'class="form-horizontal"' )?> 
 
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="id" class="col-md-2 control-label">Area</label>
                     <select name="area" id="area" class="form-control" required>
@@ -33,7 +33,7 @@
                       </select>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="sub_area" class="control-label">Pegawai/Rekening</label>
                     <select name="rekening"  id="rekening" class="form-control" required>
@@ -41,9 +41,15 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
-                    <label for="nama_dinas" class="control-label">Saldo</label>
+                    <label for="pemilik" class="control-label">Pemilik</label>
+                    <input type="text" name="pemilik" id="pemilik" class="form-control" >
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="saldo" class="control-label">Saldo</label>
                     <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
                   </div>
                 </div>

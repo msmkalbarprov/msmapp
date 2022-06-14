@@ -29,6 +29,7 @@
                       <th>#id</th>
                       <th>Araa</th>
                       <th>No. Rekening</th>
+                      <th>Pemilik</th>
                       <th>Nilai</th>
                       <th>Action</th>
                     </tr>
@@ -60,8 +61,9 @@
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
     { "targets": 1, "name": "area", 'searchable':true, 'orderable':false},
     { "targets": 2, "name": "no_rekening", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "saldo", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 3, "name": "pemilik", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "saldo", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
   </script>
