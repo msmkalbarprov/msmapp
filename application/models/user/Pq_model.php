@@ -812,9 +812,12 @@ public function get_pendapatanarea_by_year($id,$tahun){
 (select ifnull(sum(d.npl),0) from ci_pendapatan d where d.kd_area=a.kd_area and left(d.id_proyek,4)=left(a.id_proyek,4) and (d.ppl ='0' OR d.ppl is null))+(select ifnull(sum(e.ppl),0) from ci_pendapatan e where e.kd_area=a.kd_area and left(e.id_proyek,4)=left(a.id_proyek,4)  and e.ppl <>'0')as nilaippl");
 			$this->db->from("ci_pendapatan a");
 			$this->db->join("ci_proyek k","a.id_proyek=k.id_proyek", 'left');
-			$this->db->where("left(id_proyek,4)", $tahun);
-			$this->db->where("kd_area", $id);
-			$this->db->where("batal <>", 1);
+			$this->db->where("left(a.id_proyek,4)", $tahun);
+			$this->db->where("a.kd_area", $id);
+			$this->db->group_start();
+				$this->db->where("batal", 0);
+				$this->db->or_where("batal ", null);
+			$this->db->group_end();
 			return $result = $this->db->get()->row_array();
 		}
 
