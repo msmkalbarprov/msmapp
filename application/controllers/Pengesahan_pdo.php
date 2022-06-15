@@ -49,7 +49,7 @@ class Pengesahan_pdo extends MY_Controller {
 		{  
 				
 				if ($row['approve']=='1'){
-					$tombol = '<a title="Detail" class="update btn btn-sm btn-success" href="'.base_url('pengesahan_pdo/setuju_pdo_project/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-check"></i></a>
+					$tombol = '<a title="Detail" class="update btn btn-sm btn-success" href="'.base_url('pengesahan_pdo/batal_pdo_project/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-check"></i></a>
 				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pengesahan_pdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 				}else{
 					$tombol = '<a title="Detail" class="update btn btn-sm btn-info" href="'.base_url('pengesahan_pdo/setuju_pdo_project/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-list"></i></a>
@@ -81,7 +81,7 @@ class Pengesahan_pdo extends MY_Controller {
 		{  
 				
 				if ($row['approve']=='1'){
-					$tombol = '<a title="Setuju" class="update btn btn-sm btn-success" href="'.base_url('pengesahan_pdo/setuju_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-check"></i></a>
+					$tombol = '<a title="Setuju" class="update btn btn-sm btn-success" href="'.base_url('pengesahan_pdo/batal_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-check"></i></a>
 				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pengesahan_pdo/cetak_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 				}else{
 					$tombol = '<a title="Detail" class="update btn btn-sm btn-info" href="'.base_url('pengesahan_pdo/setuju_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-list"></i></a>
@@ -111,7 +111,7 @@ public function datatable_json_operasional(){
 		foreach ($records['data']   as $row) 
 		{  
 				if ($row['approve']=='1'){
-					$tombol = '<a title="Setujui" class="update btn btn-sm btn-success" href="'.base_url('pengesahan_pdo/setuju_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-check"></i></a>
+					$tombol = '<a title="Setujui" class="update btn btn-sm btn-success" href="'.base_url('pengesahan_pdo/batal_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-check"></i></a>
 				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pengesahan_pdo/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 				}else{
 					$tombol = '<a title="Detail" class="update btn btn-sm btn-info" href="'.base_url('pengesahan_pdo/setuju_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-list"></i></a>
@@ -339,6 +339,43 @@ public function setuju_pdo($id='',$jns=''){
 			else{
 				$kdpdo 						= $this->security->xss_clean($this->input->post('kd_pdo'));
 				$status 					= 1;
+				
+
+				$result = $this->pdo_model->setuju_pdo($kdpdo, $status);
+				if($result){
+					$this->activity_model->add_log(1);
+					$this->session->set_flashdata('success', 'PQ Proyek berhasil disetujui!');
+					if ($jns=='1'){
+						redirect(base_url('pengesahan_pdo'));
+					}if ($jns=='2'){
+						redirect(base_url('pengesahan_pdo/operasional'));	
+					}else{
+						redirect(base_url('pengesahan_pdo/gaji'));	
+					}
+					
+				}else{
+					$this->session->set_flashdata('errors', 'PQ Proyek gagal diubah!');
+					redirect(base_url('pengesahan_pdo/edit_pdo_project/'.$id));
+				}
+			}
+		}
+		
+	}
+
+	public function batal_pdo($id='',$jns=''){
+		
+		if($this->input->post('submit')){
+			$this->form_validation->set_rules('kd_pdo', 'Kode PDO', 'trim|required');
+
+			if ($this->form_validation->run() == FALSE) {
+				$data = array(
+					'errors' => validation_errors()
+				);
+				$this->session->set_flashdata('errors', $data['errors']);
+			}
+			else{
+				$kdpdo 						= $this->security->xss_clean($this->input->post('kd_pdo'));
+				$status 					= 2;
 				
 
 				$result = $this->pdo_model->setuju_pdo($kdpdo, $status);
@@ -613,6 +650,48 @@ public function setuju_pdo_project($id_pdo='')
 	
 }
 
+
+public function batal_pdo_project($id_pdo='')
+{		
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('type')==1){
+			$data['id_pdo'] 			= $this->input->post('idpdo', TRUE);
+			$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
+			$data['tgl_pdo']			= $this->input->post('tgl_pdo', TRUE);
+			$data['kd_area'] 			= $this->input->post('area', TRUE);
+			$data['kd_divisi']			= $this->input->post('divisi', TRUE);
+			$data['qty']				= $this->input->post('qty', TRUE);
+			$data['satuan']				= $this->input->post('satuan', TRUE);
+			$data['harga']				= $this->input->post('harga', TRUE);
+			$data['kd_pqproyek']		= $this->input->post('projek', TRUE);
+			$data['kd_project']			= $this->input->post('kodeproject', TRUE);
+            $data['no_acc3'] 			= $this->input->post('kd_item', TRUE);
+            $data['no_acc'] 			= $this->input->post('kd_item', TRUE);
+            $data['jns_tkl'] 			= $this->input->post('jenis_tkl', TRUE);
+			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['nilai']				= $this->input->post('total', TRUE);
+			$data['jenis']				= 1; //1 untuk pdo project
+			$result = $this->pdo_model->save_edit_pdo($data);
+			
+			echo json_encode(array(
+					"statusCode"=>200
+				));
+		}
+		else{
+			$data['data_area'] 			= $this->area->get_area();
+			$data['data_divisi']		= $this->pdo_model->get_divisi();
+			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
+			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
+			$data['data_pdo'] 			= $this->pdo_model->get_pdo_by_id($id_pdo);
+			$data['title'] 				= 'Edit PDO';
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/pengesahan_pdo/batal_proyek', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	
+}
+
 public function setuju_pdo_gaji($id_pdo='')
 {		
 		$this->rbac->check_operation_access('');
@@ -649,6 +728,48 @@ public function setuju_pdo_gaji($id_pdo='')
 			$data['title'] 				= 'Edit PDO';
 			$this->load->view('admin/includes/_header');
 			$this->load->view('user/pengesahan_pdo/setuju_gaji', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	
+}
+
+
+public function batal_pdo_gaji($id_pdo='')
+{		
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('type')==1){
+			$data['id_pdo'] 			= $this->input->post('idpdo', TRUE);
+			$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
+			$data['tgl_pdo']			= $this->input->post('tgl_pdo', TRUE);
+			$data['kd_area'] 			= $this->input->post('area', TRUE);
+			$data['kd_divisi']		= $this->input->post('divisi', TRUE);
+			$data['qty']					= $this->input->post('qty', TRUE);
+			$data['satuan']				= $this->input->post('satuan', TRUE);
+			$data['harga']				= $this->input->post('harga', TRUE);
+			$data['kd_pqproyek']		= $this->input->post('projek', TRUE);
+			$data['kd_project']			= $this->input->post('kodeproject', TRUE);
+            $data['no_acc3'] 			= $this->input->post('kd_item', TRUE);
+            $data['no_acc'] 			= $this->input->post('kd_item', TRUE);
+            $data['jns_tkl'] 			= $this->input->post('jenis_tkl', TRUE);
+			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['nilai']				= $this->input->post('total', TRUE);
+			$data['jenis']				= 3; //1 untuk pdo project
+			$result = $this->pdo_model->save_edit_pdo($data);
+			
+			echo json_encode(array(
+					"statusCode"=>200
+				));
+		}
+		else{
+			$data['data_area'] 			= $this->area->get_area();
+			$data['data_divisi']		= $this->pdo_model->get_divisi();
+			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
+			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
+			$data['data_pdo'] 			= $this->pdo_model->get_pdo_by_id($id_pdo);
+			$data['title'] 				= 'Edit PDO';
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/pengesahan_pdo/batal_gaji', $data);
 			$this->load->view('admin/includes/_footer');
 		}
 	
@@ -694,6 +815,44 @@ public function setuju_pdo_operasional($id_pdo='')
 	
 }
 
+public function batal_pdo_operasional($id_pdo='')
+{		
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('type')==1){
+			$data['id_pdo'] 			= $this->input->post('idpdo', TRUE);
+			$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
+			$data['tgl_pdo']			= $this->input->post('tgl_pdo', TRUE);
+			$data['kd_area'] 			= $this->input->post('area', TRUE);
+			$data['kd_pqproyek']		= $this->input->post('projek', TRUE);
+			$data['kd_project']			= $this->input->post('kodeproject', TRUE);
+            $data['no_acc3'] 			= $this->input->post('kd_item', TRUE);
+            $data['no_acc'] 			= $this->input->post('kd_item', TRUE);
+			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['qty']				= $this->input->post('qty', TRUE);
+			$data['satuan']				= $this->input->post('satuan', TRUE);
+			$data['harga']				= $this->input->post('harga', TRUE);
+			$data['nilai']				= $this->input->post('total', TRUE);
+			$data['jenis']				= 2; //1 untuk pdo project
+			$result = $this->pdo_model->save_edit_pdo_operasional($data);
+			
+			echo json_encode(array(
+					"statusCode"=>200
+				));
+		}
+		else{
+			$data['data_area'] 			= $this->area->get_area();
+			$data['data_divisi']		= $this->pdo_model->get_divisi();
+			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
+			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
+			$data['data_pdo'] 			= $this->pdo_model->get_pdo_by_id($id_pdo);
+			$data['title'] 				= 'Edit PDO';
+			$this->load->view('admin/includes/_header');
+			$this->load->view('user/pengesahan_pdo/batal_operasional', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	
+}
 
 function get_nomor(){
 		$area 		= $this->input->post('area',TRUE);

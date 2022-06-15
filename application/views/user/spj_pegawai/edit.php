@@ -225,7 +225,6 @@
 <script>
   $(document).ready(function(){
     
-    get_akun();
     var no_spj   = $('#no_spj').val();
     var kd_pegawai     = $('#kd_pegawai').val();
     var table = $('#na_datatable').DataTable( {
@@ -248,12 +247,13 @@
 
 
 
-function get_akun(){
+  function get_akun(jns_spj,kd_proyek){
     $.ajax({
         url : "<?php echo site_url('spj_pegawai/get_item_spj');?>",
         method : "POST",
         data : {
-          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          jns_spj:jns_spj,kd_proyek:kd_proyek
             },
         async : true,
         dataType : 'json',
@@ -296,6 +296,34 @@ function get_kas(kd_pegawai){
         
 }
 
+$('#jns_spj').change(function(){ 
+    var jns_spj     = $(this).val();
+    var subarea     = $('#kd_sub_area').val();
+    var area        = $("#kd_area").val();
+    $.ajax({
+        url : "<?php echo site_url('spj_pegawai/get_proyek_by_area_subarea');?>",
+        method : "POST",
+        data : {
+            '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+            id: subarea,area:area,jns_spj:jns_spj},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $('select[name="projek"]').empty();
+            $('select[name="projek"]').append('<option value="">No Selected</option>');
+            $.each(data, function(key, value) {
+                $('select[name="projek"]').append('<option value="'+ value.kd_proyek +'">'+value.kd_proyek + ' - ' + value.nm_paket_proyek +'</option>');
+            });
+
+        }
+    });
+    return false;
+});
+$('#projek').change(function(){ 
+  var jns_spj     = $('#jns_spj').val();
+  var kd_proyek     = $('#projek').val();
+    get_akun(jns_spj,kd_proyek);
+});
 
 $('#formtest').submit(function(e){
             e.preventDefault();

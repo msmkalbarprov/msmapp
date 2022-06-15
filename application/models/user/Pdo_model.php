@@ -653,7 +653,19 @@ public function get_nama_area($id){
 				return $this->db->get()->result_array();
 		}
 
+		// function setuju_pdo()
+		// {		
+		// 	$this->db->set('is_active', $this->input->post('status'));
+		// 	$this->db->where('user_id', $this->input->post('id'));
+		// 	$this->db->update('ci_users');
+		// }
 
+		// function batal_pdo()
+		// {		
+		// 	$this->db->set('is_active', $this->input->post('status'));
+		// 	$this->db->where('user_id', $this->input->post('id'));
+		// 	$this->db->update('ci_users');
+		// }
 
 public function get_pq_operasional_view($id){
 			$tahun = date("Y");

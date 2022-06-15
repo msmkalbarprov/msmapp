@@ -128,7 +128,7 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			if ($jns_spj=='1'){
 				$query1 = $this->db->query("SELECT kd_item from ci_hpp where right(kd_pqproyek,14)='$kd_proyek'");
 			}else{
-				$query1 = $this->db->query("SELECT kd_item from ci_pq_operasional where left(kd_pqproyek,10)='$kd_proyek'");
+				$query1 = $this->db->query("SELECT kd_item from ci_pq_operasional where left(kd_pq_operasional,10)='$kd_proyek'");
 			}
 
 			$query1_result = $query1->result();
@@ -141,7 +141,11 @@ function get_item_by_pdo($pq,$jenis_pdo)
 
 			$this->db->select('*');
 			$this->db->from('ci_coa_msm');
-			$this->db->where_in('no_acc', $akun);
+			if ($jns_spj=='1'){
+				$this->db->where_in('no_acc', $akun);
+			}else{
+				$this->db->where_in('left(no_acc,5)', $akun);
+			}
 
 		}else if ($jabatan=='programer' || $jabatan=='akuntan' || $jabatan=='rc' || $jabatan=='lainnya'){ //staff
 			
@@ -153,7 +157,11 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			
 			$this->db->select('*');
 			$this->db->from('ci_coa_msm');
-			$this->db->where_in('no_acc', $akun);
+			if ($jns_spj=='1'){
+				$this->db->where_in('no_acc', $akun);
+			}else{
+				$this->db->where_in('left(no_acc,5)', $akun);
+			}
 		
 		}else if ($this->session->userdata('admin_role')=='Admin Area'){ //admin kantor
 			
@@ -172,13 +180,17 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			
 			$this->db->select('*');
 			$this->db->from('ci_coa_msm');
-			$this->db->where_in('no_acc', $akun);
+			if ($jns_spj=='1'){
+				$this->db->where_in('no_acc', $akun);
+			}else{
+				$this->db->where_in('left(no_acc,5)', $akun);
+			}
 		}else{   //lainnya
 			
 			if ($jns_spj=='1'){
 				$query1 = $this->db->query("SELECT kd_item from ci_hpp where right(kd_pqproyek,14)='$kd_proyek'");
 			}else{
-				$query1 = $this->db->query("SELECT kd_item from ci_pq_operasional where left(kd_pqproyek,10)='$kd_proyek'");
+				$query1 = $this->db->query("SELECT kd_item from ci_pq_operasional where left(kd_pq_operasional,10)='$kd_proyek'");
 			}
 
 			$query1_result = $query1->result();
@@ -189,10 +201,16 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			$akuns 	= implode(",",$kd_item);
 			$akun 		= explode(",", $akuns);
 			
+			
 			$this->db->select('*');
 			$this->db->from('ci_coa_msm');
 			$this->db->where('level', 4);
-			$this->db->where_in('no_acc', $akun);
+			if ($jns_spj=='1'){
+				$this->db->where_in('no_acc', $akun);
+			}else{
+				$this->db->where_in('left(no_acc,5)', $akun);
+			}
+			
 		}
             
 		

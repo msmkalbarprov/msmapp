@@ -37,7 +37,7 @@
       
           <tr>
             <td><?= $register_pdo['kd_pdo']; ?></td>
-            <td><?= $register_pdo['tgl_pdo']; ?></td>
+            <td align="center"><?= $register_pdo['tgl_pdo']; ?></td>
             <td><?= $register_pdo['keterangan']; ?></td>
             <td align="right" ><?= number_format($register_pdo['nilai'],2,',','.'); ?></td>
           </tr>
@@ -51,7 +51,7 @@
         <td colspan="3" align="center">
           Total Biaya
         </td>
-        <td align="right" style="background: black;color: white;border-right:white;"><?= number_format($total_pdo,2,',','.'); ?></td>
+        <td align="right" style="background: #CCCCCC ;border-right:white;"><?= number_format($total_pdo,2,',','.'); ?></td>
       </tr>
 
 </table>

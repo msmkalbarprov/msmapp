@@ -195,29 +195,29 @@ public function datatable_json_pdo_operasional($id=''){
     echo json_encode($callback); // Convert array $callback ke json
   }
 
-public function datatable_json_pdo_proyek_edit($id='',$kodepdo=''){				
+  public function datatable_json_pdo_proyek_edit($id='',$kodepdo=''){				
 		
-		$id_new = str_replace('abcde','/',$id);
-		$records['data'] = $this->pdo_model->get_pdo_proyek($id_new);
-		$data = array();
+	$id_new = str_replace('abcde','/',$id);
+	$records['data'] = $this->pdo_model->get_pdo_proyek($id_new);
+	$data = array();
 
-		$i=0;
-		foreach ($records['data']   as $row) 
-		{  
+	$i=0;
+	foreach ($records['data']   as $row) 
+	{  
 
-				$data[]= array(
-				$row['kd_project'],
-				$row['no_acc'].'<br>'.$row['nm_acc'],
-				$row['qty'],
-				$row['satuan'],
-				$row['harga'],
-				$row['uraian'],
-				number_format($row['nilai'],2,',','.')
-			);
-		}
-		$records['data']=$data;
-		echo json_encode($records);						   
+			$data[]= array(
+			$row['kd_project'],
+			$row['no_acc'].'<br>'.$row['nm_acc'],
+			$row['qty'],
+			$row['satuan'],
+			$row['harga'],
+			$row['uraian'],
+			number_format($row['nilai'],2,',','.')
+		);
 	}
+	$records['data']=$data;
+	echo json_encode($records);						   
+}
 
 public function datatable_json_pdo_operasional_edit($id='',$kodepdo=''){				
 		
