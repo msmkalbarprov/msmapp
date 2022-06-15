@@ -21,7 +21,7 @@
 
 </style>
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"> 
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/jquery.dataTables.min.css"> 
 <style type="text/css">
  .tabs {
     display: inline-block;

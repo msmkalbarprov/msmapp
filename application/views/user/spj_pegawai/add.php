@@ -33,7 +33,7 @@
         <?php $this->load->view('admin/includes/_messages.php') ?>
          <?php echo form_open(base_url('spj_pegawai/add_spj'), 'class="form-horizontal"' )?> 
          <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label for="item_hpp" class="control-label">No. SPJ</label>
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
@@ -42,13 +42,13 @@
             </div>
           </div>
           
-          <div class="col-md-3">
+          <div class="col-md-4">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Tanggal SPJ</label>
               <input type="date" name="tgl_spj" id="tgl_spj" class="form-control"  required >
           </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
                 <select name="area" id ="area" class="form-control select2" style="width: 100%;" required >
@@ -60,7 +60,11 @@
 
             </div>
           </div>
-          <div class="col-md-3">
+         </div>
+
+         <div class="row">
+          
+         <div class="col-md-4">
             <div class="form-group">
               <label for="subarea1" class="control-label">Sub Area</label>
                 <select name="subarea_1"  id="subarea_1" class="form-control select2" required>
@@ -69,34 +73,8 @@
 
             </div>
           </div>
-         </div>
-
-         <div class="row">
           
-         <div class="col-md-3">
-          <div class="form-group">
-                <label for="item_hpp" class="control-label">jenis SPJ</label>
-                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                  <select name="jns_spj"  id="jns_spj" class="form-control" required>
-                    <option value="">No Selected</option>
-                    <option value="1">Proyek</option>
-                    <option value="2">Operasional</option>
-                  </select> 
-
-              </div>
-          </div>
-          <div class="col-md-3">
-          <div class="form-group">
-                <label for="item_hpp" class="control-label">Proyek</label>
-                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                <input type="hidden" name="proyek" id="proyek" class="form-control" readonly>
-                  <select name="projek"  id="projek" class="form-control" required>
-                    <option value="">No Selected</option>
-                  </select> 
-
-              </div>
-          </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
           <div class="form-group">
                 <label for="item_hpp" class="control-label">Pegawai</label>
                   <select name="kd_pegawai"  id="kd_pegawai" class="form-control" required>
@@ -105,7 +83,7 @@
 
               </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
               <textarea type="text" name="keterangan" id="keterangan" rows="1" class="form-control"  placeholder="" ></textarea>
@@ -116,7 +94,7 @@
 
         
         <div class="form-group">
-          <div class="col-md-12" align="center">
+          <div class="col-md-12" align="right">
             <!-- <button name="butsave" id="butsave"  class="btn btn-success btn-sm"> Tambah Rincian </button> -->
             <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#largeModal">Tambah Rincian</a>
             <input type="submit" name="submit" id="tombolsimpan" value="Simpan" class="btn btn-primary btn-sm">
@@ -134,6 +112,7 @@
                   <th width="10%">Tanggal</th>
                   <th>Akun</th>
                   <th>Uraian</th>
+                  <th>Bukti</th>
                   <th>Nilai</th>
                   <th width="5%">Action</th>
                 </tr>
@@ -154,11 +133,37 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <form class="form-horizontal" id="formtest">
         <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                      <label for="item_hpp" class="control-label">jenis SPJ</label>
+                      <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                        <select name="jns_spj"  id="jns_spj" class="form-control" required>
+                          <option value="">No Selected</option>
+                          <option value="1">Proyek</option>
+                          <option value="2">Operasional</option>
+                        </select> 
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                    <label for="item_hpp" class="control-label">Proyek</label>
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                    <input type="hidden" name="proyek" id="proyek" class="form-control" readonly>
+                      <select name="projek"  id="projek" class="form-control" required>
+                        <option value="">No Selected</option>
+                      </select> 
+
+                  </div>
+              </div>
+          </div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="item_hpp" class="control-label">Tanggal Bukti</label>
+                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                   <input type="date" name="tgl_bukti" id="tgl_bukti" class="form-control" require>
 
               </div>
@@ -195,17 +200,22 @@
                 <input type="text" name="kas" id="kas" class="form-control"  style="background:none;text-align:right;"readonly >
             </div>
           </div>
-         
+          <div class="col-md-6">
+           <div class="form-group">
+            <label for="dinas" class="control-label">Bukti kwitansi</label>
+               <input type="file" name="gambar" class="form-control" id="gambar">
+          </div>
+          </div>
          </div>
         
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
-        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-        <!-- <button class="btn btn-success" id="btn_upload" type="submit">Upload</button> -->
-        <button name="butsave" id="butsave"  class="btn btn-success btn-sm"> Simpan </button>
+        <button class="btn btn-success" id="btn_upload" type="submit">Simpan</button>
+        <!-- <button name="butsave" id="butsave"  class="btn btn-success btn-sm"> Simpan </button> -->
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -224,7 +234,7 @@
 <script src="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
   <script>
-  $("#spj> a").addClass('active');
+  $("#spj_pegawai> a").addClass('active');
 </script>
 <script>
   $(document).ready(function(){
@@ -252,6 +262,13 @@
                 { "data": "tgl_bukti" }, // Tampilkan kd_pdo
                 { "data": "akun" },  // Tampilkan nama
                 { "data": "uraian" }, // Tampilkan uraian
+                {
+                    "data": null,
+                    "render": function(data) {
+                      // anchor($row['dokumen'], 'preview','target="_blank"');
+                        return '<a href="<?php echo base_url('/uploads/spj_karyawan/'); ?>'+data.bukti+'" target="_blank">Preview</a>';
+                    }
+                },
                 { "data": "nilai" , render: $.fn.dataTable.render.number(',', '.', 2, ''), "className": "text-right"}, // Tampilkan total
                 {
                     "data": null,
@@ -335,16 +352,18 @@ $('#na_datatable').on('click', 'tbody .del_btn', function () {
     var data_row = table.row($(this).closest('tr')).data();
     
     var id_hapus  = data_row.id;
+    var bukti  = data_row.bukti;
     var no_spj    = $('#no_spj').val();
     var nospj  = no_spj.replace(/\//g,'abcde')
     // proses hapus
     $.ajax({
-        url: "<?php echo base_url("spj/delete_spj_temp2/");?>",
+        url: "<?php echo base_url("spj_pegawai/delete_spj_temp2/");?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
           type:1,
-          id:id_hapus
+          id:id_hapus,
+          bukti:bukti
 
         },
         cache: false,
@@ -369,7 +388,8 @@ $('#na_datatable').on('click', 'tbody .del_btn', function () {
 
 $('#projek').change(function(){ 
   var jns_spj     = $('#jns_spj').val();
-    get_akun(jns_spj);
+  var kd_proyek     = $('#projek').val();
+    get_akun(jns_spj,kd_proyek);
 });
 
 $('#kd_pegawai').change(function(){ 
@@ -387,13 +407,13 @@ function load_rincian_temp(nospj) {
         table.ajax.reload();
 }
 
-function get_akun(jns_spj){
+function get_akun(jns_spj,kd_proyek){
     $.ajax({
         url : "<?php echo site_url('spj_pegawai/get_item_spj');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          jns_spj:jns_spj
+          jns_spj:jns_spj,kd_proyek:kd_proyek
             },
         async : true,
         dataType : 'json',
@@ -465,110 +485,211 @@ function get_nomor_urut(kd_pegawai){
     });
 }
 
+$('#formtest').submit(function(e){
+            e.preventDefault();
+            var file_data = $('#gambar').prop('files')[0];
+            var form_data = new FormData(this);
+          
+            
+            var no_akun1             = $('#no_acc').val();
+            var no_spj1              = $('#no_spj').val();
+            var tgl_spj1             = $('#tgl_spj').val();
+            var tgl_bukti1           = $('#tgl_bukti').val();
+            var nourut1              = $('#urut').val();
+            var nilai1               = number($('#total').val());
+            var area1                = $('#area').val();
+            var subarea1             = $('#subarea_1').val();
+            var uraian1              = $('#uraian').val();
+            var pegawai1             = $('#kd_pegawai').val();
+            var jns_spj1             = $('#jns_spj').val();
+            var project1             = $('#projek').val();
+            var kas1                 = number($('#kas').val());
 
+
+              if(tgl_spj1==""){
+                alert('Tanggal tidak boleh kosong')
+                return;
+              }
+
+              if(tgl_bukti1==""){
+                alert('Tanggal bukti tidak boleh kosong')
+                return;
+              }
+              
+              if(project1==""){
+                alert('Projek tidak boleh kosong')
+                return;
+              }
+              if(no_spj1==""){
+                alert('Nomor SPJ tidak boleh kosong')
+                return;
+              }
+              if(no_akun1==""){
+                alert('Kode Akun spj tidak boleh kosong')
+                return;
+              }
+              if(nilai1=="" || nilai1==0){
+                alert('Total tidak boleh kosong')
+                return;
+              }
+
+              if(area1==""){
+                alert('Area tidak boleh kosong')
+                return;
+              }
+
+              if(subarea1==""){
+                alert('Sub Area tidak boleh kosong')
+                return;
+              }
+
+              if(pegawai1==""){
+                alert('Pegawai tidak boleh kosong')
+                return;
+              }
+              
+            
+            form_data.append('no_spj', no_spj1);
+            form_data.append('kdarea', area1);
+            form_data.append('subarea', subarea1);
+            form_data.append('kd_pegawai', pegawai1);
+            form_data.append('tgl_spj', tgl_spj1);
+            form_data.append('jns_spj', jns_spj1);
+            form_data.append('kd_proyek', project1);
+            form_data.append('urut', nourut1);
+            form_data.append('file', file_data);
+
+            
+            $.ajax({
+                url:'<?php echo base_url();?>index.php/spj_pegawai/simpan_spj_file',
+                dataType: 'json',  // what to expect back from the PHP script, if anything
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function(data,status){
+                    //alert(php_script_response); // display response from the PHP script, if any
+                    if (data.status!='error') {
+                        $('#gambar').val('');
+                        document.getElementById("no_acc").value='';
+                        document.getElementById("uraian").value='';
+                        document.getElementById("total").value='';
+                        document.getElementById("tgl_bukti").value='';
+                        document.getElementById("kas").value='';
+                        load_rincian_temp(no_spj1);
+                        $('#largeModal').modal('toggle');
+                        $("#error").hide();;
+                        alert(data.msg);
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+        });
 
     // SAVE
-$('#butsave').on('click', function() {
-    var no_akun1             = $('#no_acc').val();
-    var no_spj1              = $('#no_spj').val();
-    var tgl_spj1             = $('#tgl_spj').val();
-    var tgl_bukti1           = $('#tgl_bukti').val();
-    var nourut1              = $('#urut').val();
-    var nilai1               = number($('#total').val());
-    var area1                = $('#area').val();
-    var subarea1             = $('#subarea_1').val();
-    var uraian1              = $('#uraian').val();
-    var pegawai1             = $('#kd_pegawai').val();
-    var jns_spj1             = $('#jns_spj').val();
-    var project1             = $('#projek').val();
-    var kas1                 = number($('#kas').val());
+// $('#butsave').on('click', function() {
+//     var no_akun1             = $('#no_acc').val();
+//     var no_spj1              = $('#no_spj').val();
+//     var tgl_spj1             = $('#tgl_spj').val();
+//     var tgl_bukti1           = $('#tgl_bukti').val();
+//     var nourut1              = $('#urut').val();
+//     var nilai1               = number($('#total').val());
+//     var area1                = $('#area').val();
+//     var subarea1             = $('#subarea_1').val();
+//     var uraian1              = $('#uraian').val();
+//     var pegawai1             = $('#kd_pegawai').val();
+//     var jns_spj1             = $('#jns_spj').val();
+//     var project1             = $('#projek').val();
+//     var kas1                 = number($('#kas').val());
 
     
     
-    if(tgl_spj1==""){
-      alert('Tanggal tidak boleh kosong')
-      return;
-    }
+//     if(tgl_spj1==""){
+//       alert('Tanggal tidak boleh kosong')
+//       return;
+//     }
 
-    if(tgl_bukti1==""){
-      alert('Tanggal bukti tidak boleh kosong')
-      return;
-    }
+//     if(tgl_bukti1==""){
+//       alert('Tanggal bukti tidak boleh kosong')
+//       return;
+//     }
     
-    if(project1==""){
-      alert('Projek tidak boleh kosong')
-      return;
-    }
-    if(no_spj1==""){
-      alert('Nomor SPJ tidak boleh kosong')
-      return;
-    }
-    if(no_akun1==""){
-      alert('Kode Akun spj tidak boleh kosong')
-      return;
-    }
-    if(nilai1=="" || nilai1==0){
-      alert('Total tidak boleh kosong')
-      return;
-    }
+//     if(project1==""){
+//       alert('Projek tidak boleh kosong')
+//       return;
+//     }
+//     if(no_spj1==""){
+//       alert('Nomor SPJ tidak boleh kosong')
+//       return;
+//     }
+//     if(no_akun1==""){
+//       alert('Kode Akun spj tidak boleh kosong')
+//       return;
+//     }
+//     if(nilai1=="" || nilai1==0){
+//       alert('Total tidak boleh kosong')
+//       return;
+//     }
 
-    if(area1==""){
-      alert('Area tidak boleh kosong')
-      return;
-    }
+//     if(area1==""){
+//       alert('Area tidak boleh kosong')
+//       return;
+//     }
 
-    if(subarea1==""){
-      alert('Sub Area tidak boleh kosong')
-      return;
-    }
+//     if(subarea1==""){
+//       alert('Sub Area tidak boleh kosong')
+//       return;
+//     }
 
-    if(pegawai1==""){
-      alert('Pegawai tidak boleh kosong')
-      return;
-    }
+//     if(pegawai1==""){
+//       alert('Pegawai tidak boleh kosong')
+//       return;
+//     }
 
       
-      $.ajax({
-        url: "<?php echo base_url("spj_pegawai/add/");?>",
-        type: "POST",
-        data: {
-            '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-            type:1,
-            area:area1,
-            subarea:subarea1,
-            project:project1,
-            pegawai:pegawai1,
-            tgl_spj:tgl_spj1,
-            tgl_bukti:tgl_bukti1,
-            no_akun:no_akun1,
-            uraian:uraian1,
-            nilai:nilai1,
-            no_spj:no_spj1,
-            nourut:nourut1,
-            jns_spj:jns_spj1
-            },
-            cache: false,
-            success: function(dataResult){
-                var dataResult = JSON.parse(dataResult);
-                if(dataResult.statusCode==200){
-                    document.getElementById("no_acc").value='';
-                    document.getElementById("uraian").value='';
-                    document.getElementById("total").value='';
-                    document.getElementById("tgl_bukti").value='';
-                    document.getElementById("kas").value='';
-                    load_rincian_temp(no_spj1);
-                    $('#largeModal').modal('toggle');
-                    $("#error").hide();
-                }
-                else if(dataResult.statusCode==201){
-                    $("#error").show();
-                    $("#success").hide();
-                    $('#error').html('Gagal Simpan');
-                }
-            }
-      });
+//       $.ajax({
+//         url: "<?php echo base_url("spj_pegawai/add/");?>",
+//         type: "POST",
+//         data: {
+//             '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+//             type:1,
+//             area:area1,
+//             subarea:subarea1,
+//             project:project1,
+//             pegawai:pegawai1,
+//             tgl_spj:tgl_spj1,
+//             tgl_bukti:tgl_bukti1,
+//             no_akun:no_akun1,
+//             uraian:uraian1,
+//             nilai:nilai1,
+//             no_spj:no_spj1,
+//             nourut:nourut1,
+//             jns_spj:jns_spj1
+//             },
+//             cache: false,
+//             success: function(dataResult){
+//                 var dataResult = JSON.parse(dataResult);
+//                 if(dataResult.statusCode==200){
+//                     document.getElementById("no_acc").value='';
+//                     document.getElementById("uraian").value='';
+//                     document.getElementById("total").value='';
+//                     document.getElementById("tgl_bukti").value='';
+//                     document.getElementById("kas").value='';
+//                     load_rincian_temp(no_spj1);
+//                     $('#largeModal').modal('toggle');
+//                     $("#error").hide();
+//                 }
+//                 else if(dataResult.statusCode==201){
+//                     $("#error").show();
+//                     $("#success").hide();
+//                     $('#error').html('Gagal Simpan');
+//                 }
+//             }
+//       });
     
-  });
+//   });
 
   }); 
 

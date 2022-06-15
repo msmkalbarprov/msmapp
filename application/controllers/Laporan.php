@@ -93,7 +93,7 @@ class Laporan extends MY_Controller {
 
     		if ($map1["kolom"]=='nilai_pagu'){
     			$pagu = $pagu+$proyek['nilai_pagu'];
-    			$html.='<td colspan="2" align="center">'.number_format($proyek[$map1["kolom"]],2,",",".").'</td>';
+    			$html.='<td colspan="2" align="center">'.number_format($proyek[$map1["kolom"]],0,",",".").'</td>';
     		}else if ($map1["kolom"]=='masa_kontrak' || $map1["kolom"]=='lama_pekerjaan'){
     			$html.='<td colspan="2" align="center">'.$proyek[$map1["kolom"]].' Bulan </td>';
     		}else{
@@ -103,7 +103,7 @@ class Laporan extends MY_Controller {
     	}
 
     	if ($map1["kolom"]=='nilai_pagu'){
-    		$html.='<td colspan="2" align="center" style="background: #f6d55c;">'.number_format($pagu,2,",",".").'</td>';
+    		$html.='<td colspan="2" align="center" style="background: #f6d55c;">'.number_format($pagu,0,",",".").'</td>';
     	}else if($map1["kolom"]=='nm_paket_proyek'){
     		$html.='<td colspan="2" align="center" style="background: #f6d55c;">REKAPITULASI</td>';
     	}else{
@@ -146,13 +146,13 @@ $colspan1=($jumlahkolom*2)+4+2;
     		$pq = $this->pq_model->get_pq_by_area($kolom, $id, $tahun, $proyek);
     	foreach($pq as $pqproyek){
     		$pendapatan_nett=$pqproyek["pendapatan_nett"];
-		    $html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($pqproyek["pendapatan_nett"],2,",",".").'</td>
+		    $html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($pqproyek["pendapatan_nett"],0,",",".").'</td>
 		    <td align="right" style="background: #a7aaad;border-right:white; "></td>';
 		}
 
     	}
 		    
-			$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($pendapatan_area["pendapatannetarea"],2,",",".").'</td>
+			$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($pendapatan_area["pendapatannetarea"],0,",",".").'</td>
 		    <td align="right" style="background: #a7aaad;border-right:white; "></td>';
 		  $html.='</tr>';
 		  	}
@@ -185,8 +185,8 @@ $colspan1=($jumlahkolom*2)+4+2;
 	    	foreach($pq as $pqproyek){
 				if ($kolom=='spk'){
 					$spk = $pqproyek[$kolom];
-					$html.='<td align="right">'. number_format($pqproyek[$kolom],2,",",".").'</td>
-							<td align="right">'. number_format(100,2,",",".").'</td>';	
+					$html.='<td align="right">'. number_format($pqproyek[$kolom],0,",",".").'</td>
+							<td align="right">'. number_format(100,0,",",".").'</td>';	
 				}
 
 				if ($kolom=='nilaippl'){
@@ -207,8 +207,8 @@ $colspan1=($jumlahkolom*2)+4+2;
 						$persen99 = 100;
 					}
 					
-					$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,2,",",".").'</td>
-							<td align="right">'. number_format($persen99,2,",",".").'</td>';
+					$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,0,",",".").'</td>
+							<td align="right">'. number_format($persen99,0,",",".").'</td>';
 				}
 
 				if ($kolom=='ppn'){
@@ -223,8 +223,8 @@ $colspan1=($jumlahkolom*2)+4+2;
 							$persen99 = 100;
 						}
 						
-						$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,2,",",".").'</td>
-								<td align="right">'. number_format($persen99,2,",",".").'</td>';
+						$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,0,",",".").'</td>
+								<td align="right">'. number_format($persen99,0,",",".").'</td>';
 					}
 
 				if ($kolom=='pph'){
@@ -253,8 +253,8 @@ $colspan1=($jumlahkolom*2)+4+2;
 							$persen99 = 100;
 						}
 						
-						$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,2,",",".").'</td>
-								<td align="right">'. number_format($persen99,2,",",".").'</td>';
+						$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,0,",",".").'</td>
+								<td align="right">'. number_format($persen99,0,",",".").'</td>';
 					}
 
 				if ($kolom!='spk' && $kolom!='nilaippl' && $kolom!='ppn' && $kolom!='pph'){
@@ -268,8 +268,8 @@ $colspan1=($jumlahkolom*2)+4+2;
 						$persen99 = 100;
 					}
 					
-					$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,2,",",".").'</td>
-							<td align="right">'. number_format($persen99,2,",",".").'</td>';	
+					$html.='<td align="right" style="color:red">'. number_format($pqproyek[$kolom]*-1,0,",",".").'</td>
+							<td align="right">'. number_format($persen99,0,",",".").'</td>';	
 				}
 			}
     	}
@@ -278,13 +278,13 @@ $colspan1=($jumlahkolom*2)+4+2;
 		
 
 		if ($kolom=='spk'){
-			$html.='<td align="right" style="background: #f6d55c;">'. number_format($spkperyear['nilai_spk'],2,",",".").'</td>
-					<td align="right" style="background: #f6d55c;">'. number_format(100,2,",",".").'</td>';
+			$html.='<td align="right" style="background: #f6d55c;">'. number_format($spkperyear['nilai_spk'],0,",",".").'</td>
+					<td align="right" style="background: #f6d55c;">'. number_format(100,0,",",".").'</td>';
 		}else if ($kolom=='nilaippl'){
 
 
-			$html.='<td align="right" style="background: #f6d55c;">'. number_format($pendapatan_area[$kolom],2,",",".").'</td>
-					<td align="right" style="background: #f6d55c;">'. number_format($pendapatan_area[$kolom]/$pendapatan_area["pendapatannetarea"]*100,2,",",".").'</td>';
+			$html.='<td align="right" style="background: #f6d55c;">'. number_format($pendapatan_area[$kolom],0,",",".").'</td>
+					<td align="right" style="background: #f6d55c;">'. number_format($pendapatan_area[$kolom]/$pendapatan_area["pendapatannetarea"]*100,0,",",".").'</td>';
 		}else{
 			if($spkperyear['nilai_spk']!=0){
 				$persen5 = $pendapatan_area[$kolom]/$spkperyear['nilai_spk'];
@@ -292,8 +292,8 @@ $colspan1=($jumlahkolom*2)+4+2;
 				$persen5=0;
 			}
 			
-			$html.='<td align="right" style="color:red;background: #f6d55c;">'. number_format($pendapatan_area[$kolom]*-1,2,",",".").'</td>
-					<td align="right" style="background: #f6d55c;">'. number_format($persen5*100,2,",",".").'</td>';
+			$html.='<td align="right" style="color:red;background: #f6d55c;">'. number_format($pendapatan_area[$kolom]*-1,0,",",".").'</td>
+					<td align="right" style="background: #f6d55c;">'. number_format($persen5*100,0,",",".").'</td>';
 		}
 
 
@@ -334,8 +334,8 @@ $colspan1=($jumlahkolom*2)+4+2;
     		}else{
     			$persen98 = 100;
     		}
-    		$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'.number_format($sub_total_a,2,',','.').'</td>
-			    <td align="right" style="background: #a7aaad;border-right:white; ">'.number_format($persen98,2,',','.').'</td>';
+    		$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'.number_format($sub_total_a,0,',','.').'</td>
+			    <td align="right" style="background: #a7aaad;border-right:white; ">'.number_format($persen98,0,',','.').'</td>';
     		}
 
 
@@ -349,8 +349,8 @@ $colspan1=($jumlahkolom*2)+4+2;
     	}else{
     		$persenpenarea=0;
     	}	
-    		$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($pendapatan_area["sub_total_a"],2,",",".").'</td>
-		    <td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenpenarea*100,2,",",".").'</td>';
+    		$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($pendapatan_area["sub_total_a"],0,",",".").'</td>
+		    <td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenpenarea*100,0,",",".").'</td>';
 		
 			  $html.='</tr>';
 	}
@@ -390,8 +390,8 @@ $colspan1=($jumlahkolom*2)+4+2;
     				$persen_pen_hpp = 0;	
     			}
     			
-    			$html.='<td align="right" style="color: red">'. number_format($hpp['nilai_hpp']*-1,2,',','.') .'</td>
-          			<td align="right">'. number_format($persen_pen_hpp,2,',','.') .'</td>';
+    			$html.='<td align="right" style="color: red">'. number_format($hpp['nilai_hpp']*-1,0,',','.') .'</td>
+          			<td align="right">'. number_format($persen_pen_hpp,0,',','.') .'</td>';
        		}
 
     	}
@@ -402,8 +402,8 @@ $colspan1=($jumlahkolom*2)+4+2;
     		$persenpennett=0;
     	}
 
-    	$html.='<td align="right" style="color: red;background: #f6d55c;">'. number_format($nilaihppperitem*-1,2,',','.') .'</td>
-          			<td align="right" style="background: #f6d55c;">'. number_format($persenpennett*100,2,',','.') .'</td>';
+    	$html.='<td align="right" style="color: red;background: #f6d55c;">'. number_format($nilaihppperitem*-1,0,',','.') .'</td>
+          			<td align="right" style="background: #f6d55c;">'. number_format($persenpennett*100,0,',','.') .'</td>';
         $html.='</tr>';
 	}
 
@@ -468,8 +468,8 @@ $colspan1=($jumlahkolom*2)+4+2;
     			}
     			
     			
-    			$html.='<td align="right" style="background: #a7aaad;">'. number_format($tothpp['nilai_hpp']*-1,2,',','.').'</td>
-    					<td align="right" style="background: #a7aaad;">'. number_format($persen_sub_total_b,2,',','.').'</td>';
+    			$html.='<td align="right" style="background: #a7aaad;">'. number_format($tothpp['nilai_hpp']*-1,0,',','.').'</td>
+    					<td align="right" style="background: #a7aaad;">'. number_format($persen_sub_total_b,0,',','.').'</td>';
     		}
 		}
 
@@ -479,8 +479,8 @@ $colspan1=($jumlahkolom*2)+4+2;
     		$persen_subtotalb=0;
     	}
 
-		$html.='<td align="right" style="background: #a7aaad;">'. number_format($nilaihpp*-1,2,',','.').'</td>
-    					<td align="right" style="background: #a7aaad;">'. number_format($persen_subtotalb*100,2,',','.').'</td>';
+		$html.='<td align="right" style="background: #a7aaad;">'. number_format($nilaihpp*-1,0,',','.').'</td>
+    					<td align="right" style="background: #a7aaad;">'. number_format($persen_subtotalb*100,0,',','.').'</td>';
   		$html.='</tr>';
 	}
 
@@ -505,7 +505,7 @@ if ($kode=='6'){
     			
     			$html.='
     				<td align="center">'.$operasional['keterangan'].'</td>
-    				<td align="right" style="color: red">'. number_format($operasional['total']*-1,2,',','.') .'</td>';
+    				<td align="right" style="color: red">'. number_format($operasional['total']*-1,0,',','.') .'</td>';
        		}
        		for ($i=0; $i <$jumlahkolom ; $i++){
 				    $html.='<td align="center"></td>
@@ -522,8 +522,8 @@ if ($kode=='6'){
 		    	}
 
     			$html.='
-    				<td align="right" style="color: red;background:#f6d55c">'. number_format($operasional['total']*-1,2,',','.') .'</td>
-    				<td align="right" style="background:#f6d55c">'. number_format($persenoperasional*100,2,',','.') .'</td>';
+    				<td align="right" style="color: red;background:#f6d55c">'. number_format($operasional['total']*-1,0,',','.') .'</td>
+    				<td align="right" style="background:#f6d55c">'. number_format($persenoperasional*100,0,',','.') .'</td>';
        		}
 
         $html.='</tr>';
@@ -539,7 +539,7 @@ if ($kode=='6A'){
     		foreach($op as $operasional){
     			$html.='
     				<td align="center">'.$operasional['keterangan'].'</td>
-    				<td align="right" style="color: red">'. number_format($operasional['total']*-1,2,',','.') .'</td>';
+    				<td align="right" style="color: red">'. number_format($operasional['total']*-1,0,',','.') .'</td>';
        		}
        		for ($i=0; $i <$jumlahkolom ; $i++){
 				    $html.='<td align="center"></td>
@@ -554,8 +554,8 @@ if ($kode=='6A'){
 		    	}
 
     			$html.='
-    				<td align="right" style="color: red;background:#f6d55c">'. number_format($operasional['total']*-1,2,',','.') .'</td>
-    				<td align="right" style="background: #f6d55c">'. number_format($persenmarketing*100*-1,2,',','.') .'</td>';
+    				<td align="right" style="color: red;background:#f6d55c">'. number_format($operasional['total']*-1,0,',','.') .'</td>
+    				<td align="right" style="background: #f6d55c">'. number_format($persenmarketing*100*-1,0,',','.') .'</td>';
        		}
         $html.='</tr>';
 	}
@@ -567,7 +567,7 @@ if ($kode=='3F'){
         <td colspan="3" align="center">
           '.$map1["nama_map"].'
         </td>
-        <td align="right" style="background: #a7aaad;border-right:white;">'. number_format($sub_total_c,2,',','.').'</td>';
+        <td align="right" style="background: #a7aaad;border-right:white;">'. number_format($sub_total_c,0,',','.').'</td>';
 
         for ($i=0; $i <$jumlahkolom ; $i++){
 				    $html.='<td align="center" style="background: #a7aaad;border-right:white;"></td>
@@ -580,8 +580,8 @@ if ($kode=='3F'){
 		    		$persensubtotalc=0;
 		    	}
 
-      $html.='	<td align="right" style="background: #a7aaad;border-right:white;">'. number_format($sub_total_c,2,',','.').'</td>
-      			<td align="right" style="background: #a7aaad;border-right:white;">'. number_format($persensubtotalc*100,2,',','.').'</td>
+      $html.='	<td align="right" style="background: #a7aaad;border-right:white;">'. number_format($sub_total_c,0,',','.').'</td>
+      			<td align="right" style="background: #a7aaad;border-right:white;">'. number_format($persensubtotalc*100,0,',','.').'</td>
       			</tr>';
 }
 
@@ -629,8 +629,8 @@ if($kode==7){
     		    $persenlroperasional= 0;
     		}
     		
-	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($lr_operasional,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenlroperasional,2,',','.').'</td>';
+	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($lr_operasional,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenlroperasional,0,',','.').'</td>';
 
     	}
 			
@@ -642,8 +642,8 @@ if($kode==7){
 			}
     
     	
-	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_lr_operasional+$sub_total_c,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenlr_operasional*100,2,',','.').'</td>';	
+	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_lr_operasional+$sub_total_c,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenlr_operasional*100,0,',','.').'</td>';	
     
   $html.='</tr>';
 }
@@ -680,8 +680,8 @@ if($kode==8){
     				$persenalikasiho=0;
     			}
 
-	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($nalokasi_ho*-1,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenalikasiho,2,',','.').'</td>';
+	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($nalokasi_ho*-1,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenalikasiho,0,',','.').'</td>';
 
     	}
 
@@ -691,8 +691,8 @@ if($kode==8){
 			$persennalokasi=0;
 		}
 		
-	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_nalokasi_ho*-1,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persennalokasi*100,2,',','.').'</td>';    
+	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_nalokasi_ho*-1,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persennalokasi*100,0,',','.').'</td>';    
   $html.='</tr>';
 }
 
@@ -743,8 +743,8 @@ if($kode=='9'){
             }
         
 
-	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($lr_setelah_ho,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenlrsetelahho,2,',','.').'</td>';
+	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($lr_setelah_ho,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenlrsetelahho,0,',','.').'</td>';
 
     	}
     	
@@ -755,8 +755,8 @@ if($kode=='9'){
 			$persen_lr_setelah_ho=0;
 		}
 
-	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_lr_setelah_ho,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persen_lr_setelah_ho*100,2,',','.').'</td>';    	
+	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_lr_setelah_ho,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persen_lr_setelah_ho*100,0,',','.').'</td>';    	
 	
     
   $html.='</tr>';
@@ -812,8 +812,8 @@ if($kode=='10A'){
 	    	}
             
             
-	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($distribusi_ho_area_tiap_projek,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persendistribusihoareatiapprojek,2,',','.').'</td>';
+	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($distribusi_ho_area_tiap_projek,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persendistribusihoareatiapprojek,0,',','.').'</td>';
 
     	}
 	
@@ -823,8 +823,8 @@ if($kode=='10A'){
 			$persen_distribusi_ho_area_tiap_projek=0;
 		}
     	
-	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_distribusi_ho_area_tiap_projek,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persen_distribusi_ho_area_tiap_projek*100,2,',','.').'</td>';	
+	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_distribusi_ho_area_tiap_projek,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persen_distribusi_ho_area_tiap_projek*100,0,',','.').'</td>';	
     
   $html.='</tr>';
 }
@@ -883,8 +883,8 @@ if($kode=='10B'){
             	    	}
             
             
-            	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($tot_biaya_per_projek,2,',','.').'</td>
-                		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persentotbiayaperprojek,2,',','.').'</td>';
+            	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($tot_biaya_per_projek,0,',','.').'</td>
+                		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persentotbiayaperprojek,0,',','.').'</td>';
 
     	}
 
@@ -900,8 +900,8 @@ if($kode=='10B'){
 			$persen_biaya_per_projek=0;
 		}
 
-    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_tot_biaya_per_projek,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persen_biaya_per_projek*100,2,',','.').'</td>';
+    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_tot_biaya_per_projek,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persen_biaya_per_projek*100,0,',','.').'</td>';
   $html.='</tr>';
 }
 
@@ -956,8 +956,8 @@ if($kode=='10C'){
             }
 
 
-	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($pendapatan_nett+$tot_biaya_per_projek,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenakhir,2,',','.').'</td>';
+	    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($pendapatan_nett+$tot_biaya_per_projek,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persenakhir,0,',','.').'</td>';
 
     	}
 
@@ -969,8 +969,8 @@ if($kode=='10C'){
 
     	
 
-    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($pendapatan_area['pendapatannetarea']+$total_tot_biaya_per_projek,2,',','.').'</td>
-    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persen_akhir*100,2,',','.').'</td>';
+    	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($pendapatan_area['pendapatannetarea']+$total_tot_biaya_per_projek,0,',','.').'</td>
+    		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persen_akhir*100,0,',','.').'</td>';
   $html.='</tr>';
 }
 
@@ -1078,8 +1078,8 @@ foreach($map2 as $map2){
 		    			$persen1=0;
 		    		}
 
-		    		$html.='<td  align="right" width="10%">'.number_format($pagu[$map2["kolom"]],2,",",".").'</td>
-		    				<td  align="right" width="10%">'.number_format($persen1,2,",",".").'</td>';
+		    		$html.='<td  align="right" width="10%">'.number_format($pagu[$map2["kolom"]],0,",",".").'</td>
+		    				<td  align="right" width="10%">'.number_format($persen1,0,",",".").'</td>';
 		    	}	
     	}
 
@@ -1102,8 +1102,8 @@ foreach($map2 as $map2){
 		    				$persen_pen_hpp = 0;	
 		    			}
 		    			
-		    			$html.='<td align="right" style="color: red">'. number_format($hpp['nilai_hpp']*-1,2,',','.') .'</td>
-		    					<td align="right" style="color: red">'. number_format($persen_pen_hpp*-1,2,',','.') .'</td>';
+		    			$html.='<td align="right" style="color: red">'. number_format($hpp['nilai_hpp']*-1,0,',','.') .'</td>
+		    					<td align="right" style="color: red">'. number_format($persen_pen_hpp*-1,0,',','.') .'</td>';
 		       		}
 
 
@@ -1125,7 +1125,7 @@ foreach($map2 as $map2){
 		   //  		$kodearea = $area["kd_area"];
 		   //  		$pagu = $this->pq_model->get_pagu($kodearea,$tahun);
 		    			
-		   //  				$html.='<td colspan="2" align="center" width="10%">'.number_format($pagu['nilai_pagu'],2,",",".").'</td>';
+		   //  				$html.='<td colspan="2" align="center" width="10%">'.number_format($pagu['nilai_pagu'],0,",",".").'</td>';
 		    			
 
 		    		
@@ -1142,7 +1142,7 @@ foreach($map2 as $map2){
 
     	// // 	if ($map1["kolom"]=='nilai_pagu'){
     	// // 		$pagu = $pagu+$proyek['nilai_pagu'];
-    	// // 		$html.='<td colspan="2" align="center">'.number_format($proyek[$map1["kolom"]],2,",",".").'</td>';
+    	// // 		$html.='<td colspan="2" align="center">'.number_format($proyek[$map1["kolom"]],0,",",".").'</td>';
     	// // 	}else if ($map1["kolom"]=='masa_kontrak' || $map1["kolom"]=='lama_pekerjaan'){
     	// // 		$html.='<td colspan="2" align="center">'.$proyek[$map1["kolom"]].' Bulan </td>';
     	// // 	}else{
@@ -1152,7 +1152,7 @@ foreach($map2 as $map2){
     	// // }
 
     	// // if ($map1["kolom"]=='nilai_pagu'){
-    	// // 	$html.='<td colspan="2" align="center" style="background: #f6d55c;">'.number_format($pagu,2,",",".").'</td>';
+    	// // 	$html.='<td colspan="2" align="center" style="background: #f6d55c;">'.number_format($pagu,0,",",".").'</td>';
     	// // }else if($map1["kolom"]=='nm_paket_proyek'){
     	// // 	$html.='<td colspan="2" align="center" style="background: #f6d55c;">REKAPITULASI</td>';
     	// // }else{

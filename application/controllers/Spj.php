@@ -450,7 +450,7 @@ public function datatable_json_spj_edit($id='',$kd_area=''){
 
 
 			if ($row['bukti']=="" || $row['bukti']==null){
-				$anchor='';
+				$anchor='Tidak ada bukti';
 			}else{
 				$anchor = anchor('uploads/spj/'.$row['bukti'], 'preview','target="_blank"');
 			}

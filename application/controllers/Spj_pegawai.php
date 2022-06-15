@@ -59,6 +59,46 @@ class Spj_pegawai extends MY_Controller {
 		echo json_encode($records);						   
 	}
 
+	public function simpan_spj_file(){
+		$config['upload_path'] 		= './uploads/spj_karyawan/';
+		$config['allowed_types']   	= '*';
+		$config['max_size']         = '0';
+		$config['encrypt_name'] 	= TRUE;
+	
+		$this->load->library('upload', $config);
+	
+		$status = "success";
+		$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
+			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
+			$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
+			$data['kd_area'] 			= $this->input->post('kdarea', TRUE);
+			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
+			$data['kd_sub_area']		= $this->input->post('subarea', TRUE);
+			$data['kd_proyek']			= $this->input->post('kd_proyek', TRUE);
+         	$data['no_acc']				= $this->input->post('no_acc', TRUE);
+			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['jns_spj']			= $this->input->post('jns_spj', TRUE);
+			// $data['nilai']				= $this->input->post('nilai', TRUE);
+			$data['nilai']				= $this->spjpegawai_model->number($this->input->post('total', TRUE));
+		
+		
+		if ( ! $this->upload->do_upload('file')){
+			$status = "success";
+			$data['bukti']				= '';
+			$result 					= $this->spjpegawai_model->save_spj($data);
+			$msg = "Data berhasil disimpan tanpa bukti";
+		}
+		else{
+	
+			$dataupload = $this->upload->data();
+			$data['bukti']				= $dataupload['file_name'];
+			$result 					= $this->spjpegawai_model->save_spj($data);
+			$msg = "Data Berhasil disimpan dengan bukti ".$data['bukti'];
+		}
+	
+		$this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
+	}
+
 public function add(){
 		$this->rbac->check_operation_access('');
 		if($this->input->post('type')==1){
@@ -283,6 +323,45 @@ public function edit_keterangan($id='',$kd_area=''){
 		
 	}
 
+public function simpan_spj_file2(){
+		$config['upload_path'] 		= './uploads/spj_karyawan/';
+		$config['allowed_types']   	= '*';
+		$config['max_size']         = '0';
+		$config['encrypt_name'] 	= TRUE;
+	
+		$this->load->library('upload', $config);
+	
+		$status = "success";
+			$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
+			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
+			$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
+			$data['kd_area'] 			= $this->input->post('kd_area', TRUE);
+			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
+			$data['kd_sub_area']		= $this->input->post('kd_sub_area', TRUE);
+			$data['kd_proyek']			= $this->input->post('kd_projek', TRUE);
+         	$data['no_acc']				= $this->input->post('no_acc', TRUE);
+			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['jns_spj']			= $this->input->post('jns_spj', TRUE);
+			// $data['nilai']				= $this->input->post('nilai', TRUE);
+			$data['nilai']				= $this->spjpegawai_model->number($this->input->post('total', TRUE));
+		
+		
+		if ( ! $this->upload->do_upload('file')){
+			$status = "success";
+			$data['bukti']				= '';
+			$result 					= $this->spjpegawai_model->save_edit_spj($data);
+			$msg = "Data berhasil disimpan tanpa bukti";
+		}
+		else{
+	
+			$dataupload = $this->upload->data();
+			$data['bukti']				= $dataupload['file_name'];
+			$result 					= $this->spjpegawai_model->save_edit_spj($data);
+			$msg = "Data Berhasil disimpan dengan bukti ".$data['bukti'];
+		}
+	
+		$this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
+	}
 
 
 public function edit_spj($nospj='',$kd_pegawai='')
@@ -337,14 +416,20 @@ public function datatable_json_spj_edit($id='',$kd_pegawai=''){
 		foreach ($records['data']   as $row) 
 		{  
 
+			if ($row['bukti']=="" || $row['bukti']==null){
+				$anchor='Tidak ada bukti';
+			}else{
+				$anchor = anchor('uploads/spj/'.$row['bukti'], 'preview','target="_blank"');
+			}
 
 				$data[]= array(
 				$row['no_spj'],
 				$row['tgl_spj'],
 				$row['no_acc'].'<br>'.$row['nm_acc'],
 				$row['uraian'],
+				$anchor,
 				number_format($row['nilai'],2,',','.'),
-				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("spj_pegawai/delete_spj/".$row['id']).'/'.$id_new.'/'.$kode_pegawai.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("spj_pegawai/delete_spj/".$row['id']).'/'.$id_new.'/'.$kode_pegawai.'/'.$row['bukti'].' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -358,6 +443,11 @@ public function datatable_json_spj_edit($id='',$kd_pegawai=''){
 		
 		if($this->input->post('type')==1){
 			$id 		= $this->input->post('id', TRUE);
+			$bukti 		= $this->input->post('bukti', TRUE);
+			if ($bukti!='' || $bukti!= null){
+				unlink('./uploads/spj_karyawan/'.$bukti);
+			}
+
 			$result = $this->db->delete('ci_spj_pegawai_temp', array('id' => $id));	
 			if($result){
 					echo json_encode(array(
@@ -388,12 +478,16 @@ public function delete_spj_temp($no_spj='',$kd_pegawai='')
 			redirect(base_url('spj_pegawai'));	
 	}
 
-public function delete_spj($id = 0,$no_spj='',$kd_pegawai='')
+public function delete_spj($id = 0,$no_spj='',$kd_pegawai='', $bukti='')
 	{
 		$this->rbac->check_operation_access('');
 		$no_spj_new = str_replace('054d4a4653a16b49c49c49e000075d10','',$no_spj);
 		$nospj = str_replace('4e9e388e9acfde04d6bd661a6294f8a0','',$no_spj_new);
 		$kdpegawai = str_replace('054d4a4653a16b49c49c49e000075d10','-',$kd_pegawai);
+		
+		if($bukti=='' || $bukti==null){
+			unlink('./uploads/spj_karyawan/'.$bukti);
+		}
 
 		$this->db->delete('ci_spj_pegawai', array('id' => $id, 'no_spj' => $nospj));	
 		$this->activity_model->add_log(3);
@@ -424,8 +518,9 @@ public function delete_spj($id = 0,$no_spj='',$kd_pegawai='')
 	}
 
 	function get_item_spj(){
-		$jns_spj = $this->input->post('jns_spj',TRUE);
-		$data = $this->spjpegawai_model->get_item_spj($jns_spj)->result();
+		$jns_spj 	= $this->input->post('jns_spj',TRUE);
+		$kd_proyek 	= $this->input->post('kd_proyek',TRUE);
+		$data = $this->spjpegawai_model->get_item_spj($jns_spj,$kd_proyek)->result();
 		echo json_encode($data);
 	}
 

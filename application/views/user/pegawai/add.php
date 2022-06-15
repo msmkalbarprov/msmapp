@@ -59,6 +59,10 @@
                                 <label for="id" class="col-md-6 control-label">Jabatan</label>
                                 <select name="jabatan" id="jabatan" class="form-control">
                                     <option value="">No Selected</option>
+                                    <option value="AE">AE</option>
+                                    <option value="AMRM">AM/RM</option>
+                                    <option value="kk">Kepala kantor</option>
+                                    <option value="adminkantor">Admin Kantor</option>
                                     <option value="programer">Programer</option>
                                     <option value="akuntan">Akuntan</option>
                                     <option value="rc">RC</option>

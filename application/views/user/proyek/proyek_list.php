@@ -1,7 +1,7 @@
 <!-- DataTables -->
 <!-- <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.css">  -->
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"> 
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/dist/jquery.dataTables.min.css"> 
 <style type="text/css">
     .green1 {
   background-color: #a70000 !important;

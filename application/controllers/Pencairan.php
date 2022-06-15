@@ -365,7 +365,7 @@ function get_realisasi(){
 				// UPDATE STATUS PENCAIRAN
 				$data2 = array(
 					'tgl_cair' 			=> $this->input->post('tgl_cair'),
-					'status_cair'		=> $this->input->post('jns_pencairan')
+					'status_cair'		=> 1
 				);
 				$data2 		= $this->security->xss_clean($data2);
 				$result 	= $this->proyek_model->cair_proyek($data2, $id_proyek);

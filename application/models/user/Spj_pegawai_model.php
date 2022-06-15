@@ -6,6 +6,12 @@
 		return $nilai;
 	}
 
+	public function number($nilai){
+		$nilai=str_replace('.','',$nilai);
+		$nilai=str_replace(',','.',$nilai);
+		return $nilai;
+	}
+
 	function angka_format($nilai){
 
 	    if($nilai<0){
@@ -33,6 +39,7 @@ public function get_all_spj(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
+			$this->db->where('kd_area',$this->session->userdata('kd_area'));
             $this->db->group_by("no_spj,kd_pegawai");
             $this->db->order_by("kd_pegawai,no_spj");
        		return $this->db->get()->result_array();
@@ -104,18 +111,93 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			return $query;
 	}
 
-	function get_item_spj($jns_spj)
-	{	
-            if ($jns_spj=='1'){
-                $akun = array('5010202','5010205');
-            }else{
-                $akun = array('5040201','5040202','5040203');
-            }
+	function get_item_spj($jns_spj,$kd_proyek)
+	{		
+		$username = $this->session->userdata('username');
+		$query="SELECT ifnull(jabatan,'nonstaf')as jabatan from ci_pegawai where kd_pegawai ='$username'";
+		$hasil = $this->db->query($query);
+		$jabatan = $hasil->row('jabatan');
+
+		if ($jns_spj=='1'){
+			$akun = array('5010202','5010205');
+		}else{
+			$akun = array('5040201','5040202','5040203');
+		}
+
+		if ($jabatan=='nonstaf'){ //non staff
+			if ($jns_spj=='1'){
+				$query1 = $this->db->query("SELECT kd_item from ci_hpp where right(kd_pqproyek,14)='$kd_proyek'");
+			}else{
+				$query1 = $this->db->query("SELECT kd_item from ci_pq_operasional where left(kd_pqproyek,10)='$kd_proyek'");
+			}
+
+			$query1_result = $query1->result();
+			$kd_item= array();
+			foreach($query1_result as $row){
+				$kd_item[] = $row->kd_item;
+			}
+			$akuns 	= implode(",",$kd_item);
+			$akun 		= explode(",", $akuns);
+
+			$this->db->select('*');
+			$this->db->from('ci_coa_msm');
+			$this->db->where_in('no_acc', $akun);
+
+		}else if ($jabatan=='programer' || $jabatan=='akuntan' || $jabatan=='rc' || $jabatan=='lainnya'){ //staff
+			
+			if ($jns_spj=='1'){
+				$akun = array('5010202','5010205');
+			}else{
+				$akun = array('5040201','5040202','5040203');
+			}
+			
+			$this->db->select('*');
+			$this->db->from('ci_coa_msm');
+			$this->db->where_in('no_acc', $akun);
+		
+		}else if ($this->session->userdata('admin_role')=='Admin Area'){ //admin kantor
+			
+			if ($jns_spj=='1'){
+				$akun = array('non');
+			}else{
+				$query1 = $this->db->query("SELECT kd_item from ci_pq_operasional where left(kd_pqproyek,10)='$kd_proyek'");
+				$query1_result = $query1->result();
+				$kd_item= array();
+				foreach($query1_result as $row){
+					$kd_item[] = $row->kd_item;
+				}
+				$akuns 	= implode(",",$kd_item);
+				$akun 		= explode(",", $akuns);
+			}
+			
+			$this->db->select('*');
+			$this->db->from('ci_coa_msm');
+			$this->db->where_in('no_acc', $akun);
+		}else{   //lainnya
+			
+			if ($jns_spj=='1'){
+				$query1 = $this->db->query("SELECT kd_item from ci_hpp where right(kd_pqproyek,14)='$kd_proyek'");
+			}else{
+				$query1 = $this->db->query("SELECT kd_item from ci_pq_operasional where left(kd_pqproyek,10)='$kd_proyek'");
+			}
+
+			$query1_result = $query1->result();
+			$kd_item= array();
+			foreach($query1_result as $row){
+				$kd_item[] = $row->kd_item;
+			}
+			$akuns 	= implode(",",$kd_item);
+			$akun 		= explode(",", $akuns);
+			
+			$this->db->select('*');
+			$this->db->from('ci_coa_msm');
+			$this->db->where('level', 4);
+			$this->db->where_in('no_acc', $akun);
+		}
             
 		
-            $this->db->select('*');
-			$this->db->from('ci_coa_msm');
-            $this->db->where_in('no_acc', $akun);
+            
+            
 			$query=$this->db->get();
 			return $query;
 	}
@@ -184,7 +266,7 @@ public function get_spj_by_id($id,$kd_pegawai){
 
 				$no_spj= str_replace('4e9e388e9acfde04d6bd661a6294f8a0','',str_replace('054d4a4653a16b49c49c49e000075d10','',$id));
                 $kode_pegawai = str_replace('054d4a4653a16b49c49c49e000075d10','-',$kd_pegawai);
-				 $this->db->select('ci_spj_pegawai.*,concat(ci_spj_pegawai.kd_proyek," - ",ci_proyek.nm_paket_proyek) as nm_paket_pekerjaan');
+				 $this->db->select("ci_spj_pegawai.*,case when jns_spj='1' then concat(ci_spj_pegawai.kd_proyek,' - ',ci_proyek.nm_paket_proyek) else 'Operasional' end  as nm_paket_pekerjaan");
 				 $this->db->from('ci_spj_pegawai');
                  $this->db->Join('ci_proyek','ci_proyek.kd_proyek=ci_spj_pegawai.kd_proyek', 'left');
 				 $this->db->where('ci_spj_pegawai.no_spj', $no_spj);
@@ -358,6 +440,7 @@ public function save_spj($data){
 		$insert_data['nilai']						= $data['nilai'];
 		$insert_data['tgl_bukti']					= $data['tgl_bukti'];
         $insert_data['jns_spj'] 					= $data['jns_spj'];
+		$insert_data['bukti']	 					= $data['bukti'];
 		$insert_data['username']					= $this->session->userdata('username');
 		$insert_data['created_at']					= date("Y-m-d h:i:s");
 		$query = $this->db->insert('ci_spj_pegawai_temp', $insert_data);
@@ -375,6 +458,7 @@ public function save_edit_spj($data){
     $insert_data['nilai']						= $data['nilai'];
     $insert_data['tgl_bukti']					= $data['tgl_bukti'];
     $insert_data['jns_spj'] 					= $data['jns_spj'];
+	$insert_data['bukti']	 					= $data['bukti'];
     $insert_data['username']					= $this->session->userdata('username');
     $insert_data['created_at']					= date("Y-m-d h:i:s");
     $query = $this->db->insert('ci_spj_pegawai', $insert_data);
@@ -383,8 +467,8 @@ public function save_edit_spj($data){
 
 public function simpan_spj($kd_pegawai, $nospj)
 		{	
-			$query = $this->db->query("INSERT into ci_spj_pegawai (no_spj,tgl_spj,kd_pegawai,nama,kd_area,nm_area,kd_sub_area,nm_sub_area,tgl_bukti,kd_proyek,no_acc,nm_acc,uraian,nilai,jns_spj,status,username,created_at) 
-                           SELECT no_spj,tgl_spj,kd_pegawai,nama,kd_area,nm_area,kd_sub_area,nm_sub_area,tgl_bukti,kd_proyek,no_acc,nm_acc,uraian,nilai,jns_spj,status,username,created_at FROM ci_spj_pegawai_temp
+			$query = $this->db->query("INSERT into ci_spj_pegawai (no_spj,tgl_spj,kd_pegawai,nama,kd_area,nm_area,kd_sub_area,nm_sub_area,tgl_bukti,kd_proyek,no_acc,nm_acc,uraian,nilai,jns_spj,bukti,status,username,created_at) 
+                           SELECT no_spj,tgl_spj,kd_pegawai,nama,kd_area,nm_area,kd_sub_area,nm_sub_area,tgl_bukti,kd_proyek,no_acc,nm_acc,uraian,nilai,jns_spj,bukti,status,username,created_at FROM ci_spj_pegawai_temp
                            WHERE kd_pegawai = '$kd_pegawai' and no_spj='$nospj'");
 
 			$this->db->delete('ci_spj_pegawai_temp', array('kd_pegawai' => $kd_pegawai,'no_spj' => $nospj));
