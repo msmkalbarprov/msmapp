@@ -15,7 +15,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             Tambah PDO Gaji / Transportasi dan Akomodasi</h3>
+             Edit PDO Gaji / Transportasi dan Akomodasi</h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('cpdo/gaji'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
@@ -32,7 +32,7 @@
           <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
         </div>
         <?php $this->load->view('admin/includes/_messages.php') ?>
-         <?php echo form_open_multipart('cpdo/edit_pdo_keterangan/'.$data_pdo["id_pdo"].'/1');?>
+         <?php echo form_open_multipart('cpdo/edit_pdo_keterangan/'.$data_pdo["id_pdo"].'/3');?>
          <div class="row">
           <div class="col-md-3">
             <div class="form-group">
@@ -70,7 +70,7 @@
                     <small>Langsung</small>
                     <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' />
                     <label for='c_transfer'></label>
-                    <small>Kas Daerah</small>
+                    <small>Kas Area</small>
                     <input id='s_transfer' name="s_transfer"  type='hidden' />
             </div>
           </div>
@@ -113,8 +113,8 @@
 
 
 <!-- large modal -->
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade bd-example-modal-lg" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">Tambah Rincian</h4>
@@ -151,7 +151,7 @@
          </div>
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Akun</label>
               <input type="hidden" name="jns_tkls" id="jns_tkls" class="form-control" readonly>
@@ -159,6 +159,14 @@
                   <option value="">No Selected</option>
                 </select> 
 
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="area" class="control-label">Rekening/Pegawai</label><br>
+                    <select name="kd_pegawai"  id="kd_pegawai" class="form-control" required>
+                    <option value="">No Selected</option>
+                  </select>
             </div>
           </div>
         </div>
@@ -293,6 +301,8 @@ function set_status_transfer() {
   if (status_transfer==1){
     $('#c_transfer').attr('checked', 'checked');
     $('[name="s_transfer"]').val('1').trigger('change');
+    var kodearea ="<?= $data_pdo['kd_area']; ?>";
+      get_pegawai(kodearea);
   }
 }
 
@@ -314,6 +324,26 @@ function get_nilai(kode_pqproyek,no_acc){
 
         }
     });
+}
+
+function get_pegawai(area) {
+    $.ajax({
+                    url : "<?php echo site_url('spj_pegawai/get_pegawai_by_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: area},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="kd_pegawai"]').empty();
+                        $('select[name="kd_pegawai"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="kd_pegawai"]').append('<option value="'+ value.kd_pegawai +'">'+ value.nama +'</option>');
+                        });
+
+                    }
+                });
 }
 
 function get_projekcombo(){ 
@@ -512,6 +542,7 @@ $('#butsave').on('click', function() {
     var nourut        = $('#urut').val();
     var projek        = $('#projek').val();
     var uraian        = $('#uraian').val();
+    var kd_pegawai    = $('#kd_pegawai').val();
     var qty           = $('#qty').val();
     var satuan        = $('#satuan').val();
     var total         = number($('#total').val());
@@ -585,6 +616,7 @@ $('#butsave').on('click', function() {
           uraian:uraian,
           qty:qty,
           satuan:satuan,
+          kd_pegawai:kd_pegawai,
           harga:harga,
           total:total,
           idpdo:idpdo,
@@ -609,6 +641,7 @@ $('#butsave').on('click', function() {
             document.getElementById("harga").value='';
             document.getElementById("item_hpp").value='';
             document.getElementById("uraian").value='';
+            document.getElementById("kd_pegawai").value='';
             document.getElementById("total").value='';
             document.getElementById("total").value='';
             document.getElementById("pnet").value='';

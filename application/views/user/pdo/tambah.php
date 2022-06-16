@@ -35,7 +35,7 @@
          <div class="row">
           <div class="col-md-3">
             <div class="form-group">
-              <label for="item_hpp" class="control-label">Kode PDO</label>
+              <label for="item_hpp" class="control-label">Nomor PDO</label>
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
               <input type="text" name="kd_pdo" id="kd_pdo" class="form-control" readonly>
               <input type="hidden" name="urut" id="urut" class="form-control" readonly>
@@ -49,7 +49,7 @@
               <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control"  required >
           </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
                 <select name="area" id ="area" class="form-control select2" style="width: 100%;" required >
@@ -61,47 +61,22 @@
 
             </div>
           </div>
-          <div class="col-md-3">
+          
+         </div>
+
+         
+         <div class="row">
+         <div class="col-md-3">
             <div class="form-group">
               <label for="area" class="control-label">Transfer</label><br>
                     <small>Langsung</small>
                     <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' />
                     <label for='c_transfer'></label>
-                    <small>Kas Daerah</small>
+                    <small>Kas Area</small>
                     <input id='s_transfer' name="s_transfer"  type='hidden' />
             </div>
           </div>
-         </div>
-
-         <div class="row">
-          
-
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="proyek" class="control-label">PQ Proyek</label>
-                <select name="projek"  id="projek" class="form-control" required>
-                  <option value="">No Selected</option>
-                </select>                
-
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="proyek" class="control-label">Divisi</label>
-                
-                <select name="divisi" id ="divisi" class="form-control select2" style="width: 100%;" required>
-                <option value="">No Selected</option>
-                  <?php foreach($data_divisi as $divisi): ?>
-                      <option value="<?= $divisi['kd_projek']; ?>"><?= $divisi['nm_projek']; ?></option>
-                  <?php endforeach; ?>
-                </select>
-
-            </div>
-          </div>
-          
-         </div>
-         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-9">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
               <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" ></textarea>
@@ -145,8 +120,8 @@
 
 
 <!-- large modal -->
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade bd-example-modal-lg" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">Tambah Rincian</h4>
@@ -156,9 +131,44 @@
       </div>
       <div class="modal-body">
          
+      <div class="row">
+         <div class="col-md-12">
+           <div class="form-group">
+             <label for="proyek" class="control-label">PQ Proyek</label>
+               <select name="projek"  id="projek" class="form-control" required>
+                 <option value="">No Selected</option>
+               </select>                
+
+           </div>
+         </div>
+      </div>
+      <div class="row">
+      <div class="col-md-6">
+            <div class="form-group">
+              <label for="area" class="control-label">Rekening/Pegawai</label><br>
+                    <select name="kd_pegawai"  id="kd_pegawai" class="form-control" required>
+                    <option value="">No Selected</option>
+                  </select>
+            </div>
+          </div>
+         <div class="col-md-6">
+           <div class="form-group">
+             <label for="proyek" class="control-label">Divisi</label>
+               
+               <select name="divisi" id ="divisi" class="form-control select2" style="width: 100%;" required>
+               <option value="">No Selected</option>
+                 <?php foreach($data_divisi as $divisi): ?>
+                     <option value="<?= $divisi['kd_projek']; ?>"><?= $divisi['nm_projek']; ?></option>
+                 <?php endforeach; ?>
+               </select>
+
+           </div>
+         </div>
+         
+        </div>
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Akun</label>
               <input type="hidden" name="jns_tkls" id="jns_tkls" class="form-control" readonly>
@@ -168,9 +178,7 @@
 
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="no_rek" class="control-label">Rek. Tujuan</label>
                 <select name="no_rekening" id ="no_rekening" class="form-control select2" style="width: 100%;" required >
@@ -215,40 +223,35 @@
          </div>
 
          <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
            <div class="form-group">
               <label for="dinas" class="control-label">Nilai PDO </label>
-               <input type="text" name="total" id="total" class="form-control" value="0" style="background:none;text-align:right;"readonly >
+               <input type="text" name="total" id="total" class="form-control" value="0" style="background:none;text-align:right;" readonly >
           </div>
           </div>
-         </div>
-
-         <div class="row">
           
-          <div class="col-md-12">
+          <div class="col-md-6">
            <div class="form-group">
                 <label for="dinas" class="control-label">Nilai HPP</label>
-                <input type="text" name="pnet" id="pnet" class="form-control"  style="background:none;text-align:right;"readonly >
+                <input type="text" name="pnet" id="pnet" class="form-control"  style="background:none;text-align:right;" readonly >
             </div>
           </div>
          
          </div>
 
          <div class="row">
-          <div class="col-md-12" >
+          <div class="col-md-6" >
            <div class="form-group">
                 <label for="dinas" class="control-label">Realisasi</label>
-                <input type="text" name="thpp" id="thpp" class="form-control"   style="background:none;text-align:right;"readonly >
+                <input type="text" name="thpp" id="thpp" class="form-control"   style="background:none;text-align:right;" readonly >
             </div>
           </div>
          
-         </div>
 
-         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
            <div class="form-group">
                 <label for="dinas" class="control-label">Sisa</label>
-                <input type="text" name="sisa" id="sisa" class="form-control"   style="background:none;text-align:right;"readonly >
+                <input type="text" name="sisa" id="sisa" class="form-control"   style="background:none;text-align:right;" readonly >
             </div>
           </div>
          
@@ -293,16 +296,34 @@
   $('#c_transfer').click(function() {
       if ($('#c_transfer').prop('checked') == true){
           $('[name="s_transfer"]').val('1').trigger('change');
-          document.getElementById("no_rekening").disabled = true;
-          $('[name="no_rekening"]').val('').trigger('change');
+          document.getElementById("no_rekening").disabled = false;
+          var kodearea=$('#area').val();
+          get_pegawai(kodearea);
       }else{
         $('[name="s_transfer"]').val('0').trigger('change');
         document.getElementById("no_rekening").disabled = false;
       }
 });
 
+function get_pegawai(area) {
+    $.ajax({
+                    url : "<?php echo site_url('spj_pegawai/get_pegawai_by_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: area},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="kd_pegawai"]').empty();
+                        $('select[name="kd_pegawai"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="kd_pegawai"]').append('<option value="'+ value.kd_pegawai +'">'+ value.nama +'</option>');
+                        });
 
-
+                    }
+                });
+}
 
     nomorpdo=0;
     var table = $('#na_datatable').DataTable( {
@@ -381,7 +402,10 @@ $('#na_datatable').on('click', 'tbody .del_btn', function () {
 
 $('#area').change(function(){ 
     var kodearea=$(this).val();
-    get_nomor_urut(kodearea)
+    get_nomor_urut(kodearea);
+
+  
+
     $.ajax({
         url : "<?php echo site_url('cpdo/get_pq_projek_by_area');?>",
         method : "POST",
@@ -405,7 +429,6 @@ $('#area').change(function(){
 
 $('#projek').change(function(){ 
     var idproyek    = $(this).val();
-    var nomorurut   = $('#urut').val();
     $.ajax({
         url : "<?php echo site_url('cpdo/get_item_pq_by_pq');?>",
         method : "POST",
@@ -417,14 +440,6 @@ $('#projek').change(function(){
         success: function(data){
             $('select[name="item_hpp"]').empty();
             $('select[name="item_hpp"]').append('<option value="">No Selected</option>');
-
-            var kodepdo = idproyek+'/'+nomorurut;
-                var nomorpdo = kodepdo.replace('PQ','PDO');
-
-                $('[name="kd_pdo"]').val(nomorpdo).trigger('change');
-                nomorpdo_temp = nomorpdo.replace(/\//g,'abcde')
-                load_rincian_temp(nomorpdo_temp)
-
             $.each(data, function(key, value) {
 
               var kodedivisi = idproyek.substr(11,1);
@@ -571,6 +586,15 @@ function get_nomor_urut(area){
         success: function(data){
             $.each(data, function(key, value) {
                 $('[name="urut"]').val(value.nomor).trigger('change');
+
+                var kodepdo = 'PDO/2022/'+area+'/'+value.nomor;
+                // var nomorpdo = kodepdo.replace('PQ','PDO');
+
+                $('[name="kd_pdo"]').val(kodepdo).trigger('change');
+                nomorpdo_temp = kodepdo.replace(/\//g,'abcde')
+                load_rincian_temp(nomorpdo_temp)
+
+                
             });
 
         }
@@ -627,6 +651,7 @@ $('#butsave').on('click', function() {
     var area          = $('#area').val();
     var qty           = $('#qty').val();
     var satuan        = $('#satuan').val();
+    var kd_pegawai    = $('#kd_pegawai').val();
     var harga         = number($('#harga').val());
     var divisi        = $('#divisi').val();
     var idpdo         = no_pdo.replace(/\//g,'');
@@ -693,6 +718,7 @@ $('#butsave').on('click', function() {
           divisi:divisi,
           tgl_pdo:tgl_pdo,
           kd_item :kd_item,
+          kd_pegawai:kd_pegawai,
           uraian:uraian,
           qty:qty,
           satuan:satuan,

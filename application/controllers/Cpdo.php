@@ -125,6 +125,12 @@ public function datatable_json_operasional(){
 		echo json_encode($records);						   
 	}
 
+	function get_pegawai_by_area(){
+		$area = $this->input->post('id',TRUE);
+		$data = $this->spjpegawai_model->get_pegawai_by_area($area)->result();
+		echo json_encode($data);
+	}
+
 public function add(){
 		$this->rbac->check_operation_access('');
 		if($this->input->post('type')==1){
@@ -139,6 +145,7 @@ public function add(){
             $data['no_acc'] 			= $this->input->post('kd_item', TRUE);
             $data['jns_tkl'] 			= $this->input->post('jenis_tkl', TRUE);
 			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
 			$data['qty']				= $this->input->post('qty', TRUE);
 			$data['satuan']				= $this->input->post('satuan', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);
@@ -196,13 +203,13 @@ public function add(){
             $data['jns_tkl'] 			= $this->input->post('jenis_tkl', TRUE);
 			$data['uraian']				= $this->input->post('uraian', TRUE);
 			$data['qty']				= $this->input->post('qty', TRUE);
+			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
 			$data['satuan']				= $this->input->post('satuan', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);
 			$data['no_rekening']		= '';
 			$data['nilai']				= $this->input->post('total', TRUE);
 			$data['jenis']				= 3; //1 untuk pdo project
 			$result = $this->pdo_model->save_pdo($data);
-			
 					echo json_encode(array(
 							"statusCode"=>200
 						));
@@ -225,7 +232,6 @@ public function add_pdo_project(){
 			$this->form_validation->set_rules('kd_pdo', 'Kode PDO', 'trim|required');
 			$this->form_validation->set_rules('tgl_pdo', 'Tanggal PDO', 'trim|required');
 			$this->form_validation->set_rules('area', 'Area', 'trim|required');
-			$this->form_validation->set_rules('projek', 'Proyek', 'trim|required');
 
 			if ($this->form_validation->run() == FALSE) {
 				$data = array(
@@ -319,16 +325,22 @@ public function edit_pdo_keterangan($id='',$jns=''){
 			}
 			else{
 				$kdpdo 						= $this->security->xss_clean($this->input->post('kd_pdo'));
-				$keterangan 			= $this->security->xss_clean($this->input->post('keterangan'));
-				$jenis_transfer 	= $this->security->xss_clean($this->input->post('s_transfer'));
+				$keterangan 				= $this->security->xss_clean($this->input->post('keterangan'));
+				$jenis_transfer 			= $this->security->xss_clean($this->input->post('s_transfer'));
 				
-
-				$result = $this->pdo_model->update_keterangan($kdpdo, $keterangan, $jenis_transfer);
+				if ($jns=='3'){
+					$jnspdo 				= $this->security->xss_clean($this->input->post('jns_pdo'));
+					$result = $this->pdo_model->update_keterangan_gaji($kdpdo, $keterangan, $jenis_transfer,$jnspdo);
+				}else{
+					$result = $this->pdo_model->update_keterangan($kdpdo, $keterangan, $jenis_transfer);
+				}
 				if($result){
 					$this->activity_model->add_log(1);
 					$this->session->set_flashdata('success', 'PQ Proyek berhasil diubah!');
 					if ($jns=='1'){
 						redirect(base_url('cpdo'));
+					}else if ($jns=='3'){
+						redirect(base_url('cpdo/gaji'));
 					}else{
 						redirect(base_url('cpdo/operasional'));	
 					}
@@ -544,6 +556,7 @@ public function datatable_json_pdo_operasional_edit($id='',$kodepdo=''){
             $data['no_acc'] 			= $this->input->post('kd_item', TRUE);
 			$data['uraian']				= $this->input->post('uraian', TRUE);
 			$data['qty']				= $this->input->post('qty', TRUE);
+			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
 			$data['satuan']				= $this->input->post('satuan', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);
 			$data['nilai']				= $this->input->post('total', TRUE);
@@ -597,6 +610,7 @@ public function edit_pdo_project($id_pdo='')
 			$data['kd_divisi']			= $this->input->post('divisi', TRUE);
 			$data['qty']				= $this->input->post('qty', TRUE);
 			$data['satuan']				= $this->input->post('satuan', TRUE);
+			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);
 			$data['kd_pqproyek']		= $this->input->post('projek', TRUE);
 			$data['kd_project']			= $this->input->post('kodeproject', TRUE);
@@ -637,10 +651,11 @@ public function edit_pdo_gaji($id_pdo='')
 			$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
 			$data['tgl_pdo']			= $this->input->post('tgl_pdo', TRUE);
 			$data['kd_area'] 			= $this->input->post('area', TRUE);
-			$data['kd_divisi']		= $this->input->post('divisi', TRUE);
-			$data['qty']					= $this->input->post('qty', TRUE);
+			$data['kd_divisi']			= $this->input->post('divisi', TRUE);
+			$data['qty']				= $this->input->post('qty', TRUE);
 			$data['satuan']				= $this->input->post('satuan', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);
+			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
 			$data['kd_pqproyek']		= $this->input->post('projek', TRUE);
 			$data['kd_project']			= $this->input->post('kodeproject', TRUE);
             $data['no_acc3'] 			= $this->input->post('kd_item', TRUE);
@@ -662,8 +677,8 @@ public function edit_pdo_gaji($id_pdo='')
 			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
 			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
 			$data['data_pdo'] 			= $this->pdo_model->get_pdo_by_id($id_pdo);
-			$data['title'] 				= 'Edit PDO';
-			$this->load->view('admin/includes/_header');
+			$data['title'] 				= 'Edit PDO Gaji';
+			$this->load->view('admin/includes/_header', $data);
 			$this->load->view('user/pdo/edit_gaji', $data);
 			$this->load->view('admin/includes/_footer');
 		}
@@ -681,10 +696,12 @@ public function edit_pdo_operasional($id_pdo='')
 			$data['tgl_pdo']			= $this->input->post('tgl_pdo', TRUE);
 			$data['kd_area'] 			= $this->input->post('area', TRUE);
 			$data['kd_pqproyek']		= $this->input->post('projek', TRUE);
+			$data['s_transfer']			= $this->input->post('s_transfer', TRUE);
 			$data['kd_project']			= $this->input->post('kodeproject', TRUE);
             $data['no_acc3'] 			= $this->input->post('kd_item', TRUE);
             $data['no_acc'] 			= $this->input->post('kd_item', TRUE);
 			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
 			$data['qty']				= $this->input->post('qty', TRUE);
 			$data['satuan']				= $this->input->post('satuan', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);

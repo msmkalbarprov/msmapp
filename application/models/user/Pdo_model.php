@@ -51,6 +51,27 @@ public function get_all_pdo_cair(){
        		return $this->db->get()->result_array();
 	}
 
+
+	public function get_all_pdo_terima(){
+		
+
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->select('*');
+			$this->db->from("v_pdo_terima");
+			$this->db->where("status_bayar", 1);
+			$this->db->where("status_bayar", 1);
+		}else{
+			$this->db->select('*');
+			$this->db->from("v_pdo_terima");
+			$this->db->where("status_bayar", 1);
+			$this->db->where("status_bayar", 1);
+			$this->db->where("kd_area", $this->session->userdata('kd_area'));
+		}
+		
+		$this->db->order_by("tgl_pdo", "ASC");
+		   return $this->db->get()->result_array();
+}
+
 public function get_all_pdo_gaji(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 			$this->db->select('*');
@@ -172,6 +193,22 @@ function get_item_pq_by_pq($pq)
 
 	}
 
+    function get_pegawai_by_area($area)
+	{   
+
+        // if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin'){
+		// 	$query = $this->db->get_where('get_pegawai', array('kd_area' => $area));
+		//     return $query;
+		// }
+		// else{
+			$query = $this->db->get_where('get_pegawai', array('kd_area' => $area));
+		    return $query;
+		// }
+
+
+		
+	}
+
 function get_jenis_tk($kode_pqproyek,$no_acc)
 	{
 		$query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $kode_pqproyek, 'kd_item' => $no_acc));
@@ -212,7 +249,7 @@ function get_nilai2($id, $no_acc, $jns_tk)
 function get_realisasi($id, $no_acc)
 	{	
 		$this->db->select('ifnull(sum(total),0)as total');
-		$this->db->from('v_get_realisasi_hpp');
+		$this->db->from('v_get_realisasi_hpp2');
 		$this->db->where('kd_pqproyek', $id);	
 		$this->db->where('no_acc', $no_acc);	
 		$query=$this->db->get();
@@ -251,6 +288,7 @@ public function save_pdo($data){
 		$insert_data['jenis_tkl']					= $data['jns_tkl'];
 		$insert_data['uraian'] 						= $data['uraian'];
 		$insert_data['nilai']							= $data['nilai'];
+		$insert_data['kd_pegawai']							= $data['kd_pegawai'];
 		$insert_data['qty']								= $data['qty'];
 		$insert_data['satuan']						= $data['satuan'];
 		$insert_data['harga']							= $data['harga'];
@@ -271,6 +309,7 @@ public function save_edit_pdo($data){
 		$insert_data['kd_project']				= $data['kd_project'];
 		$insert_data['no_acc3']						= $data['no_acc3'];
 		$insert_data['no_acc']						= $data['no_acc'];
+		$insert_data['kd_pegawai']						= $data['kd_pegawai'];
 		$insert_data['jenis_tkl']					= $data['jns_tkl'];
 		$insert_data['uraian'] 						= $data['uraian'];
 		$insert_data['nilai']							=	$data['nilai'];
@@ -334,8 +373,8 @@ public function save_edit_pdo($data){
 
 public function add_pdo_project($kdpdo)
 		{	
-			$query = $this->db->query("INSERT into ci_pdo (id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar,no_rekening,nm_rekening,nm_bank) 
-                           SELECT id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar,no_rekening,nm_rekening,nm_bank FROM ci_pdo_temp
+			$query = $this->db->query("INSERT into ci_pdo (id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar,no_rekening,nm_rekening,nm_bank,kd_pegawai) 
+                           SELECT id_pdo,kd_pdo,tgl_pdo,kd_area,kd_divisi,kd_pqproyek,kd_project,no_acc3,nm_acc3,no_acc,nm_acc,jenis_tkl,qty,satuan,harga,uraian,keterangan,nilai,jenis,username,created_at,updated_at,status_bayar,no_rekening,nm_rekening,nm_bank,kd_pegawai FROM ci_pdo_temp
                            WHERE kd_pdo = '$kdpdo'");
 
 			$this->db->delete('ci_pdo_temp', array('kd_pdo' => $kdpdo));
@@ -489,6 +528,7 @@ public function save_pdo_operasional($data){
 		$insert_data['nilai']							= $data['nilai'];
 		$insert_data['jenis']							= $data['jenis'];
 		$insert_data['qty']								= $data['qty'];
+		$insert_data['kd_pegawai']					= $data['kd_pegawai'];
 		$insert_data['satuan']						= $data['satuan'];
 		$insert_data['harga']							= $data['harga'];
 		$insert_data['no_rekening']				= $data['no_rekening'];
@@ -509,6 +549,7 @@ public function save_edit_pdo_operasional($data){
 		$insert_data['no_acc']						= $data['no_acc'];
 		$insert_data['uraian'] 						= $data['uraian'];
 		$insert_data['qty']								= $data['qty'];
+		$insert_data['kd_pegawai']					= $data['kd_pegawai'];
 		$insert_data['satuan']						= $data['satuan'];
 		$insert_data['harga']							= $data['harga'];
 		$insert_data['nilai']							= $data['nilai'];

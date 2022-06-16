@@ -26,7 +26,7 @@ class Penerimaan_pdo extends MY_Controller {
 		$this->load->view('admin/includes/_footer');
 	}
 	public function datatable_json(){				   					   
-		$records['data'] = $this->pdo_model->get_all_pdo_cair();
+		$records['data'] = $this->pdo_model->get_all_pdo_terima();
 		$data = array();
 		$i=0;
 		foreach ($records['data']   as $row) 
@@ -311,7 +311,7 @@ public function terima_pdo($id_pdo='',$jns=0)
 					redirect(base_url('penerimaan_pdo'));
 				}else{
 					$this->session->set_flashdata('errors', 'PDO gagal dicairkan!');
-					redirect(base_url('penerimaan_pdo/edit_pdo_project/'.$id));
+					redirect(base_url('penerimaan_pdo/edit_pdo_project/'.$id_pdo));
 				}
 			}
 		}else{

@@ -72,7 +72,7 @@
                   <small>Langsung</small>
                   <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' />
                   <label for='c_transfer'></label>
-                  <small>Kas Daerah</small>
+                  <small>Kas Area</small>
                   <input id='s_transfer' name="s_transfer"  type='hidden' />
           </div>
         </div>
@@ -113,8 +113,8 @@
         </div>
       </div>
       <!-- large modal -->
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade bd-example-modal-lg" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">Tambah Rincian</h4>
@@ -132,7 +132,7 @@
         </div>
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Akun</label>
               <input type="hidden" name="jns_tkls" id="jns_tkls" class="form-control" readonly>
@@ -140,6 +140,14 @@
                   <option value="">No Selected</option>
                 </select> 
 
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="area" class="control-label">Rekening/Pegawai</label><br>
+                    <select name="kd_pegawai"  id="kd_pegawai" class="form-control" required>
+                    <option value="">No Selected</option>
+                  </select>
             </div>
           </div>
         </div>
@@ -248,8 +256,9 @@
 </script>
 <script>
   $(document).ready(function(){
-    get_akun()
     set_status_transfer();
+    
+    get_akun();
     var kodepdo   = $('#kd_pdo').val();
     var nomorpdo  = kodepdo.replace(/\//g,'abcde');
     var table = $('#na_datatable').DataTable( {
@@ -273,6 +282,8 @@
 $('#c_transfer').click(function() {
   if ($('#c_transfer').prop('checked') == true){
       $('[name="s_transfer"]').val('1').trigger('change');
+      var kodearea ="<?= $data_pdo['kd_area']; ?>";
+      get_pegawai(kodearea);
   }else{
     $('[name="s_transfer"]').val('0').trigger('change');
   }
@@ -280,11 +291,42 @@ $('#c_transfer').click(function() {
 
 function set_status_transfer() {
   var status_transfer = "<?= $data_pdo['s_transfer'] ?>";
+
   if (status_transfer==1){
     $('#c_transfer').attr('checked', 'checked');
     $('[name="s_transfer"]').val('1').trigger('change');
+    var kodearea="<?= $data_pdo['kd_area']; ?>";
+    get_pegawai(kodearea);
   }
 }
+
+function get_pegawai(area) {
+    $.ajax({
+                    url : "<?php echo site_url('spj_pegawai/get_pegawai_by_area');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: area},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="kd_pegawai"]').empty();
+                        $('select[name="kd_pegawai"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="kd_pegawai"]').append('<option value="'+ value.kd_pegawai +'">'+ value.nama +'</option>');
+                        });
+
+                    }
+                });
+}
+
+// function set_status_transfer() {
+//   var status_transfer = "<?= $data_pdo['s_transfer'] ?>";
+//   if (status_transfer==1){
+//     $('#c_transfer').attr('checked', 'checked');
+//     $('[name="s_transfer"]').val('1').trigger('change');
+//   }
+// }
 
 function get_nilai(kode_pqoperasional){
         $.ajax({
@@ -388,6 +430,8 @@ $('#butsave').on('click', function() {
     var nourut        = $('#urut').val();
     var projek        = "<?= $data_pdo['kd_project']; ?>";
     var uraian        = $('#uraian').val();
+    var kd_pegawai    = $('#kd_pegawai').val();
+    var s_transfer    = $('#s_transfer').val();
     var qty           = $('#qty').val();
     var satuan        = $('#satuan').val();
     var total         = number($('#total').val());
@@ -415,9 +459,11 @@ $('#butsave').on('click', function() {
           tgl_pdo:tgl_pdo,
           kd_item :kd_item,
           uraian:uraian,
+          kd_pegawai:kd_pegawai,
           qty:qty,
           satuan:satuan,
           harga:harga,
+          s_transfer:s_transfer,
           total:total,
           idpdo:idpdo,
           no_pdo:no_pdo,
@@ -435,6 +481,7 @@ $('#butsave').on('click', function() {
             document.getElementById("total").value='';
             document.getElementById("total").value='';
             document.getElementById("pnet").value='';
+            document.getElementById("kd_pegawai").value='';
             document.getElementById("thpp").value='';
             document.getElementById("sisa").value='';
             document.getElementById("satuan").value='';

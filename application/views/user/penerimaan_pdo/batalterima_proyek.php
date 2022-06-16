@@ -173,7 +173,7 @@
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('pengesahan_pdo/datatable_json_pdo_proyek_edit'.'/')?>"+ nomorpdo+'/<?= $this->uri->segment(3); ?>',
+    "ajax": "<?=base_url('penerimaan_pdo/datatable_json_pdo_proyek_edit'.'/')?>"+ nomorpdo+'/<?= $this->uri->segment(3); ?>',
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "kd_item", 'searchable':true, 'orderable':false},

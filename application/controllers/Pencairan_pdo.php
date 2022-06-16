@@ -327,7 +327,7 @@ public function cair_pdo($id_pdo='',$jns=0)
 					redirect(base_url('pencairan_pdo'));
 				}else{
 					$this->session->set_flashdata('errors', 'PDO gagal dicairkan!');
-					redirect(base_url('pencairan_pdo/edit_pdo_project/'.$id));
+					redirect(base_url('pencairan_pdo/edit_pdo_project/'.$id_pdo));
 				}
 			}
 		}else{
@@ -372,7 +372,7 @@ public function batalcair_pdo($id_pdo='',$jns=0)
 					
 				}else{
 					$this->session->set_flashdata('errors', 'PDO gagal dibatalcairkan!');
-					redirect(base_url('pencairan_pdo/edit_pdo_project/'.$id));
+					redirect(base_url('pencairan_pdo/edit_pdo_project/'.$id_pdo));
 				}
 			}
 		}else{
