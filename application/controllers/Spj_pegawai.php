@@ -533,14 +533,15 @@ function get_nomor(){
 function get_nilai(){
 		$id 		= $this->input->post('id',TRUE);
 		$no_acc 	= $this->input->post('no_acc',TRUE);
-		$data 		= $this->spjpegawai_model->get_nilai($id, $no_acc)->result();
+		$jns_spj 	= $this->input->post('jns_spj',TRUE);
+		$data 		= $this->spjpegawai_model->get_nilai($id, $no_acc, $jns_spj)->result();
 		echo json_encode($data);
 	}
 function get_realisasi(){
 		$id 		= $this->input->post('id',TRUE);
 		$no_acc 	= $this->input->post('no_acc',TRUE);
-		$project 	= $this->input->post('project',TRUE);
-		$data 		= $this->spjpegawai_model->get_realisasi($id, $no_acc,$project)->result();
+		$jns_spj 	= $this->input->post('jns_spj',TRUE);
+		$data 		= $this->spjpegawai_model->get_realisasi($id, $no_acc,$jns_spj)->result();
 		echo json_encode($data);
 	}
 

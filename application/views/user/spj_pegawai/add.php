@@ -198,6 +198,9 @@
            <div class="form-group">
                 <label for="dinas" class="control-label">Saldo Kas</label>
                 <input type="text" name="kas" id="kas" class="form-control"  style="background:none;text-align:right;"readonly >
+                <input type="hidden" name="n_pq" id="n_pq" class="form-control"  style="background:none;text-align:right;"readonly >
+                <input type="hidden" name="r_pq" id="r_pq" class="form-control"  style="background:none;text-align:right;"readonly >
+                <input type="hidden" name="s_pq" id="s_pq" class="form-control"  style="background:none;text-align:right;"readonly >
             </div>
           </div>
           <div class="col-md-6">
@@ -433,10 +436,58 @@ function get_akun(jns_spj,kd_proyek){
 
 
 $('#no_acc').change(function(){ 
-  var kd_pegawai      = $('#kd_pegawai').val();
+  var kd_pegawai    = $('#kd_pegawai').val();
+  
+  var area          = $('#area').val();
+  var jns_spj       = $('#jns_spj').val();
+  var projek        = $('#projek').val();
+  var kd_item       = $(this).val();
+
     get_kas(kd_pegawai);
+    get_nilai(projek,kd_item,jns_spj);
     return false;
 });
+
+function get_nilai(projek,kd_item,jns_spj){
+        $.ajax({
+        url : "<?php echo site_url('spj_pegawai/get_nilai');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: projek,no_acc:kd_item,jns_spj:jns_spj},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="n_pq"]').val(number_format(value.nilai,"2",",",".")).trigger('change');
+                get_realisasi(kd_item,projek,jns_spj,value.nilai);
+            });
+
+        }
+    });
+}
+
+
+function get_realisasi(kd_item,projek,jns_spj,nilai){
+        $.ajax({
+        url : "<?php echo site_url('spj_pegawai/get_realisasi');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: projek,no_acc:kd_item,jns_spj:jns_spj},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="r_pq"]').val(number_format(value.total,"2",",",".")).trigger('change');
+                $('[name="s_pq"]').val(number_format(nilai - value.total,"2",",",".")).trigger('change');
+
+            });
+
+        }
+    });
+        
+}
 
 function get_kas(kd_pegawai){
         var project           = $('#project').val();
@@ -504,7 +555,13 @@ $('#formtest').submit(function(e){
             var jns_spj1             = $('#jns_spj').val();
             var project1             = $('#projek').val();
             var kas1                 = number($('#kas').val());
+            var sisa1                = number($('#s_pq').val());
+            
 
+              if(nilai1>sisa1){
+                alert('Gagal, Nilai SPJ melebihi sisa nilai PQ')
+                  return;
+              }
 
               if(tgl_spj1==""){
                 alert('Tanggal tidak boleh kosong')

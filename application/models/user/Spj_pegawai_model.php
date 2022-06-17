@@ -143,8 +143,10 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			$this->db->from('ci_coa_msm');
 			if ($jns_spj=='1'){
 				$this->db->where_in('no_acc', $akun);
+				$this->db->where('level', 4);
 			}else{
 				$this->db->where_in('left(no_acc,5)', $akun);
+				$this->db->where('level', 4);
 			}
 
 		}else if ($jabatan=='programer' || $jabatan=='akuntan' || $jabatan=='rc' || $jabatan=='lainnya'){ //staff
@@ -152,7 +154,13 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			if ($jns_spj=='1'){
 				$akun = array('5010202','5010205');
 			}else{
-				$akun = array('5040201','5040202','5040203');
+
+				if ($this->session->userdata('username')=='PG04221' || $this->session->userdata('username')=='PG61120' || $this->session->userdata('username')=='PG8533' || $this->session->userdata('username')=='PG21217'){
+					$akun = array('50401','50408','50403','50402','50410','50411');
+				}else{
+					$akun = array('5040201','5040202','5040203');
+				}
+				
 			}
 			
 			$this->db->select('*');
@@ -160,7 +168,18 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			if ($jns_spj=='1'){
 				$this->db->where_in('no_acc', $akun);
 			}else{
-				$this->db->where_in('left(no_acc,5)', $akun);
+
+				if ($this->session->userdata('username')=='PG04221' || $this->session->userdata('username')=='PG61120' || $this->session->userdata('username')=='PG8533' || $this->session->userdata('username')=='PG21217'){
+					$this->db->where_in('left(no_acc,5)', $akun);
+					$this->db->where('level', 4);
+				}else{
+					$this->db->where('level', 4);
+					$this->db->where_in('left(no_acc,7)', $akun);
+					
+				}
+
+
+				
 			}
 		
 		}else if ($this->session->userdata('admin_role')=='Admin Area'){ //admin kantor
@@ -182,8 +201,10 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			$this->db->from('ci_coa_msm');
 			if ($jns_spj=='1'){
 				$this->db->where_in('no_acc', $akun);
+				$this->db->where('level', 4);
 			}else{
 				$this->db->where_in('left(no_acc,5)', $akun);
+				$this->db->where('level', 4);
 			}
 		}else{   //lainnya
 			
@@ -207,8 +228,10 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			$this->db->where('level', 4);
 			if ($jns_spj=='1'){
 				$this->db->where_in('no_acc', $akun);
+				$this->db->where('level', 4);
 			}else{
 				$this->db->where_in('left(no_acc,5)', $akun);
+				$this->db->where('level', 4);
 			}
 			
 		}
@@ -224,19 +247,57 @@ function get_item_by_pdo($pq,$jenis_pdo)
 
 
 
-	function get_nilai($id, $no_acc)
-	{	
-			$query = $this->db->get_where('ci_pdo', array('kd_pdo' => $id, 'no_acc' => $no_acc));	
+	function get_nilai($id, $no_acc, $jns_spj)
+	{		
+			if ($jns_spj=='1'){
+			  $kodeakun = substr($no_acc,0,7);
+			//   if ($jns_tkl == 'programer' || $jns_tkl == 'akuntan' || $jns_tkl == 'rc' || $jns_tkl == 'lainnya'){
+			// 	  $this->db->select("sum(total) as nilai");
+			// 	  $this->db->from('ci_hpp');
+			// 	  $this->db->where('id_pqproyek', $id);	
+			// 	  $this->db->where('left(kd_item,7)', $kodeakun);
+			// 	  $this->db->where('jenis_tk', $jns_tkl);
+
+			// 	  // $query = $this->db->get_where('ci_hpp', array('id_pqproyek' => $id, 'no_acc' => $no_acc, 'jenis_tk' => $jns_tkl));	
+			//   }else{
+				  $this->db->select("sum(a.total) as nilai");
+				  $this->db->from('ci_hpp a');
+				  $this->db->join('ci_pendapatan b ','a.id_pqproyek = b.id_pqproyek', 'inner');
+				  $this->db->where('b.id_proyek', $id);	
+				  $this->db->where('left(a.kd_item,7)', $kodeakun);
+
+				  // $query = $this->db->get_where('ci_hpp', array('id_pqproyek' => $id, 'no_acc' => $no_acc));	
+			//   }
+			  
+			}else{
+			  $kodeakun = substr($no_acc,0,5);
+
+			  $this->db->select("sum(total) as nilai");
+			  $this->db->from('ci_pq_operasional');
+			  $this->db->where('left(kd_pq_operasional,10)', $id);	
+			  $this->db->where('left(kd_item,5)', $kodeakun);	
+			  // $query = $this->db->get_where('ci_pq_operasional', array('left(kd_pq_operasional,10)' => $id, 'no_acc' => $no_acc));	
+			}
+			$query=$this->db->get();
 			return $query;
 	}
 
-	function get_realisasi($id, $no_acc, $project)
+function get_realisasi($id, $no_acc,$jns_spj)
 	{	
-		$this->db->select("ifnull(sum(nilai),0)+(select ifnull(sum(nilai),0) from ci_spj_temp where kd_pdo='$id' and kd_project='$project' and no_acc_pdo2='$no_acc') as total");
-		$this->db->from('ci_spj');
-		$this->db->where('kd_pdo', $id);
-		$this->db->where('kd_project', $project);	
-		$this->db->where('no_acc_pdo2', $no_acc);	
+
+		if ($jns_spj=='1'){
+			$this->db->select("ifnull(sum(nilai),0) as total");
+			$this->db->from('get_realisasi_spj_kantor');
+			$this->db->where('kd_pqproyek', 'PQ/'.$id);
+		
+		}else{
+			$this->db->select("ifnull(sum(nilai),0) as total");
+			$this->db->from('get_realisasi_spj_kantor');
+			$this->db->where('kd_pqproyek', $id);
+		
+		}
+		$this->db->where('no_acc', $no_acc);
+			
 		$query=$this->db->get();
 		return $query;
 	}
@@ -843,7 +904,7 @@ public function get_pdo_detail($id){
     function get_pegawai_by_area($area)
 	{   
 
-        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin'){
+        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin Area'){
 			$query = $this->db->get_where('get_pegawai', array('kd_area' => $area));
 		    return $query;
 		}

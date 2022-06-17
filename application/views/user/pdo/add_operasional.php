@@ -1,4 +1,4 @@
-  <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/autoCurrency.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/autoCurrency.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/numberFormat.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/select2/select2.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.css"> 
@@ -138,7 +138,7 @@
       <!-- MODAL -->
 
       <!-- large modal -->
-      <div class="modal fade bd-example-modal-lg" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+      <div class="modal fade bd-example-modal-lg" id="largeModal" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -155,7 +155,7 @@
             <div class="form-group">
               <label for="item_hpp" class="control-label">Akun</label>
               <input type="hidden" name="jns_tkls" id="jns_tkls" class="form-control" readonly>
-                <select name="item_hpp"  id="item_hpp" class="form-control" required>
+                <select name="item_hpp"  id="item_hpp" class="form-control select2" style="width: 100%;" required>
                   <option value="">No Selected</option>
                 </select> 
 
@@ -164,7 +164,7 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label">Rekening/Pegawai</label><br>
-                    <select name="kd_pegawai"  id="kd_pegawai" class="form-control" required>
+                    <select name="kd_pegawai"  id="kd_pegawai" class="form-control select2" style="width: 100%;" required>
                     <option value="">No Selected</option>
                   </select>
             </div>
@@ -610,6 +610,4 @@ $('#butsave').on('click', function() {
   });
 
   }); 
-
-
 </script>

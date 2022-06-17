@@ -52,6 +52,10 @@
         $warna3 = 'bg-info';
       }else if ($this->session->userdata('admin_role')=='Divisi Finance'){
         $warna3 = 'bg-primary';
+      }else if ($this->session->userdata('admin_role')=='Admin Area'){
+        $warna3 = 'bg-warning';
+      }else if ($this->session->userdata('admin_role')=='Karyawan'){
+        $warna3 = 'bg-success';
       }else{
         $warna3 = 'bg-white';
       }

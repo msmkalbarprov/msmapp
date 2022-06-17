@@ -17,6 +17,14 @@ if($this->session->userdata('is_supper')){
   $warna = 'light';
   $warna2 = 'primary';
   $warna4 = 'bg-primary';
+}else if ($this->session->userdata('admin_role')=='Karyawan'){
+  $warna = 'light';
+  $warna2 = 'success';
+  $warna4 = 'bg-success';
+}else if ($this->session->userdata('admin_role')=='Admin Area'){
+  $warna = 'light';
+  $warna2 = 'warning';
+  $warna4 = 'bg-warning';
 }else{
   $warna = 'dark';
   $warna2 = 'primary';

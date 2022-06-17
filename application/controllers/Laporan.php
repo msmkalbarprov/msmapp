@@ -60,7 +60,8 @@ class Laporan extends MY_Controller {
 
 	}
 
-	public function cetak_pq($id=0,$tahun=0,$jenis=0)
+// CETAK LAPORAN PQ 
+public function cetak_pq($id=0,$tahun=0,$jenis=0)
 	{	
 		$map1					= $this->pq_model->get_map1($id);
 		$marketing				= $this->pq_model->get_operasional_by_area($id, $tahun);
