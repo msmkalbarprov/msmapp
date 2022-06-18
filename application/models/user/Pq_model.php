@@ -22,7 +22,7 @@
 	function get_coa_item()
 	{	
 		$this->db->from('ci_coa_msm');
-		$this->db->where('no_acc in ("5010201","5010202","5010203","5010204","5010206","5010205")');	
+		$this->db->where('no_acc in ("5010201","5010202","5010203","5010204","5010206","5010205","5010502")');	
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -199,14 +199,14 @@ public function get_pq_operasional_view($id){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');
-			$this->db->where('thn_anggaran >=',date("Y"));	
+			$this->db->where('thn_anggaran >=',date("Y")-1);	
 			$this->db->where('kd_area =',$area);	
 			$this->db->where('kd_sub_area =',$subarea);
 			$this->db->where_not_in('kd_proyek', $kd_proyek);
 		}else{
 			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');	
-			$this->db->where('thn_anggaran >=',date("Y"));	
+			$this->db->where('thn_anggaran >=',date("Y")-1);	
 			$this->db->where('kd_area =',$area);	
 			$this->db->where('kd_sub_area =',$subarea);
 			$this->db->where_not_in('kd_proyek', $kd_proyek);
@@ -839,6 +839,15 @@ public function get_spk_by_year($id,$tahun){
 			$this->db->where("left(kd_proyek,4)", $tahun);
 			$this->db->where("kd_area", $id);
 			return $result = $this->db->get()->row_array();
+}
+
+public function get_tahun_lalu_by_year($id,$tahun){
+	$this->db->select("sum(total) as tahunlalu");
+	$this->db->from('ci_hpp');
+	$this->db->where("substring(kd_pqproyek,4,4)", $tahun);
+	$this->db->where("kd_area", $id);
+	$this->db->where("kd_item", '5010502');
+	return $result = $this->db->get()->row_array();
 }
 
 public function get_spk_all_by_year($tahun){

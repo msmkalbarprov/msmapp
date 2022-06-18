@@ -14,7 +14,7 @@
       <div class="card card-default">
         <div class="card-header">
           <div class="d-inline-block">
-            <h3 class="card-title"> <i class="fa fa-plus"></i>
+            <h3 class="card-title">
              Edit SPJ Pegawai</h3>
            </div>
            <div class="d-inline-block float-right">
@@ -86,7 +86,7 @@
          </div>
 
         <div class="form-group">
-          <div class="col-md-12" align="center">
+          <div class="col-md-12" align="right">
             <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#largeModal">Tambah Rincian</a>
             <input type="submit" name="submit" id="tombolsimpan" value="Update" class="btn btn-primary btn-sm">
           </div>
@@ -169,7 +169,25 @@
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="jns_ta" class="control-label">Jenis TA</label>
+                  <select name="jns_ta"  id="jns_ta" class="form-control" required>
+                    <option value="">No Selected</option>
+                    <option value="1">Biaya Transportasi Operasional</option>
+                    <option value="2">Biaya Hotel, Penginapan & Akomodasi, Kost</option>
+                    <option value="3">Biaya Perdiem/Paket</option>
+                    <option value="4">Biaya Service, Perawatan, Sparepart & Perlengkapan</option>
+                    <option value="5">BBM, Parkir, Tol</option>
+                    <option value="6">Asuransi Kendaraan</option>
+                    <option value="7">Biaya Telepon, Internet dan Fax</option>
+                    <option value="8">Biaya Pos, Pengiriman</option>
+                  </select> 
 
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -227,7 +245,7 @@
 </script>
 <script>
   $(document).ready(function(){
-    
+    document.getElementById("jns_ta").disabled=true;
     var no_spj   = $('#no_spj').val();
     var kd_pegawai     = $('#kd_pegawai').val();
     var table = $('#na_datatable').DataTable( {
@@ -280,6 +298,11 @@ $('#no_acc').change(function(){
   var projek        = $('#projek').val();
   var kd_item       = $(this).val();
 
+  if (kd_item=='5010205'){
+    document.getElementById("jns_ta").disabled=false;
+  }else{
+    document.getElementById("jns_ta").disabled=true;
+  }
 
     get_kas(kd_pegawai);
     get_nilai(projek,kd_item,jns_spj);

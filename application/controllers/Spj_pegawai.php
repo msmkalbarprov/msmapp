@@ -68,10 +68,11 @@ class Spj_pegawai extends MY_Controller {
 		$this->load->library('upload', $config);
 	
 		$status = "success";
-		$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
+			$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
 			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
 			$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
 			$data['kd_area'] 			= $this->input->post('kdarea', TRUE);
+			$data['jns_ta'] 			= $this->input->post('jns_ta', TRUE);
 			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
 			$data['kd_sub_area']		= $this->input->post('subarea', TRUE);
 			$data['kd_proyek']			= $this->input->post('kd_proyek', TRUE);
@@ -336,6 +337,7 @@ public function simpan_spj_file2(){
 			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
 			$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
 			$data['kd_area'] 			= $this->input->post('kd_area', TRUE);
+			$data['jns_ta'] 			= $this->input->post('jns_ta', TRUE);
 			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
 			$data['kd_sub_area']		= $this->input->post('kd_sub_area', TRUE);
 			$data['kd_proyek']			= $this->input->post('kd_projek', TRUE);
@@ -422,10 +424,30 @@ public function datatable_json_spj_edit($id='',$kd_pegawai=''){
 				$anchor = anchor('uploads/spj/'.$row['bukti'], 'preview','target="_blank"');
 			}
 
-				$data[]= array(
+					if($row['jns_ta']==1){
+						$jns_ta="&#x21AA"." - Biaya Transportasi Operasional";
+					}else if($row['jns_ta']==2){
+						$jns_ta="&#x21AA"." - Biaya Hotel, Penginapan & Akomodasi, Kost";
+					}else if($row['jns_ta']==3){
+						$jns_ta="&#x21AA"." - Biaya Perdiem/Paket";
+					}else if($row['jns_ta']==4){
+						$jns_ta="&#x21AA"." - Biaya Service, Perawatan, Sparepart & Perlengkapan";
+					}else if($row['jns_ta']==5){
+						$jns_ta="&#x21AA"." - BBM, Parkir, Tol";
+					}else if($row['jns_ta']==6){
+						$jns_ta="&#x21AA"." - Asuransi Kendaraan";
+					}else if($row['jns_ta']==7){
+						$jns_ta="&#x21AA"." - Biaya Telepon, Internet dan Fax";
+					}else if($row['jns_ta']==8){
+						$jns_ta="&#x21AA"." - Biaya Pos, Pengiriman";
+					}else{
+						$jns_ta='';
+					}
+
+			$data[]= array(
 				$row['no_spj'],
 				$row['tgl_spj'],
-				$row['no_acc'].'<br>'.$row['nm_acc'],
+				$row['no_acc'].'<br>'.$row['nm_acc'].'<br>'.$jns_ta,
 				$row['uraian'],
 				$anchor,
 				number_format($row['nilai'],2,',','.'),
@@ -582,6 +604,46 @@ function get_pegawai_by_area(){
     header('Content-Type: application/json');
     echo json_encode($callback); // Convert array $callback ke json
   }
+  function format_indo($date){
+    $Bulan = array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+    $bulan = $date;
+    $result = $Bulan[(int)$bulan-1];
+    return $result;
+  }
+
+  public function cetak_spj_pegawai($id=0,$kd_area,$kd_pegawai,$jenis='')
+	{	
+		$data['spj_header'] 		= $this->spjpegawai_model->get_spj_header($id,$kd_area,$kd_pegawai);
+		$data['spj_header2'] 		= $this->spjpegawai_model->get_spj_header2($id,$kd_area,$kd_pegawai);
+		$data['spj_header3'] 		= $this->spjpegawai_model->get_spj_header3($id,$kd_area,$kd_pegawai);
+		$data['spj_header4'] 		= $this->spjpegawai_model->get_spj_header4($id,$kd_area,$kd_pegawai);
+		$data['spj_header5'] 		= $this->spjpegawai_model->get_spj_header5($id,$kd_area,$kd_pegawai);
+		$data['rincian_spj'] 		= $this->spjpegawai_model->get_rincian_spj($id,$kd_pegawai);
+		$data['title']	= 'Cetak SPJ';
+		// $html = $this->load->view('user/pq/pq_view', $data);
+		// $cRet = $this->load->view('user/pq/cetak_pq_satuan',$data);
+		// $data['tahun'] 				= $tahun;
+
+		// if ($bulan==0){
+		// 	$data['bulan'] 				= "";	
+		// }else{
+		// 	$data['bulan'] 				= $this->format_indo($bulan);
+		// }
+
+		switch ($jenis)
+        {
+            case 0;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'portrait');
+			    $this->pdf->filename = "laporan.pdf";
+			    $this->pdf->load_view('user/spj_pegawai/cetak_spj_pegawai', $data);
+                break;
+            case 1;
+                $this->load->view('user/spj_pegawai/cetak_spj_pegawai', $data);
+               break;
+        }
+
+	}
 
 }
 ?>

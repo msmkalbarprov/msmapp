@@ -67,6 +67,7 @@ public function cetak_pq($id=0,$tahun=0,$jenis=0)
 		$marketing				= $this->pq_model->get_operasional_by_area($id, $tahun);
 		$pendapatan_area		= $this->pq_model->get_pendapatanarea_by_year($id,$tahun);
 		$spkperyear				= $this->pq_model->get_spk_by_year($id,$tahun);
+		$tahunlalu				= $this->pq_model->get_tahun_lalu_by_year($id,$tahun);
 
 
 		$html="";
@@ -283,9 +284,16 @@ $colspan1=($jumlahkolom*2)+4+2;
 					<td align="right" style="background: #f6d55c;">'. number_format(100,0,",",".").'</td>';
 		}else if ($kolom=='nilaippl'){
 
+			if ($pendapatan_area[$kolom]==0){
+				$persenpendapatanarea=0;
+			}else if ($pendapatan_area[$kolom]!=0 && $pendapatan_area["pendapatannetarea"]==0){
+				$persenpendapatanarea=100;
+			}else{
+				$persenpendapatanarea=$pendapatan_area[$kolom]/$pendapatan_area["pendapatannetarea"];
+			}
 
 			$html.='<td align="right" style="background: #f6d55c;">'. number_format($pendapatan_area[$kolom],0,",",".").'</td>
-					<td align="right" style="background: #f6d55c;">'. number_format($pendapatan_area[$kolom]/$pendapatan_area["pendapatannetarea"]*100,0,",",".").'</td>';
+					<td align="right" style="background: #f6d55c;">'. number_format($persenpendapatanarea*100,0,",",".").'</td>';
 		}else{
 			if($spkperyear['nilai_spk']!=0){
 				$persen5 = $pendapatan_area[$kolom]/$spkperyear['nilai_spk'];
@@ -613,7 +621,7 @@ if($kode==7){
 	    			$sub_total_b = $tothpp['nilai_hpp']*-1;
 	    		}
 
-	    	$lr_operasional = $sub_total_a+$sub_total_b;
+	    	$lr_operasional = $sub_total_a+$sub_total_b+$tahunlalu['tahunlalu'];
 
 	    	$total_lr_operasional=$total_lr_operasional+$lr_operasional;
 	    	
@@ -756,7 +764,7 @@ if($kode=='9'){
 			$persen_lr_setelah_ho=0;
 		}
 
-	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_lr_setelah_ho,0,',','.').'</td>
+	$html.='<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($total_lr_setelah_ho+$tahunlalu['tahunlalu'],0,',','.').'</td>
     		<td align="right" style="background: #a7aaad;border-right:white; ">'. number_format($persen_lr_setelah_ho*100,0,',','.').'</td>';    	
 	
     

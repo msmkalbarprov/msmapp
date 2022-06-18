@@ -180,6 +180,26 @@
           </div>
 
           <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="jns_ta" class="control-label">Jenis TA</label>
+                  <select name="jns_ta"  id="jns_ta" class="form-control" required>
+                    <option value="">No Selected</option>
+                    <option value="1">Biaya Transportasi Operasional</option>
+                    <option value="2">Biaya Hotel, Penginapan & Akomodasi, Kost</option>
+                    <option value="3">Biaya Perdiem/Paket</option>
+                    <option value="4">Biaya Service, Perawatan, Sparepart & Perlengkapan</option>
+                    <option value="5">BBM, Parkir, Tol</option>
+                    <option value="6">Asuransi Kendaraan</option>
+                    <option value="7">Biaya Telepon, Internet dan Fax</option>
+                    <option value="8">Biaya Pos, Pengiriman</option>
+                  </select> 
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="item_hpp" class="control-label">Uraian</label>
@@ -242,7 +262,7 @@
 <script>
   $(document).ready(function(){
     $('.select2').select2()
-
+    document.getElementById("jns_ta").disabled=true;
     nospj=0;
     kd_pegawai=0;
     var table = $('#na_datatable').DataTable( {
@@ -437,11 +457,17 @@ function get_akun(jns_spj,kd_proyek){
 
 $('#no_acc').change(function(){ 
   var kd_pegawai    = $('#kd_pegawai').val();
+  var kd_item       = $(this).val();
+  if (kd_item=='5010205'){
+    document.getElementById("jns_ta").disabled=false;
+  }else{
+    document.getElementById("jns_ta").disabled=true;
+  }
   
   var area          = $('#area').val();
   var jns_spj       = $('#jns_spj').val();
   var projek        = $('#projek').val();
-  var kd_item       = $(this).val();
+  
 
     get_kas(kd_pegawai);
     get_nilai(projek,kd_item,jns_spj);
@@ -547,6 +573,7 @@ $('#formtest').submit(function(e){
             var tgl_spj1             = $('#tgl_spj').val();
             var tgl_bukti1           = $('#tgl_bukti').val();
             var nourut1              = $('#urut').val();
+            var jnsta1               = $('#jns_ta').val();
             var nilai1               = number($('#total').val());
             var area1                = $('#area').val();
             var subarea1             = $('#subarea_1').val();
@@ -561,6 +588,13 @@ $('#formtest').submit(function(e){
               if(nilai1>sisa1){
                 alert('Gagal, Nilai SPJ melebihi sisa nilai PQ')
                   return;
+              }
+
+              if (no_akun1=='5010205'){
+                if (jnsta1==''){
+                  alert('Jenis Transportasi dan Akomodasi tidak boleh kosong')
+                  return;  
+                }
               }
 
               if(tgl_spj1==""){
