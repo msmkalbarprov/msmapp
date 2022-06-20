@@ -8,16 +8,14 @@
       <div class="card card-default">
         <div class="card-header">
           <div class="d-inline-block">
-            <h3 class="card-title"> <i class="fa fa-list"></i>
-             Saldo Awal </h3>
+            <h3 class="card-title">
+             Trasnfer Kas perusahaan ke Kas Besar</h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('saldo_awal/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
+            <a href="<?= base_url('transfer_bud/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
           </div>
         </div>
       <!-- /.box-body -->
-    </div>
-    <div class="card card-default">
       <div class="card-body">
          <?php $this->load->view('admin/includes/_messages.php') ?>
            <div class="row">
@@ -27,9 +25,10 @@
                   <thead>
                     <tr>
                       <th>#id</th>
-                      <th>Area</th>
                       <th>No. Rekening</th>
-                      <th>Pemilik</th>
+                      <th>Nama Rekening</th>
+                      <th>Tanggal Transfer</th>
+                      <th>Keterangan</th>
                       <th>Nilai</th>
                       <th>Action</th>
                     </tr>
@@ -47,7 +46,7 @@
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
   <script>
   // $("#proyek").addClass('menu-open');
-  $("#saldo_awal> a").addClass('active');
+  $("#transfer_bud> a").addClass('active');
 </script>
 <script type="text/javascript">
 
@@ -55,15 +54,16 @@
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('saldo_awal/datatable_json/')?>",
+    "ajax": "<?=base_url('transfer_bud/datatable_json/')?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
     { "targets": 1, "name": "area", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "no_rekening", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "pemilik", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "saldo", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 2, "name": "tanggal", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "pegawai", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "keterangan", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "nilai", 'searchable':true, 'orderable':false},
+    { "targets": 6, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
   </script>

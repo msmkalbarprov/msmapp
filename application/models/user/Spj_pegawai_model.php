@@ -1188,7 +1188,7 @@ public function get_pendapatanarea($id){
 					 $bulan = $hasil->row('bulan');
 
 		// get nilai 
-			$this->db->select("sum(terima) as terima, sum(keluar) as keluar");
+		$this->db->select("ifnull(sum(terima),0) as terima, ifnull(sum(keluar),0) as keluar");
 			$this->db->from("get_saldo_spj_cetak");
 			$this->db->where("kd_area",$kd_area);
 			$this->db->where("month(tanggal) <",$bulan);
@@ -1206,7 +1206,7 @@ public function get_pendapatanarea($id){
 						 $bulan = $hasil->row('bulan');
 	
 			// get nilai 
-				$this->db->select("sum(terima) as terima, sum(keluar) as keluar");
+			$this->db->select("ifnull(sum(terima),0) as terima, ifnull(sum(keluar),0) as keluar");
 				$this->db->from("get_saldo_spj_cetak");
 				$this->db->where("kd_area",$kd_area);
 				$this->db->where("month(tanggal) =",$bulan);
@@ -1224,10 +1224,10 @@ public function get_pendapatanarea($id){
 							 $bulan = $hasil->row('bulan');
 		
 				// get nilai 
-					$this->db->select("sum(terima) as terima, sum(keluar) as keluar");
+					$this->db->select("ifnull(sum(terima),0) as terima, ifnull(sum(keluar),0) as keluar");
 					$this->db->from("get_saldo_spj_cetak");
 					$this->db->where("kd_area",$kd_area);
-					$this->db->where("month(tanggal) <",$tanggal);
+					$this->db->where("tanggal <",$tanggal);
 					$this->db->where("kd_pegawai",$kd_pegawai);
 					$this->db->group_by("kd_pegawai");
 					   return $result = $this->db->get()->row_array();

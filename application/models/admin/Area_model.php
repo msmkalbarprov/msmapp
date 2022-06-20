@@ -45,6 +45,15 @@ class Area_model extends CI_Model{
 		return $query->result_array();
 	}
 
+	function get_area_pkb()
+	{	
+		$id= array('01','11');
+		$this->db->from('ci_area');
+		$this->db->where_in('kd_area', $id);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
 	function get_area_pusat()
 	{	
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance'){

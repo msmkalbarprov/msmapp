@@ -278,18 +278,18 @@ function format_indo($date){
 
 
 
-                  <table style="border-collapse:collapse; font-size:9;" width="100%" align="center" border="0" cellspacing="0" cellpadding="2">
+                  <table style="border-collapse:collapse; font-size:9;" width="100%" align="center" border="1" cellspacing="0" cellpadding="2">
                      
 					 
 					 <thead>
                         <tr>
-							<td bgcolor="#ffffff" width="5%"  align="center" style="border-top:none;border-bottom:none;"></td>
-							<td bgcolor="#CCCCCC" width="18%" align="center" style="border-top:solid 2px black;border-left:solid 2px black;border-right:solid 1px black;"><b>Tanggal</b></td>
-							<td bgcolor="#CCCCCC" width="40%" align="center" style="border-top:solid 2px black;border-right:solid 1px black;"><b>Akun</b></td>
-                            <td bgcolor="#CCCCCC" width="40%" align="center" style="border-top:solid 2px black;border-right:solid 1px black;"><b>Keterangan</b></td>
-                            <td bgcolor="#CCCCCC" width="2%" align="center" style="border-top:solid 2px black;border-right:solid 1px black;"><b>Bukti/Nota</b></td>
-                            <td bgcolor="#CCCCCC" width="10%" align="center" style="border-top:solid 2px black;border-right:solid 1px black;"><b>Nilai</td>
-							<td bgcolor="#ffffff" align="center" width="5%" style="border-top:none;border-bottom:none;"></td>
+							
+							<td bgcolor="#CCCCCC" width="18%" align="center" ><b>Tanggal</b></td>
+							<td bgcolor="#CCCCCC" width="20%" align="center" ><b>Akun</b></td>
+                            <td bgcolor="#CCCCCC" width="20%" align="center" ><b>Keterangan</b></td>
+                            <td bgcolor="#CCCCCC" width="2%" align="center" ><b>Bukti/Nota</b></td>
+                            <td bgcolor="#CCCCCC" width="10%" align="center" ><b>Nilai</td>
+							
                         </tr>
                         
                      </thead>
@@ -329,13 +329,13 @@ function format_indo($date){
                      ?>
 
                         <tr>
-                                <td style="vertical-align:top;border-top: none;border-bottom: none;" align="center"></td>
-                                <td style="vertical-align:top;border-top: 1px solid black;border-bottom: 1px solid black;border-left:2px solid black;" align="center"><?= $rincian_spj['tgl_bukti']; ?></td>
-                                <td style="vertical-align:top;border-top: 1px solid black;border-left: 1px solid black;" align="left"><?= $rincian_spj['nm_acc']; ?></td>
-                                <td style="vertical-align:top;border-top: 1px solid black;border-left: 1px solid black;" align="left"><?= $jns_ta.''.$rincian_spj['uraian']; ?></td>
-                                <td style="vertical-align:top;border-top: 1px solid black;border-left: 1px solid black;" align="center"><?= $bukti; ?></td>
-                                <td style="vertical-align:top;border-top: 1px solid black;border-left: 1px solid black;" align="right"><?= number_format($rincian_spj['nilai'],2,',','.'); ?></td>
-                                <td style="border-left:none;border-top:none;border-bottom:none;border-left:2px solid black;"></td>
+                                
+                                <td  align="center"><?= $rincian_spj['tgl_bukti']; ?></td>
+                                <td  align="left"><?= $rincian_spj['nm_acc']; ?></td>
+                                <td  align="left"><?= $jns_ta.''.$rincian_spj['uraian']; ?></td>
+                                <td  align="center"><?= $bukti; ?></td>
+                                <td  align="right"><?= number_format($rincian_spj['nilai'],2,',','.'); ?></td>
+                                
                         </tr>
 
                         <?php $total_spj = $total_spj+$rincian_spj['nilai']; ?>
@@ -346,10 +346,7 @@ function format_indo($date){
                             
 
                                 <tr>
-									 <td style="vertical-align:top;border-top: none;border-bottom: none;" align="center"></td>
-									 <td colspan='4' style="vertical-align:top;border-top: 1px solid black;border-bottom: 2px solid black;border-left:2px solid black;" align="center"><b>TOTAL</td>
-                                     
-									 <td style="vertical-align:top;border-top: 1px solid black;border-left: 1px solid black;border-bottom: 2px solid black;" align="right"><b><?= number_format($total_spj,2,',','.'); ?></td>
-									 <td style="border-left:none;border-top:none;border-bottom:none;border-left:2px solid black;"></td>
+									 <td colspan='4' align="center"><b>TOTAL</td>
+									 <td  align="right"><b><?= number_format($total_spj,2,',','.'); ?></td>
 								</tr>
                   </table>

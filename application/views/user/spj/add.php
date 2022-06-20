@@ -18,7 +18,7 @@
              Input SPJ</h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('spj_pegawai'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('spj'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -261,7 +261,7 @@
     "ordering": true, // Set true agar bisa di sorting
     "ajax": 
     {
-                "url": "<?= base_url('spj_pegawai/view'.'/')?>"+ nospj+'/'+kd_pegawai, // URL file untuk proses select datanya
+                "url": "<?= base_url('spj/view'.'/')?>"+ nospj+'/'+kd_pegawai, // URL file untuk proses select datanya
                 "type": "POST",
                 "data" : {
                         "<?php echo $this->security->get_csrf_token_name(); ?>" : "<?php echo $this->security->get_csrf_hash(); ?>"
@@ -298,7 +298,7 @@
                 var area=$(this).val()
                 get_nomor_urut(area);
                 // $.ajax({
-                //     url : "<?php echo site_url('spj_pegawai/get_area');?>",
+                //     url : "<?php echo site_url('spj/get_area');?>",
                 //     method : "POST",
                 //     data : {
                 //         '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -321,7 +321,7 @@
 
 function get_pegawai(area) {
     $.ajax({
-                    url : "<?php echo site_url('spj_pegawai/get_pegawai_by_area');?>",
+                    url : "<?php echo site_url('spj/get_pegawai_by_area');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

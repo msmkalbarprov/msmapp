@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pelimpahan extends MY_Controller
+class Pengeluaran_lain extends MY_Controller
 {
     function __construct(){
 
@@ -24,20 +24,20 @@ class Pelimpahan extends MY_Controller
 		$data['title'] = 'Admin List';
 
 		$this->load->view('admin/includes/_header');
-		$this->load->view('user/pelimpahan/index', $data);
+		$this->load->view('user/pengeluaran_lain/index', $data);
 		$this->load->view('admin/includes/_footer');
 	}
 	//--------------------------------------------------		
 
 public function datatable_json(){				   					   
-		$records['data'] = $this->pelimpahan_model->get_all();
+		$records['data'] = $this->pelimpahan_model->get_all_pkb();
 		$data = array();
 
 		$i=1;
 		foreach ($records['data']   as $row) 
 		{  
-				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pelimpahan/edit/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pelimpahan/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pengeluaran_lain/edit/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pengeluaran_lain/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
 		
 			$data[]= array(
 				$i++,
@@ -60,7 +60,7 @@ public function datatable_json(){
 
 		$this->rbac->check_operation_access(); // check opration permission
 
-			$data['data_area'] 			= $this->area->get_area();
+			$data['data_akun'] 	    = $this->pelimpahan_model->get_akun();
             $data['title'] 			= 'Input Pelimpahan';
 
 		if($this->input->post('submit')){
@@ -69,7 +69,8 @@ public function datatable_json(){
                 $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
 				$this->form_validation->set_rules('kd_pegawai', 'Pegawai/Rekening', 'trim|required');
 				$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
-
+				
+				$nomor				= $this->pelimpahan_model->get_nomor_kb();
                 $nilai = $this->proyek_model->number($this->input->post('nilai'));
                 $saldo = $this->proyek_model->number($this->input->post('saldo'));
 
@@ -78,7 +79,7 @@ public function datatable_json(){
 						'errors' => 'Saldo anda tidak cukup'
 					);
 					$this->session->set_flashdata('errors', $data['errors']);
-					redirect(base_url('pelimpahan/add'),'refresh');
+					redirect(base_url('pengeluaran_lain/add'),'refresh');
                 }
 				
 				if ($this->form_validation->run() == FALSE) {
@@ -86,15 +87,16 @@ public function datatable_json(){
 						'errors' => validation_errors()
 					);
 					$this->session->set_flashdata('errors', $data['errors']);
-					redirect(base_url('pelimpahan/add'),'refresh');
+					redirect(base_url('pengeluaran_lain/add'),'refresh');
 				}
 				else{
 					$data = array(
+						'no_bukti' 		    => $nomor['nomor'],
 						'kd_area' 		    => $this->input->post('area'),
-						'jenis' 		    => 'area',
 						'kd_pegawai' 	    => $this->input->post('kd_pegawai'),
 						'tgl_pelimpahan'    => $this->input->post('tanggal'),
                         'keterangan'        => $this->input->post('keterangan'),
+						'jenis'        		=> 'KB',
 						'nilai' 		    => $this->proyek_model->number($this->input->post('nilai')),
 						'username' 		    =>  $this->session->userdata('username'),
 						'created_at' 	    => date('Y-m-d : h:m:s')
@@ -106,15 +108,15 @@ public function datatable_json(){
 						// Activity Log 
 						$this->activity_model->add_log(4);
 
-						$this->session->set_flashdata('success', 'Saldo Awal berhasil ditambahkan!');
-						redirect(base_url('pelimpahan/index'));
+						$this->session->set_flashdata('success', 'Pelimpahan berhasil ditambahkan!');
+						redirect(base_url('pengeluaran_lain/index'));
 					}
 				}
 			}
 			else
 			{
 				$this->load->view('admin/includes/_header', $data);
-        		$this->load->view('user/pelimpahan/add');
+        		$this->load->view('user/pengeluaran_lain/add');
         		$this->load->view('admin/includes/_footer');
 			}
 	}
@@ -150,7 +152,7 @@ public function datatable_json(){
                     'errors' => 'Saldo anda tidak cukup'
                 );
                 $this->session->set_flashdata('errors', $data['errors']);
-                redirect(base_url('pelimpahan/add'),'refresh');
+                redirect(base_url('pengeluaran_lain/add'),'refresh');
             }
 
             if ($this->form_validation->run() == FALSE) {
@@ -158,7 +160,7 @@ public function datatable_json(){
 					'errors' => validation_errors()
 				);
 				$this->session->set_flashdata('errors', $data['errors']);
-				redirect(base_url('pelimpahan/edit/'.$id),'refresh');
+				redirect(base_url('pengeluaran_lain/edit/'.$id),'refresh');
 			}
 			else{
 				$data = array(
@@ -178,19 +180,19 @@ public function datatable_json(){
 					// Activity Log 
 					$this->activity_model->add_log(5);
 
-					$this->session->set_flashdata('success', 'Saldo Awal berhasil diupdate!');
-					redirect(base_url('pelimpahan/index'));
+					$this->session->set_flashdata('success', 'Pelimpahan berhasil diupdate!');
+					redirect(base_url('pengeluaran_lain/index'));
 				}
 			}
 		}
 		elseif($id==""){
-			redirect('pelimpahan/index');
+			redirect('pengeluaran_lain/index');
 		}
 		else{
-			$data2['title'] = "Saldo Awal";
+			$data2['title'] = "Pelimpahan";
 			$data['bank'] = $this->pelimpahan_model->get_pelimpahan_by_id($id);
 			$this->load->view('admin/includes/_header', $data2);
-			$this->load->view('user/pelimpahan/edit', $data);
+			$this->load->view('user/pengeluaran_lain/edit', $data);
 			$this->load->view('admin/includes/_footer');
 		}		
 	}
@@ -219,7 +221,7 @@ public function datatable_json(){
 		$this->activity_model->add_log(6);
 
 		$this->session->set_flashdata('success','Pelimpahan berhasil dihapus.');	
-		redirect('pelimpahan/index');
+		redirect('pengeluaran_lain/index');
 	}
 	
 }

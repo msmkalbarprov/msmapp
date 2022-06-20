@@ -24,7 +24,7 @@
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label for="id" class="col-md-2 control-label">Area</label>
+                    <label for="id" class="control-label">Area</label>
                     <select name="area" id="area" class="form-control" required>
                       <option value="">No Selected</option>
                       <?php foreach($data_area as $area): ?>
