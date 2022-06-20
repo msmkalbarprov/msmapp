@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="id" class="control-label">Area</label>
+                    <label for="id" class="control-label">Akun</label>
                     <select name="no_acc" id="no_acc" class="form-control select2" style="width: 100%;" required>
                       <option value="">No Selected</option>
                       <?php foreach($data_akun as $akun): ?>

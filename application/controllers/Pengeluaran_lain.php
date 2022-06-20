@@ -30,7 +30,7 @@ class Pengeluaran_lain extends MY_Controller
 	//--------------------------------------------------		
 
 public function datatable_json(){				   					   
-		$records['data'] = $this->pelimpahan_model->get_all_pkb();
+		$records['data'] = $this->pelimpahan_model->get_all_plainnya();
 		$data = array();
 
 		$i=1;
@@ -41,9 +41,9 @@ public function datatable_json(){
 		
 			$data[]= array(
 				$i++,
-				$row['nm_area'],
-				$row['tgl_pelimpahan'],
-				$row['nm_pegawai'],
+				$row['no_bukti'],
+				$row['tgl_bukti'],
+				$row['no_acc'].'<br>'.$row['nm_acc'],
                 $row['keterangan'],
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
 				$button
@@ -61,13 +61,13 @@ public function datatable_json(){
 		$this->rbac->check_operation_access(); // check opration permission
 
 			$data['data_akun'] 	    = $this->pelimpahan_model->get_akun();
-            $data['title'] 			= 'Input Pelimpahan';
+            $data['title'] 			= 'Input Pengeluaran lainnya';
 
 		if($this->input->post('submit')){
-				$this->form_validation->set_rules('area', 'Area', 'trim|required');
+				$this->form_validation->set_rules('nobukti', 'No. Bukti', 'trim|required');
 				$this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
                 $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
-				$this->form_validation->set_rules('kd_pegawai', 'Pegawai/Rekening', 'trim|required');
+				$this->form_validation->set_rules('no_acc', 'Akun', 'trim|required');
 				$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
 				
 				$nomor				= $this->pelimpahan_model->get_nomor_kb();
@@ -92,23 +92,22 @@ public function datatable_json(){
 				else{
 					$data = array(
 						'no_bukti' 		    => $nomor['nomor'],
-						'kd_area' 		    => $this->input->post('area'),
-						'kd_pegawai' 	    => $this->input->post('kd_pegawai'),
-						'tgl_pelimpahan'    => $this->input->post('tanggal'),
+						'no_acc' 		    => $this->input->post('no_acc'),
+						'no_bukti'   	    => $this->input->post('nobukti'),
+						'tgl_bukti'         => $this->input->post('tanggal'),
                         'keterangan'        => $this->input->post('keterangan'),
-						'jenis'        		=> 'KB',
 						'nilai' 		    => $this->proyek_model->number($this->input->post('nilai')),
 						'username' 		    =>  $this->session->userdata('username'),
 						'created_at' 	    => date('Y-m-d : h:m:s')
 					);
 					$data = $this->security->xss_clean($data);
-					$result = $this->pelimpahan_model->simpan_pelimpahan($data);
+					$result = $this->pelimpahan_model->simpan_plainnya($data);
 					if($result){
 
 						// Activity Log 
 						$this->activity_model->add_log(4);
 
-						$this->session->set_flashdata('success', 'Pelimpahan berhasil ditambahkan!');
+						$this->session->set_flashdata('success', 'Pengeluaran lainnya berhasil ditambahkan!');
 						redirect(base_url('pengeluaran_lain/index'));
 					}
 				}
@@ -139,10 +138,10 @@ public function datatable_json(){
 		$this->rbac->check_operation_access(); // check opration permission
 
 		if($this->input->post('submit')){
-            $this->form_validation->set_rules('area', 'Area', 'trim|required');
+            $this->form_validation->set_rules('nobukti', 'No Bukti', 'trim|required');
             $this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
             $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
-            $this->form_validation->set_rules('kd_pegawai', 'Pegawai/Rekening', 'trim|required');
+            $this->form_validation->set_rules('no_acc', 'Akun', 'trim|required');
             $this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
 
             $nilai = $this->proyek_model->number($this->input->post('nilai'));
@@ -152,7 +151,7 @@ public function datatable_json(){
                     'errors' => 'Saldo anda tidak cukup'
                 );
                 $this->session->set_flashdata('errors', $data['errors']);
-                redirect(base_url('pengeluaran_lain/add'),'refresh');
+                redirect(base_url('pengeluaran_lain/edit/'.$id),'refresh');
             }
 
             if ($this->form_validation->run() == FALSE) {
@@ -164,9 +163,9 @@ public function datatable_json(){
 			}
 			else{
 				$data = array(
-					    'kd_area' 		    => $this->input->post('area'),
-						'kd_pegawai' 	    => $this->input->post('kd_pegawai'),
-						'tgl_pelimpahan'    => $this->input->post('tanggal'),
+                        'no_acc' 		    => $this->input->post('no_acc'),
+                        'no_bukti'   	    => $this->input->post('nobukti'),
+                        'tgl_bukti'         => $this->input->post('tanggal'),
                         'keterangan'        => $this->input->post('keterangan'),
 						'nilai' 		    => $this->proyek_model->number($this->input->post('nilai')),
 						'username' 		    =>  $this->session->userdata('username'),
@@ -174,13 +173,13 @@ public function datatable_json(){
 				);
 
 				$data = $this->security->xss_clean($data);
-				$result = $this->pelimpahan_model->edit_pelimpahan($data, $id);
+				$result = $this->pelimpahan_model->edit_plain($data, $id);
 
 				if($result){
 					// Activity Log 
 					$this->activity_model->add_log(5);
 
-					$this->session->set_flashdata('success', 'Pelimpahan berhasil diupdate!');
+					$this->session->set_flashdata('success', 'Pengeluaran lainnya berhasil diupdate!');
 					redirect(base_url('pengeluaran_lain/index'));
 				}
 			}
@@ -189,8 +188,9 @@ public function datatable_json(){
 			redirect('pengeluaran_lain/index');
 		}
 		else{
-			$data2['title'] = "Pelimpahan";
-			$data['bank'] = $this->pelimpahan_model->get_pelimpahan_by_id($id);
+            $data['data_akun'] 	    = $this->pelimpahan_model->get_akun();
+			$data2['title']     = "Pengeluaran lainnya";
+			$data['data_plain'] = $this->pelimpahan_model->get_plain_by_id($id);
 			$this->load->view('admin/includes/_header', $data2);
 			$this->load->view('user/pengeluaran_lain/edit', $data);
 			$this->load->view('admin/includes/_footer');
@@ -215,12 +215,12 @@ public function datatable_json(){
 	   
 		$this->rbac->check_operation_access(); // check opration permission
 
-		$this->pelimpahan_model->delete($id);
+		$this->pelimpahan_model->delete_plainnya($id);
 
 		// Activity Log 
 		$this->activity_model->add_log(6);
 
-		$this->session->set_flashdata('success','Pelimpahan berhasil dihapus.');	
+		$this->session->set_flashdata('success','Pengeluaran lainnya berhasil dihapus.');	
 		redirect('pengeluaran_lain/index');
 	}
 	
