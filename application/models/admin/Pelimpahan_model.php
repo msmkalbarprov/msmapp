@@ -39,6 +39,20 @@ class Pelimpahan_model extends CI_Model{
 			$this->db->order_by('id','asc');
 		return $this->db->get()->result_array();
 		}
+
+
+		public function get_all_tlainnya(){
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+				$this->db->from('ci_penerimaan_lain');
+				$this->db->where('kd_area', 01);
+			}else{
+				$this->db->from('ci_penerimaan_lain');
+				$this->db->where('kd_area', $this->session->userdata('kd_area'));
+			}
+				
+				$this->db->order_by('id','asc');
+			return $this->db->get()->result_array();
+			}
 			
 	
 	public function get_all_tf_bud(){
@@ -94,6 +108,11 @@ function get_kas_rekening($id)
 		return true;
 	}
 
+	public function simpan_tlainnya($data){
+		$this->db->insert('ci_penerimaan_lain', $data);
+		return true;
+	}
+
 	public function simpan_transfer_bud($data){
 		$this->db->insert('ci_transfer_bud', $data);
 		return true;
@@ -135,11 +154,28 @@ function get_plain_by_id($id)
 		return $query->row_array();
 	}
 
+	function get_tlain_by_id($id)
+	{
+		$this->db->from('ci_penerimaan_lain');
+		$this->db->where('id',$id);
+		$query=$this->db->get();
+		return $query->row_array();
+	}
+
 	
 
 	function get_akun()
 	{	
 		$id= array('5010101','5010102','5010103','5010104','5010105','5010106','5010501','5010601');
+		$this->db->from('ci_coa');
+		$this->db->where_in('no_acc', $id);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
+	function get_akun_terima()
+	{	
+		$id= array('4010101','4010201','4010301','4010401','4010501','4020101','4020201','4020301','4020401');
 		$this->db->from('ci_coa');
 		$this->db->where_in('no_acc', $id);
 		$query=$this->db->get();
@@ -158,6 +194,12 @@ public function edit_pelimpahan($data, $id){
 public function edit_plain($data, $id){
 	$this->db->where('id', $id);
 	$this->db->update('ci_pengeluaran_lain', $data);
+	return true;
+}
+
+public function edit_tlain($data, $id){
+	$this->db->where('id', $id);
+	$this->db->update('ci_penerimaan_lain', $data);
 	return true;
 }
 
@@ -186,6 +228,12 @@ function delete_plainnya($id)
 {		
 	$this->db->where('id',$id);
 	$this->db->delete('ci_pengeluaran_lain');
+} 
+
+function delete_tlainnya($id)
+{		
+	$this->db->where('id',$id);
+	$this->db->delete('ci_penerimaan_lain');
 } 
 
 }

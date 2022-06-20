@@ -67,6 +67,7 @@ $lang['pelimpahan']               				= "Pelimpahan <span class='badge badge-dan
 $lang['pelimpahan_kb']               			= "Pelimpahan Kas Besar <span class='badge badge-danger'>New</span>";
 $lang['pengembalian']               			= "Pengembalian <span class='badge badge-danger'>New</span>";
 $lang['pengeluaran_lain']               		= "Pengeluaran lain-lain <span class='badge badge-danger'>New</span>";
+$lang['penerimaan_lain']               			= "Penerimaan lain-lain <span class='badge badge-danger'>New</span>";
 
 
 
