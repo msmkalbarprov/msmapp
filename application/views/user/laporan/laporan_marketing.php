@@ -8,7 +8,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-print"></i>
-             Cetak PQ Proyek </h3>
+             Laporan Marketing </h3>
            </div>
            <div class="d-inline-block float-right">
           </div>
@@ -18,7 +18,7 @@
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
          <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
                 <select name="area" id ="area" class="form-control" required>
@@ -34,7 +34,16 @@
 
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="area" class="control-label">Sub Proyek</label>
+                <select name="area" id ="area" class="form-control" required>
+                  <option value="">No Selected</option>
+                </select>
+
+            </div>
+          </div>
+          <div class="col-md-4">
             <div class="form-group">
               <label for="thn_ang" class="control-label">Tahun Anggaran</label>
                 <select name="thn_ang" id="thn_ang" class="form-control" required>

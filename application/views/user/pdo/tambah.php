@@ -307,7 +307,7 @@
 
 function get_pegawai(area) {
     $.ajax({
-                    url : "<?php echo site_url('spj_pegawai/get_pegawai_by_area');?>",
+                    url : "<?php echo site_url('cpdo/get_pegawai_by_area');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

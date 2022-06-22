@@ -522,10 +522,15 @@ public function get_cetak_hpp_pq_pdo_by_idtahun($id, $tahun){
 									when kd_item='5010202' then 
 										(select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and left(kd_project,4)='$tahun' and jenis_tkl=map_pq_pdo_proyek.jenis and status_bayar='1') 
 									else (select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and left(kd_project,4)='$tahun' and status_bayar='1') 
-								end as pdo 
+								end as pdo,
+								case 
+									when kd_item='5010202' then 
+										(select sum(nilai) from ci_spj_pegawai left join ci_pegawai on ci_spj_pegawai.kd_pegawai=ci_pegawai.kd_pegawai where ci_spj_pegawai.no_acc=map_pq_pdo_proyek.kd_item and ci_spj_pegawai.kd_area='$id' and left(tgl_bukti,4)='$tahun' and jabatan=map_pq_pdo_proyek.jenis and status='1') 
+									else (select sum(nilai) from ci_spj_pegawai where ci_spj_pegawai.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and left(tgl_bukti,4)='$tahun' and status='1') 
+								end as spj
 							");
 			$this->db->from("map_pq_pdo_proyek");
-			$this->db->where("id between 16 and 25");
+			$this->db->where("id between 16 and 26");
 			$this->db->order_by("id");
 			$query=$this->db->get();
 			return $query->result_array();
@@ -551,7 +556,9 @@ public function cetak_operasional_by_area($id,$tahun){
 		
 			$this->db->select("no_acc as kd_item,(select uraian from ci_pq_operasional where ci_pq_operasional.kd_item=ci_coa.no_acc and left(id_pq_operasional,4)='$tahun' and kd_area='$id' order by uraian desc limit 1)as keterangan, 
 				(select sum(total) from ci_pq_operasional where ci_pq_operasional.kd_item=ci_coa.no_acc and left(id_pq_operasional,4)='$tahun' and kd_area='$id')as nilai_op,
-				(select sum(nilai) from ci_pdo where ci_pdo.no_acc=ci_coa.no_acc and left(kd_project,4)='$tahun' and substring(kd_project,6,2)='$id')as nilai_pdo
+				(select sum(nilai) from ci_pdo where ci_pdo.no_acc=ci_coa.no_acc and left(kd_project,4)='$tahun' and substring(kd_project,6,2)='$id' and status_bayar=1)as nilai_pdo,
+				
+				(select sum(nilai) from ci_spj_pegawai where left(ci_spj_pegawai.no_acc,5)=ci_coa.no_acc and year(tgl_bukti)='$tahun' and kd_area='$id' and status=1)as nilai_spj
 				");
 			$this->db->from("ci_coa");
 			$this->db->where("level", '3');
@@ -603,7 +610,8 @@ public function get_marketing_by_id($id){
 public function cetak_marketing_by_id($area,$tahun){
 
 			$this->db->select("sum(total) as nilai_op,
-				(select ifnull(sum(nilai),0) from ci_pdo where left(ci_pdo.no_acc,3)='503' and left(kd_project,4)='$tahun' and substring(kd_project,6,2)='$area')as nilai_pdo");
+				(select ifnull(sum(nilai),0) from ci_pdo where left(ci_pdo.no_acc,3)='503' and left(kd_project,4)='$tahun' and substring(kd_project,6,2)='$area')as nilai_pdo,
+				(select ifnull(sum(nilai),0) from ci_spj_pegawai where left(ci_spj_pegawai.no_acc,3)='503' and year(tgl_bukti)='$tahun' and kd_area='$area')as nilai_spj");
 			$this->db->from("ci_pq_operasional");
 			$this->db->where("left(id_pq_operasional,4)", $tahun);
 			$this->db->where("kd_area", $area);

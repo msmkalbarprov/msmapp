@@ -86,7 +86,7 @@ function format_indo($date){
 								
 								<td width="5%" align='left'>Bulan</td>
 								<td width="1%" align='left'>:</td>
-								<td width="10%" align='left'><?= format_indo($this->uri->segment(5)).' '.$this->uri->segment(6); ?></td>
+								<td width="10%" align='left'><?= format_indo($spj_header2['bulan']).' '.$spj_header2['tahun']; ?></td>
 								<td width="7%" align='left'></td>
 								<td width="15%" align='left'></td>
                                 </tr>

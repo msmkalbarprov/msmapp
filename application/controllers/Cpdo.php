@@ -310,6 +310,7 @@ public function add_pdo_gaji(){
 		}
 		
 	}
+	
 
 
 public function edit_pdo_keterangan($id='',$jns=''){

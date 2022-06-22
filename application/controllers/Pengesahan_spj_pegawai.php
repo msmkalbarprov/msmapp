@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Spj_pegawai extends MY_Controller {
+class Pengesahan_spj_pegawai extends MY_Controller {
 
 	public function __construct(){
 
@@ -22,7 +22,7 @@ class Spj_pegawai extends MY_Controller {
 	public function index(){
 		$data['title'] = 'SPJ';
 		$this->load->view('admin/includes/_header', $data);
-		$this->load->view('user/spj_pegawai/list');
+		$this->load->view('user/pengesahan_spj_pegawai/list');
 		$this->load->view('admin/includes/_footer');
 	}
 
@@ -36,16 +36,14 @@ class Spj_pegawai extends MY_Controller {
 				$kode_pegawai = str_replace('-','054d4a4653a16b49c49c49e000075d10',$row['kd_pegawai']);
 
 				if ($row['status']=='1'){
-					$tombol = '';
+					$tombol = ' <a title="Batal Setuju" class="update btn btn-sm btn-success" href="'.base_url('pengesahan_spj_pegawai/batal/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$kode_pegawai).'"> <i class="fa fa-check"></i></a>
+                                <a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pengesahan_spj_pegawai/cetak_spj_pegawai/'.$row['no_spj'].'/'.$row['kd_area'].'/'.$kode_pegawai.'/0').'" target="_blank"> <i class="fa fa-print"></i></a>';
 				}else{
-					$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('spj_pegawai/edit_spj/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$kode_pegawai).'"> <i class="fa fa-pencil-square-o"></i></a>
-								<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('spj_pegawai/delete_spj_temp/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$kode_pegawai).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+					$tombol = ' <a title="Setuju" class="update btn btn-sm btn-info" href="'.base_url('pengesahan_spj_pegawai/setuju/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$kode_pegawai).'"> <i class="fa fa-list"></i></a>
+                                <a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pengesahan_spj_pegawai/cetak_spj_pegawai/'.$row['no_spj'].'/'.$row['kd_area'].'/'.$kode_pegawai.'/0').'" target="_blank"> <i class="fa fa-print"></i></a>';
 				}
-				// <a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('spj_pegawai/cetak_spj_pegawai/'.$row['no_spj'].'/'.$row['kd_area'].'/'.$kode_pegawai.'/0').'" target="_blank"> <i class="fa fa-print"></i></a>
-			
-				// $id=0,$kd_area,$kd_pegawai,$jenis=''
 
-				
+			
 				$data[]= array(
 				++$i,
 				'<font size="2px">'.$row['no_spj'].'</font>',
@@ -61,77 +59,77 @@ class Spj_pegawai extends MY_Controller {
 		echo json_encode($records);						   
 	}
 
-	public function simpan_spj_file(){
-		$config['upload_path'] 		= './uploads/spj_karyawan/';
-		$config['allowed_types']   	= '*';
-		$config['max_size']         = '0';
-		$config['encrypt_name'] 	= TRUE;
+	// public function simpan_spj_file(){
+	// 	$config['upload_path'] 		= './uploads/spj_karyawan/';
+	// 	$config['allowed_types']   	= '*';
+	// 	$config['max_size']         = '0';
+	// 	$config['encrypt_name'] 	= TRUE;
 	
-		$this->load->library('upload', $config);
+	// 	$this->load->library('upload', $config);
 	
-		$status = "success";
-			$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
-			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
-			$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
-			$data['kd_area'] 			= $this->input->post('kdarea', TRUE);
-			$data['jns_ta'] 			= $this->input->post('jns_ta', TRUE);
-			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
-			$data['kd_sub_area']		= $this->input->post('subarea', TRUE);
-			$data['kd_proyek']			= $this->input->post('kd_proyek', TRUE);
-         	$data['no_acc']				= $this->input->post('no_acc', TRUE);
-			$data['uraian']				= $this->input->post('uraian', TRUE);
-			$data['jns_spj']			= $this->input->post('jns_spj', TRUE);
-			// $data['nilai']				= $this->input->post('nilai', TRUE);
-			$data['nilai']				= $this->spjpegawai_model->number($this->input->post('total', TRUE));
+	// 	$status = "success";
+	// 		$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
+	// 		$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
+	// 		$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
+	// 		$data['kd_area'] 			= $this->input->post('kdarea', TRUE);
+	// 		$data['jns_ta'] 			= $this->input->post('jns_ta', TRUE);
+	// 		$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
+	// 		$data['kd_sub_area']		= $this->input->post('subarea', TRUE);
+	// 		$data['kd_proyek']			= $this->input->post('kd_proyek', TRUE);
+    //      	$data['no_acc']				= $this->input->post('no_acc', TRUE);
+	// 		$data['uraian']				= $this->input->post('uraian', TRUE);
+	// 		$data['jns_spj']			= $this->input->post('jns_spj', TRUE);
+	// 		// $data['nilai']				= $this->input->post('nilai', TRUE);
+	// 		$data['nilai']				= $this->spjpegawai_model->number($this->input->post('total', TRUE));
 		
 		
-		if ( ! $this->upload->do_upload('file')){
-			$status = "success";
-			$data['bukti']				= '';
-			$result 					= $this->spjpegawai_model->save_spj($data);
-			$msg = "Data berhasil disimpan tanpa bukti";
-		}
-		else{
+	// 	if ( ! $this->upload->do_upload('file')){
+	// 		$status = "success";
+	// 		$data['bukti']				= '';
+	// 		$result 					= $this->spjpegawai_model->save_spj($data);
+	// 		$msg = "Data berhasil disimpan tanpa bukti";
+	// 	}
+	// 	else{
 	
-			$dataupload = $this->upload->data();
-			$data['bukti']				= $dataupload['file_name'];
-			$result 					= $this->spjpegawai_model->save_spj($data);
-			$msg = "Data Berhasil disimpan dengan bukti ".$data['bukti'];
-		}
+	// 		$dataupload = $this->upload->data();
+	// 		$data['bukti']				= $dataupload['file_name'];
+	// 		$result 					= $this->spjpegawai_model->save_spj($data);
+	// 		$msg = "Data Berhasil disimpan dengan bukti ".$data['bukti'];
+	// 	}
 	
-		$this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
-	}
+	// 	$this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
+	// }
 
-public function add(){
-		$this->rbac->check_operation_access('');
-		if($this->input->post('type')==1){
-			$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
-			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
-			$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
-			$data['kd_area'] 			= $this->input->post('area', TRUE);
-			$data['kd_pegawai']			= $this->input->post('pegawai', TRUE);
-			$data['kd_sub_area']		= $this->input->post('subarea', TRUE);
-			$data['kd_proyek']			= $this->input->post('project', TRUE);
-         	$data['no_acc']				= $this->input->post('no_akun', TRUE);
-			$data['uraian']				= $this->input->post('uraian', TRUE);
-			$data['jns_spj']			= $this->input->post('jns_spj', TRUE);
-			$data['nilai']				= $this->input->post('nilai', TRUE);
+// public function add(){
+// 		$this->rbac->check_operation_access('');
+// 		if($this->input->post('type')==1){
+// 			$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
+// 			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
+// 			$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
+// 			$data['kd_area'] 			= $this->input->post('area', TRUE);
+// 			$data['kd_pegawai']			= $this->input->post('pegawai', TRUE);
+// 			$data['kd_sub_area']		= $this->input->post('subarea', TRUE);
+// 			$data['kd_proyek']			= $this->input->post('project', TRUE);
+//          	$data['no_acc']				= $this->input->post('no_akun', TRUE);
+// 			$data['uraian']				= $this->input->post('uraian', TRUE);
+// 			$data['jns_spj']			= $this->input->post('jns_spj', TRUE);
+// 			$data['nilai']				= $this->input->post('nilai', TRUE);
 			
-			$result 					= $this->spjpegawai_model->save_spj($data);
+// 			$result 					= $this->spjpegawai_model->save_spj($data);
 			
-					echo json_encode(array(
-							"statusCode"=>200
-						));
+// 					echo json_encode(array(
+// 							"statusCode"=>200
+// 						));
 
-		}else{
-			$data2['title'] 			= 'SPJ';
-			$data['data_area'] 			= $this->area->get_area_pusat();
-			$this->load->view('admin/includes/_header' , $data2);
-			$this->load->view('user/spj_pegawai/add', $data);
-			$this->load->view('admin/includes/_footer');
-		}
+// 		}else{
+// 			$data2['title'] 			= 'SPJ';
+// 			$data['data_area'] 			= $this->area->get_area_pusat();
+// 			$this->load->view('admin/includes/_header' , $data2);
+// 			$this->load->view('user/spj_pegawai/add', $data);
+// 			$this->load->view('admin/includes/_footer');
+// 		}
 		
-	}
+// 	}
 	
 	function get_area(){
 		$area = $this->input->post('id',TRUE);
@@ -146,85 +144,6 @@ public function add(){
 		$data 		= $this->spjpegawai_model->get_kas($id)->result();
 		echo json_encode($data);
 	}
-
-// public function uploadgambar(){
-// 	$config['upload_path'] 		= './uploads/spj/';
-// 	$config['allowed_types']   	= '*';
-//     $config['max_size']         = '0';
-// 	$config['encrypt_name'] 	= TRUE;
-
-// 	$this->load->library('upload', $config);
-
-// 	if ( ! $this->upload->do_upload('file')){
-// 		$status = "error";
-// 		$msg = $this->upload->display_errors();
-// 	}
-// 	else{
-
-// 		$dataupload = $this->upload->data();
-// 		$status = "success";
-// 			$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
-// 			$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
-// 			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
-// 			$data['kd_area'] 			= $this->input->post('kdarea', TRUE);
-// 			$data['kd_divisi']			= $this->input->post('divisi', TRUE);
-// 			$data['kd_pqproyek']		= $this->input->post('kode_pqproyek', TRUE);
-// 			$data['kd_project']			= $this->input->post('project', TRUE);
-// 			$data['no_acc_pdo2']		= $this->input->post('item_hpp', TRUE);
-// 			$data['no_acc'] 			= $this->input->post('no_acc', TRUE);
-// 			$data['uraian']				= $this->input->post('uraian', TRUE);
-// 			$data['uraian_spj']			= $this->input->post('uraian_spj', TRUE);
-// 			$data['nilai']				= $this->input->post('total', TRUE);
-// 			$data['bukti']				= $dataupload['file_name'];
-// 			$data['jns_spj']			= $this->input->post('jns_pdo', TRUE); //1 untuk pdo project
-			
-// 			$result 					= $this->spjpegawai_model->save_spj($data);
-
-// 		$msg = $dataupload['file_name']." berhasil diupload untuk ".$this->input->post('uraian_spj', TRUE);;
-// 	}
-
-// 	$this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
-// }
-
-
-// public function uploadgambar2(){
-// 	$config['upload_path'] 		= './uploads/spj/';
-// 	$config['allowed_types']   	= '*';
-//     $config['max_size']         = '0';
-// 	$config['encrypt_name'] 	= TRUE;
-
-// 	$this->load->library('upload', $config);
-
-// 	if ( ! $this->upload->do_upload('file')){
-// 		$status = "error";
-// 		$msg = $this->upload->display_errors();
-// 	}
-// 	else{
-
-// 		$dataupload = $this->upload->data();
-// 		$status = "success";
-// 			$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
-// 			$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
-// 			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
-// 			$data['kd_area'] 			= $this->input->post('kdarea', TRUE);
-// 			$data['kd_divisi']			= $this->input->post('divisi', TRUE);
-// 			$data['kd_pqproyek']		= $this->input->post('kode_pqproyek', TRUE);
-// 			$data['kd_project']			= $this->input->post('project', TRUE);
-// 			$data['no_acc_pdo2']		= $this->input->post('item_hpp', TRUE);
-// 			$data['no_acc'] 			= $this->input->post('no_acc', TRUE);
-// 			$data['uraian']				= $this->input->post('uraian', TRUE);
-// 			$data['uraian_spj']			= $this->input->post('uraian_spj', TRUE);
-// 			$data['nilai']				= $this->input->post('total', TRUE);
-// 			$data['bukti']				= $dataupload['file_name'];
-// 			$data['jns_spj']			= $this->input->post('jns_pdo', TRUE); //1 untuk pdo project
-			
-// 			$result 					= $this->spjpegawai_model->save_edit_spj($data);
-
-// 		$msg = $dataupload['file_name']." berhasil diupload untuk ".$this->input->post('uraian_spj', TRUE);;
-// 	}
-
-// 	$this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
-// }
 
 function get_pq_projek_by_area(){
 	$area = $this->input->post('id',TRUE);
@@ -326,6 +245,37 @@ public function edit_keterangan($id='',$kd_area=''){
 		
 	}
 
+
+    public function update_status($id='',$kd_pegawai='',$status){
+		
+		if($this->input->post('submit')){
+			$this->form_validation->set_rules('no_spj', 'No. SPJ', 'trim|required');
+			$this->form_validation->set_rules('kd_pegawai', 'kode Pegawai', 'trim|required');
+
+			if ($this->form_validation->run() == FALSE) {
+				$data = array(
+					'errors' => validation_errors()
+				);
+				$this->session->set_flashdata('errors', $data['errors']);
+			}
+			else{
+				$kd_pegawai 						= $this->security->xss_clean($this->input->post('kd_pegawai'));
+				$nospj 						= $this->security->xss_clean($this->input->post('no_spj'));
+				$result = $this->spjpegawai_model->update_status($kd_pegawai, $nospj, $status);
+				if($result){
+					$this->activity_model->add_log(1);
+					$this->session->set_flashdata('success', 'SPJ berhasil diubah!');
+						redirect(base_url('pengesahan_spj_pegawai'));	
+					
+				}else{
+					$this->session->set_flashdata('errors', 'SPJ gagal diubah!');
+					redirect(base_url('pengesahan_spj_pegawai/setuju/'.$id));
+				}
+			}
+		}
+		
+	}
+
 public function simpan_spj_file2(){
 		$config['upload_path'] 		= './uploads/spj_karyawan/';
 		$config['allowed_types']   	= '*';
@@ -368,7 +318,7 @@ public function simpan_spj_file2(){
 	}
 
 
-public function edit_spj($nospj='',$kd_pegawai='')
+public function setuju($nospj='',$kd_pegawai='')
 
 {		
 		$this->rbac->check_operation_access('');
@@ -397,7 +347,43 @@ public function edit_spj($nospj='',$kd_pegawai='')
 			$data['data_spj'] 			= $this->spjpegawai_model->get_spj_by_id($nospj,$kd_pegawai);
 			$data2['title'] 			= 'Edit SPJ';
 			$this->load->view('admin/includes/_header', $data2);
-			$this->load->view('user/spj_pegawai/edit', $data);
+			$this->load->view('user/pengesahan_spj_pegawai/setuju', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	
+}
+
+
+public function batal($nospj='',$kd_pegawai='')
+
+{		
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('type')==1){
+			$data['no_spj'] 			= $this->input->post('no_spj', TRUE);
+			$data['tgl_spj']			= $this->input->post('tgl_spj', TRUE);
+			$data['tgl_bukti']			= $this->input->post('tgl_bukti', TRUE);
+			$data['kd_area'] 			= $this->input->post('area', TRUE);
+			$data['kd_pegawai']			= $this->input->post('pegawai', TRUE);
+			$data['kd_sub_area']		= $this->input->post('subarea', TRUE);
+			$data['kd_proyek']			= $this->input->post('project', TRUE);
+         	$data['no_acc']				= $this->input->post('no_akun', TRUE);
+			$data['uraian']				= $this->input->post('uraian', TRUE);
+			$data['nilai']				= $this->input->post('nilai', TRUE);
+			$data['jns_spj']			= $this->input->post('jns_spj', TRUE);
+			
+			$result = $this->spjpegawai_model->save_edit_spj($data);
+			
+					echo json_encode(array(
+							"statusCode"=>200
+						));
+		}
+		else{
+			$data['data_area'] 			= $this->area->get_area_pusat();
+			$data['data_spj'] 			= $this->spjpegawai_model->get_spj_by_id($nospj,$kd_pegawai);
+			$data2['title'] 			= 'Edit SPJ';
+			$this->load->view('admin/includes/_header', $data2);
+			$this->load->view('user/pengesahan_spj_pegawai/batal', $data);
 			$this->load->view('admin/includes/_footer');
 		}
 	
@@ -452,8 +438,7 @@ public function datatable_json_spj_edit($id='',$kd_pegawai=''){
 				$row['no_acc'].'<br>'.$row['nm_acc'].'<br>'.$jns_ta,
 				$row['uraian'],
 				$anchor,
-				number_format($row['nilai'],2,',','.'),
-				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("spj_pegawai/delete_spj/".$row['id']).'/'.$id_new.'/'.$kode_pegawai.'/'.$row['bukti'].' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				number_format($row['nilai'],2,',','.')
 			);
 		}
 		$records['data']=$data;
@@ -585,17 +570,6 @@ function get_pegawai_by_area(){
 	echo json_encode($data);
 }
 
-function get_pegawai_by_area_cetak(){
-	$data = $this->spjpegawai_model->get_pegawai_by_area_cetak()->result();
-	echo json_encode($data);
-}
-
-function get_area_by_user(){
-	$user = $this->input->post('id',TRUE);
-	$data = $this->spjpegawai_model->get_area_by_user($user)->result();
-	echo json_encode($data);
-}
-
   public function view($id,$kd_pegawai){
   	$kd_pegawai_new			= str_replace('abcde','/',$kd_pegawai);
     $search 			= $_POST['search']['value']; // Ambil data yang di ketik user pada textbox pencarian
@@ -624,43 +598,7 @@ function get_area_by_user(){
     return $result;
   }
 
-  public function cetak_spj_pegawai($kd_pegawai,$area,$bulan,$tahun,$jenis='')
-	{	
-		$data['spj_header'] 		= $this->spjpegawai_model->get_spj_header($area,$kd_pegawai);
-		$data['spj_header2'] 		= $this->spjpegawai_model->get_spj_header2($area,$kd_pegawai,$bulan,$tahun);
-		$data['spj_header3'] 		= $this->spjpegawai_model->get_spj_header3($area,$kd_pegawai,$bulan,$tahun);
-		$data['spj_header4'] 		= $this->spjpegawai_model->get_spj_header4($area,$kd_pegawai,$bulan,$tahun);
-		$data['spj_header5'] 		= $this->spjpegawai_model->get_spj_header5($area,$kd_pegawai,$bulan,$tahun);
-		$data['rincian_spj'] 		= $this->spjpegawai_model->get_rincian_spj($area,$kd_pegawai,$bulan,$tahun);
-		$data['rincian_penerimaan'] = $this->spjpegawai_model->get_rincian_penerimaan($area,$kd_pegawai,$bulan,$tahun);
-		$data['title']	= 'Cetak SPJ';
-		// $html = $this->load->view('user/pq/pq_view', $data);
-		// $cRet = $this->load->view('user/pq/cetak_pq_satuan',$data);
-		// $data['tahun'] 				= $tahun;
-
-		// if ($bulan==0){
-		// 	$data['bulan'] 				= "";	
-		// }else{
-		// 	$data['bulan'] 				= $this->format_indo($bulan);
-		// }
-
-		switch ($jenis)
-        {
-            case 0;
-                $this->load->library('pdf');
-			    $this->pdf->setPaper('Legal', 'portrait');
-			    $this->pdf->filename = "laporan.pdf";
-			    $this->pdf->load_view('user/spj_pegawai/cetak_spj_pegawai', $data);
-                break;
-            case 1;
-                $this->load->view('user/spj_pegawai/cetak_spj_pegawai', $data);
-               break;
-        }
-
-	}
-
-
-	public function cetak_spj_pegawai_lama($id=0,$kd_area,$kd_pegawai,$jenis='')
+  public function cetak_spj_pegawai($id=0,$kd_area,$kd_pegawai,$jenis='')
 	{	
 		$data['spj_header'] 		= $this->spjpegawai_model->get_spj_header($id,$kd_area,$kd_pegawai);
 		$data['spj_header2'] 		= $this->spjpegawai_model->get_spj_header2($id,$kd_area,$kd_pegawai);
@@ -668,7 +606,7 @@ function get_area_by_user(){
 		$data['spj_header4'] 		= $this->spjpegawai_model->get_spj_header4($id,$kd_area,$kd_pegawai);
 		$data['spj_header5'] 		= $this->spjpegawai_model->get_spj_header5($id,$kd_area,$kd_pegawai);
 		$data['rincian_spj'] 		= $this->spjpegawai_model->get_rincian_spj($id,$kd_pegawai);
-		$data['rincian_penerimaan'] = $this->spjpegawai_model->get_rincian_penerimaan($id,$kd_pegawai);
+        $data['rincian_penerimaan'] = $this->spjpegawai_model->get_rincian_penerimaan($id,$kd_pegawai);
 		$data['title']	= 'Cetak SPJ';
 		// $html = $this->load->view('user/pq/pq_view', $data);
 		// $cRet = $this->load->view('user/pq/cetak_pq_satuan',$data);
@@ -686,10 +624,10 @@ function get_area_by_user(){
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'portrait');
 			    $this->pdf->filename = "laporan.pdf";
-			    $this->pdf->load_view('user/spj_pegawai/cetak_spj_pegawai', $data);
+			    $this->pdf->load_view('user/pengesahan_spj_pegawai/cetak_spj_pegawai', $data);
                 break;
             case 1;
-                $this->load->view('user/spj_pegawai/cetak_spj_pegawai', $data);
+                $this->load->view('user/pengesahan_spj_pegawai/cetak_spj_pegawai', $data);
                break;
         }
 

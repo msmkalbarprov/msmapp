@@ -18,7 +18,7 @@
              Edit SPJ Pegawai</h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('spj_pegawai'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pengesahan_spj_pegawai'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -32,7 +32,7 @@
           <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
         </div>
         <?php $this->load->view('admin/includes/_messages.php') ?>
-         <?php echo form_open_multipart('spj_pegawai/edit_keterangan/'.$data_spj["no_spj"].'/'.$data_spj["kd_pegawai"]);?>
+         <?php echo form_open_multipart('pengesahan_spj_pegawai/update_status/'.$data_spj["no_spj"].'/'.$data_spj["kd_pegawai"].'/0');?>
          <div class="row">
           <div class="col-md-4">
             <div class="form-group">
@@ -88,7 +88,7 @@
         <div class="form-group">
           <div class="col-md-12" align="right">
             <!-- <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#largeModal">Tambah Rincian</a> -->
-            <input type="submit" name="submit" id="tombolsimpan" value="Setujui" class="btn btn-primary btn-sm">
+            <input type="submit" name="submit" id="tombolsimpan" value="batal/Tolak" class="btn btn-danger btn-sm">
           </div>
         </div>
       
@@ -105,7 +105,6 @@
                     <th>Uraian</th>
                     <th>Bukti</th>
                     <th>Nilai</th>
-                    <th width="5%">Action</th>
                 </tr>
               </thead>
             </table>
@@ -241,7 +240,7 @@
 <script src="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
   <script>
-  $("#spj_pegawai> a").addClass('active');
+  $("#pengesahan_spj_pegawai> a").addClass('active');
 </script>
 <script>
   $(document).ready(function(){
@@ -251,7 +250,7 @@
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('spj_pegawai/datatable_json_spj_edit/')?>"+ no_spj+'/'+kd_pegawai,
+    "ajax": "<?=base_url('pengesahan_spj_pegawai/datatable_json_spj_edit/')?>"+ no_spj+'/'+kd_pegawai,
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "no_spj", 'searchable':true, 'orderable':false},
@@ -259,8 +258,7 @@
     { "targets": 2, "name": "akun", 'searchable':true, 'orderable':false},
     { "targets": 3, "name": "uraian", 'searchable':true, 'orderable':false},
     { "targets": 4, "name": "bukti", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "Nilai", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 5, "name": "Nilai", 'searchable':true, 'orderable':false}
     ]
   });
 
@@ -270,7 +268,7 @@
 
   function get_akun(jns_spj,kd_proyek){
     $.ajax({
-        url : "<?php echo site_url('spj_pegawai/get_item_spj');?>",
+        url : "<?php echo site_url('pengesahan_spj_pegawai/get_item_spj');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -312,7 +310,7 @@ $('#no_acc').change(function(){
 
 function get_nilai(projek,kd_item,jns_spj){
         $.ajax({
-        url : "<?php echo site_url('spj_pegawai/get_nilai');?>",
+        url : "<?php echo site_url('pengesahan_spj_pegawai/get_nilai');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -332,7 +330,7 @@ function get_nilai(projek,kd_item,jns_spj){
 
 function get_realisasi(kd_item,projek,jns_spj,nilai){
         $.ajax({
-        url : "<?php echo site_url('spj_pegawai/get_realisasi');?>",
+        url : "<?php echo site_url('pengesahan_spj_pegawai/get_realisasi');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -354,7 +352,7 @@ function get_realisasi(kd_item,projek,jns_spj,nilai){
 function get_kas(kd_pegawai){
         var project           = $('#project').val();
         $.ajax({
-        url : "<?php echo site_url('spj_pegawai/get_kas');?>",
+        url : "<?php echo site_url('pengesahan_spj_pegawai/get_kas');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -377,7 +375,7 @@ $('#jns_spj').change(function(){
     var subarea     = $('#kd_sub_area').val();
     var area        = $("#kd_area").val();
     $.ajax({
-        url : "<?php echo site_url('spj_pegawai/get_proyek_by_area_subarea');?>",
+        url : "<?php echo site_url('pengesahan_spj_pegawai/get_proyek_by_area_subarea');?>",
         method : "POST",
         data : {
             '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -477,7 +475,7 @@ $('#formtest').submit(function(e){
 
             
             $.ajax({
-                url:'<?php echo base_url();?>index.php/spj_pegawai/simpan_spj_file2',
+                url:'<?php echo base_url();?>index.php/pengesahan_spj_pegawai/simpan_spj_file2',
                 dataType: 'json',  // what to expect back from the PHP script, if anything
                 cache: false,
                 contentType: false,
@@ -565,7 +563,7 @@ $('#formtest').submit(function(e){
 
       
   //     $.ajax({
-  //       url: "<?php echo base_url("spj_pegawai/edit_spj/");?>",
+  //       url: "<?php echo base_url("pengesahan_spj_pegawai/edit_spj/");?>",
   //       type: "POST",
   //       data: {
   //           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -608,7 +606,7 @@ $('#formtest').submit(function(e){
 function load_rincian_temp(nospj) {
     var kd_pegawai      = $('#kd_pegawai').val();
 
-    table.ajax.url("<?=base_url('spj_pegawai/datatable_json_spj_edit'.'/')?>"+ nospj+'/'+kd_pegawai);
+    table.ajax.url("<?=base_url('pengesahan_spj_pegawai/datatable_json_spj_edit'.'/')?>"+ nospj+'/'+kd_pegawai);
     table.ajax.reload();
 }
 

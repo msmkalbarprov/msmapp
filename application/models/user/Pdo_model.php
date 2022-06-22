@@ -629,7 +629,7 @@ function get_realisasi_op($kode_pqoperasional)
 	function get_coa_item()
 	{	
 		$this->db->from('ci_coa_msm');
-		$this->db->where('no_acc in ("5010201","5010202","5010203","5010204","5010206","5010205")');	
+		$this->db->where('no_acc in ("5010201","5010202","5010203","5010204","5010206","5010205","5010502")');	
 		$query=$this->db->get();
 		return $query->result_array();
 	}

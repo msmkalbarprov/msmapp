@@ -66,6 +66,7 @@
                                     <option value="programer">Programer</option>
                                     <option value="akuntan">Akuntan</option>
                                     <option value="rc">RC</option>
+                                    <option value="implementator">Implementator</option>
                                     <option value="lainnya">Lainnya</option>
                                 </select>
                             </div>

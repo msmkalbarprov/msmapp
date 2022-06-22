@@ -100,7 +100,7 @@ class Laporan_pq extends MY_Controller {
 		$data['titip_pl'] 		= $this->pq_model->get_titip_pl_by_idtahun($id, $tahun);
 		$data['proyek'] 		= $this->pq_model->get_proyek_by_id(str_replace('PQ','',$id));
 		$data['hpp'] 			= $this->pq_model->get_cetak_hpp_pq_pdo_by_idtahun($id, $tahun);
-		$data['operasional']	= $this->pq_model->get_operasional_by_id($id);
+		// $data['operasional']	= $this->pq_model->get_operasional_by_id($id);
 		$data['marketing']		= $this->pq_model->get_marketing_by_id($id);
 		$data['pendapatan_area']	= $this->pq_model->get_pendapatanarea($id);
 

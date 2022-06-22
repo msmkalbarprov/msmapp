@@ -87,8 +87,8 @@
 
         <div class="form-group">
           <div class="col-md-12" align="right">
-            <!-- <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#largeModal">Tambah Rincian</a> -->
-            <input type="submit" name="submit" id="tombolsimpan" value="Setujui" class="btn btn-primary btn-sm">
+            <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#largeModal">Tambah Rincian</a>
+            <input type="submit" name="submit" id="tombolsimpan" value="Update" class="btn btn-primary btn-sm">
           </div>
         </div>
       

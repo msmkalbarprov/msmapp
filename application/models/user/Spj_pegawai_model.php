@@ -36,7 +36,13 @@
 // MULAI
 	// get all users for server-side datatable processing (ajax based)
 public function get_all_spj(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->select('*,sum(nilai) as total');
+			$this->db->from("ci_spj_pegawai");
+            $this->db->group_by("no_spj,kd_pegawai");
+            $this->db->order_by("kd_pegawai,no_spj");
+       		return $this->db->get()->result_array();
+		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
 			$this->db->where('kd_area',$this->session->userdata('kd_area'));
@@ -354,13 +360,26 @@ public function get_spj_by_id($id,$kd_pegawai){
 		}
 
 
-	public function get_rincian_spj($no_spj,$kd_pegawai){
+	public function get_rincian_spj($area,$kd_pegawai,$bulan,$tahun){
 					$this->db->select('*');
 					$this->db->from("ci_spj_pegawai");
 					$this->db->where('kd_pegawai',$kd_pegawai);
-					$this->db->where('no_spj',$no_spj);
+					$this->db->where("kd_area",$area);
+					$this->db->where('month(tgl_spj)',$bulan);
+					$this->db->where('year(tgl_spj)',$tahun);
                 return $this->db->get()->result_array();
 		}
+
+		public function get_rincian_penerimaan($area,$kd_pegawai,$bulan,$tahun){
+			$this->db->select('*');
+			$this->db->from("get_penerimaan_spj_pegawai");
+			$this->db->where('kd_pegawai',$kd_pegawai);
+			$this->db->where("kd_area",$area);
+			$this->db->where("month(tanggal)",$bulan);
+			$this->db->where("YEAR(tanggal)",$tahun);
+		return $this->db->get()->result_array();
+}
+
 
 // SELESAI
 
@@ -564,6 +583,16 @@ public function update_keterangan($kd_pegawai, $nospj, $keterangan)
 			$this->db->update('ci_spj_pegawai');
 			return true;
 		} 
+
+public function update_status($kd_pegawai, $nospj, $status)
+		{	
+			$this->db->set('status', $status);
+			$this->db->where('kd_pegawai', $kd_pegawai);
+			$this->db->where('no_spj', $nospj);
+			$this->db->update('ci_spj_pegawai');
+			return true;
+		} 
+
 public function update_keterangan_gaji($kdpdo, $keterangan, $jenis_transfer, $jnspdo)
 		{	
 			$this->db->set('keterangan', $keterangan);
@@ -913,10 +942,33 @@ public function get_pdo_detail($id){
 		else{
 			$query = $this->db->get_where('get_pegawai', array('kd_area' => $area, 'kd_pegawai' => $this->session->userdata('username')));
 		    return $query;
+		}		
+	}
+
+function get_pegawai_by_area_cetak()
+	{   
+
+        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin Area'){
+			$query = $this->db->get('get_pegawai');
+		    return $query;
 		}
+		else{
+			$query = $this->db->get_where('get_pegawai', array('kd_pegawai' => $this->session->userdata('username')));
+		    return $query;
+		}		
+	}
 
+	function get_area_by_user($user =0)
+	{   
 
-		
+        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin Area'){
+			$query = $this->db->get_where('get_area_by_user', array('kd_pegawai' => $user));
+		    return $query;
+		}
+		else{
+			$query = $this->db->get_where('get_area_by_user', array('kd_pegawai' => $this->session->userdata('username')));
+		    return $query;
+		}		
 	}
 
 
@@ -1162,76 +1214,69 @@ public function get_pendapatanarea($id){
 			return $result = $this->db->get()->row_array();
 		}
 
-	public function get_spj_header($id,$kd_area,$kd_pegawai){
+	public function get_spj_header($area,$kd_pegawai){
 			$this->db->from("h_spj");
-			$this->db->where("kd_area",$kd_area);
 			$this->db->where("kd_pegawai",$kd_pegawai);
        		return $result = $this->db->get()->row_array();
 		}
 
-	public function get_spj_header2($id,$kd_area,$kd_pegawai){
-			$this->db->select("sum(nilai) as total, month(tgl_spj) as bulan, year(tgl_spj) as tahun");
-			$this->db->from("ci_spj_pegawai");
-			$this->db->where("kd_area",$kd_area);
-			$this->db->where("no_spj",$id);
-			$this->db->where("kd_pegawai",$kd_pegawai);
-			$this->db->group_by("no_spj");
+	public function get_spj_header2($area,$kd_pegawai,$bulan,$tahun){
+			// $this->db->select("sum(nilai) as total, month(tgl_spj) as bulan, year(tgl_spj) as tahun");
+			// $this->db->from("ci_spj_pegawai");
+			// $this->db->where("YEAR(tgl_spj)",$tahun);
+			// $this->db->where("MONTH(tgl_spj)",$bulan);
+			// $this->db->where("kd_pegawai",$kd_pegawai);
+			// $this->db->group_by("no_spj");
+			
+			$this->db->select("kd_pegawai,'$bulan' as bulan,'$tahun' as tahun, (select sum(nilai) as total from ci_spj_pegawai where MONtH(tgl_spj)='$bulan' and YEAR(tgl_spj)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai) as total");
+					$this->db->from("ci_pegawai");
+					$this->db->where("kd_pegawai",$kd_pegawai);
+					$this->db->group_by("kd_pegawai");
+					$this->db->group_by("no_spj");
        		return $result = $this->db->get()->row_array();
 		}
 
-	public function get_spj_header3($id,$kd_area,$kd_pegawai){
-
-		// get bulan di SPJ
-		$query="SELECT kd_pegawai,tgl_spj as tanggal,month(tgl_spj) as bulan from ci_spj_pegawai where no_spj='$id' and kd_pegawai='$kd_pegawai' group by kd_pegawai";
-					 $hasil = $this->db->query($query);
-					 $tanggal = $hasil->row('tanggal');
-					 $bulan = $hasil->row('bulan');
+	public function get_spj_header3($area,$kd_pegawai,$bulan,$tahun){
 
 		// get nilai 
-		$this->db->select("ifnull(sum(terima),0) as terima, ifnull(sum(keluar),0) as keluar");
-			$this->db->from("get_saldo_spj_cetak");
-			$this->db->where("kd_area",$kd_area);
-			$this->db->where("month(tanggal) <",$bulan);
-			$this->db->where("kd_pegawai",$kd_pegawai);
-			$this->db->group_by("kd_pegawai");
+		// $this->db->select("ifnull(sum(terima),0) as terima, ifnull(sum(keluar),0) as keluar");
+		// 	$this->db->from("get_saldo_spj_cetak");
+		// 	$this->db->where("month(tanggal) <",$bulan);
+		// 	$this->db->where("kd_pegawai",$kd_pegawai);
+		// 	$this->db->group_by("kd_pegawai");
+
+			$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai) as keluar");
+					$this->db->from("ci_pegawai");
+					$this->db->where("kd_pegawai",$kd_pegawai);
+					$this->db->group_by("kd_pegawai");
+
+
        		return $result = $this->db->get()->row_array();
 		}
 
-		public function get_spj_header4($id,$kd_area,$kd_pegawai){
-
-			// get bulan di SPJ
-			$query="SELECT kd_pegawai,tgl_spj as tanggal,month(tgl_spj) as bulan from ci_spj_pegawai where no_spj='$id' and kd_pegawai='$kd_pegawai' group by kd_pegawai";
-						 $hasil = $this->db->query($query);
-						 $tanggal = $hasil->row('tanggal');
-						 $bulan = $hasil->row('bulan');
+		public function get_spj_header4($area,$kd_pegawai,$bulan,$tahun){
 	
 			// get nilai 
-			$this->db->select("ifnull(sum(terima),0) as terima, ifnull(sum(keluar),0) as keluar");
-				$this->db->from("get_saldo_spj_cetak");
-				$this->db->where("kd_area",$kd_area);
-				$this->db->where("month(tanggal) =",$bulan);
-				$this->db->where("kd_pegawai",$kd_pegawai);
-				$this->db->group_by("kd_pegawai");
+			$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai) as keluar");
+					$this->db->from("ci_pegawai");
+					$this->db->where("kd_pegawai",$kd_pegawai);
+					$this->db->group_by("kd_pegawai");
 				   return $result = $this->db->get()->row_array();
 			}
 
-			public function get_spj_header5($id,$kd_area,$kd_pegawai){
-
-				// get bulan di SPJ
-				$query="SELECT kd_pegawai,tgl_spj as tanggal,month(tgl_spj) as bulan from ci_spj_pegawai where no_spj='$id' and kd_pegawai='$kd_pegawai' group by kd_pegawai";
-							 $hasil = $this->db->query($query);
-							 $tanggal = $hasil->row('tanggal');
-							 $bulan = $hasil->row('bulan');
+			public function get_spj_header5($area,$kd_pegawai,$bulan,$tahun){
 		
 				// get nilai 
-					$this->db->select("ifnull(sum(terima),0) as terima, ifnull(sum(keluar),0) as keluar");
-					$this->db->from("get_saldo_spj_cetak");
-					$this->db->where("kd_area",$kd_area);
-					$this->db->where("tanggal <",$tanggal);
+					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai) as keluar");
+					$this->db->from("ci_pegawai");
 					$this->db->where("kd_pegawai",$kd_pegawai);
 					$this->db->group_by("kd_pegawai");
 					   return $result = $this->db->get()->row_array();
 				}
+
 
 
 // cetak masal per area
