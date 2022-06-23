@@ -31,6 +31,21 @@ function penyebut($nilai) {
   return $temp;
 }
 
+function angka($nilai){
+
+	if($nilai<0){
+		$lc = '('.number_format(abs($nilai),2,',','.').')';
+	}else{
+		if($nilai==0){
+			$lc ='0,00';
+		}else{
+			$lc = number_format($nilai,2,',','.');
+		}
+	}
+	return $lc;
+}
+
+
 function terbilang($nilai) {
   if($nilai<0) {
     $hasil = "minus ". trim(penyebut($nilai));
@@ -121,7 +136,7 @@ function format_indo($date){
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
-								<td width="8%" align='right'><b><?= number_format($spj_header3['terima']-$spj_header5['keluar'],2,',','.'); ?></td>
+								<td width="8%" align='right'><b><?= angka($spj_header3['terima']-$spj_header5['keluar']); ?></td>
 								<td width="15%" align='left'></td>
                                 </tr>
 								
@@ -168,7 +183,7 @@ function format_indo($date){
         								<td colspan="2" align='left'><?= $rincian_penerimaan['tanggal']; ?></td>
         								
         								
-        								<td colspan='2' width="5%" align='right'><?= number_format($rincian_penerimaan['nilai'],2,',','.'); ?></td>
+        								<td colspan='2' width="5%" align='right'><?= angka($rincian_penerimaan['nilai']); ?></td>
         								<td width="1%" align='left'></td>
         								<td width="10%" align='right'></td>
         								<td width="8%" align='right'></td>
@@ -187,7 +202,7 @@ function format_indo($date){
 								<td colspan="2" align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Penerimaan</td>
 								
 								
-								<td colspan='2' width="5%" align='right' style="border-top:solid 1px black;"><b><?= number_format($spj_header4['terima'],2,',','.'); ?></td>
+								<td colspan='2' width="5%" align='right' style="border-top:solid 1px black;"><b><?= angka($spj_header4['terima']); ?></td>
 								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
 								<td width="8%" align='right'></td>
@@ -227,7 +242,7 @@ function format_indo($date){
 							
 							<tr>
 								<td colspan='5'></td>
-								<td width="5%"  align='left'><?= number_format($spj_header2['total'],2,',','.'); ?></td>
+								<td width="5%"  align='left'><?= angka($spj_header2['total']); ?></td>
 								<td width="1%"  align='left'></td>
 								<td width="10%" align='right'></td>
 								<td colspan='2' align='left'></td>
@@ -245,7 +260,7 @@ function format_indo($date){
 								<td colspan="2" align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Pengeluaran</td>
 								
 								
-								<td colspan='2' width="5%" align='right' style="border-top:solid 1px black;"><b><?= number_format($spj_header2['total'],2,',','.'); ?></td>
+								<td colspan='2' width="5%" align='right' style="border-top:solid 1px black;"><b><?= angka($spj_header2['total']); ?></td>
 								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
 								<td width="8%" align='right'></td>
@@ -264,8 +279,8 @@ function format_indo($date){
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
-								<td width="10%" align='right'><b><?= number_format($spj_header4['terima']-$spj_header2['total'],2,',','.'); ?></td>
-								<td width="8%" align='right'></td>
+								<td width="10%" align='right'></td>
+								<td width="8%" align='right'><b><?= angka($spj_header4['terima']-$spj_header2['total']); ?></b></td>
 								<td width="15%" align='left'></td>
                             </tr>
 							<tr><td colspan='10'></td></tr>
@@ -275,13 +290,29 @@ function format_indo($date){
 							<tr>
 								<td width="15%" align='left'></td>
 								<td width="1%" align='left'><b>V.</td>
+								<td width="15%" colspan='3' align='left'><b>Pengembalian kas</td>
+								
+								
+								<td width="5%" align='left'></td>
+								<td width="1%" align='left'></td>
+								<td width="10%" align='right'><b></td>
+								<td width="8%" align='right'><b><?= angka($pengembalian['keluar']); ?></b></td>
+								<td width="15%" align='left'></td>
+                            </tr>
+							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='10'></td></tr>
+							<tr>
+								<td width="15%" align='left'></td>
+								<td width="1%" align='left'><b>VI.</td>
 								<td width="15%" colspan='3' align='left'><b>Saldo Akhir</td>
 								
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
-								<td width="8%" align='right'><b><?= number_format($spj_header4['terima']+$spj_header3['terima']-$spj_header5['keluar']-$spj_header2['total'],2,',','.'); ?></td>
+								<td width="8%" align='right'><b><?= angka($spj_header4['terima']+$spj_header3['terima']-$spj_header5['keluar']-$spj_header2['total']-$pengembalian['keluar']); ?></td>
 								<td width="15%" align='left'></td>
                             </tr>
 							<tr><td colspan='10'></td></tr>
@@ -300,11 +331,12 @@ function format_indo($date){
 					 <thead>
                         <tr>
 							
-							<td bgcolor="#CCCCCC" width="18%" align="center" ><b>Tanggal</b></td>
-							<td bgcolor="#CCCCCC" width="20%" align="center" ><b>Akun</b></td>
-                            <td bgcolor="#CCCCCC" width="20%" align="center" ><b>Keterangan</b></td>
+							<td bgcolor="#CCCCCC" width="8%" align="center" ><b>Tanggal</b></td>
+							<td bgcolor="#CCCCCC" width="15%" align="center" ><b>Sub Area</b></td>
+							<td bgcolor="#CCCCCC" width="25%" align="center" ><b>Akun</b></td>
+                            <td bgcolor="#CCCCCC" width="35%" align="center" ><b>Keterangan</b></td>
                             <td bgcolor="#CCCCCC" width="2%" align="center" ><b>Bukti/Nota</b></td>
-                            <td bgcolor="#CCCCCC" width="10%" align="center" ><b>Nilai</td>
+                            <td bgcolor="#CCCCCC" width="15%" align="center" ><b>Nilai</td>
 							
                         </tr>
                         
@@ -335,6 +367,12 @@ function format_indo($date){
                             $jns_ta='';
                         }
 
+						if($rincian_spj['jns_spj']=='1'){
+                            $subarea=$rincian_spj['nm_sub_area'];
+                        }else{
+                            $subarea=$rincian_spj['nm_area'];
+                        }
+
 
                         if($rincian_spj['bukti']=='' || $rincian_spj['bukti']==null){
                             $bukti="-";
@@ -347,10 +385,11 @@ function format_indo($date){
                         <tr>
                                 
                                 <td  align="center"><?= $rincian_spj['tgl_bukti']; ?></td>
+								<td  align="left"><?= $subarea; ?></td>
                                 <td  align="left"><?= $rincian_spj['nm_acc']; ?></td>
                                 <td  align="left"><?= $jns_ta.''.$rincian_spj['uraian']; ?></td>
                                 <td  align="center"><?= $bukti; ?></td>
-                                <td  align="right"><?= number_format($rincian_spj['nilai'],2,',','.'); ?></td>
+                                <td  align="right"><?= angka($rincian_spj['nilai']); ?></td>
                                 
                         </tr>
 
@@ -362,7 +401,7 @@ function format_indo($date){
                             
 
                                 <tr>
-									 <td colspan='4' align="center"><b>TOTAL</td>
-									 <td  align="right"><b><?= number_format($total_spj,2,',','.'); ?></td>
+									 <td colspan='5' align="center"><b>TOTAL</td>
+									 <td  align="right"><b><?= angka($total_spj); ?></td>
 								</tr>
                   </table>

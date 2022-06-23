@@ -206,8 +206,9 @@ $('#but_cetak').on('click', function() {
   var kd_pegawai        = $('#kd_pegawai').val();
   var bulan             = $('#bulan').val();
   var tahun             = $('#tahun').val();
+  var area              = $('#area').val();
 
-      var url = '<?= base_url() ?>'+'spj_pegawai/cetak_spj_pegawai/'+kd_pegawai+'/'+bulan+'/'+tahun+'/1/Laporan SPJ';   
+      var url = '<?= base_url() ?>'+'spj_pegawai/cetak_spj_pegawai/'+kd_pegawai+'/'+area+'/'+bulan+'/'+tahun+'/0/Laporan SPJ';   
     window.open(url, '_blank');
 
 });

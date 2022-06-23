@@ -48,9 +48,23 @@
                   </div>
                 </div>
                 <div class="col-md-3">
+                    
+
                   <div class="form-group">
-                    <label for="saldo" class="control-label">Saldo</label>
-                    <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
+                  <label for="saldo" class="control-label">Saldo</label>
+                  <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <input type="checkbox" id="c_minus" name="c_minus">&nbsp; minus 
+                          <input type="hidden" id="minus" name="minus">
+                        </span>
+                        
+                      </div>
+                      <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
+                      <!-- <input type="text" class="form-control"> -->
+                    </div>
+
+                    <!-- <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"> -->
                   </div>
                 </div>
               </div>
@@ -69,7 +83,7 @@
   <script type="text/javascript">
 
   $(document).ready(function(){
-
+    $('[name="minus"]').val('0').trigger('change');
     $('#area').change(function(){ 
                 var subarea=$(this).val();
                 $.ajax({
@@ -91,6 +105,14 @@
                 });
                 return false;
             });
+  $('#c_minus').click(function() {
+      if ($('#c_minus').prop('checked') == true){
+        $('[name="minus"]').val('1').trigger('change');
+      
+      }else{
+        $('[name="minus"]').val('0').trigger('change');
+      }
+    });
 
   });
   </script>

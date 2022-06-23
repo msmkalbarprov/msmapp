@@ -57,6 +57,9 @@ class Dashboard extends My_Controller {
 		else if($this->session->userdata('is_supper') && $this->session->userdata('admin_role')=='Direktur Utama'){
     		// redirect(base_url('admin/dashboard/general'));
     		$this->load->view('admin/dashboard/index');
+		}else if($this->session->userdata('admin_role')=='karyawan'){
+    		redirect(base_url('admin/dashboard'));
+    		// $this->load->view('admin/dashboard/index');
 		}
 		else{
 			$this->load->view('admin/dashboard/index');

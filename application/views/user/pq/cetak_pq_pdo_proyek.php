@@ -46,7 +46,7 @@
     </td>
     <td align="right" ><?= number_format($ppn,2,',','.'); ?></td>
     <td align="right" ><?= number_format($pencairan['ppn'],2,',','.'); ?></td>
-    <td align="right" ><?= number_format($persenppn,2,',','.'); ?></td>
+    <td align="right" ><?= number_format($pencairan['ppn'],2,',','.'); ?></td>
   </tr>
 
   <?php $pph = $pqproyek['pph']; ?>
@@ -66,7 +66,7 @@
     </td>
     <td align="right" ><?= number_format($pph,2,',','.'); ?></td>
     <td align="right" ><?= number_format($pencairan['pph'],2,',','.'); ?></td>
-    <td align="right" ><?= number_format($persenpph,2,',','.'); ?></td>
+    <td align="right" ><?= number_format($pencairan['pph'],2,',','.'); ?></td>
   </tr>
   <tr>
     <td colspan="2">
@@ -85,7 +85,7 @@
     </td>
     <td align="right"><?= number_format($pqproyek['infaq'],2,',','.'); ?></td>
     <td align="right"><?= number_format($pencairan['infaq'],2,',','.'); ?></td>
-    <td align="right"><?= number_format($persen_infaq,2,',','.'); ?></td>
+    <td align="right"><?= number_format($pencairan['infaq'],2,',','.'); ?></td>
   </tr>
   <?php $titipan = $pqproyek['titipan_net']; ?>
   <tr>

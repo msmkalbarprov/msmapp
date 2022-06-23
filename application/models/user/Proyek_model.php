@@ -8,8 +8,8 @@
 
 
 	public function number($nilai){
-		$nilai=str_replace('.','',$nilai);
-		$nilai=str_replace(',','.',$nilai);
+		$nilai1=str_replace('.','',$nilai);
+		$nilai=str_replace(',','.',$nilai1);
 		return $nilai;
 	}
 

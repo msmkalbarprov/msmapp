@@ -32,13 +32,19 @@ class Laporan_marketing extends MY_Controller {
 		$this->load->view('user/laporan/laporan_marketing');
 		$this->load->view('admin/includes/_footer');
 	}
+
+	function get_filter1(){
+		$area = $this->input->post('id',TRUE);
+		$filter1 = $this->input->post('filter1',TRUE);
+		$data = $this->pq_model->get_filter1($area,$filter1)->result();
+		echo json_encode($data);
+	}
  
-	public function cetak_marketing($id=0,$tahun=0,$jenis=0, $file_name='')
+	public function cetak_marketing($id=0,$tahun=0,$jenis=0,$filter='', $filter2='', $file_name='')
 	{	
 		ini_set('max_execution_time', -1);
 		ini_set('memory_limit',-1);
-		$data['proyek']		= $this->pq_model->cetak_marketing($id,$tahun);
-			
+		$data['proyek']		= $this->pq_model->cetak_marketing($id,$tahun,$filter,$filter2);
 		if($id=='allarea'){
 			$file = 'laporan_marketing2';
 		}else{

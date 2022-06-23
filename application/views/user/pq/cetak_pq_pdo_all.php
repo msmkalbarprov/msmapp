@@ -34,7 +34,7 @@
     </td>
     <td align="right" ><?= number_format($ppn,2,',','.'); ?></td>
     <td align="right" ><?= number_format($pencairan['ppn'],2,',','.'); ?></td>
-    <td align="right" ><?= number_format($persenppn,2,',','.'); ?></td>
+    <td align="right" ><?= number_format($pencairan['ppn'],2,',','.'); ?></td>
   </tr>
 
   <?php $pph = $pqproyek['pph']; ?>
@@ -53,7 +53,7 @@
     </td>
     <td align="right" ><?= number_format($pph,2,',','.'); ?></td>
     <td align="right" ><?= number_format($pencairan['pph'],2,',','.'); ?></td>
-    <td align="right" ><?= number_format($persenpph,2,',','.'); ?></td>
+    <td align="right" ><?= number_format($pencairan['pph'],2,',','.'); ?></td>
   </tr>
   <tr>
     <td colspan="2">
@@ -70,7 +70,7 @@
     </td>
     <td align="right"><?= number_format($pqproyek['infaq'],2,',','.'); ?></td>
     <td align="right"><?= number_format($pencairan['infaq'],2,',','.'); ?></td>
-    <td align="right"><?= number_format($persen_infaq,2,',','.'); ?></td>
+    <td align="right"><?= number_format($pencairan['infaq'],2,',','.'); ?></td>
   </tr>
   <?php $titipan = $pqproyek['titip']; ?>
   <tr>
@@ -107,8 +107,8 @@
 
           </td>
           <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($pqproyek['pendapatan_nett'],2,',','.'); ?></td>
+          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett,2,',','.'); ?></td>
           <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett ,2,',','.'); ?></td>
-          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($persennett ,2,',','.'); ?></td>
         </tr>
         <tr>
           <td colspan="5">&nbsp;</td>
@@ -130,18 +130,10 @@
               <?php $nilai_pl = $pqproyek['pl']; ?>
               <?= number_format($nilai_pl,2,',','.'); ?>
       </td>
-    <?php 
-        if($nilai_pl==0){
-          $persenpl=0;
-        }else if($nilai_pl!=0 && $titip_pl['nilai']==0){
-          $persenpl=0;
-        }else{
-          $persenpl=$titip_pl['nilai']/$nilai_pl*100;
-        } 
-      ?>
+ -->
 
     <td align="right"><?= number_format($titip_pl['nilai'],2,',','.'); ?></td>
-    <td align="right"><?= number_format($persenpl,2,',','.'); ?></td>
+    <td align="right"><?= number_format($titip_pl['nilai'],2,',','.'); ?></td>
   </tr>
   <?php $sub_total_a=$pqproyek['sub_total_a']; ?>
 
@@ -162,7 +154,7 @@
     </td>
     <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($sub_total_a,2,',','.'); ?></td>
     <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett-$titip_pl['nilai'],2,',','.'); ?></td>
-    <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($persen_subtotala,2,',','.'); ?></td>
+    <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett-$titip_pl['nilai'],2,',','.'); ?></td>
   </tr>
 
   <?php endif; ?> 

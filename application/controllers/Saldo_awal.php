@@ -97,13 +97,19 @@ public function datatable_json(){
 					}else{
 						$rekening='1010105';
 					}
+					$minus = $this->input->post('minus');
+					if ($minus=='1'){
+						$saldo=$this->proyek_model->number($this->input->post('saldo'))*-1;
+					}else{
+						$saldo=$this->proyek_model->number($this->input->post('saldo'));
+					}
 
 					$data = array(
 						'kd_area' 		=> $this->input->post('area'),
 						'no_rekening' 	=> $rekening,
 						'kd_pegawai' 	=> $this->input->post('rekening'),
 						'pemilik' 		=> $this->input->post('pemilik'),
-						'saldo' 		=> $this->proyek_model->number($this->input->post('saldo')),
+						'saldo' 		=> $this->proyek_model->number($saldo),
 						'username' 		=>  $this->session->userdata('username'),
 						'created_at' 	=> date('Y-m-d : h:m:s')
 					);
@@ -149,8 +155,17 @@ public function datatable_json(){
 				redirect(base_url('saldo_awal/edit/'.$id),'refresh');
 			}
 			else{
+
+				$minus = $this->input->post('minus');
+				if ($minus=='1'){
+					$saldo=$this->proyek_model->number($this->input->post('saldo'))*-1;
+				}else{
+					$saldo=$this->proyek_model->number($this->input->post('saldo'));
+				}
+
+
 				$data = array(
-					'saldo' 	=> $this->proyek_model->number($this->input->post('saldo')),
+					'saldo' 	=> $saldo,
 					'pemilik' 	=> $this->input->post('pemilik')
 				);
 

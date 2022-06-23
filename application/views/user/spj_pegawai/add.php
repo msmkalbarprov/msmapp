@@ -193,6 +193,8 @@
                     <option value="6">Asuransi Kendaraan</option>
                     <option value="7">Biaya Telepon, Internet dan Fax</option>
                     <option value="8">Biaya Pos, Pengiriman</option>
+                    <option value="9">Tunjangan Karyawan</option>
+                    <option value="10">Pengobatan Medis</option>
                   </select> 
 
               </div>

@@ -87,8 +87,8 @@
 
         <div class="form-group">
           <div class="col-md-12" align="right">
-            <!-- <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#largeModal">Tambah Rincian</a> -->
-            <input type="submit" name="submit" id="tombolsimpan" value="Setujui" class="btn btn-primary btn-sm">
+          <a href="#" class="btn btn-sm btn-success" data-toggle="modal" data-target="#largeModal">Tambah Rincian</a>
+            <input type="submit" name="submit" id="tombolsimpan" value="Update" class="btn btn-primary btn-sm">
           </div>
         </div>
       
@@ -183,6 +183,8 @@
                     <option value="6">Asuransi Kendaraan</option>
                     <option value="7">Biaya Telepon, Internet dan Fax</option>
                     <option value="8">Biaya Pos, Pengiriman</option>
+                    <option value="9">Tunjangan Karyawan</option>
+                    <option value="10">Pengobatan Medis</option>
                   </select> 
 
               </div>

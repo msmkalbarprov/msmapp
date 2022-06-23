@@ -356,7 +356,7 @@ public function batalterima_pdo($id_pdo='',$jns=0)
 					
 				}else{
 					$this->session->set_flashdata('errors', 'PDO gagal dibatalcairkan!');
-					redirect(base_url('penerimaan_pdo/edit_pdo_project/'.$id));
+					redirect(base_url('penerimaan_pdo/edit_pdo_project/'.$id_pdo));
 				}
 			}
 		}else{

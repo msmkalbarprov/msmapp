@@ -52,7 +52,7 @@
                   <option value="5041401"> PPH Pasal 21</option>
                   <option value="5041402"> PPH Pasal 22</option>
                   <option value="5041403"> PPH Pasal 23</option>
-                  <option value="5041406"> Pajak Lainnya (Infaq, SP3)</option>
+                  <option value="5041407"> Pajak Lainnya (Infaq, SP3)</option>
                   <option value="5041501"> Administrasi Bank</option>
                 </select>
               <input type="hidden" name="nm_acc" class="form-control" id="areas" >

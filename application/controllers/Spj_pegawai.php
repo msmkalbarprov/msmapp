@@ -442,6 +442,10 @@ public function datatable_json_spj_edit($id='',$kd_pegawai=''){
 						$jns_ta="&#x21AA"." - Biaya Telepon, Internet dan Fax";
 					}else if($row['jns_ta']==8){
 						$jns_ta="&#x21AA"." - Biaya Pos, Pengiriman";
+					}else if($row['jns_ta']==9){
+						$jns_ta="&#x21AA"." - Tunjangan Karyawan";
+					}else if($row['jns_ta']==10){
+						$jns_ta="&#x21AA"." - Pengobatan Medis";
 					}else{
 						$jns_ta='';
 					}
@@ -631,7 +635,8 @@ function get_area_by_user(){
 		$data['spj_header3'] 		= $this->spjpegawai_model->get_spj_header3($area,$kd_pegawai,$bulan,$tahun);
 		$data['spj_header4'] 		= $this->spjpegawai_model->get_spj_header4($area,$kd_pegawai,$bulan,$tahun);
 		$data['spj_header5'] 		= $this->spjpegawai_model->get_spj_header5($area,$kd_pegawai,$bulan,$tahun);
-		$data['rincian_spj'] 		= $this->spjpegawai_model->get_rincian_spj($area,$kd_pegawai,$bulan,$tahun);
+		$data['pengembalian'] 		= $this->spjpegawai_model->pengembalian_kas($area,$kd_pegawai,$bulan,$tahun);
+		$data['rincian_spj'] 		= $this->spjpegawai_model->get_rincian_spj_cetak($area,$kd_pegawai,$bulan,$tahun);
 		$data['rincian_penerimaan'] = $this->spjpegawai_model->get_rincian_penerimaan($area,$kd_pegawai,$bulan,$tahun);
 		$data['title']	= 'Cetak SPJ';
 		// $html = $this->load->view('user/pq/pq_view', $data);
@@ -648,7 +653,7 @@ function get_area_by_user(){
         {
             case 0;
                 $this->load->library('pdf');
-			    $this->pdf->setPaper('Legal', 'portrait');
+			    $this->pdf->setPaper('Legal', 'Landscape');
 			    $this->pdf->filename = "laporan.pdf";
 			    $this->pdf->load_view('user/spj_pegawai/cetak_spj_pegawai', $data);
                 break;
@@ -684,7 +689,7 @@ function get_area_by_user(){
         {
             case 0;
                 $this->load->library('pdf');
-			    $this->pdf->setPaper('Legal', 'portrait');
+			    $this->pdf->setPaper('Legal', 'Landscape');
 			    $this->pdf->filename = "laporan.pdf";
 			    $this->pdf->load_view('user/spj_pegawai/cetak_spj_pegawai', $data);
                 break;
