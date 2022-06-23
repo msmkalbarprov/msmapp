@@ -122,7 +122,7 @@
 
           <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($pqproyek['pendapatan_nett'],2,',','.'); ?></td>
           <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett ,2,',','.'); ?></td>
-          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($persennett ,2,',','.'); ?></td>
+          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett ,2,',','.'); ?></td>
         </tr>
         <tr>
           <td colspan="5">&nbsp;</td>
@@ -181,7 +181,7 @@
     </td>
     <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($sub_total_a,2,',','.'); ?></td>
     <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett-$titip_pl['nilai'],2,',','.'); ?></td>
-    <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($persen_subtotala,2,',','.'); ?></td>
+    <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett-$titip_pl['nilai_spj'],2,',','.'); ?></td>
   </tr>
 
   <?php endif; ?> 
@@ -204,12 +204,14 @@
   <?php 
     $totalhpp=0; 
     $totalhpp_pdo=0; 
+    $totalhpp_spj=0;
   ?>
 <?php foreach($hpp as $hpp): ?>
 
   <?php 
     $totalhpp = $totalhpp+$hpp['nilai_hpp'];  
     $totalhpp_pdo = $totalhpp_pdo+$hpp['pdo'];
+    $totalhpp_spj = $totalhpp_spj+$hpp['spj'];
 
   ?> 
     
@@ -236,7 +238,7 @@
 
           <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
           <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
-          <td align="right"><?= number_format($persen_hpp1,2,',','.'); ?></td>
+          <td align="right"><?= number_format($hpp['spj'],2,',','.'); ?></td>
         </tr>
 
         <?php elseif ($hpp['kd_item'] == '5010202' && $hpp['keterangan']==''): ?>
@@ -274,7 +276,7 @@
 
               <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
               <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
-              <td align="right"><?= number_format($persen_hpp2,2,',','.'); ?></td>
+              <td align="right"><?= number_format($hpp['spj'],2,',','.'); ?></td>
             </tr>
           <?php elseif ($hpp['kd_item'] == '5010203'): ?>
           <tr>
@@ -297,7 +299,7 @@
 
               <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
               <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
-              <td align="right"><?= number_format($persen_hpp3,2,',','.'); ?></td>
+              <td align="right"><?= number_format($hpp['spj'],2,',','.'); ?></td>
             </tr>
        <?php elseif ($hpp['kd_item'] == '5010204'): ?>
           <tr>
@@ -319,7 +321,7 @@
                 ?>
               <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
               <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
-              <td align="right"><?= number_format($persen_hpp4,2,',','.'); ?></td>
+              <td align="right"><?= number_format($hpp['spj'],2,',','.'); ?></td>
             </tr>
 
       <?php elseif ($hpp['kd_item'] == '5010205'): ?>
@@ -342,7 +344,7 @@
                 ?>
               <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
               <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
-              <td align="right"><?= number_format($persen_hpp5,2,',','.'); ?></td>
+              <td align="right"><?= number_format($hpp['spj'],2,',','.'); ?></td>
             </tr>
           
       <?php else: ?>    
@@ -365,7 +367,7 @@
                 ?>
               <td align="right" ><?= number_format($hpp['nilai_hpp'],2,',','.'); ?></td>
               <td align="right"><?= number_format($hpp['pdo'],2,',','.'); ?></td>
-              <td align="right"><?= number_format($persen_hpp6,2,',','.'); ?></td>
+              <td align="right"><?= number_format($hpp['spj'],2,',','.'); ?></td>
             </tr>
       <?php endif; ?> 
     <?php endforeach; ?>
@@ -376,6 +378,7 @@
 
       <?php $sub_total_b=$totalhpp;?>
       <?php $sub_total_b_a=$totalhpp_pdo;?>
+      <?php $sub_total_b_c=$totalhpp_spj;?>
 
       <?php 
 
@@ -392,7 +395,7 @@
     </td>
     <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($sub_total_b,2,',','.'); ?></td>
     <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($sub_total_b_a,2,',','.'); ?></td>
-    <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($persentotal,2,',','.'); ?></td>
+    <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($sub_total_b_c,2,',','.'); ?></td>
   </tr>
 
 </table>

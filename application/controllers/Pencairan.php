@@ -353,6 +353,27 @@ function get_realisasi(){
 				// SIMPAN DETAIL PENCAIRAN
 				$this->proyek_model->simpan_cair_proyek($data);
 
+				$data2 = array(
+					'username' 			=> $this->session->userdata('username'),
+					'tgl_transfer'		=> $this->input->post('tgl_cair'),
+					'no_transfer' 		=> str_replace('PDP','TF',$this->input->post('nomor')),
+					'no_cair' 			=> $this->input->post('nomor'),
+					'kd_proyek'			=> $this->input->post('kd_proyek2'),
+					'id_proyek'			=> $id,
+					'kd_area'			=> substr($id,0,2),
+					'jenis_cair'		=> $this->input->post('jns_pencairan'),
+					'kd_rekening'		=> $this->input->post('rek_pencairan'),
+					'nilai'				=> $this->proyek_model->number($this->input->post('nilai_bruto')),
+					'created_at' 		=> date('Y-m-d : h:m:s'),
+				);
+				$data2 		= $this->security->xss_clean($data2);
+
+				if ($rek_pencairan !='1'){
+					$this->proyek_model->simpan_transfer_proyek($data2);
+				}
+
+				
+
 				$kodearea 					= $this->input->post('areas', TRUE);
 				$urutan 					= $this->input->post('urut', TRUE);
 				
@@ -739,7 +760,7 @@ public function edit_rincian_proyek($id = 0){
 				$tombol = '
 				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pencairan/cetak_pdp/'.$row['id'].'/'.$id).'" target="_blank" > <i class="fa fa-print"></i></a>';
 			}else{
-				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pencairan/delete_cair/".$row['id']."/".$id).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pencairan/delete_cair/".$row['id']."/".$id."/".$nomor).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
 				<a title="Potongan" class="potongan btn btn-sm btn-warning" href='.base_url("pencairan/potongan/".$row['id']."/".$id."/".$nomor).' title="Potongan"> <i class="fa fa-percent"></i></a>
 				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pencairan/cetak_pdp/'.$row['id'].'/'.$id).'" target="_blank" > <i class="fa fa-print"></i></a>';
 			}
@@ -832,12 +853,16 @@ public function edit_rincian_proyek($id = 0){
 	}
 
 
-	public function delete_cair($id = 0, $id_proyek= 0)
+	public function delete_cair($id = 0, $id_proyek= 0, $nopdp=0)
 	{
 		$this->rbac->check_operation_access('');
 
+		$nomor = str_replace('ab56b4d92b40713acc5af89985d4b786','/', $nopdp);
 
 			$this->db->delete('ci_proyek_cair', array('id_proyek' => $id_proyek, 'id' => $id,));
+			$this->db->delete('ci_proyek_cair_potongan', array('id_proyek' => $id_proyek, 'id_cair' => $id,));
+
+			$this->db->delete('ci_proyek_transfer', array('no_cair' => $nomor));
 
 			$this->activity_model->add_log(3);
 

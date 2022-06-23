@@ -303,7 +303,11 @@ public function get_pencairan_by_idtahun($id,$tahun){
 
 	public function get_titip_pl_by_id($id){
 				 $this->db->select("ci_coa.no_acc,ci_coa.nm_acc,
-				 	(select sum(nilai) from ci_pdo where ci_coa.no_acc=ci_pdo.no_acc and replace(ci_pdo.kd_pqproyek,'/','') = '$id' and status_bayar=1 ) as nilai");
+				 	(select ifnull(sum(nilai),0) from ci_pdo where ci_coa.no_acc=ci_pdo.no_acc and replace(ci_pdo.kd_pqproyek,'/','') = '$id' and status_bayar=1 ) as nilai,
+					 (select ifnull(sum(nilai),0) from ci_spj_pegawai where ci_coa.no_acc=ci_spj_pegawai.no_acc and concat('PQ',REPLACE(ci_spj_pegawai.kd_proyek,'/','')) = '$id' )+
+					 (select ifnull(sum(nilai),0) from ci_spj_kantor where ci_coa.no_acc=ci_spj_kantor.no_acc and REPLACE(ci_spj_kantor.kd_pqproyek,'/','') = '$id' )+
+					 (select ifnull(sum(nilai),0) from ci_spj where ci_coa.no_acc=ci_spj.no_acc and replace(ci_spj.kd_pq_proyek,'/','') = '$id' ) 
+					 as nilai_spj");
 				 $this->db->from("ci_coa");
                  $this->db->where("ci_coa.no_acc in ('5020101','5020501')");
                  $this->db->order_by("ci_coa.no_acc", "DESC");
@@ -313,8 +317,10 @@ public function get_pencairan_by_idtahun($id,$tahun){
 
 	public function get_titip_pl_by_idtahun($id, $tahun){
 				 $this->db->select("ci_coa.no_acc,ci_coa.nm_acc,
-				 		(select sum(nilai) from ci_pdo where ci_coa.no_acc=ci_pdo.no_acc and kd_area = '$id' and left(kd_project,4)='$tahun' ) as nilai,
-					 	(select sum(nilai) from ci_spj_pegawai where ci_coa.no_acc=ci_spj_pegawai.no_acc and kd_area = '$id' and month(tgl_spj)='$tahun' ) as nilai_spj");
+				 		(select ifnull(sum(nilai),0) from ci_pdo where ci_coa.no_acc=ci_pdo.no_acc and kd_area = '$id' and left(kd_project,4)='$tahun' ) as nilai,
+					 	(select ifnull(sum(nilai),0) from ci_spj_pegawai where ci_coa.no_acc=ci_spj_pegawai.no_acc and kd_area = '$id' and year(tgl_bukti)='$tahun' )+
+						 (select ifnull(sum(nilai),0) from ci_spj_kantor where ci_coa.no_acc=ci_spj_kantor.no_acc and kd_area = '$id' and year(tgl_bukti)='$tahun' )+
+						 (select ifnull(sum(nilai),0) from ci_spj where ci_coa.no_acc=ci_spj.no_acc and kd_area = '$id' and year(tgl_spj)='$tahun' ) as nilai_spj");
 				 $this->db->from("ci_coa");
                  $this->db->where("ci_coa.no_acc in ('5020101','5020501')");
                  $this->db->order_by("ci_coa.no_acc", "DESC");
@@ -508,10 +514,20 @@ public function get_cetak_hpp_pq_pdo_by_id($id){
 									when kd_item='5010202' then 
 										(select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and replace(kd_pqproyek,'/','')='$id' and jenis_tkl=map_pq_pdo_proyek.jenis and status_bayar='1') 
 									else (select sum(nilai) from ci_pdo where ci_pdo.no_acc=map_pq_pdo_proyek.kd_item and replace(kd_pqproyek,'/','')='$id' and status_bayar='1') 
-								end as pdo 
+								end as pdo, 
+								case 
+									when kd_item='5010202' then 
+										(select ifnull(sum(nilai),0) from ci_spj_pegawai left join ci_pegawai on ci_spj_pegawai.kd_pegawai=ci_pegawai.kd_pegawai where ci_spj_pegawai.no_acc=map_pq_pdo_proyek.kd_item and concat('PQ',REPLACE(ci_spj_pegawai.kd_proyek,'/',''))='$id' and jabatan=map_pq_pdo_proyek.jenis and status='1')+
+										(select ifnull(sum(nilai),0) from ci_spj_kantor left join ci_pegawai on ci_spj_kantor.kd_pegawai=ci_pegawai.kd_pegawai where ci_spj_kantor.no_acc=map_pq_pdo_proyek.kd_item and REPLACE(ci_spj_kantor.kd_pqproyek,'/','')='$id' and jabatan=map_pq_pdo_proyek.jenis)+
+										(select ifnull(sum(nilai),0) from ci_spj where ci_spj.no_acc=map_pq_pdo_proyek.kd_item and replace(ci_spj.kd_pq_proyek,'/','')='$id' and jns_tkl=map_pq_pdo_proyek.jenis)  
+									
+										else (select ifnull(sum(nilai),0) from ci_spj_pegawai where ci_spj_pegawai.no_acc=map_pq_pdo_proyek.kd_item and concat('PQ',REPLACE(ci_spj_pegawai.kd_proyek,'/',''))='$id' and status='1')+
+											(select ifnull(sum(nilai),0) from ci_spj_kantor where ci_spj_kantor.no_acc=map_pq_pdo_proyek.kd_item and REPLACE(ci_spj_kantor.kd_pqproyek,'/','')='$id')+
+											(select ifnull(sum(nilai),0) from ci_spj where ci_spj.no_acc=map_pq_pdo_proyek.kd_item and replace(ci_spj.kd_pq_proyek,'/','')='$id') 
+								end as spj
 							");
 			$this->db->from("map_pq_pdo_proyek");
-			$this->db->where("id between 16 and 25");
+			$this->db->where("id between 16 and 26");
 			$this->db->order_by("id");
 			$query=$this->db->get();
 			return $query->result_array();
@@ -531,13 +547,13 @@ public function get_cetak_hpp_pq_pdo_by_idtahun($id, $tahun){
 								end as pdo,
 								case 
 									when kd_item='5010202' then 
-										(select ifnull(sum(nilai),0) from ci_spj_pegawai left join ci_pegawai on ci_spj_pegawai.kd_pegawai=ci_pegawai.kd_pegawai where ci_spj_pegawai.no_acc=map_pq_pdo_proyek.kd_item and ci_spj_pegawai.kd_area='$id' and left(tgl_bukti,4)='$tahun' and jabatan=map_pq_pdo_proyek.jenis and status='1')+
-										(select ifnull(sum(nilai),0) from ci_spj_kantor left join ci_pegawai on ci_spj_kantor.kd_pegawai=ci_pegawai.kd_pegawai where ci_spj_kantor.no_acc=map_pq_pdo_proyek.kd_item and ci_spj_kantor.kd_area='$id' and left(tgl_bukti,4)='$tahun' and jabatan=map_pq_pdo_proyek.jenis and status='1')+
-										(select ifnull(sum(nilai),0) from ci_spj where ci_spj.no_acc=map_pq_pdo_proyek.kd_item and ci_spj.kd_area='$id' and month(tgl_spj)='$tahun' and jns_tkl=map_pq_pdo_proyek.jenis)  
+										(select ifnull(sum(nilai),0) from ci_spj_pegawai left join ci_pegawai on ci_spj_pegawai.kd_pegawai=ci_pegawai.kd_pegawai where ci_spj_pegawai.no_acc=map_pq_pdo_proyek.kd_item and ci_spj_pegawai.kd_area='$id' and year(tgl_bukti)='$tahun' and jabatan=map_pq_pdo_proyek.jenis and status='1')+
+										(select ifnull(sum(nilai),0) from ci_spj_kantor left join ci_pegawai on ci_spj_kantor.kd_pegawai=ci_pegawai.kd_pegawai where ci_spj_kantor.no_acc=map_pq_pdo_proyek.kd_item and ci_spj_kantor.kd_area='$id' and year(tgl_bukti)='$tahun' and jabatan=map_pq_pdo_proyek.jenis)+
+										(select ifnull(sum(nilai),0) from ci_spj where ci_spj.no_acc=map_pq_pdo_proyek.kd_item and ci_spj.kd_area='$id' and year(tgl_spj)='$tahun' and jns_tkl=map_pq_pdo_proyek.jenis)  
 									
-										else (select sum(nilai) from ci_spj_pegawai where ci_spj_pegawai.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and left(tgl_bukti,4)='$tahun' and status='1')+
-											(select sum(nilai) from ci_spj_kantor where ci_spj_kantor.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and left(tgl_bukti,4)='$tahun' and status='1')+
-											(select sum(nilai) from ci_spj where ci_spj.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and month(tgl_spj)='$tahun') 
+										else (select ifnull(sum(nilai),0) from ci_spj_pegawai where ci_spj_pegawai.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and year(tgl_bukti)='$tahun' and status='1')+
+											(select ifnull(sum(nilai),0) from ci_spj_kantor where ci_spj_kantor.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and year(tgl_bukti)='$tahun')+
+											(select ifnull(sum(nilai),0) from ci_spj where ci_spj.no_acc=map_pq_pdo_proyek.kd_item and kd_area='$id' and year(tgl_spj)='$tahun') 
 								end as spj
 							");
 			$this->db->from("map_pq_pdo_proyek");
@@ -566,10 +582,12 @@ public function get_operasional_by_id($id){
 public function cetak_operasional_by_area($id,$tahun){
 		
 			$this->db->select("no_acc as kd_item,(select uraian from ci_pq_operasional where ci_pq_operasional.kd_item=ci_coa.no_acc and left(id_pq_operasional,4)='$tahun' and kd_area='$id' order by uraian desc limit 1)as keterangan, 
-				(select sum(total) from ci_pq_operasional where ci_pq_operasional.kd_item=ci_coa.no_acc and left(id_pq_operasional,4)='$tahun' and kd_area='$id')as nilai_op,
-				(select sum(nilai) from ci_pdo where ci_pdo.no_acc=ci_coa.no_acc and left(kd_project,4)='$tahun' and substring(kd_project,6,2)='$id' and status_bayar=1)as nilai_pdo,
+				(select ifnull(sum(total),0) from ci_pq_operasional where ci_pq_operasional.kd_item=ci_coa.no_acc and left(id_pq_operasional,4)='$tahun' and kd_area='$id')as nilai_op,
+				(select ifnull(sum(nilai),0) from ci_pdo where ci_pdo.no_acc=ci_coa.no_acc and left(kd_project,4)='$tahun' and substring(kd_project,6,2)='$id' and status_bayar=1)as nilai_pdo,
 				
-				(select sum(nilai) from ci_spj_pegawai where left(ci_spj_pegawai.no_acc,5)=ci_coa.no_acc and year(tgl_bukti)='$tahun' and kd_area='$id' and status=1)as nilai_spj
+				(select ifnull(sum(nilai),0) from ci_spj_pegawai where left(ci_spj_pegawai.no_acc,5)=ci_coa.no_acc and year(tgl_bukti)='$tahun' and kd_area='$id' and status=1)+
+				(select ifnull(sum(nilai),0) from ci_spj_kantor where left(ci_spj_kantor.no_acc,5)=ci_coa.no_acc and year(tgl_bukti)='$tahun' and kd_area='$id')+
+				(select ifnull(sum(nilai),0) from ci_spj where left(ci_spj.no_acc,5)=ci_coa.no_acc and year(tgl_spj)='$tahun' and kd_area='$id')as nilai_spj
 				");
 			$this->db->from("ci_coa");
 			$this->db->where("level", '3');

@@ -40,6 +40,24 @@ public function get_all_transfer_pencairan(){
 		}
 	}
 
+	public function get_all_transfer_validasi(){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area,(select nm_paket_proyek from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_pekerjaan, (select nm_sub_area from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_sub_area');
+			$this->db->from("ci_proyek_transfer");
+			$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
+			$this->db->group_by('no_transfer');
+       		return $this->db->get()->result_array();
+		}
+		else{
+			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area,(select nm_paket_proyek from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_pekerjaan, (select nm_sub_area from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_sub_area');
+			$this->db->from("ci_proyek_transfer");
+			$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
+			$this->db->where('ci_area.kd_area',$this->session->userdata('kd_area'));
+			$this->db->group_by('no_transfer');
+       		return $this->db->get()->result_array();
+		}
+	}
+
 
 function get_coa_item()
 	{	
@@ -579,6 +597,14 @@ public function update_nomor($data2, $kodearea){
 			$this->db->update('ci_nomor_pdo', $data2);
 			return true;
 		}
+
+public function update_validasi($notf, $status){
+
+	$this->db->set('approve', $status);
+	$this->db->where('no_transfer', $notf);
+	$this->db->update('ci_proyek_transfer');
+	return true;
+}
 
 public function get_pdo_project_rinci($pqproyek,$no_acc,$jenis,$jenis_tk){
 					$this->db->select('*');

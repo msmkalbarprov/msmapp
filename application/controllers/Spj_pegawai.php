@@ -36,7 +36,7 @@ class Spj_pegawai extends MY_Controller {
 				$kode_pegawai = str_replace('-','054d4a4653a16b49c49c49e000075d10',$row['kd_pegawai']);
 
 				if ($row['status']=='1'){
-					$tombol = '';
+					$tombol = '<a title="Approve" class="approve btn btn-sm btn-success" href="#"><i class="fa fa-check"></i></a>';
 				}else{
 					$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('spj_pegawai/edit_spj/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$kode_pegawai).'"> <i class="fa fa-pencil-square-o"></i></a>
 								<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('spj_pegawai/delete_spj_temp/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$kode_pegawai).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';

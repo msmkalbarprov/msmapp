@@ -36,7 +36,7 @@
 // MULAI
 	// get all users for server-side datatable processing (ajax based)
 public function get_all_spj(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance'){
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
             $this->db->group_by("no_spj,kd_pegawai");
@@ -965,7 +965,7 @@ public function get_pdo_detail($id){
     function get_pegawai_by_area($area)
 	{   
 
-        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin Area'){
+        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin Area' || $this->session->userdata('admin_role')=='Divisi Finance'){
 			$query = $this->db->get_where('get_pegawai', array('kd_area' => $area));
 		    return $query;
 		}else if($this->session->userdata('admin_role')=='AE' ){
@@ -981,7 +981,7 @@ public function get_pdo_detail($id){
 function get_pegawai_by_area_cetak()
 	{   
 
-        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin'){
+        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Divisi Finance'){
 			$query = $this->db->get('get_pegawai');
 		    return $query;
 		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin Area'){
@@ -997,7 +997,7 @@ function get_pegawai_by_area_cetak()
 	function get_area_by_user($user =0)
 	{   
 
-        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin Area'){
+        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin Area' || $this->session->userdata('admin_role')=='Divisi Finance'){
 			$query = $this->db->get_where('get_area_by_user', array('kd_pegawai' => $user));
 		    return $query;
 		}

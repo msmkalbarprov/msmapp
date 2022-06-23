@@ -329,12 +329,17 @@ public function get_pdp_header($id,$id_proyek){
 
 		public function cair_proyek($data2, $id_proyek){
 			$this->db->where('id_proyek', $id_proyek);
-			$this->db->update('ci_pendapatans', $data2);
+			$this->db->update('ci_pendapatan', $data2);
 			return true;
 		}
 
 		public function simpan_cair_proyek($data){
 			$this->db->insert('ci_proyek_cair', $data);
+			return true;
+		}
+
+		public function simpan_transfer_proyek($data){
+			$this->db->insert('ci_proyek_transfer', $data);
 			return true;
 		}
 

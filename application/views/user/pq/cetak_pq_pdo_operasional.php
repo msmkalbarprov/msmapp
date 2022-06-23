@@ -21,17 +21,18 @@
     </td>
     <td align="center" style="background: #B9C0C5; color: #000;">Nilai PQ</td>
     <td align="center" style="background: #B9C0C5; color: #000;">Realisasi PDO</td>
-    <td align="center" style="background: #B9C0C5; color: #000;">%</td>
+    <td align="center" style="background: #B9C0C5; color: #000;">Realisasi SPJ</td>
   </tr>
   
 
   <!-- operasional -->
-  <?php $totalop=0;$totalpdo=0; ?>
+  <?php $totalop=0;$totalpdo=0;$totalspj=0; ?>
 <?php foreach($operasional as $operasional): ?>
 
   <?php 
     $totalop    = $totalop+$operasional['nilai_op'];  
     $totalpdo   = $totalpdo+$operasional['nilai_pdo'];  
+    $totalspj   = $totalspj+$operasional['nilai_spj'];  
   ?> 
 
   <?php 
@@ -54,7 +55,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
 
   <?php elseif ($operasional['kd_item'] == '50402'): ?>
@@ -65,7 +66,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50403'): ?>
       <tr>
@@ -75,7 +76,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50404'): ?>
       <tr>
@@ -85,7 +86,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50405'): ?>
       <tr>
@@ -95,7 +96,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
 <?php elseif ($operasional['kd_item'] == '50406'): ?>
       <tr>
@@ -105,7 +106,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
 <?php elseif ($operasional['kd_item'] == '50407'): ?>
       <tr>
@@ -115,7 +116,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
 <?php elseif ($operasional['kd_item'] == '50408'): ?>
     <tr>
@@ -125,7 +126,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50409'): ?>
       <tr>
@@ -135,7 +136,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50410'): ?>
       <tr>
@@ -145,7 +146,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50411'): ?>
       <tr>
@@ -155,7 +156,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50412'): ?>
       <tr>
@@ -165,7 +166,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50413'): ?>
       <tr>
@@ -175,7 +176,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50414'): ?>
       <tr>
@@ -185,7 +186,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50415'): ?>
       <tr>
@@ -195,7 +196,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
   <?php elseif ($operasional['kd_item'] == '50416'): ?>
       <tr>
@@ -205,7 +206,7 @@
         </td>
         <td align="right"><?= number_format($operasional['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($operasional['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
       <?php endif; ?>
     <?php endforeach; ?>
@@ -218,7 +219,7 @@
         </td>
         <td align="right"><?= number_format($marketing['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($marketing['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($persent_operasional,2,',','.'); ?></td>
+        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
       </tr>
 
       <?php 

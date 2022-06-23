@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Transfer extends MY_Controller {
+class V_transfer extends MY_Controller {
 
 	public function __construct(){
 
@@ -21,28 +21,64 @@ class Transfer extends MY_Controller {
 	public function index(){
 		$data['title'] = 'Transfer Pencairan';
 		$this->load->view('admin/includes/_header', $data);
-		$this->load->view('user/transfer/list');
+		$this->load->view('user/transfer/v_list');
 		$this->load->view('admin/includes/_footer');
 	}
 
 public function datatable_json(){				   					   
-		$records['data'] = $this->transfer_model->get_all_transfer_pencairan();
+		$records['data'] = $this->transfer_model->get_all_transfer_validasi();
 		$data = array();
 		$i=0;
 		foreach ($records['data']   as $row) 
 		{  
 			if ($row['approve']==1){
-				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('transfer/cetak_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-print"></i></a>';
-				$status='<span class="badge badge-success">Diterima</span>';
-			}else if ($row['nm_rekening']!=1 && $row['approve']!=1){
-				$tombol = '<span class="badge badge-success">Otomatis PDP</span>';
-				$status='<span class="badge badge-danger">Belum diterima</span>';
+				$tombol = '<a title="Validasi" class="update btn btn-sm btn-success" href="'.base_url('v_transfer/batal_validasi/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-check"></i></a>
+                <a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('v_transfer/cetak_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-print"></i></a>';
+                $status='<span class="badge badge-success">Sudah divalidasi</span>';
 			}else{
-				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('transfer/edit/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('transfer/delete_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
-				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('transfer/cetak_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
-				$status='<span class="badge badge-danger">Belum diterima</span>';
+				$tombol = '<a title="Validasi" class="update btn btn-sm btn-info" href="'.base_url('v_transfer/validasi/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-list"></i></a>
+				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('v_transfer/cetak_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+                $status='<span class="badge badge-danger">belum divalidasi</span>';
 			}
+
+            if ($row['jenis_cair']=='1'){
+                $jns_cair = 'Uang Muka';
+            }else if ($row['jenis_cair']=='2'){
+                $jns_cair = 'termin 1';
+            }else if ($row['jenis_cair']=='3'){
+                $jns_cair = 'termin 2';
+            }else if ($row['jenis_cair']=='4'){
+                $jns_cair = 'termin 3';
+            }else if ($row['jenis_cair']=='5'){
+                $jns_cair = 'termin 4';
+            }else if ($row['jenis_cair']=='6'){
+                $jns_cair = 'termin 5';
+            }else if ($row['jenis_cair']=='7'){
+                $jns_cair = 'termin 6';
+            }else if ($row['jenis_cair']=='8'){
+                $jns_cair = 'termin 7';
+            }else if ($row['jenis_cair']=='9'){
+                $jns_cair = 'termin 8';
+            }else if ($row['jenis_cair']=='10'){
+                $jns_cair = 'termin 9';
+            }else if ($row['jenis_cair']=='11'){
+                $jns_cair = 'termin 10';
+            }else if ($row['jenis_cair']=='12'){
+                $jns_cair = 'termin 11';
+            }else if ($row['jenis_cair']=='13'){
+                $jns_cair = 'termin 12';
+            }else if ($row['jenis_cair']=='14'){
+                $jns_cair = 'termin 13';
+            }else if ($row['jenis_cair']=='15'){
+                $jns_cair = 'termin 14';
+            }else if ($row['jenis_cair']=='16'){
+                $jns_cair = 'termin 15';
+            }else if ($row['jenis_cair']=='100'){
+                $jns_cair = 'Lunas';
+            }else{
+                $jns_cair = 'Tidak pilih jenis pencairan';
+            }
+
 
 
 			$data[]= array(
@@ -50,14 +86,56 @@ public function datatable_json(){
 				'<font size="2px">'.$row['no_transfer'].'</font>',
 				'<font size="2px">'.$row['tgl_transfer'].'</font>',
 				'<font size="2px">'.$row['nm_area'].'</font>',
-				'<font size="2px">'.$row['nm_rekening'].'</font>',
+				'<font size="2px">'.$row['nama_pekerjaan'].'<br> - '.$jns_cair.' <br> - '.$row['nama_sub_area'].'<br> - '.$row['nm_rekening'].'<br> - '.$status.'</font>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
-				$status,
 				$tombol
 			);
 		}
 		$records['data']=$data;
 		echo json_encode($records);						   
+	}
+
+
+    public function validasi($no_tf = 0)
+	{   
+        $no_transfer = str_replace("f58ff891333ec9048109908d5f720903","/",$no_tf);
+
+		$this->rbac->check_operation_access('');
+				// $this->db->delete('ci_proyek_transfer', array('no_transfer' => $no_transfer));	
+                
+                $result = $this->transfer_model->update_validasi($no_transfer,1);
+                if ($result){
+                    $this->activity_model->add_log(3);
+				    $this->session->set_flashdata('success', 'Data berhasil divalidasi!');
+                }else{
+                    $this->activity_model->add_log(3);
+				    $this->session->set_flashdata('success', 'Data Gagal divalidasi!');
+                }
+                
+				redirect(base_url('v_transfer'));
+			// }
+		
+	}
+
+    public function batal_validasi($no_tf = 0)
+	{   
+        $no_transfer = str_replace("f58ff891333ec9048109908d5f720903","/",$no_tf);
+
+		$this->rbac->check_operation_access('');
+				// $this->db->delete('ci_proyek_transfer', array('no_transfer' => $no_transfer));	
+                
+                $result = $this->transfer_model->update_validasi($no_transfer,0);
+                if ($result){
+                    $this->activity_model->add_log(3);
+				    $this->session->set_flashdata('success', 'Data berhasil dibatal validasi!');
+                }else{
+                    $this->activity_model->add_log(3);
+				    $this->session->set_flashdata('success', 'Data Gagal divalidasi!');
+                }
+                
+				redirect(base_url('v_transfer'));
+			// }
+		
 	}
 
 	public function add(){
