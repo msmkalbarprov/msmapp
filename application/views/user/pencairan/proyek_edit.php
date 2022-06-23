@@ -234,16 +234,16 @@
                 <select id="rek_pencairan" name="rek_pencairan" class="form-control">
                   <option value="">No Selected</option>
                   <option value="1">Rekening Lokal</option>
-                  <option value="101010301">Bank BRI MSM - Veteran Rek. 10302</option>
-                  <option value="101010302"> Bank BRI UMI - Veteran Rek. 12304</option>
-                  <option value="101010303"> Bank BRI RUB - Tanah Abang Rek. 23305</option>
-                  <option value="101010304"> Bank BRI PSK - Tanah Abang Rek. 24308</option>
-                  <option value="101010305"> Bank BRI MSM - Veteran 42152</option>
-                  <option value="101010306"> Bank BRI RUB - Veteran Rek. 87303</option>
-                  <option value="101010307"> Bank Rekening Pandawa 81304</option>
-                  <option value="101010308"> Bank BCA MSM Harmoni Plaza</option>
-                  <option value="101010309"> BRI umi veteran rek 032901003618309</option>
-                  <option value="101010310"> BPD Papua PT UMI</option>
+                  <option value="1010301">Bank BRI MSM - Veteran Rek. 10302</option>
+                  <option value="1010302"> Bank BRI UMI - Veteran Rek. 12304</option>
+                  <option value="1010303"> Bank BRI RUB - Tanah Abang Rek. 23305</option>
+                  <option value="1010304"> Bank BRI PSK - Tanah Abang Rek. 24308</option>
+                  <option value="1010305"> Bank BRI MSM - Veteran 42152</option>
+                  <option value="1010306"> Bank BRI RUB - Veteran Rek. 87303</option>
+                  <option value="1010307"> Bank Rekening Pandawa 81304</option>
+                  <option value="1010308"> Bank BCA MSM Harmoni Plaza</option>
+                  <option value="1010309"> BRI umi veteran rek 032901003618309</option>
+                  <option value="1010310"> BPD Papua PT UMI</option>
                 </select>
               </div>
           </div>
