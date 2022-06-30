@@ -10,6 +10,7 @@ class Cpdo extends MY_Controller {
 
 		$this->load->model('user/proyek_model', 'proyek_model');
 		$this->load->model('user/pq_model', 'pq_model');
+		$this->load->model('user/Spj_pegawai_model', 'spjpegawai_model');
 		$this->load->model('user/pdo_model', 'pdo_model');
 		$this->load->model('admin/admin_model', 'admin');
 		$this->load->model('admin/area_model', 'area');
@@ -206,7 +207,7 @@ public function add(){
 			$data['kd_pegawai']			= $this->input->post('kd_pegawai', TRUE);
 			$data['satuan']				= $this->input->post('satuan', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);
-			$data['no_rekening']		= '';
+			$data['no_rekening']		= $this->input->post('no_rekening', TRUE);
 			$data['nilai']				= $this->input->post('total', TRUE);
 			$data['jenis']				= 3; //1 untuk pdo project
 			$result = $this->pdo_model->save_pdo($data);
@@ -217,6 +218,7 @@ public function add(){
 		}else{
 			$data['data_area'] 			= $this->area->get_area();
 			$data['data_divisi']		= $this->pdo_model->get_divisi();
+			$data['data_rekening']		= $this->pdo_model->get_rekening();
 			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
 			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
 			$this->load->view('admin/includes/_header');
@@ -662,7 +664,7 @@ public function edit_pdo_gaji($id_pdo='')
             $data['no_acc3'] 			= $this->input->post('kd_item', TRUE);
             $data['no_acc'] 			= $this->input->post('kd_item', TRUE);
             $data['jns_tkl'] 			= $this->input->post('jenis_tkl', TRUE);
-            $data['no_rekening']		= '';
+            $data['no_rekening']		= $this->input->post('no_rekening', TRUE);;
 			$data['uraian']				= $this->input->post('uraian', TRUE);
 			$data['nilai']				= $this->input->post('total', TRUE);
 			$data['jenis']				= 3; //1 untuk pdo project
@@ -676,6 +678,7 @@ public function edit_pdo_gaji($id_pdo='')
 			$data['data_area'] 			= $this->area->get_area();
 			$data['data_divisi']		= $this->pdo_model->get_divisi();
 			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
+			$data['data_rekening']		= $this->pdo_model->get_rekening();
 			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
 			$data['data_pdo'] 			= $this->pdo_model->get_pdo_by_id($id_pdo);
 			$data['title'] 				= 'Edit PDO Gaji';

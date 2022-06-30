@@ -65,10 +65,10 @@
           </div>
           </div>
           <div class="col-md-3">
-            <div class="form-group">
-              <label for="area" class="control-label"><?= trans('area') ?></label>
-                <input type="text" name="area" id="area" class="form-control" value="<?= $data_pdo['nm_area']; ?>" readonly>
-            </div>
+           <div class="form-group">
+            <label for="tipeproyek" class="control-label">Tanggal Cair</label>
+              <input type="date" name="tgl_cair" id="tgl_cair" class="form-control" value="<?= $data_pdo['tgl_cair']; ?>"  readonly >
+          </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
@@ -91,7 +91,13 @@
               <input type="text" name="projek" id="projek" class="form-control" value="<?= $data_pdo['nm_proyek']; ?>"  readonly>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label"><?= trans('area') ?></label>
+                <input type="text" name="area" id="area" class="form-control" value="<?= $data_pdo['nm_area']; ?>" readonly>
+            </div>
+          </div>
+          <div class="col-md-3">
             <div class="form-group">
               <label for="proyek" class="control-label">Divisi</label>
                 

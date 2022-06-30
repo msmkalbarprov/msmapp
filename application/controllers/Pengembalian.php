@@ -44,6 +44,7 @@ public function datatable_json(){
 				$row['nm_area'],
 				$row['tgl_bukti'],
 				$row['nm_pegawai'],
+				$row['nm_akun_tujuan'],
                 $row['keterangan'],
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
 				$button
@@ -67,6 +68,7 @@ public function datatable_json(){
 				$this->form_validation->set_rules('area', 'Area', 'trim|required');
 				$this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
                 $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
+				$this->form_validation->set_rules('tujuan', 'tujuan', 'trim|required');
 				$this->form_validation->set_rules('kd_pegawai', 'Pegawai/Rekening', 'trim|required');
 				$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
 
@@ -92,7 +94,8 @@ public function datatable_json(){
 					$data = array(
 						'kd_area' 		    => $this->input->post('area'),
 						'kd_pegawai' 	    => $this->input->post('kd_pegawai'),
-						'tgl_bukti'    => $this->input->post('tanggal'),
+						'akun_tujuan'   	=> $this->input->post('tujuan'),
+						'tgl_bukti'    		=> $this->input->post('tanggal'),
                         'keterangan'        => $this->input->post('keterangan'),
 						'nilai' 		    => $this->proyek_model->number($this->input->post('nilai')),
 						'username' 		    =>  $this->session->userdata('username'),
@@ -140,6 +143,7 @@ public function datatable_json(){
             $this->form_validation->set_rules('area', 'Area', 'trim|required');
             $this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
             $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
+			$this->form_validation->set_rules('tujuan', 'tujuan', 'trim|required');
             $this->form_validation->set_rules('kd_pegawai', 'Pegawai/Rekening', 'trim|required');
             $this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
 
@@ -164,7 +168,8 @@ public function datatable_json(){
 				$data = array(
 					    'kd_area' 		    => $this->input->post('area'),
 						'kd_pegawai' 	    => $this->input->post('kd_pegawai'),
-						'tgl_bukti'    => $this->input->post('tanggal'),
+						'akun_tujuan' 	    => $this->input->post('tujuan'),
+						'tgl_bukti'    		=> $this->input->post('tanggal'),
                         'keterangan'        => $this->input->post('keterangan'),
 						'nilai' 		    => $this->proyek_model->number($this->input->post('nilai')),
 						'username' 		    =>  $this->session->userdata('username'),

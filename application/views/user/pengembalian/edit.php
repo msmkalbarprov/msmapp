@@ -20,20 +20,23 @@
               
             <?php echo form_open(base_url('pengembalian/edit/'.$bank['id']), 'class="form-horizontal"' )?> 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="id" class="control-label">Area</label>
                     <input type="text" name="nm_area" value="<?= $bank['nm_area']; ?>"  class="form-control" id="nm_area" placeholder="" readonly>
                       <input type="hidden" name="area" value="<?= $bank['kd_area']; ?>"  class="form-control" id="area" placeholder="">
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="sub_area" class="control-label">Tanggal</label>
                     <input type="date" name="tanggal" id="tanggal" value="<?= $bank['tgl_bukti']; ?>" class="form-control">
                   </div>
                 </div>
-                <div class="col-md-4">
+
+                </div>
+                <div class="row">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="sub_area" class="control-label">Pegawai</label>
                     <select name="kd_pegawai"  id="kd_pegawai" class="form-control" required>
@@ -41,22 +44,33 @@
                     </select>
                   </div>
                 </div>
-                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sub_area" class="control-label">Akun Tujuan</label>
+                        <select name="tujuan" id="tujuan" class="form-control">
+                          <option value="">No Selected</option>
+                          <option value="1010102">Kas Besar</option>
+                          <option value="1010105">Kas Area</option>
+                        </select>
+                  </div>
+                </div>
               </div>
               <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-12">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Keterangan</label>
                     <textarea name="keterangan" id="keterangan" rows="1" class="form-control"><?= $bank['keterangan']; ?></textarea>
                   </div>
                 </div>
-                <div class="col-md-4">
+              </div>
+              <div class="row">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Saldo Kas</label>
                     <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" readonly>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="nilai" class="control-label">Nilai</label>
                     <input type="text" name="nilai" id="nilai" class="form-control" value="<?= number_format($bank['nilai'],2,',','.'); ?>"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
@@ -80,8 +94,10 @@
   <script type="text/javascript">
       $(document).ready(function(){
     kd_area = "<?= $bank['kd_area']; ?>";
-    get_pegawai(kd_area);
-    var kd_pegawai='<?= $bank['kd_pegawai']; ?>'
+    get_pegawai(kd_area);   
+    $('#tujuan').val('<?= $bank['akun_tujuan']; ?>'); 
+    var kd_pegawai='<?= $bank['kd_pegawai']; ?>';
+    
     function get_pegawai (kd_area){ 
         
                 $.ajax({

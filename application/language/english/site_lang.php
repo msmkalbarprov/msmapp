@@ -49,25 +49,31 @@ $lang['operasional']                         	= "Operasional";
 $lang['pengesahan_pdo']                         = "Pengesahan PDO";
 $lang['pencairan_pdo']                         	= "Pencairan PDO";
 $lang['bank']                         			= "Bank";
-$lang['transfer']                         		= "Transfer";
+$lang['transfer']                         		= "PDP";
 $lang['bendahara_umum']                         = "Bendahara Umum";
-$lang['PB Rek. Perusahaan']                     = "PB Rek. Perusahaan <span class='badge badge-danger'>New</span>";
+$lang['PB Rek. Perusahaan']                     = "PB Rek. Perusahaan";
 $lang['daerah']                     			= "Daerah";
-$lang['spj']                     				= "SPJ <span class='badge badge-danger'>New</span>";
+$lang['spj']                     				= "SPJ";
 $lang['saldo_awal']               				= "Saldo Awal";
 $lang['terima_pdo']       						= "Terima PDO Cair";
 $lang['bod']               						= "BOD";
 $lang['pusat']               					= "Pusat";
 $lang['pegawai']               					= "Pegawai";
 $lang['karyawan']               				= "Karyawan";
-$lang['spj_pegawai']               				= "SPJ Pegawai <span class='badge badge-danger'>New</span>";
+$lang['spj_pegawai']               				= "SPJ Pegawai";
 $lang['lapker']               					= "Lapker";
 $lang['bku']               						= "BKU";
-$lang['pelimpahan']               				= "Pelimpahan <span class='badge badge-danger'>New</span>";
-$lang['pelimpahan_kb']               			= "Pelimpahan Kas Besar <span class='badge badge-danger'>New</span>";
-$lang['pengembalian']               			= "Pengembalian <span class='badge badge-danger'>New</span>";
-$lang['pengeluaran_lain']               		= "Pengeluaran lain-lain <span class='badge badge-danger'>New</span>";
-$lang['penerimaan_lain']               			= "Penerimaan lain-lain <span class='badge badge-danger'>New</span>";
+$lang['pelimpahan']               				= "Pelimpahan";
+$lang['pelimpahan_kb']               			= "Pelimpahan Kas Besar";
+$lang['pengembalian']               			= "Pengembalian";
+$lang['pengeluaran_lain']               		= "Pengeluaran lain-lain";
+$lang['penerimaan_lain']               			= "Penerimaan lain-lain";
+
+$lang['pengesahan_spj']               			= "Pengesahan SPJ <span class='badge badge-danger'>New</span>";
+$lang['validasi_pdp']               			= "Validasi PDP <span class='badge badge-danger'>New</span>";
+$lang['laporan_kas_rekening']               	= "Kas Rekening Pusat <span class='badge badge-danger'>New</span>";
+
+
 
 
 

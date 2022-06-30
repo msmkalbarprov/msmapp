@@ -234,7 +234,7 @@ function terbilang($nilai) {
     </td>
   </tr>
   
-  <?php if($pdo_header['s_transfer']=='1'): ?>
+  <?php if ($pdo_header['s_transfer'] == '1'): ?>
     <tr>
     <td align="left" style="font-size:12px" width="20%">
       Transfer ke
@@ -258,5 +258,6 @@ function terbilang($nilai) {
       LS (<?= $pdo_header['nm_bank'].' / '.$pdo_header['no_rekening'].' / '.$pdo_header['nm_rekening']; ?>)
     </td>
   </tr>
+
   <?php endif; ?>
-  </table>
+  \</table>

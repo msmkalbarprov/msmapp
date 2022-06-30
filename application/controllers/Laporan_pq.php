@@ -40,6 +40,36 @@ class Laporan_pq extends MY_Controller {
 		$this->load->view('user/laporan/laporan_pq_pdo_operasional');
 		$this->load->view('admin/includes/_footer');
 	}
+
+	public function lap_realisasi_proyek(){
+		$data['data_area'] 			= $this->area->get_area();
+		$data['title'] = 'Proyek VS PDO VS PDP VS SPJ';
+		$this->load->view('admin/includes/_header', $data);
+		$this->load->view('user/laporan/laporan_realisasi_proyek_perarea');
+		$this->load->view('admin/includes/_footer');
+	}
+
+	public function datatable_json(){				   					   
+		$records['data'] = $this->pq_model->get_realisasi_proyek();
+		$data = array();
+
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+			$data[]= array(
+				++$i,
+				$row['nm_area'],
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['apbd'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['spk'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['pdp'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['pdo'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['spj'],2,",",".").'</font></span></div>'
+
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
  
 	public function cetak_pq_pdo_proyek($id=0,$tahun='',$jenis='')
 	{	
@@ -117,6 +147,27 @@ class Laporan_pq extends MY_Controller {
                 break;
             case 0;
                 $this->load->view('user/pq/cetak_pq_pdo_all', $data);
+               break;
+        }
+
+	}
+
+	public function cetak_pq_pdo_spj_per_area($jenis='',$judul)
+	{	
+		$data['rincian'] 		= $this->pq_model->get_realisasi_proyek();
+		switch ($jenis)
+        {
+            case 1;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'landscape');
+			    $this->pdf->filename = "laporan.pdf";
+			    $this->pdf->load_view('user/laporan/lap_realisasi_proyek', $data);
+                break;
+            case 0;
+				header("Cache-Control: no-cache, no-store, must-revalidate");
+				header("Content-Type: application/vnd.ms-excel");
+				header("Content-Disposition: attachment; filename= LAPORAN PQ.xls");
+				$this->load->view('user/laporan/lap_realisasi_proyek', $data);
                break;
         }
 

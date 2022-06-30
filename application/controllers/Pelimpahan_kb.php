@@ -129,7 +129,7 @@ public function datatable_json(){
 
     function get_kas(){
 		$id 		= $this->input->post('id',TRUE);
-		$data 		= $this->spj_model->get_kas($id)->result();
+		$data 		= $this->spj_model->get_kas_bud($id)->result();
 		echo json_encode($data);
 	}
 

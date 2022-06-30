@@ -170,6 +170,18 @@
             </div>
           </div>
         </div>
+        <div class="col-md-12">
+            <div class="form-group">
+              <label for="no_rek" class="control-label">Rek. Tujuan</label>
+                <select name="no_rekening" id ="no_rekening" class="form-control select2" style="width: 100%;" required >
+                <option value="">No Selected</option>
+                <?php foreach($data_rekening as $rekening): ?>
+                      <option value="<?= $rekening['no_rekening']; ?>"><?= $rekening['pemilik'].' - '.$rekening['nm_bank'].' - '.$rekening['no_rekening']; ?></option>
+                  <?php endforeach; ?>
+                </select>
+
+            </div>
+          </div>
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
@@ -542,6 +554,7 @@ $('#butsave').on('click', function() {
     var nourut        = $('#urut').val();
     var projek        = $('#projek').val();
     var uraian        = $('#uraian').val();
+    var no_rekening   = $('#no_rekening').val();
     var kd_pegawai    = $('#kd_pegawai').val();
     var qty           = $('#qty').val();
     var satuan        = $('#satuan').val();
@@ -618,6 +631,7 @@ $('#butsave').on('click', function() {
           satuan:satuan,
           kd_pegawai:kd_pegawai,
           harga:harga,
+          no_rekening:no_rekening,
           total:total,
           idpdo:idpdo,
           no_pdo:no_pdo,

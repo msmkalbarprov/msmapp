@@ -12,6 +12,7 @@ class Penerimaan_lain extends MY_Controller
 		$this->load->model('admin/Activity_model', 'activity_model');
 		$this->load->model('admin/area_model', 'area');
 		$this->load->model('user/proyek_model', 'proyek_model');
+		$this->load->model('user/bku_model', 'bku_model');
 		$this->load->model('user/spj_model', 'spj_model');
 		
     }
@@ -68,6 +69,7 @@ public function datatable_json(){
 				$this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
                 $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
 				$this->form_validation->set_rules('no_acc', 'Akun', 'trim|required');
+				$this->form_validation->set_rules('no_rekening', 'Rekening', 'trim|required');
 				$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
 				
 				$nomor				= $this->pelimpahan_model->get_nomor_kb();
@@ -93,6 +95,7 @@ public function datatable_json(){
 					$data = array(
 						'no_bukti' 		    => $nomor['nomor'],
 						'no_acc' 		    => $this->input->post('no_acc'),
+						'no_rekening'	    => $this->input->post('no_rekening'),
 						'no_bukti'   	    => $this->input->post('nobukti'),
 						'tgl_bukti'         => $this->input->post('tanggal'),
                         'keterangan'        => $this->input->post('keterangan'),
@@ -113,7 +116,8 @@ public function datatable_json(){
 				}
 			}
 			else
-			{
+			{	
+				$data['data_rekening'] 	= $this->bku_model->get_rekening_kas();
 				$this->load->view('admin/includes/_header', $data);
         		$this->load->view('user/penerimaan_lain/add');
         		$this->load->view('admin/includes/_footer');
@@ -142,6 +146,7 @@ public function datatable_json(){
             $this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
             $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
             $this->form_validation->set_rules('no_acc', 'Akun', 'trim|required');
+			$this->form_validation->set_rules('no_rekening', 'Rekening', 'trim|required');
             $this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
 
             $nilai = $this->proyek_model->number($this->input->post('nilai'));
@@ -164,6 +169,7 @@ public function datatable_json(){
 			else{
 				$data = array(
                         'no_acc' 		    => $this->input->post('no_acc'),
+						'no_rekening'	    => $this->input->post('no_rekening'),
                         'no_bukti'   	    => $this->input->post('nobukti'),
                         'tgl_bukti'         => $this->input->post('tanggal'),
                         'keterangan'        => $this->input->post('keterangan'),
@@ -173,7 +179,7 @@ public function datatable_json(){
 				);
 
 				$data = $this->security->xss_clean($data);
-				$result = $this->pelimpahan_model->edit_plain($data, $id);
+				$result = $this->pelimpahan_model->edit_tlain($data, $id);
 
 				if($result){
 					// Activity Log 
@@ -189,8 +195,9 @@ public function datatable_json(){
 		}
 		else{
             $data['data_akun'] 	    = $this->pelimpahan_model->get_akun_terima();
-			$data2['title']     = "penerimaan lainnya";
-			$data['data_plain'] = $this->pelimpahan_model->get_plain_by_id($id);
+			$data2['title']     	= "penerimaan lainnya";
+			$data['data_plain'] 	= $this->pelimpahan_model->get_tlain_by_id($id);
+			$data['data_rekening'] 	= $this->bku_model->get_rekening_kas();
 			$this->load->view('admin/includes/_header', $data2);
 			$this->load->view('user/penerimaan_lain/edit', $data);
 			$this->load->view('admin/includes/_footer');

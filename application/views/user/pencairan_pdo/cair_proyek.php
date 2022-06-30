@@ -123,6 +123,7 @@
         <div class="form-group">
           <div class="col-md-12" align="right">
             <input type="submit" name="submit" id="tombolsimpan" value="Cairkan PDO" class="btn btn-primary btn-sm">
+
           </div>
         </div>
       
@@ -284,5 +285,8 @@ function load_rincian_temp(nomorpdo) {
 
   }); 
 
+
+
+  
 
 </script>

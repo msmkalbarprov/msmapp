@@ -49,7 +49,10 @@ class Pencairan_pdo extends MY_Controller {
 		{  
 				
 				if ($row['status_bayar']=='1'){
-					$tombol = '<div class="text-center"><a title="Batal" class="update btn btn-sm btn-success" href="'.base_url('pencairan_pdo/batalcair_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-check"></i></a></div';
+					$tombol = '<div class="text-center">
+						<a title="Batal" class="update btn btn-sm btn-success" href="'.base_url('pencairan_pdo/batalcair_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-check"></i></a>
+						<a title="Potongan" class="update btn btn-sm btn-warning" href="'.base_url('pencairan_pdo/potongan/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-percent"></i></a>
+					</div';
 				}else{
 					$tombol = '<div class="text-center"><a title="Cair" class="update btn btn-sm btn-info" href="'.base_url('pencairan_pdo/cair_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-list"></i></a></div';
 				}
@@ -65,6 +68,7 @@ class Pencairan_pdo extends MY_Controller {
 				'<font size="2px">'.$row['tgl_cair'].'</font>',
 				'<font size="2px">'.$row['no_cair'].'</font>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai_potongan'],2,",",".").'</font></span></div>',
 				$tombol
 			);
 		}
@@ -146,6 +150,81 @@ public function datatable_json_pdo_proyek($id='',$kodepdo=''){
 		echo json_encode($records);						   
 	}
 
+	public function potongan($nomor= 0){
+
+		$nomor_new 	= str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
+		$nocair_new = str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('submit')){
+				$data = array(
+					'username' 			=> $this->session->userdata('username'),
+					'id_pdo' 			=> $nomor,
+					'no_acc'			=> $this->input->post('no_acc'),
+					'uraian'			=> $this->input->post('keterangan'),
+					'nilai'				=> $this->proyek_model->number($this->input->post('nilai')),
+					'created_at' 		=> date('Y-m-d : h:m:s'),
+				);
+				
+				$data 				= $this->security->xss_clean($data);
+				$result 			= $this->pdo_model->simpan_cair_potongan($data,$nomor);
+
+				if($result){
+					// Activity Log 
+					$this->activity_model->add_log(2);
+					$this->session->set_flashdata('success', 'Potongan berhasil diinput!');
+					redirect(base_url('pencairan_pdo/potongan/'.$nomor),'refresh');
+				}else{
+					$this->session->set_flashdata('errors', 'Potongan gagal diinput!');
+					redirect(base_url('pencairan_pdo/potongan/'.$nomor),'refresh');
+				}
+			
+		}
+		else{
+			$data['transfer'] 		= $this->pdo_model->get_data_pencairan($nomor);
+			$data2['title'] 			= 'Potongan pencairan_pdo';
+			// $data['proyek'] 		= $this->pdo_model->get_proyek_by_id($id_proyek);
+			$this->load->view('admin/includes/_header', $data2);
+			$this->load->view('user/pencairan_pdo/potongan', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	}
+
+public function datatable_json_rincian_potongan($nomor){				   					   
+		$records['data'] = $this->pdo_model->get_potongan_transfer_by_id($nomor);
+		$data = array();
+
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+
+				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pencairan_pdo/delete_potongan/".$nomor.'/'.$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+
+			$data[]= array(
+				++$i,
+				'<font size="2px">'.$row['no_acc'].'</font>',
+				'<font size="2px">'.$row['nm_acc'].'</font>',
+				'<font size="2px">'.$row['uraian'].'</font>',
+				'<div class="text-right"><font size="2px">'.number_format($row['nilai'],2,',','.').'</font></div>',
+				$tombol
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
+public function delete_potongan($nomor= 0,$id = 0)
+	{
+		$this->rbac->check_operation_access('');
+			
+			$this->db->delete('ci_pdo_potongan_pencairan', array('id' => $id, 'id_pdo' =>  $nomor));
+
+			$this->activity_model->add_log(3);
+
+			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
+			redirect(base_url('pencairan_pdo/potongan/'.$nomor));
+		
+	}
 
 public function datatable_json_pdo_operasional($id=''){				
 		
@@ -390,6 +469,31 @@ public function batalcair_pdo($id_pdo='',$jns=0)
 			
 }
 
+
+
+public function update_tanggal()
+{		
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('type')==1){
+			$kd_pdo 			= $this->input->post('kd_pdo', TRUE);
+			$tgl_cair 			= $this->input->post('tgl_cair', TRUE);
+			$no_cair			= $this->input->post('no_cair', TRUE);
+			
+			$result = $this->pdo_model->update_tanggal($kd_pdo,$tgl_cair,$no_cair);
+			if ($result){
+				echo json_encode(array(
+					"statusCode"=>200
+				));
+			}else{
+				echo json_encode(array(
+					"statusCode"=>300
+				));
+			}
+		}
+
+}
+
 public function setuju_pdo_gaji($id_pdo='')
 {		
 		$this->rbac->check_operation_access('');
@@ -399,8 +503,8 @@ public function setuju_pdo_gaji($id_pdo='')
 			$data['kd_pdo'] 			= $this->input->post('no_pdo', TRUE);
 			$data['tgl_pdo']			= $this->input->post('tgl_pdo', TRUE);
 			$data['kd_area'] 			= $this->input->post('area', TRUE);
-			$data['kd_divisi']		= $this->input->post('divisi', TRUE);
-			$data['qty']					= $this->input->post('qty', TRUE);
+			$data['kd_divisi']			= $this->input->post('divisi', TRUE);
+			$data['qty']				= $this->input->post('qty', TRUE);
 			$data['satuan']				= $this->input->post('satuan', TRUE);
 			$data['harga']				= $this->input->post('harga', TRUE);
 			$data['kd_pqproyek']		= $this->input->post('projek', TRUE);

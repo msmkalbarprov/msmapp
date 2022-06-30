@@ -32,11 +32,11 @@ public function datatable_json(){
 		foreach ($records['data']   as $row) 
 		{  
 			if ($row['approve']==1){
-				$tombol = '<a title="Validasi" class="update btn btn-sm btn-success" href="'.base_url('v_transfer/batal_validasi/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-check"></i></a>
+				$tombol = '<a title="Batal Validasi" class="update btn btn-sm btn-danger" href="'.base_url('v_transfer/batal_validasi/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"  onclick="return confirm(\'Anda akan membatalkan validasi ?\')"> <i class="fa fa-window-close"></i></a>
                 <a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('v_transfer/cetak_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-print"></i></a>';
                 $status='<span class="badge badge-success">Sudah divalidasi</span>';
 			}else{
-				$tombol = '<a title="Validasi" class="update btn btn-sm btn-info" href="'.base_url('v_transfer/validasi/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-list"></i></a>
+				$tombol = '<a title="Validasi" class="update btn btn-sm btn-success btnvalidasi" data-notransfer="'.$this->security->xss_clean($row['no_transfer']).'"> <i class="fa fa-check"></i></a>
 				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('v_transfer/cetak_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
                 $status='<span class="badge badge-danger">belum divalidasi</span>';
 			}
@@ -88,6 +88,8 @@ public function datatable_json(){
 				'<font size="2px">'.$row['nm_area'].'</font>',
 				'<font size="2px">'.$row['nama_pekerjaan'].'<br> - '.$jns_cair.' <br> - '.$row['nama_sub_area'].'<br> - '.$row['nm_rekening'].'<br> - '.$status.'</font>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['potongan'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai']-$row['potongan'],2,",",".").'</font></span></div>',
 				$tombol
 			);
 		}
@@ -96,35 +98,37 @@ public function datatable_json(){
 	}
 
 
-    public function validasi($no_tf = 0)
+    public function validasi()
 	{   
-        $no_transfer = str_replace("f58ff891333ec9048109908d5f720903","/",$no_tf);
-
+		
 		$this->rbac->check_operation_access('');
 				// $this->db->delete('ci_proyek_transfer', array('no_transfer' => $no_transfer));	
-                
-                $result = $this->transfer_model->update_validasi($no_transfer,1);
+                $no_transfer 	= $this->input->post('no_transfer', TRUE);
+				$tgl_validasi 	= $this->input->post('tgl_validasi', TRUE);
+
+                $result = $this->transfer_model->update_validasi($no_transfer,1,$tgl_validasi);
                 if ($result){
-                    $this->activity_model->add_log(3);
-				    $this->session->set_flashdata('success', 'Data berhasil divalidasi!');
+                    echo json_encode(array(
+						"statusCode"=>200
+					));
                 }else{
-                    $this->activity_model->add_log(3);
-				    $this->session->set_flashdata('success', 'Data Gagal divalidasi!');
+                    echo json_encode(array(
+						"statusCode"=>201
+					));
                 }
                 
-				redirect(base_url('v_transfer'));
-			// }
-		
 	}
 
     public function batal_validasi($no_tf = 0)
 	{   
+
+		$tgl_validasi='';
         $no_transfer = str_replace("f58ff891333ec9048109908d5f720903","/",$no_tf);
 
 		$this->rbac->check_operation_access('');
 				// $this->db->delete('ci_proyek_transfer', array('no_transfer' => $no_transfer));	
                 
-                $result = $this->transfer_model->update_validasi($no_transfer,0);
+                $result = $this->transfer_model->update_validasi($no_transfer,0,$tgl_validasi);
                 if ($result){
                     $this->activity_model->add_log(3);
 				    $this->session->set_flashdata('success', 'Data berhasil dibatal validasi!');

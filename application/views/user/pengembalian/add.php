@@ -27,7 +27,7 @@
             <?php echo form_open(base_url('pengembalian/add/'), 'class="form-horizontal"' )?> 
 
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="id" class="control-label">Area</label>
                     <select name="area" id="area" class="form-control select2" style="width: 100%;" required>
@@ -38,13 +38,16 @@
                       </select>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="sub_area" class="control-label">Tanggal</label>
                     <input type="date" name="tanggal" id="tanggal" class="form-control">
                   </div>
                 </div>
-                <div class="col-md-4">
+                
+                </div>
+              <div class="row">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="sub_area" class="control-label">Pegawai</label>
                     <select name="kd_pegawai"  id="kd_pegawai" class="form-control" required>
@@ -52,22 +55,35 @@
                     </select>
                   </div>
                 </div>
-                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="sub_area" class="control-label">Akun Tujuan</label>
+                        <select name="tujuan" id="tujuan" class="form-control">
+                          <option value="">No Selected</option>
+                          <option value="1010102">Kas Besar</option>
+                          <option value="1010105">Kas Area</option>
+                        </select>
+                  </div>
+                </div>
               </div>
               <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-12">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Keterangan</label>
                     <textarea name="keterangan" id="keterangan" rows="1" class="form-control"></textarea>
                   </div>
                 </div>
-                <div class="col-md-4">
+              </div>
+              <div class="row">
+              <div class="col-md-6">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Saldo Kas</label>
                     <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" readonly>
                   </div>
                 </div>
-                <div class="col-md-4">
+              
+                
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="nilai" class="control-label">Nilai</label>
                     <input type="text" name="nilai" id="nilai" class="form-control" value="0,00"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">

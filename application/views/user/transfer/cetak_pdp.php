@@ -85,7 +85,7 @@ function terbilang($nilai) {
   </tr>
   <tr>
     <td align="left" style="font-size:13px;" colspan="8">
-      Sehubungan dengan adanya pencairan proyek di Area <b><?= ucwords(strtolower($transfer_header['nm_area'])); ?></b>, dengan ini saya sampaikan bahwa dana pencairan project tersebut telah ditransfer ke <b>Pak Ruslan</b>. Dengan rincian sbb :
+      Sehubungan dengan adanya pencairan proyek di Area <b><?= ucwords(strtolower($transfer_header['nm_area'])); ?></b>, dengan ini saya sampaikan bahwa dana pencairan project tersebut telah ditransfer ke <b><?= $transfer_header['nm_rekening']; ?></b>. Dengan rincian sbb :
     </td>
   </tr>
   
@@ -142,7 +142,7 @@ function terbilang($nilai) {
   </tr>
   <tr>
     <td align="left" style="font-size:13px;" colspan="8">
-        &nbsp;&nbsp;Jumlah uang yang ditransfer : Rp <?= number_format($transfer_header['nilai_netto'],2,',','.'); ?> (<?= ucwords(terbilang($transfer_header['nilai_netto'])).' Rupiah' ?>)
+        &nbsp;&nbsp;Jumlah uang yang ditransfer : Rp <?= number_format($totalnetto,2,',','.'); ?> (<?= ucwords(terbilang($totalnetto)).' Rupiah' ?>)
         <br>&nbsp;
     </td>
   </tr>

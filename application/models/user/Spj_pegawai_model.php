@@ -193,7 +193,7 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			if ($jns_spj=='1'){
 				$akun = array('non');
 			}else{
-				$query1 = $this->db->query("SELECT kd_item from ci_pq_operasional where left(kd_pqproyek,10)='$kd_proyek'");
+				$query1 = $this->db->query("SELECT kd_item from ci_pq_operasional where left(kd_pq_operasional,10)='$kd_proyek'");
 				$query1_result = $query1->result();
 				$kd_item= array();
 				foreach($query1_result as $row){

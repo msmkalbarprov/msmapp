@@ -27,19 +27,19 @@
             <?php echo form_open(base_url('penerimaan_lain/add/'), 'class="form-horizontal"' )?> 
 
               <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-3">
                   <div class="form-group">
                     <label for="sub_area" class="control-label">No. Bukti</label>
                     <input type="text" name="nobukti" id="nobukti" class="form-control" readonly>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="sub_area" class="control-label">Tanggal</label>
                     <input type="date" name="tanggal" id="tanggal" class="form-control">
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="id" class="control-label">Akun</label>
                     <select name="no_acc" id="no_acc" class="form-control select2" style="width: 100%;" required>
@@ -50,22 +50,33 @@
                       </select>
                   </div>
                 </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="id" class="control-label">Rekening</label>
+                    <select name="no_rekening" id="no_rekening" class="form-control select2" style="width: 100%;" required>
+                      <option value="">No Selected</option>
+                      <?php foreach($data_rekening as $rekening): ?>
+                            <option value="<?= $rekening['kode']; ?>"><?= $rekening['nama']; ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                  </div>
+                </div>
                 
               </div>
               <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-6">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Keterangan</label>
                     <textarea name="keterangan" id="keterangan" rows="1" class="form-control"></textarea>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Saldo Kas</label>
                     <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" readonly>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="nilai" class="control-label">Nilai</label>
                     <input type="text" name="nilai" id="nilai" class="form-control" value="0,00"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">

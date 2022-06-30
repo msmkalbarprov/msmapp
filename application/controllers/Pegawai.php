@@ -125,9 +125,9 @@ class Pegawai extends MY_Controller
 					'created_at' 	=> date('Y-m-d : h:m:s'),
 					'updated_at' 	=> date('Y-m-d : h:m:s')
 				);
-
+				$kd_area = $this->security->xss_clean($this->input->post('area'));
 				$data = $this->security->xss_clean($data);
-				$result = $this->pegawai->edit_pegawai($data, $id);
+				$result = $this->pegawai->edit_pegawai($data, $id, $kd_area);
 
 				if($result){
 					// Activity Log 

@@ -19,7 +19,6 @@
              SPJ Pegawai</h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pengesahan_spj_pegawai/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
           </div>
         </div>
     </div>

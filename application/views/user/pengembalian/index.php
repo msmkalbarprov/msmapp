@@ -28,6 +28,7 @@
                       <th>Area</th>
                       <th>Tanggal</th>
                       <th>Pegawai</th>
+                      <th>Tujuan</th>
                       <th>Keterangan</th>
                       <th>Nilai</th>
                       <th>Action</th>
@@ -61,9 +62,10 @@
     { "targets": 1, "name": "area", 'searchable':true, 'orderable':false},
     { "targets": 2, "name": "tanggal", 'searchable':true, 'orderable':false},
     { "targets": 3, "name": "pegawai", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "keterangan", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "nilai", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 4, "name": "pegawai", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "keterangan", 'searchable':true, 'orderable':false},
+    { "targets": 6, "name": "nilai", 'searchable':true, 'orderable':false},
+    { "targets": 7, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
   </script>

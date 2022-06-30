@@ -174,20 +174,35 @@ function get_item_pq_by_pq($pq)
 
 	}
 
+	function get_data_pencairan($nomor)
+	{		
+			$nomor_new=str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
+			
+			// $this->db->select("ifnull(nilai,0)as nilai, no_transfer, id, tgl_transfer");
+			$this->db->from("ci_pdo");
+            $this->db->where('id_pdo', $nomor_new);
+			return $result = $this->db->get()->row_array();
+	}
+
+	public function get_potongan_transfer_by_id($id){
+		$this->db->from("ci_pdo_potongan_pencairan");
+		$this->db->where('id_pdo',$id);
+		return $this->db->get()->result_array();
+}
 
 	function get_item_pq_gaji_by_pq($pq,$jnspdo)
 	{	
 			
 			if($jnspdo=='GJ'){
-				$akun='5010202';
+				$akun=array('5010202','5010502');
 			}else{
-				$akun='5010205';
+				$akun=array('5010205');
 			}
 
 			$this->db->select('*');
 			$this->db->from('ci_hpp');
 			$this->db->where('kd_pqproyek', $pq);	
-			$this->db->where("kd_item",$akun);
+			$this->db->where_in("kd_item",$akun);
 			$query=$this->db->get();
 			return $query;
 
@@ -388,7 +403,16 @@ public function update_keterangan($kdpdo, $keterangan, $jenis_transfer)
 			$this->db->where('kd_pdo', $kdpdo);
 			$this->db->update('ci_pdo');
 			return true;
-		} 
+		}
+		
+public function update_tanggal($kdpdo, $tgl_cair, $no_cair)
+	{	
+		$this->db->set('tgl_cair', $tgl_cair);
+		$this->db->where('kd_pdo', $kdpdo);
+		$this->db->where('no_cair', $no_cair);
+		$this->db->update('ci_pdo');
+		return true;
+	}
 public function update_keterangan_gaji($kdpdo, $keterangan, $jenis_transfer, $jnspdo)
 		{	
 			$this->db->set('keterangan', $keterangan);
@@ -598,6 +622,11 @@ public function edit_pdo($data, $id_pdo){
 			return true;
 		}
 
+public function simpan_cair_potongan($data){
+		$this->db->insert('ci_pdo_potongan_pencairan', $data);
+		return true;
+	}
+
 public function get_pdo_by_id($id){
 				 $this->db->select('ci_pdo.*,ci_projek.nm_projek as nm_divisi,concat(ci_pdo.kd_pqproyek," - ",ci_proyek.nm_paket_proyek) as nm_proyek, ci_area.nm_area');
 				 $this->db->from('ci_pdo');
@@ -668,6 +697,14 @@ public function get_nama_area($id){
 			$this->db->where("kd_area",$id);
        		return $result = $this->db->get()->row_array();
 		}
+
+		public function get_nama_rekening($id){
+			$this->db->from("ci_coa");
+			$this->db->where("no_acc",$id);
+       		return $result = $this->db->get()->row_array();
+		}
+
+		
 
 	public function get_register_pdo($id,$tahun,$bulan){
 			$this->db->select("*");

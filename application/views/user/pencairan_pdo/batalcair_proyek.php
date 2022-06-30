@@ -123,6 +123,7 @@
         <div class="form-group">
           <div class="col-md-12" align="right">
             <input type="submit" name="submit" id="tombolsimpan" value="Batal Cair PDO" class="btn btn-danger btn-sm">
+            <button class="btn btn-success btn-sm" id="btn_update" type="submit">update tanggal</button>
           </div>
         </div>
       
@@ -231,9 +232,9 @@ function get_nomor_urut(){
 }
 
 // Hitung total
-document.getElementById("qty").onmouseup = function() {hitung_total()};
-document.getElementById("qty").onkeyup   = function() {hitung_total()};
-document.getElementById("harga").onkeyup   = function() {hitung_total()};
+// document.getElementById("qty").onmouseup = function() {hitung_total()};
+// document.getElementById("qty").onkeyup   = function() {hitung_total()};
+// document.getElementById("harga").onkeyup   = function() {hitung_total()};
 
 function hitung_total() {
   var harga     = number(document.getElementById("harga").value);
@@ -281,9 +282,59 @@ function load_rincian_temp(nomorpdo) {
         table.ajax.reload();
 }
 
+// SAVE
+$('#btn_update').on('click', function() {
+    var no_cair             = $('#no_cair').val();
+    var kd_pdo              = $('#kd_pdo').val();    
+    var tgl_cair            = $('#tgl_cair').val();
+
+    if(kd_pdo==""){
+      alert('No PDO tidak boleh kosong')
+      return;
+    }
+
+    if(tgl_cair==""){
+      alert('Tanggal pencairan tidak boleh kosong')
+      return;
+    }
+    
+    if(no_cair==""){
+      alert('No Pencairan tidak boleh kosong')
+      return;
+    }
+
+      $.ajax({
+        url: "<?php echo base_url("pencairan_pdo/update_tanggal/");?>",
+        type: "POST",
+        data: {
+            '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+            type:1,
+            no_cair:no_cair,
+            kd_pdo:kd_pdo,
+            tgl_cair:tgl_cair
+            },
+            cache: false,
+            success: function(dataResult){
+                var dataResult = JSON.parse(dataResult);
+                if(dataResult.statusCode==200){
+                    $('#largeModal').modal('toggle');
+                    $("#error").hide();
+                    $("#success").show();
+                    $('#success').html('berhasil diubah');
+                }
+                else if(dataResult.statusCode==201){
+                    $("#error").show();
+                    $("#success").hide();
+                    $('#error').html('Gagal Simpan');
+                }
+            }
+      });
+    
+  });
 
 
   }); 
 
 
+    
 </script>

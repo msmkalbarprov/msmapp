@@ -23,15 +23,17 @@
 // MULAI 
 
 public function get_all_transfer_pencairan(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
-			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area');
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
+			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area,
+			(select ifnull(sum(nilai),0) from ci_proyek_transfer_potongan where ci_proyek_transfer_potongan.no_cair=ci_proyek_transfer.no_cair) as potongan');
 			$this->db->from("ci_proyek_transfer");
 			$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
 			$this->db->group_by('no_transfer');
        		return $this->db->get()->result_array();
 		}
 		else{
-			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area');
+			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area,
+			(select ifnull(sum(nilai),0) from ci_proyek_transfer_potongan where ci_proyek_transfer_potongan.no_cair=ci_proyek_transfer.no_cair) as potongan');
 			$this->db->from("ci_proyek_transfer");
 			$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
 			$this->db->where('ci_area.kd_area',$this->session->userdata('kd_area'));
@@ -41,28 +43,42 @@ public function get_all_transfer_pencairan(){
 	}
 
 	public function get_all_transfer_validasi(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
-			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area,(select nm_paket_proyek from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_pekerjaan, (select nm_sub_area from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_sub_area');
+		// if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
+			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area,(select nm_paket_proyek from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_pekerjaan, 
+			(select nm_sub_area from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_sub_area,
+			(select ifnull(sum(nilai),0) from ci_proyek_transfer_potongan where ci_proyek_transfer_potongan.no_cair=ci_proyek_transfer.no_cair) as potongan
+			');
 			$this->db->from("ci_proyek_transfer");
 			$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
 			$this->db->group_by('no_transfer');
        		return $this->db->get()->result_array();
-		}
-		else{
-			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area,(select nm_paket_proyek from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_pekerjaan, (select nm_sub_area from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_sub_area');
-			$this->db->from("ci_proyek_transfer");
-			$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
-			$this->db->where('ci_area.kd_area',$this->session->userdata('kd_area'));
-			$this->db->group_by('no_transfer');
-       		return $this->db->get()->result_array();
-		}
+		// }
+		// else{
+		// 	$this->db->select('ci_proyek_transfer.*,ci_area.nm_area,(select nm_paket_proyek from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_pekerjaan, 
+		// 	(select nm_sub_area from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_sub_area,
+		// 	(select ifnull(sum(nilai),0) from ci_proyek_transfer_potongan where ci_proyek_transfer_potongan.no_cair=ci_proyek_transfer.no_cair) as potongan');
+		// 	$this->db->from("ci_proyek_transfer");
+		// 	$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
+		// 	$this->db->where('ci_area.kd_area',$this->session->userdata('kd_area'));
+		// 	$this->db->group_by('no_transfer');
+       	// 	return $this->db->get()->result_array();
+		// }
 	}
 
 
 function get_coa_item()
 	{	
 		$this->db->from('ci_coa_msm');
-		$this->db->where('no_acc in ("101010102","101010301","101010302","101010303","101010304","101010305","101010306","101010307","101010308","101010309","101010310")');	
+		$this->db->where('no_acc in ("1010102","1010301",
+		"1010302",
+		"1010303",
+		"1010304",
+		"1010305",
+		"1010306",
+		"1010307",
+		"1010308",
+		"1010309",
+		"1010310")');	
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -70,7 +86,7 @@ function get_coa_item()
 
 	function get_pencairan()
 	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
 			$this->db->from('ci_proyek_cair');
 		}else{
 			$userarea = $this->session->userdata('kd_area');
@@ -361,7 +377,7 @@ function get_realisasi($id, $no_acc)
 
 	// get all users for server-side datatable processing (ajax based)
 public function get_all_pdo(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
 			$this->db->select('*');
 			$this->db->from("v_pdo");
        		return $this->db->get()->result_array();
@@ -375,7 +391,7 @@ public function get_all_pdo(){
 	}
 
 public function get_all_pdo_gaji(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
 			$this->db->select('*');
 			$this->db->from("v_pdo_gaji");
        		return $this->db->get()->result_array();
@@ -389,7 +405,7 @@ public function get_all_pdo_gaji(){
 	}
 
 public function get_all_pdo_operasional(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
 			$this->db->select('*');
 			$this->db->from("v_pdo_operasional");
        		return $this->db->get()->result_array();
@@ -598,9 +614,10 @@ public function update_nomor($data2, $kodearea){
 			return true;
 		}
 
-public function update_validasi($notf, $status){
+public function update_validasi($notf, $status, $tgl_validasi){
 
 	$this->db->set('approve', $status);
+	$this->db->set('tgl_approve', $tgl_validasi);
 	$this->db->where('no_transfer', $notf);
 	$this->db->update('ci_proyek_transfer');
 	return true;
@@ -679,7 +696,7 @@ function get_realisasi_op($kode_pqoperasional)
 
 public function get_pq_operasional_view($id){
 			$tahun = date("Y");
-				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
 					$this->db->select('*');
 					$this->db->from("ci_pq_operasional");
 					$this->db->where('left(kd_pq_operasional,4)',$tahun);
@@ -766,7 +783,7 @@ public function get_pdo_detail($id){
 		}
 
 		public function get_all_pq_op(){
-			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
 				$this->db->select('*');
 				$this->db->from("v_ci_pq_operasional");
 				$this->db->group_by("left(kode,10)");
@@ -784,7 +801,7 @@ public function get_pdo_detail($id){
 
 
 		public function get_all_pq_hpp(){
-			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
 				$this->db->select('*,
 					(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan.kd_pqproyek)as nilai_hpp,
 					(select nm_area from ci_area where ci_area.kd_area=ci_pendapatan.kd_area)as nm_area
@@ -825,7 +842,7 @@ public function get_pdo_detail($id){
 			$proyeks = implode(",",$proyek_id);
 			$kd_proyek = explode(",", $proyeks);
 
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
 			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');
 			$this->db->where('thn_anggaran >=',date("Y"));	
@@ -871,7 +888,7 @@ public function get_pdo_detail($id){
 			$proyeks = implode(",",$proyek_id);
 			$kd_proyek = explode(",", $proyeks);
 
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
 			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');
 			$this->db->where('thn_anggaran >=',date("Y"));	
@@ -1011,7 +1028,7 @@ public function save_pq_hpp($data){
 		// PQ
 	function get_pqproyek()
 	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance'){
 			$this->db->from('ci_pendapatan');
 		}else{
 			$userarea = $this->session->userdata('kd_area');

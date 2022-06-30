@@ -34,9 +34,6 @@ public function datatable_json(){
 			if ($row['approve']==1){
 				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('transfer/cetak_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-print"></i></a>';
 				$status='<span class="badge badge-success">Diterima</span>';
-			}else if ($row['nm_rekening']!=1 && $row['approve']!=1){
-				$tombol = '<span class="badge badge-success">Otomatis PDP</span>';
-				$status='<span class="badge badge-danger">Belum diterima</span>';
 			}else{
 				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('transfer/edit/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('transfer/delete_transfer/'.str_replace("/","f58ff891333ec9048109908d5f720903",$row['no_transfer'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
@@ -51,7 +48,7 @@ public function datatable_json(){
 				'<font size="2px">'.$row['tgl_transfer'].'</font>',
 				'<font size="2px">'.$row['nm_area'].'</font>',
 				'<font size="2px">'.$row['nm_rekening'].'</font>',
-				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai']-$row['potongan'],2,",",".").'</font></span></div>',
 				$status,
 				$tombol
 			);

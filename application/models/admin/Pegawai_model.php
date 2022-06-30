@@ -43,13 +43,18 @@ public function add_pegawai($data){
 		return $result = $this->db->get()->row_array();
 	}
 
-public function edit_pegawai($data, $id){
+public function edit_pegawai($data, $id, $kd_area){
 
     $id1 = str_replace('cf78f9e3bb0b11225084de457d4672bf31a22a6502834033f933df25e570a76bd431bbd7f9112cad60ec5a201a4df5d4253413b44185880ddaccd4be17400581','',$id);
     $id2 = str_replace('0x0100abbe56e02bdc2d659d105ea8ca83f853e8ae4a65fd8aa0fe','',$id1);
 
 	$this->db->where('kd_pegawai', $id2);
 	$this->db->update('ci_pegawai', $data);
+
+	$this->db->set('kd_area', $kd_area);
+	$this->db->where('username', $id2);
+	$this->db->update('ci_users');
+	
 	return true;
 }
 

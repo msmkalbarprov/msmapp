@@ -36,6 +36,7 @@
                       <th>Tanggal Cair</th>
                       <th>No. Cair</th>
                       <th>Nilai</th>
+                      <th>Adm. Bank</th>
                       <th width="2%"><?= trans('action') ?></th>
                     </tr>
                   </thead>
@@ -72,7 +73,8 @@
     { "targets": 4, "name": "tgl_cair", 'searchable':true, 'orderable':false},
     { "targets": 5, "name": "no_cair", 'searchable':true, 'orderable':false},
     { "targets": 6, "name": "nilai", 'searchable':true, 'orderable':false},
-    { "targets": 7, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 7, "name": "potongan", 'searchable':true, 'orderable':false},
+    { "targets": 8, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
 </script>

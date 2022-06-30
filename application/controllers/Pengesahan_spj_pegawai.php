@@ -36,11 +36,9 @@ class Pengesahan_spj_pegawai extends MY_Controller {
 				$kode_pegawai = str_replace('-','054d4a4653a16b49c49c49e000075d10',$row['kd_pegawai']);
 
 				if ($row['status']=='1'){
-					$tombol = ' <a title="Batal Setuju" class="update btn btn-sm btn-success" href="'.base_url('pengesahan_spj_pegawai/batal/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$kode_pegawai).'"> <i class="fa fa-check"></i></a>
-                                <a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pengesahan_spj_pegawai/cetak_spj_pegawai/'.$row['no_spj'].'/'.$row['kd_area'].'/'.$kode_pegawai.'/0').'" target="_blank"> <i class="fa fa-print"></i></a>';
+					$tombol = ' <a title="Batal Setuju" class="update btn btn-sm btn-success" href="'.base_url('pengesahan_spj_pegawai/batal/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$kode_pegawai).'"> <i class="fa fa-check"></i></a>';
 				}else{
-					$tombol = ' <a title="Setuju" class="update btn btn-sm btn-info" href="'.base_url('pengesahan_spj_pegawai/setuju/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$kode_pegawai).'"> <i class="fa fa-list"></i></a>
-                                <a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pengesahan_spj_pegawai/cetak_spj_pegawai/'.$row['no_spj'].'/'.$row['kd_area'].'/'.$kode_pegawai.'/0').'" target="_blank"> <i class="fa fa-print"></i></a>';
+					$tombol = ' <a title="Setuju" class="update btn btn-sm btn-info" href="'.base_url('pengesahan_spj_pegawai/setuju/'.'054d4a4653a16b49c49c49e000075d10'.$row['no_spj'].'4e9e388e9acfde04d6bd661a6294f8a0/'.$kode_pegawai).'"> <i class="fa fa-list"></i></a>';
 				}
 
 			

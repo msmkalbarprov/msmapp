@@ -275,5 +275,14 @@ function get_kas($id)
 		return $query;
 	}
 
+	function get_kas_bud($id)
+	{	
+		$this->db->select("ifnull(sum(terima), 0)-ifnull(sum(keluar), 0) as total");
+		$this->db->from('cetakan_kas_rekening');
+		$this->db->where('no_rekening', '1010102');		
+		$query=$this->db->get();
+		return $query;
+	}
+
 	}
 ?>
