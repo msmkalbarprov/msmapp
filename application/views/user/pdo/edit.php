@@ -32,7 +32,7 @@
           <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
         </div>
         <?php $this->load->view('admin/includes/_messages.php') ?>
-         <?php echo form_open_multipart('cpdo/edit_pdo_keterangan/'.$data_pdo["id_pdo"].'/1');?>
+         <?php echo form_open_multipart('cpdo/edit_pdo_keterangan_proyek/'.$data_pdo["id_pdo"].'/1');?>
          <div class="row">
           <div class="col-md-3">
             <div class="form-group">
@@ -71,7 +71,17 @@
                     <input id='s_transfer' name="s_transfer"  type='hidden' />
             </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label">Panjar</label><br>
+                    <small>Tidak</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_panjar' name="c_panjar"  type='checkbox' />
+                    <label for='c_panjar'></label>
+                    <small>Ya</small>
+                    <input id='s_panjar' name="s_panjar"  type='hidden' />
+            </div>
+          </div>
+          <div class="col-md-6">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
               <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" ><?= $data_pdo['keterangan']; ?></textarea>
@@ -272,6 +282,7 @@
   $(document).ready(function(){
     
     set_status_transfer();
+    set_status_panjar();
     get_project();
     var kodepdo   = $('#kd_pdo').val();
     var nomorpdo  = kodepdo.replace(/\//g,'abcde');
@@ -301,6 +312,14 @@ $('#c_transfer').click(function() {
   }
 });
 
+$('#c_panjar').click(function() {
+  if ($('#c_panjar').prop('checked') == true){
+      $('[name="s_panjar"]').val('1').trigger('change');
+  }else{
+    $('[name="s_panjar"]').val('0').trigger('change');
+  }
+});
+
 function set_status_transfer() {
   var status_transfer = "<?= $data_pdo['s_transfer'] ?>";
   if (status_transfer==1){
@@ -308,6 +327,14 @@ function set_status_transfer() {
     $('[name="s_transfer"]').val('1').trigger('change');
     var kodearea="<?= $data_pdo['kd_area']; ?>";
     get_pegawai(kodearea);
+  }
+}
+
+function set_status_panjar() {
+  var status_panjar = "<?= $data_pdo['panjar'] ?>";
+  if (status_panjar==1){
+    $('#c_panjar').attr('checked', 'checked');
+    $('[name="s_panjar"]').val('1').trigger('change');
   }
 }
 

@@ -396,7 +396,18 @@ public function add_pdo_project($kdpdo)
 			return true;
 		} 
 
-public function update_keterangan($kdpdo, $keterangan, $jenis_transfer)
+		public function update_keterangan_proyek($kdpdo, $keterangan, $jenis_transfer, $panjar)
+		{	
+			$this->db->set('keterangan', $keterangan);
+			$this->db->set('s_transfer', $jenis_transfer);
+			$this->db->set('panjar', $panjar);
+			$this->db->where('kd_pdo', $kdpdo);
+			$this->db->update('ci_pdo');
+			return true;
+		}
+
+		
+		public function update_keterangan($kdpdo, $keterangan, $jenis_transfer)
 		{	
 			$this->db->set('keterangan', $keterangan);
 			$this->db->set('s_transfer', $jenis_transfer);

@@ -245,9 +245,10 @@ public function add_pdo_project(){
 				$kdpdo 					= $this->security->xss_clean($this->input->post('kd_pdo'));
 				$keterangan 			= $this->security->xss_clean($this->input->post('keterangan'));
 				$jenis_transfer 		= $this->security->xss_clean($this->input->post('s_transfer'));
+				$panjar			 		= $this->security->xss_clean($this->input->post('s_panjar'));
 
 				$this->pdo_model->add_pdo_project($kdpdo);
-				$this->pdo_model->update_keterangan($kdpdo, $keterangan, $jenis_transfer );
+				$this->pdo_model->update_keterangan_proyek($kdpdo, $keterangan, $jenis_transfer,$panjar);
 
 				$kodearea 					= $this->input->post('area', TRUE);
 				$urutan 					= $this->input->post('urut', TRUE);
@@ -330,10 +331,13 @@ public function edit_pdo_keterangan($id='',$jns=''){
 				$kdpdo 						= $this->security->xss_clean($this->input->post('kd_pdo'));
 				$keterangan 				= $this->security->xss_clean($this->input->post('keterangan'));
 				$jenis_transfer 			= $this->security->xss_clean($this->input->post('s_transfer'));
+				$panjar			 			= $this->security->xss_clean($this->input->post('s_panjar'));
 				
 				if ($jns=='3'){
 					$jnspdo 				= $this->security->xss_clean($this->input->post('jns_pdo'));
 					$result = $this->pdo_model->update_keterangan_gaji($kdpdo, $keterangan, $jenis_transfer,$jnspdo);
+				}else if($jns=='1'){
+					$result = $this->pdo_model->update_keterangan_proyek($kdpdo, $keterangan, $jenis_transfer, $panjar);
 				}else{
 					$result = $this->pdo_model->update_keterangan($kdpdo, $keterangan, $jenis_transfer);
 				}
@@ -356,6 +360,7 @@ public function edit_pdo_keterangan($id='',$jns=''){
 		}
 		
 	}
+	
 
 public function add_pdo_operasional(){
 		

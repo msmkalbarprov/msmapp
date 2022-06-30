@@ -343,8 +343,52 @@ public function get_pdp_header($id,$id_proyek){
 			return true;
 		}
 
-		public function simpan_cair_potongan($data){
+		public function simpan_cair_potongan($data,$id_cair){
+
+			// simpan potongan
 			$this->db->insert('ci_proyek_cair_potongan', $data);
+
+
+			$query1 ="SELECT rek_pencairan,nilai_bruto,nomor,(select sum(nilai) from ci_proyek_cair_potongan where id_cair='$id_cair')as potongan  from ci_proyek_cair where id='$id_cair'";
+					 $hasil = $this->db->query($query1);
+					 $rek_pencairan = $hasil->row('rek_pencairan');
+					 $no_cair = $hasil->row('nomor');
+					 $nilai_bruto = $hasil->row('nilai_bruto');
+					 $potongan = $hasil->row('potongan');
+
+					 $nilai_baru = $nilai_bruto-$potongan;
+
+			// update nilai netto di transfer
+			if ($rek_pencairan !='1' || $rek_pencairan !=1){
+				
+				$this->db->set('nilai',$nilai_baru);
+				$this->db->set('no_cair',$no_cair);
+				$this->db->update('ci_proyek_transfer');
+			}
+			
+			
+			return true;
+		}
+
+		public function update_nilai_transfer($id_cair){
+
+			$query1 ="SELECT rek_pencairan,nilai_bruto,nomor,(select sum(nilai) from ci_proyek_cair_potongan where id_cair='$id_cair')as potongan  from ci_proyek_cair where id='$id_cair'";
+					 $hasil 		= $this->db->query($query1);
+					 $rek_pencairan = $hasil->row('rek_pencairan');
+					 $no_cair 		= $hasil->row('nomor');
+					 $nilai_bruto 	= $hasil->row('nilai_bruto');
+					 $potongan 		= $hasil->row('potongan');
+					 $nilai_baru 	= $nilai_bruto-$potongan;
+
+			// update nilai netto di transfer
+			if ($rek_pencairan !='1' || $rek_pencairan !=1){
+				
+				$this->db->set('nilai',$nilai_baru);
+				$this->db->set('no_cair',$no_cair);
+				$this->db->update('ci_proyek_transfer');
+			}
+			
+			
 			return true;
 		}
 

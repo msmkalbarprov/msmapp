@@ -198,13 +198,13 @@
           <div class="col-md-3">
             <div class="form-group">
               <label for="area" class="control-label">Tanggal Cair/PDP</label>
-              <input type="date" name="tgl_cair" class="form-control" id="tgl_cair" >
+              <input type="date" name="tgl_cair" class="form-control" id="tgl_cair" required>
             </div>
           </div>
           <div class="col-md-3">
             <div class="form-group">
                 <label for="area" class="control-label">Jenis pencairan</label>
-                <select id="jns_pencairan" name="jns_pencairan" class="form-control">
+                <select id="jns_pencairan" name="jns_pencairan" class="form-control" required>
                   <option value="">No Selected</option>
                   <option value="1">Uang Muka</option>
                   <option value="2">Termin 1</option>
@@ -231,7 +231,7 @@
           <div class="col-md-3">
             <div class="form-group">
                 <label for="area" class="control-label">Rekening pencairan</label>
-                <select id="rek_pencairan" name="rek_pencairan" class="form-control">
+                <select id="rek_pencairan" name="rek_pencairan" class="form-control" required>
                   <option value="">No Selected</option>
                   <option value="1">Rekening Lokal</option>
                   <option value="1010301">Bank BRI MSM - Veteran Rek. 10302</option>
@@ -246,6 +246,8 @@
                   <option value="1010310"> BPD Papua PT UMI</option>
                 </select>
               </div>
+
+              
           </div>
           <div class="col-md-3">
             <div class="form-group">

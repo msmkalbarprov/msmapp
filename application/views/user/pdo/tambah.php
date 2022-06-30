@@ -76,7 +76,17 @@
                     <input id='s_transfer' name="s_transfer"  type='hidden' />
             </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label">Panjar</label><br>
+                    <small>Tidak</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_panjar' name="c_panjar"  type='checkbox' />
+                    <label for='c_panjar'></label>
+                    <small>Ya</small>
+                    <input id='s_panjar' name="s_panjar"  type='hidden' />
+            </div>
+          </div>
+          <div class="col-md-6">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
               <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" ></textarea>
@@ -302,6 +312,14 @@
       }else{
         $('[name="s_transfer"]').val('0').trigger('change');
         document.getElementById("no_rekening").disabled = false;
+      }
+});
+
+$('#c_panjar').click(function() {
+      if ($('#c_panjar').prop('checked') == true){
+          $('[name="s_panjar"]').val('1').trigger('change');
+      }else{
+        $('[name="s_panjar"]').val('0').trigger('change');
       }
 });
 

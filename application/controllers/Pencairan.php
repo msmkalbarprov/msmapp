@@ -429,7 +429,7 @@ function get_realisasi(){
 					'created_at' 		=> date('Y-m-d : h:m:s'),
 				);
 				$data 		= $this->security->xss_clean($data);
-				$result 	= $this->proyek_model->simpan_cair_potongan($data);
+				$result 	= $this->proyek_model->simpan_cair_potongan($data,$id);
 				if($result){
 					// Activity Log 
 					$this->activity_model->add_log(2);
@@ -730,29 +730,30 @@ public function edit_rincian_proyek($id = 0){
 
 			if ($row['rek_pencairan']=='1'){
 				$rek_pencairan ='Rekening Lokal';
-			}else if ($row['rek_pencairan']=='101010301'){
+			}else if ($row['rek_pencairan']=='1010301'){
 				$rek_pencairan ='Bank BRI MSM - Veteran Rek. 10302';
-			}else if ($row['rek_pencairan']=='101010302'){
+			}else if ($row['rek_pencairan']=='1010302'){
 				$rek_pencairan ='Bank BRI UMI - Veteran Rek. 12304';
-			}else if ($row['rek_pencairan']=='101010303'){
+			}else if ($row['rek_pencairan']=='1010303'){
 				$rek_pencairan ='Bank BRI RUB - Tanah Abang Rek. 23305';
-			}else if ($row['rek_pencairan']=='101010304'){
+			}else if ($row['rek_pencairan']=='1010304'){
 				$rek_pencairan ='Bank BRI PSK - Tanah Abang Rek. 24308';
-			}else if ($row['rek_pencairan']=='101010305'){
+			}else if ($row['rek_pencairan']=='1010305'){
 				$rek_pencairan ='Bank BRI MSM - Veteran 42152';
-			}else if ($row['rek_pencairan']=='101010306'){
+			}else if ($row['rek_pencairan']=='1010306'){
 				$rek_pencairan ='Bank BRI RUB - Veteran Rek. 87303';
-			}else if ($row['rek_pencairan']=='101010307'){
+			}else if ($row['rek_pencairan']=='1010307'){
 				$rek_pencairan ='Bank Rekening Pandawa 81304';
-			}else if ($row['rek_pencairan']=='101010308'){
+			}else if ($row['rek_pencairan']=='1010308'){
 				$rek_pencairan ='Bank BCA MSM Harmoni Plaza';
-			}else if ($row['rek_pencairan']=='101010309'){
+			}else if ($row['rek_pencairan']=='1010309'){
 				$rek_pencairan ='BRI umi veteran rek 032901003618309';
-			}else if ($row['rek_pencairan']=='101010310'){
+			}else if ($row['rek_pencairan']=='1010310'){
 				$rek_pencairan ='BPD Papua PT UMI';
 			}else{
 				$rek_pencairan='-';
 			}
+
 
 			$nomor = str_replace('/','ab56b4d92b40713acc5af89985d4b786',$row['nomor']);
 
@@ -876,6 +877,8 @@ public function edit_rincian_proyek($id = 0){
 		$this->rbac->check_operation_access('');
 
 			$this->db->delete('ci_proyek_cair_potongan', array('id' => $id_potongan));
+
+			$result = $this->proyek_model->update_nilai_transfer($id);
 
 			$this->activity_model->add_log(3);
 
