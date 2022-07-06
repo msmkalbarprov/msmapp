@@ -857,8 +857,7 @@ public function get_pendapatanarea_by_year($id,$tahun){
 			$this->db->select("sum(pendapatan_nett) as pendapatannetarea, sum(sub_total_a)as sub_total_a, sum(ppn)as ppn, sum(pph)as pph, ifnull(sum(infaq),0)as infaq,
 			SUM(case when (a.status_titipan='0' OR a.status_titipan is null OR a.status_titipan ='') then  a.titipan else 0 end)+
 			SUM(case when a.status_titipan='1' then a.titipan_net else 0 end)as titipan_net,
-
-(select ifnull(sum(d.npl),0) from ci_pendapatan d where d.kd_area=a.kd_area and left(d.id_proyek,4)=left(a.id_proyek,4) and (d.ppl ='0' OR d.ppl is null))+(select ifnull(sum(e.ppl),0) from ci_pendapatan e where e.kd_area=a.kd_area and left(e.id_proyek,4)=left(a.id_proyek,4)  and e.ppl <>'0')as nilaippl");
+            sum(case when(ppl=0 OR ppl is null OR ppl='') then npl else ppl end) as nilaippl");
 			$this->db->from("ci_pendapatan a");
 			$this->db->join("ci_proyek k","a.id_proyek=k.kd_proyek", 'inner');
 			$this->db->where("left(a.id_proyek,4)", $tahun);

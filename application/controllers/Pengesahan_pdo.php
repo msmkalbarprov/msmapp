@@ -338,10 +338,11 @@ public function setuju_pdo($id='',$jns=''){
 			}
 			else{
 				$kdpdo 						= $this->security->xss_clean($this->input->post('kd_pdo'));
+				$tglsah 					= $this->security->xss_clean($this->input->post('tgl_sah'));
 				$status 					= 1;
 				
 
-				$result = $this->pdo_model->setuju_pdo($kdpdo, $status);
+				$result = $this->pdo_model->setuju_pdo($kdpdo, $status, $tglsah);
 				if($result){
 					$this->activity_model->add_log(1);
 					$this->session->set_flashdata('success', 'PQ Proyek berhasil disetujui!');
@@ -376,9 +377,9 @@ public function setuju_pdo($id='',$jns=''){
 			else{
 				$kdpdo 						= $this->security->xss_clean($this->input->post('kd_pdo'));
 				$status 					= 2;
-				
+				$tgl_sah					= null;
 
-				$result = $this->pdo_model->setuju_pdo($kdpdo, $status);
+				$result = $this->pdo_model->setuju_pdo($kdpdo, $status,$tgl_sah);
 				if($result){
 					$this->activity_model->add_log(1);
 					$this->session->set_flashdata('success', 'PQ Proyek berhasil disetujui!');

@@ -922,7 +922,8 @@ public function delete_pdo_operasional($id = 0)
 
 	function get_item_pq_by_pq(){
 		$pq = $this->input->post('id',TRUE);
-		$data = $this->pdo_model->get_item_pq_by_pq($pq)->result();
+		$panjar = $this->input->post('panjar',TRUE);
+		$data = $this->pdo_model->get_item_pq_by_pq($pq,$panjar)->result();
 		echo json_encode($data);
 	}
 

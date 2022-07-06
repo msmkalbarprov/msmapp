@@ -362,7 +362,7 @@ public function get_pdp_header($id,$id_proyek){
 			if ($rek_pencairan !='1' || $rek_pencairan !=1){
 				
 				$this->db->set('nilai',$nilai_baru);
-				$this->db->set('no_cair',$no_cair);
+				$this->db->where('no_cair',$no_cair);
 				$this->db->update('ci_proyek_transfer');
 			}
 			
@@ -384,7 +384,7 @@ public function get_pdp_header($id,$id_proyek){
 			if ($rek_pencairan !='1' || $rek_pencairan !=1){
 				
 				$this->db->set('nilai',$nilai_baru);
-				$this->db->set('no_cair',$no_cair);
+				$this->db->where('no_cair',$no_cair);
 				$this->db->update('ci_proyek_transfer');
 			}
 			

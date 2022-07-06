@@ -72,6 +72,7 @@ $lang['penerimaan_lain']               			= "Penerimaan lain-lain";
 $lang['pengesahan_spj']               			= "Pengesahan SPJ <span class='badge badge-danger'>New</span>";
 $lang['validasi_pdp']               			= "Validasi PDP <span class='badge badge-danger'>New</span>";
 $lang['laporan_kas_rekening']               	= "Kas Rekening Pusat <span class='badge badge-danger'>New</span>";
+$lang['lap_saldo_awal']               			= "lap. Saldo Awal <span class='badge badge-danger'>New</span>";
 
 
 

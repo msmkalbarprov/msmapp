@@ -148,29 +148,30 @@ function get_pq_operasional_by_area($area,$tahun)
 
 	
 
-function get_item_pq_by_pq($pq)
+function get_item_pq_by_pq($pq,$panjar)
 	{	
 		// $query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $pq));
 
 		$query1 ="SELECT status_cair  from ci_pendapatan where kd_pqproyek='$pq'";
 					 $hasil = $this->db->query($query1);
 					 $status_cair = $hasil->row('status_cair');
-
+					 
 		if ($status_cair==1){
-			$this->db->select('*');
-			$this->db->from('vci_hpp');
-			$this->db->where("kd_pqproyek in ('1','$pq')");	
-			$this->db->where("kd_item not in ('5010202','5010205')");	
-			$query=$this->db->get();
+		$this->db->from('vci_hpp');
+		$this->db->where("kd_pqproyek in ('1','2','$pq')");	
+		$this->db->where("kd_item not in ('5010202','5010205')");	
+	}else if($panjar==1){
+		$this->db->from('vci_hpp');
+		$this->db->where("kd_pqproyek in ('1','2','$pq')");	
+		$this->db->where("kd_item not in ('5010202','5010205')");	
+	}else{
+		$this->db->from('ci_hpp');
+		$this->db->where('kd_pqproyek', $pq);	
+		$this->db->where("kd_item not in ('5010202','5010205')");	
+	}
+
+		$query=$this->db->get();
 			return $query;
-		}else{
-			$this->db->select('*');
-			$this->db->from('ci_hpp');
-			$this->db->where('kd_pqproyek', $pq);	
-			$this->db->where("kd_item not in ('5010202','5010205')");	
-			$query=$this->db->get();
-			return $query;
-		}
 
 	}
 
@@ -243,6 +244,23 @@ function get_nilai($id, $no_acc)
 			       $this->db->select('ppl as total');
 			}else{
 			    $this->db->select('npl as total');
+			}
+			
+			$this->db->from('ci_pendapatan');
+			$this->db->where('kd_pqproyek', $id);	
+			$query=$this->db->get();
+		}else if ($no_acc=='50205' || $no_acc=='5020501'){
+		    	
+		    $query="SELECT titipan,titipan_net,status_titipan from ci_pendapatan where kd_pqproyek='$id'";
+					 $hasil     		= $this->db->query($query);
+					 $titipan 			= $hasil->row('titipan');
+					 $titipan_net       = $hasil->row('titipan_net');
+					 $status_titipan    = $hasil->row('status_titipan');
+					 
+			if ($status_titipan!=0){
+			       $this->db->select('titipan_net as total');
+			}else{
+			    $this->db->select('titipan as total');
 			}
 			
 			$this->db->from('ci_pendapatan');
@@ -434,9 +452,10 @@ public function update_keterangan_gaji($kdpdo, $keterangan, $jenis_transfer, $jn
 			return true;
 		} 
 
-public function setuju_pdo($kdpdo, $status)
+public function setuju_pdo($kdpdo, $status,$tgl_sah)
 		{	
 			$this->db->set('approve', $status);
+			$this->db->set('tgl_approve', $tgl_sah);
 			$this->db->where('kd_pdo', $kdpdo);
 			$this->db->update('ci_pdo');
 			return true;

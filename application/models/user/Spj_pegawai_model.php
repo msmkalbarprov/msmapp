@@ -36,13 +36,21 @@
 // MULAI
 	// get all users for server-side datatable processing (ajax based)
 public function get_all_spj(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
             $this->db->group_by("no_spj,kd_pegawai");
             $this->db->order_by("kd_pegawai,no_spj");
        		return $this->db->get()->result_array();
-		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Lantor' || $this->session->userdata('admin_role')=='Admin'){
+		}else if($this->session->userdata('admin_role')=='Divisi Finance'){
+			$kdarea = array('11','21','22','71','74','00','01');
+			$this->db->select('*,sum(nilai) as total');
+			$this->db->from("ci_spj_pegawai");
+			$this->db->where_in('kd_area',$kdarea);
+            $this->db->group_by("no_spj,kd_pegawai");
+            $this->db->order_by("kd_pegawai,no_spj");
+       		return $this->db->get()->result_array();
+		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
 			$this->db->where('kd_area',$this->session->userdata('kd_area'));

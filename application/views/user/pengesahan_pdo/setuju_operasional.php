@@ -34,7 +34,7 @@
         <?php $this->load->view('admin/includes/_messages.php') ?>
          <?php echo form_open_multipart('pengesahan_pdo/setuju_pdo/'.$data_pdo["id_pdo"].'/2');?>
          <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Kode PDO</label>
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
@@ -43,43 +43,49 @@
             </div>
           </div>
           
-          <div class="col-md-3">
+          <div class="col-md-6">
+           <div class="form-group">
+            <label for="tipeproyek" class="control-label">Tanggal Pengesahan</label>
+              <input type="date" name="tgl_sah" id="tgl_sah" class="form-control"  required>
+          </div>
+          </div>
+   
+         </div>
+
+         <div class="row">
+         
+          
+          <div class="col-md-6">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Tanggal PDO</label>
               <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control" value="<?= $data_pdo['tgl_pdo']; ?>"  readonly >
           </div>
           </div>
-          
-          <div class="col-md-3">
+          <div class="col-md-6">
             <div class="form-group">
-              <label for="proyek" class="control-label">Tahun Anggaran</label>
-              <input type="text" name="thn_ang" id="thn_ang" class="form-control" value="<?= substr($data_pdo['kd_project'],0,4); ?>"  readonly>
-            </div>
-          </div>
-          
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="area" class="control-label">Area</label>
+              <label for="area" class="control-label"><?= trans('area') ?></label>
                 <input type="text" name="area" id="area" class="form-control" value="<?= $data_pdo['nm_area']; ?>" readonly>
             </div>
           </div>
+
          </div>
 
-          <div class="row">
+         <div class="row">
+         
           <div class="col-md-3">
-          <div class="form-group">
-            <label for="area" class="control-label">Transfer</label><br>
-                  <small>Langsung</small>
-                  <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' />
-                  <label for='c_transfer'></label>
-                  <small>Kas Daerah</small>
-                  <input id='s_transfer' name="s_transfer"  type='hidden' />
+            <div class="form-group">
+              <label for="area" class="control-label">Transfer</label><br>
+                    <small>Langsung</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' readonly/>
+                    <label for='c_transfer'></label>
+                    <small>Kas Daerah</small>
+                    <input id='s_transfer' name="s_transfer"  type='hidden' />
+            </div>
           </div>
-        </div>
           <div class="col-md-9">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
-              <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" ><?= $data_pdo['keterangan']; ?></textarea>
+              <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" readonly><?= $data_pdo['keterangan']; ?></textarea>
           </div>
           </div>
          </div>

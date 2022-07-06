@@ -10,7 +10,7 @@ class Laporan extends MY_Controller {
 
 		$this->load->model('user/proyek_model', 'proyek_model');
 		$this->load->model('user/pq_model', 'pq_model');
-
+		$this->load->model('admin/saldoawal_model', 'saldoawal_model');
 		$this->load->model('admin/admin_model', 'admin');
 		$this->load->model('admin/area_model', 'area');
 		$this->load->model('admin/subarea_model', 'subarea');
@@ -1190,6 +1190,39 @@ $html.='</table>';
                break;
         }
     }
+
+
+
+
+public function cetak_saldo_awal($jenis='',$judul)
+	{	
+		$data['rincian'] 	= $this->saldoawal_model->get_lap_saldo_awal();
+		switch ($jenis)
+        {
+            case 1;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'landscape');
+			    $this->pdf->filename = "laporan.pdf";
+			    $this->pdf->load_view('user/laporan/cetak_lap_saldo_awal', $data);
+                break;
+            case 0;
+				header("Cache-Control: no-cache, no-store, must-revalidate");
+				header("Content-Type: application/vnd.ms-excel");
+				header("Content-Disposition: attachment; filename= $judul.xls");
+				$this->load->view('user/laporan/cetak_lap_saldo_awal', $data);
+               break;
+        }
+
+	}
+
+public function lap_saldo_awal(){
+		$data['rincian'] 	= $this->saldoawal_model->get_lap_saldo_awal();
+		$data['data_area'] 			= $this->area->get_area();
+		$data['title'] = 'Laporan Saldo Awal';
+		$this->load->view('admin/includes/_header', $data);
+		$this->load->view('user/laporan/lap_saldo_awal',$data);
+		$this->load->view('admin/includes/_footer');
+	}
 
 
 }

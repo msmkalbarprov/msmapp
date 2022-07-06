@@ -45,6 +45,12 @@
           
           <div class="col-md-3">
            <div class="form-group">
+            <label for="tipeproyek" class="control-label">Tanggal Pengesahan</label>
+              <input type="date" name="tgl_sah" id="tgl_sah" class="form-control"  required >
+          </div>
+          </div>
+          <div class="col-md-3">
+           <div class="form-group">
             <label for="tipeproyek" class="control-label">Tanggal PDO</label>
               <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control" value="<?= $data_pdo['tgl_pdo']; ?>"  readonly >
           </div>
@@ -55,15 +61,16 @@
                 <input type="text" name="area" id="area" class="form-control" value="<?= $data_pdo['nm_area']; ?>" readonly>
             </div>
           </div>
-          <div class="col-md-3">
+          
+         </div>
+
+        <div class="row">
+        <div class="col-md-3">
             <div class="form-group">
               <label for="area" class="control-label">Jenis PDO</label><br>
               <input type="text" name="jns_pdo" id="jns_pdo" class="form-control" value="<?= $data_pdo['jns_pdo']; ?>" readonly>
             </div>
           </div>
-         </div>
-
-        <div class="row">
           <div class="col-md-3">
             <div class="form-group">
               <label for="area" class="control-label">Transfer</label><br>
@@ -74,7 +81,7 @@
                     <input id='s_transfer' name="s_transfer"  type='hidden' />
             </div>
           </div>
-          <div class="col-md-9">
+          <div class="col-md-6">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
               <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" ><?= $data_pdo['keterangan']; ?></textarea>

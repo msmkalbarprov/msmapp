@@ -16,7 +16,7 @@
       <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-list"></i>
-             PDO Proyek/Pekerjaan </h3>
+             PDO Proyek </h3>
            </div>
            <div class="d-inline-block float-right">
           </div>

@@ -318,8 +318,10 @@
 $('#c_panjar').click(function() {
       if ($('#c_panjar').prop('checked') == true){
           $('[name="s_panjar"]').val('1').trigger('change');
+          $('[name="projek"]').val('').trigger('change');
       }else{
         $('[name="s_panjar"]').val('0').trigger('change');
+        $('[name="projek"]').val('').trigger('change');
       }
 });
 
@@ -447,12 +449,13 @@ $('#area').change(function(){
 
 $('#projek').change(function(){ 
     var idproyek    = $(this).val();
+    var panjar    = $('#s_panjar').val();
     $.ajax({
         url : "<?php echo site_url('cpdo/get_item_pq_by_pq');?>",
         method : "POST",
         data : {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-          id: idproyek},
+          id: idproyek,panjar:panjar},
         async : true,
         dataType : 'json',
         success: function(data){

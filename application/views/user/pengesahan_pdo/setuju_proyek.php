@@ -15,7 +15,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             pengesahan PDO Proyek </h3>
+             Pengesahan PDO Proyek </h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('pengesahan_pdo'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
@@ -33,8 +33,9 @@
         </div>
         <?php $this->load->view('admin/includes/_messages.php') ?>
          <?php echo form_open_multipart('pengesahan_pdo/setuju_pdo/'.$data_pdo["id_pdo"].'/1');?>
+         
          <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="item_hpp" class="control-label">Kode PDO</label>
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
@@ -43,30 +44,32 @@
             </div>
           </div>
           
-          <div class="col-md-3">
+          <div class="col-md-6">
+           <div class="form-group">
+            <label for="tipeproyek" class="control-label">Tanggal Pengesahan</label>
+              <input type="date" name="tgl_sah" id="tgl_sah" class="form-control"  required>
+          </div>
+          </div>
+   
+         </div>
+
+         <div class="row">
+         
+          
+          <div class="col-md-6">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Tanggal PDO</label>
               <input type="date" name="tgl_pdo" id="tgl_pdo" class="form-control" value="<?= $data_pdo['tgl_pdo']; ?>"  readonly >
           </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
                 <input type="text" name="area" id="area" class="form-control" value="<?= $data_pdo['nm_area']; ?>" readonly>
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="area" class="control-label">Transfer</label><br>
-                    <small>Langsung</small>
-                    <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' readonly/>
-                    <label for='c_transfer'></label>
-                    <small>Kas Daerah</small>
-                    <input id='s_transfer' name="s_transfer"  type='hidden' />
-            </div>
-          </div>
-         </div>
 
+         </div>
          <div class="row">
           
 
@@ -86,15 +89,27 @@
           </div>
           
          </div>
-
-        <div class="row">
-          <div class="col-md-12">
+         <div class="row">
+         
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="area" class="control-label">Transfer</label><br>
+                    <small>Langsung</small>
+                    <input class='tgl-ios tgl_checkbox' id='c_transfer' name="c_transfer"  type='checkbox' readonly/>
+                    <label for='c_transfer'></label>
+                    <small>Kas Daerah</small>
+                    <input id='s_transfer' name="s_transfer"  type='hidden' />
+            </div>
+          </div>
+          <div class="col-md-9">
            <div class="form-group">
             <label for="tipeproyek" class="control-label">Keterangan</label>
               <textarea type="text" name="keterangan" id="keterangan" class="form-control"  placeholder="" readonly><?= $data_pdo['keterangan']; ?></textarea>
           </div>
           </div>
          </div>
+
+         
 
         <div class="form-group">
           <div class="col-md-12" align="center">

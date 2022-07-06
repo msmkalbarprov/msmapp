@@ -72,7 +72,12 @@ function delete($id)
 {		
 	$this->db->where('id',$id);
 	$this->db->delete('ci_saldo_awal');
-} 
+}
+
+public function get_lap_saldo_awal(){
+	$this->db->from('lap_saldo_awal');
+	return $this->db->get()->result_array();
+}
 
 }
 
