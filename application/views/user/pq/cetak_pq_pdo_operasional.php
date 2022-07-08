@@ -219,30 +219,21 @@
         </td>
         <td align="right"><?= number_format($marketing['nilai_op'],2,',','.'); ?></td>
         <td align="right"><?= number_format($marketing['nilai_pdo'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($operasional['nilai_spj'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($marketing['nilai_spj'],2,',','.'); ?></td>
       </tr>
 
       <?php 
         $sub_total_c  = ($marketing['nilai_op'])+($totalop);  
         $sub_total_ca = ($marketing['nilai_pdo'])+($totalpdo);
+        $sub_total_cb = ($marketing['nilai_spj'])+($totalspj);
       ?>
       <tr>
         <td  align="center">
           Total Biaya
-           <?php 
-
-        if($sub_total_c==0){
-          $persentotalc=0;
-        }else if($sub_total_c!=0 && $sub_total_ca==0){
-          $persentotalc=0;
-        }else{
-          $persentotalc=$sub_total_ca/$sub_total_c*100;
-        } 
-      ?>
         </td>
         <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($sub_total_c,2,',','.'); ?></td>
         <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($sub_total_ca,2,',','.'); ?></td>
-        <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($persentotalc,2,',','.'); ?></td>
+        <td align="right" style="background: #B9C0C5;color: #000;"><?= number_format($sub_total_cb,2,',','.'); ?></td>
       </tr>
 
 </table>

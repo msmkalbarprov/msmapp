@@ -9,10 +9,10 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title">
-             Pelimpahan uang </h3>
+             Ambil Kas Tunai</h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pelimpahan/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
+            <a href="<?= base_url('tunai/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
           </div>
         </div>
       <!-- /.box-body -->
@@ -25,10 +25,10 @@
                   <thead>
                     <tr>
                       <th>#id</th>
+                      <th>No. Kas</th>
                       <th>Area</th>
                       <th>Tanggal</th>
-                      <th>Pegawai Asal</th>
-                      <th>Pegawai Tujuan</th>
+                      <th>Pegawai</th>
                       <th>Keterangan</th>
                       <th>Nilai</th>
                       <th>Action</th>
@@ -47,23 +47,22 @@
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
   <script>
   // $("#proyek").addClass('menu-open');
-  $("#pelimpahan> a").addClass('active');
+  $("#tunai> a").addClass('active');
 </script>
 <script type="text/javascript">
+
+
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('pelimpahan/datatable_json/')?>",
+    "ajax": "<?=base_url('tunai/datatable_json/')?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "area", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "tanggal", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "pegawai", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "pegawai_tujuan", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "keterangan", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "nilai", 'searchable':true, 'orderable':false},
-    { "targets": 7, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 1, "name": "tanggal", 'searchable':true, 'orderable':false},
+    { "targets": 2, "name": "keterangan", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "nilai", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
   </script>

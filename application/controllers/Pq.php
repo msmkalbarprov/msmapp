@@ -619,8 +619,8 @@ public function edit_rincian_proyek($id = 0){
 			$this->load->view('admin/includes/_footer');
 	}
 
-	public function datatable_json_operasional($id){				   					   
-		$records['data'] = $this->pq_model->get_pq_operasional($id);
+	public function datatable_json_operasional($ids){				   					   
+		$records['data'] = $this->pq_model->get_pq_operasional($ids);
 		$data = array();
 
 		$i=0;
@@ -1513,7 +1513,7 @@ if($kode=='10C'){
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'portrait');
 			    $this->pdf->filename = "laporan.pdf";
-			    $this->pdf->load_view('user/pq/cetak_pq', $data);
+			    $this->pdf->load_view('user/pq/cetak_pq');
                 break;
             case 1;
                 echo "<title>Laporan PQ</title>";

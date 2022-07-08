@@ -14,6 +14,17 @@ class Pelimpahan_model extends CI_Model{
         return $this->db->get()->result_array();
 		}
 
+		public function get_all_tunai(){
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+				$this->db->from('ci_ambil_tunai');
+			}else{
+				$this->db->from('ci_ambil_tunai');
+				$this->db->where('kd_area', $this->session->userdata('kd_area'));
+			}
+				$this->db->order_by('id','asc');
+				return $this->db->get()->result_array();
+			}
+
 		public function get_all_pkb(){
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 				$this->db->from('ci_pelimpahan');
@@ -102,8 +113,24 @@ function get_kas_rekening($id)
 		$query=$this->db->get();
 		return $query;
 	}
+
+	function get_pegawai_tunai_by_area($area)
+	{
+		$this->db->from('get_pegawai');
+		$this->db->where('kd_area',$area);
+		$this->db->where('pemegang_kas',1);
+		$query=$this->db->get();
+		return $query;
+	}
+
+
 	public function simpan_pelimpahan($data){
 		$this->db->insert('ci_pelimpahan', $data);
+		return true;
+	}
+
+	public function simpan_ambil_tunai($data){
+		$this->db->insert('ci_ambil_tunai', $data);
 		return true;
 	}
 
@@ -143,6 +170,16 @@ function get_pelimpahan_by_id($id)
 		$query=$this->db->get();
 		return $query->row_array();
 	}
+
+function get_kas_tunai_by_id($id)
+	{
+		$this->db->from('ci_ambil_tunai');
+		$this->db->where('id',$id);
+		$query=$this->db->get();
+		return $query->row_array();
+	}
+
+	
 function get_transferbud_by_id($id)
 	{
 		$this->db->from('ci_transfer_bud');
@@ -195,6 +232,12 @@ public function edit_pelimpahan($data, $id){
 	return true;
 }
 
+public function edit_ambil_tunai($data, $id){
+	$this->db->where('id', $id);
+	$this->db->update('ci_ambil_tunai', $data);
+	return true;
+}
+
 public function edit_plain($data, $id){
 	$this->db->where('id', $id);
 	$this->db->update('ci_pengeluaran_lain', $data);
@@ -219,6 +262,13 @@ function delete($id)
 {		
 	$this->db->where('id',$id);
 	$this->db->delete('ci_pelimpahan');
+} 
+
+
+function delete_ambil_tunai($id)
+{		
+	$this->db->where('id',$id);
+	$this->db->delete('ci_ambil_tunai');
 } 
 
 function delete_transfer($id)

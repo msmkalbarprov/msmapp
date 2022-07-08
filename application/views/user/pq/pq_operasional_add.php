@@ -197,10 +197,12 @@
 $('#area').change(function(){
 
          var area_id = $(this).val();
+         table.ajax.url("<?=base_url('pq/datatable_json_operasional/')?>"+ area_id);
+        table.ajax.reload();
+
          var nomorpqoperasional = "<?= date('Y')?>/"+area_id+"/98";
         $('[name="kd_pq"]').val(nomorpqoperasional).trigger('change');
-        table.ajax.url("<?=base_url('pq/datatable_json_operasional'.'/')?>"+ area_id);
-        table.ajax.reload();
+        
       });
 
 
