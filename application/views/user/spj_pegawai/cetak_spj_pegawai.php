@@ -318,7 +318,7 @@ function format_indo($date){
 							<tr><td colspan='10'></td></tr>
 							<tr><td colspan='10'></td></tr>
 			
-							<tr><td colspan='9'></td></tr>
+							<tr><td colspan='10'></td></tr>
 							
 				  
 				  </table>
@@ -405,3 +405,22 @@ function format_indo($date){
 									 <td  align="right"><b><?= angka($total_spj); ?></td>
 								</tr>
                   </table>
+
+				  <table style="border-collapse:collapse; font-size:9;" width="100%" align="center" border="0" cellspacing="0" cellpadding="2">
+					<tr >
+						<td width="10%">
+							Saldo Kas Tunai
+						</td>
+						<td width="90%">
+							: 
+						</td>
+					</tr>
+					<tr >
+						<td>
+							Saldo Kas Bank
+						</td>
+						<td>
+							: 
+						</td>
+					</tr>
+				  </table>

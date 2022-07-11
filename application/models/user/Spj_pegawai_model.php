@@ -39,6 +39,7 @@ public function get_all_spj(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
+			$this->db->where("tunai",0);
             $this->db->group_by("no_spj,kd_pegawai");
             $this->db->order_by("kd_pegawai,no_spj");
        		return $this->db->get()->result_array();
@@ -46,6 +47,7 @@ public function get_all_spj(){
 			$kdarea = array('11','21','22','71','74','00','01');
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
+			$this->db->where("tunai",0);
 			$this->db->where_in('kd_area',$kdarea);
             $this->db->group_by("no_spj,kd_pegawai");
             $this->db->order_by("kd_pegawai,no_spj");
@@ -53,6 +55,7 @@ public function get_all_spj(){
 		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
+			$this->db->where("tunai",0);
 			$this->db->where('kd_area',$this->session->userdata('kd_area'));
             $this->db->group_by("no_spj,kd_pegawai");
             $this->db->order_by("kd_pegawai,no_spj");
@@ -61,6 +64,45 @@ public function get_all_spj(){
 		else{
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
+			$this->db->where("tunai",0);
+			$this->db->where('kd_pegawai',$this->session->userdata('username'));
+            $this->db->group_by("no_spj,kd_pegawai");
+            $this->db->order_by("kd_pegawai,no_spj");
+       		return $this->db->get()->result_array();
+		}
+	}
+
+
+	public function get_all_spj_tunai(){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->select('*,sum(nilai) as total');
+			$this->db->from("ci_spj_pegawai");
+			$this->db->where("tunai",1);
+            $this->db->group_by("no_spj,kd_pegawai");
+            $this->db->order_by("kd_pegawai,no_spj");
+       		return $this->db->get()->result_array();
+		}else if($this->session->userdata('admin_role')=='Divisi Finance'){
+			$kdarea = array('11','21','22','71','74','00','01');
+			$this->db->select('*,sum(nilai) as total');
+			$this->db->from("ci_spj_pegawai");
+			$this->db->where("tunai",1);
+			$this->db->where_in('kd_area',$kdarea);
+            $this->db->group_by("no_spj,kd_pegawai");
+            $this->db->order_by("kd_pegawai,no_spj");
+       		return $this->db->get()->result_array();
+		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin'){
+			$this->db->select('*,sum(nilai) as total');
+			$this->db->from("ci_spj_pegawai");
+			$this->db->where("tunai",1);
+			$this->db->where('kd_area',$this->session->userdata('kd_area'));
+            $this->db->group_by("no_spj,kd_pegawai");
+            $this->db->order_by("kd_pegawai,no_spj");
+       		return $this->db->get()->result_array();
+		}
+		else{
+			$this->db->select('*,sum(nilai) as total');
+			$this->db->from("ci_spj_pegawai");
+			$this->db->where("tunai",1);
 			$this->db->where('kd_pegawai',$this->session->userdata('username'));
             $this->db->group_by("no_spj,kd_pegawai");
             $this->db->order_by("kd_pegawai,no_spj");
@@ -88,6 +130,15 @@ public function get_all_spj(){
 	{	
 		$this->db->select("ifnull(nilai,0) as total");
 		$this->db->from('get_kas_pegawai');
+		$this->db->where('kd_pegawai', $id);		
+		$query=$this->db->get();
+		return $query;
+	}
+
+	function get_kas_tunai($id)
+	{	
+		$this->db->select("ifnull(nilai,0) as total");
+		$this->db->from('get_kas_pegawai_tunai');
 		$this->db->where('kd_pegawai', $id);		
 		$query=$this->db->get();
 		return $query;
@@ -583,6 +634,26 @@ public function save_spj($data){
 		$query = $this->db->insert('ci_spj_pegawai_temp', $insert_data);
 }
 
+public function save_spj_tunai($data){
+	$insert_data['no_spj'] 						= $data['no_spj'];
+	$insert_data['tgl_spj'] 					= $data['tgl_spj'];
+	$insert_data['kd_area'] 					= $data['kd_area'];
+	$insert_data['kd_pegawai'] 					= $data['kd_pegawai'];
+	$insert_data['kd_proyek']					= $data['kd_proyek'];
+	$insert_data['no_acc'] 					    = $data['no_acc'];
+	$insert_data['uraian'] 						= $data['uraian'];
+	$insert_data['kd_sub_area']					= $data['kd_sub_area'];
+	$insert_data['nilai']						= $data['nilai'];
+	$insert_data['tgl_bukti']					= $data['tgl_bukti'];
+	$insert_data['jns_spj'] 					= $data['jns_spj'];
+	$insert_data['jns_ta'] 						= $data['jns_ta'];
+	$insert_data['bukti']	 					= $data['bukti'];
+	$insert_data['tunai']	 					= $data['tunai'];
+	$insert_data['username']					= $this->session->userdata('username');
+	$insert_data['created_at']					= date("Y-m-d h:i:s");
+	$query = $this->db->insert('ci_spj_pegawai_temp', $insert_data);
+}
+
 public function save_edit_spj($data){
     $insert_data['no_spj'] 						= $data['no_spj'];
     $insert_data['tgl_spj'] 					= $data['tgl_spj'];
@@ -602,11 +673,31 @@ public function save_edit_spj($data){
     $query = $this->db->insert('ci_spj_pegawai', $insert_data);
 }
 
+public function save_edit_spj_tunai($data){
+    $insert_data['no_spj'] 						= $data['no_spj'];
+    $insert_data['tgl_spj'] 					= $data['tgl_spj'];
+    $insert_data['kd_area'] 					= $data['kd_area'];
+    $insert_data['kd_pegawai'] 					= $data['kd_pegawai'];
+    $insert_data['kd_proyek']					= $data['kd_proyek'];
+    $insert_data['no_acc'] 					    = $data['no_acc'];
+    $insert_data['uraian'] 						= $data['uraian'];
+    $insert_data['kd_sub_area']					= $data['kd_sub_area'];
+    $insert_data['nilai']						= $data['nilai'];
+    $insert_data['tgl_bukti']					= $data['tgl_bukti'];
+    $insert_data['jns_spj'] 					= $data['jns_spj'];
+	$insert_data['jns_ta'] 						= $data['jns_ta'];
+	$insert_data['bukti']	 					= $data['bukti'];
+	$insert_data['tunai']	 					= $data['tunai'];
+    $insert_data['username']					= $this->session->userdata('username');
+    $insert_data['created_at']					= date("Y-m-d h:i:s");
+    $query = $this->db->insert('ci_spj_pegawai', $insert_data);
+}
+
 
 public function simpan_spj($kd_pegawai, $nospj)
 		{	
-			$query = $this->db->query("INSERT into ci_spj_pegawai (no_spj,tgl_spj,kd_pegawai,nama,kd_area,nm_area,kd_sub_area,nm_sub_area,tgl_bukti,kd_proyek,no_acc,nm_acc,uraian,nilai,jns_spj,bukti,jns_ta,status,username,created_at) 
-                           SELECT no_spj,tgl_spj,kd_pegawai,nama,kd_area,nm_area,kd_sub_area,nm_sub_area,tgl_bukti,kd_proyek,no_acc,nm_acc,uraian,nilai,jns_spj,bukti,jns_ta,status,username,created_at FROM ci_spj_pegawai_temp
+			$query = $this->db->query("INSERT into ci_spj_pegawai (no_spj,tgl_spj,kd_pegawai,nama,kd_area,nm_area,kd_sub_area,nm_sub_area,tgl_bukti,kd_proyek,no_acc,nm_acc,uraian,nilai,jns_spj,bukti,jns_ta,status,tunai,username,created_at) 
+                           SELECT no_spj,tgl_spj,kd_pegawai,nama,kd_area,nm_area,kd_sub_area,nm_sub_area,tgl_bukti,kd_proyek,no_acc,nm_acc,uraian,nilai,jns_spj,bukti,jns_ta,status,tunai,username,created_at FROM ci_spj_pegawai_temp
                            WHERE kd_pegawai = '$kd_pegawai' and no_spj='$nospj'");
 
 			$this->db->delete('ci_spj_pegawai_temp', array('kd_pegawai' => $kd_pegawai,'no_spj' => $nospj));
@@ -648,52 +739,6 @@ public function setuju_pdo($kdpdo, $status)
 			$this->db->update('ci_pdo');
 			return true;
 		} 
-
-
-public function save_pdo_operasional($data){
-		$insert_data['id_pdo']						= $data['id_pdo'];
-		$insert_data['kd_pdo'] 						= $data['kd_pdo'];
-		$insert_data['tgl_pdo'] 					= $data['tgl_pdo'];
-		$insert_data['kd_area'] 					= $data['kd_area'];
-		$insert_data['kd_pqproyek']				= $data['kd_pqproyek'];
-		$insert_data['kd_project']				= $data['kd_project'];
-		$insert_data['no_acc3']						= $data['no_acc3'];
-		$insert_data['no_acc']						= $data['no_acc'];
-		$insert_data['uraian'] 						= $data['uraian'];
-		$insert_data['nilai']							= $data['nilai'];
-		$insert_data['jenis']							= $data['jenis'];
-		$insert_data['qty']								= $data['qty'];
-		$insert_data['satuan']						= $data['satuan'];
-		$insert_data['harga']							= $data['harga'];
-		$insert_data['no_rekening']				= $data['no_rekening'];
-		$insert_data['username']					= $this->session->userdata('username');
-		$insert_data['created_at']					= date("Y-m-d h:i:s");
-		$query = $this->db->insert('ci_pdo_temp', $insert_data);
-}
-
-
-public function save_edit_pdo_operasional($data){
-		$insert_data['id_pdo']						= $data['id_pdo'];
-		$insert_data['kd_pdo'] 						= $data['kd_pdo'];
-		$insert_data['tgl_pdo'] 					= $data['tgl_pdo'];
-		$insert_data['kd_area'] 					= $data['kd_area'];
-		$insert_data['kd_pqproyek']				= $data['kd_pqproyek'];
-		$insert_data['kd_project']				= $data['kd_project'];
-		$insert_data['no_acc3']						= $data['no_acc3'];
-		$insert_data['no_acc']						= $data['no_acc'];
-		$insert_data['uraian'] 						= $data['uraian'];
-		$insert_data['qty']								= $data['qty'];
-		$insert_data['satuan']						= $data['satuan'];
-		$insert_data['harga']							= $data['harga'];
-		$insert_data['nilai']							= $data['nilai'];
-		$insert_data['jenis']							= $data['jenis'];
-		$insert_data['no_rekening']				= $data['no_rekening'];
-		$insert_data['username']					= $this->session->userdata('username');
-		$insert_data['created_at']				= date("Y-m-d h:i:s");
-		$query = $this->db->insert('ci_pdo', $insert_data);
-}
-
-
 
 
 
