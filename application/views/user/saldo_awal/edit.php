@@ -8,7 +8,7 @@
         <div class="card-header">
           <div class="d-inline-block">
               <h3 class="card-title"> <i class="fa fa-pencil"></i>
-              Edit bank </h3>
+              Edit Saldo </h3>
           </div>
           <div class="d-inline-block float-right">
             <a href="<?= base_url('saldo_awal/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Saldo Awal</a>
@@ -21,14 +21,14 @@
             <?php echo form_open(base_url('saldo_awal/edit/'.$bank['id']), 'class="form-horizontal"' )?> 
 
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="form-group">
                       <label for="nama_dinas" class=" control-label">Area</label>
                       <input type="text" name="nm_area" value="<?= $bank['nm_area']; ?>"  class="form-control" id="nm_area" placeholder="" readonly>
                       <input type="hidden" name="kd_area" value="<?= $bank['kd_area']; ?>"  class="form-control" id="kd_area" placeholder="">
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="id" class=" control-label">Pegawai/Rekening</label>
                     <input type="text" name="nama" value="<?= $bank['nama']; ?>" class="form-control" id="nama"  placeholder="" readonly>
@@ -36,6 +36,10 @@
                     <input type="hidden" name="no_rekening" value="<?= $bank['kd_pegawai']; ?>" class="form-control" id="no_rekening"  placeholder="" readonly>
                   </div>
                 </div>
+               
+              </div>
+
+              <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="id" class=" control-label">Pemilik</label>
@@ -43,6 +47,16 @@
                   </div>
                 </div>
                 <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="jns_saldo" class="control-label">Jenis Saldo</label>
+                    <select name="jenis" id="jenis" class="form-control">
+                      <option value="">No Selected</option>
+                      <option value="BANK">BANK</option>
+                      <option value="TUNAI">TUNAI</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
                 <div class="form-group">
                   <label for="saldo" class="control-label">Saldo</label>
                 <div class="input-group">
@@ -86,6 +100,8 @@
   }else{
     $('[name="minus"]').val('0').trigger('change');
   }
+  var jenis = '<?= $bank['jenis'] ?>';
+  $('[name="jenis"]').val(jenis).trigger('change');
 
     $('#c_minus').click(function() {
       if ($('#c_minus').prop('checked') == true){

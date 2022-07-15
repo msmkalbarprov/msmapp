@@ -80,6 +80,7 @@ public function datatable_json(){
 		if($this->input->post('submit')){
 				$this->form_validation->set_rules('area', 'Area', 'trim|required');
 				$this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
+				$this->form_validation->set_rules('jenis', 'Jenis Saldo', 'trim|required');
 				$this->form_validation->set_rules('rekening', 'Pegawai/Rekening', 'trim|required');
 				$this->form_validation->set_rules('pemilik', 'Pemilik', 'trim|required');
 				
@@ -108,6 +109,7 @@ public function datatable_json(){
 						'kd_area' 		=> $this->input->post('area'),
 						'no_rekening' 	=> $rekening,
 						'kd_pegawai' 	=> $this->input->post('rekening'),
+						'jenis' 		=> $this->input->post('jenis'),
 						'pemilik' 		=> $this->input->post('pemilik'),
 						'saldo' 		=> $this->proyek_model->number($saldo),
 						'username' 		=>  $this->session->userdata('username'),
@@ -147,6 +149,7 @@ public function datatable_json(){
 		if($this->input->post('submit')){
 				$this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
 				$this->form_validation->set_rules('pemilik', 'Pemilik', 'trim|required');
+				$this->form_validation->set_rules('jenis', 'Jenis Saldo', 'trim|required');
 			if ($this->form_validation->run() == FALSE) {
 				$data = array(
 					'errors' => validation_errors()
@@ -166,7 +169,8 @@ public function datatable_json(){
 
 				$data = array(
 					'saldo' 	=> $saldo,
-					'pemilik' 	=> $this->input->post('pemilik')
+					'pemilik' 	=> $this->input->post('pemilik'),
+					'jenis' 	=> $this->input->post('jenis')
 				);
 
 				$data = $this->security->xss_clean($data);

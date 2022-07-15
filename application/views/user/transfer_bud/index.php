@@ -9,7 +9,7 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title">
-             Trasnfer Kas perusahaan ke Kas Besar</h3>
+             Pemindahbukuan</h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('transfer_bud/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
@@ -25,11 +25,12 @@
                   <thead>
                     <tr>
                       <th>#id</th>
-                      <th>No. Rekening</th>
-                      <th>Nama Rekening</th>
-                      <th>Tanggal Transfer</th>
+                      <th>Rek. Asal</th>
+                      <th>Rek. Tujuan</th>
+                      <th>Tgl. Transfer</th>
                       <th>Keterangan</th>
                       <th>Nilai</th>
+                      <th>Potongan</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -58,9 +59,9 @@
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "area", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "tanggal", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "pegawai", 'searchable':true, 'orderable':false},
+    { "targets": 1, "name": "rek_asal", 'searchable':true, 'orderable':false},
+    { "targets": 2, "name": "rek_tujuab", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "tgl_transfer", 'searchable':true, 'orderable':false},
     { "targets": 4, "name": "keterangan", 'searchable':true, 'orderable':false},
     { "targets": 5, "name": "nilai", 'searchable':true, 'orderable':false},
     { "targets": 6, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}

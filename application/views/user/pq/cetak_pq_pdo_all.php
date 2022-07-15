@@ -7,7 +7,7 @@
     <td colspan="2">
       Nama Area
     </td>
-    <td colspan="3" align="center"><?= $header_operasional['nm_area']; ?></td>
+    <td colspan="3" align="center"><?= $header_pq_pdo['nm_area']; ?></td>
   </tr>
 
 

@@ -136,6 +136,7 @@ class Laporan_pq extends MY_Controller {
 
 		$data['operasional']		= $this->pq_model->cetak_operasional_by_area($id,$tahun);
 		$data['header_operasional']	= $this->pq_model->get_operasional_header($id,$tahun);
+		$data['header_pq_pdo']	= $this->pq_model->get_header_pq_pdo($id);		
 		$data['marketing']			= $this->pq_model->cetak_marketing_by_id($id,$tahun);
 		switch ($jenis)
         {

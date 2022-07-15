@@ -22,7 +22,7 @@
             <?php echo form_open(base_url('saldo_awal/add/'), 'class="form-horizontal"' )?> 
 
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="id" class="control-label">Area</label>
                     <select name="area" id="area" class="form-control" required>
@@ -33,7 +33,7 @@
                       </select>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="sub_area" class="control-label">Pegawai/Rekening</label>
                     <select name="rekening"  id="rekening" class="form-control" required>
@@ -41,13 +41,28 @@
                     </select>
                   </div>
                 </div>
+              
+              </div>
+
+              <div class="row">
+               
                 <div class="col-md-3">
                   <div class="form-group">
                     <label for="pemilik" class="control-label">Pemilik</label>
-                    <input type="text" name="pemilik" id="pemilik" class="form-control" >
+                    <input type="text" name="pemilik" id="pemilik" class="form-control" required>
                   </div>
                 </div>
                 <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="jns_saldo" class="control-label">Jenis Saldo</label>
+                    <select name="jenis" id="jenis" class="form-control">
+                      <option value="">No Selected</option>
+                      <option value="BANK">BANK</option>
+                      <option value="TUNAI">TUNAI</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
                     
 
                   <div class="form-group">
@@ -63,8 +78,6 @@
                       <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
                       <!-- <input type="text" class="form-control"> -->
                     </div>
-
-                    <!-- <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"> -->
                   </div>
                 </div>
               </div>

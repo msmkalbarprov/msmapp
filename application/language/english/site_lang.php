@@ -75,6 +75,7 @@ $lang['laporan_kas_rekening']               	= "Kas Rekening Pusat <span class='
 $lang['lap_saldo_awal']               			= "lap. Saldo Awal <span class='badge badge-danger'>New</span>";
 $lang['ambil_tunai']               				= "Ambil Kas Tunai <span class='badge badge-danger'>New</span>";
 $lang['spj_tunai']               				= "SPJ Tunai <span class='badge badge-danger'>New</span>";
+$lang['lap_realisasi_proyek']      				= "Lap. Realisasi Proyek <span class='badge badge-danger'>New</span>";
 
 
 

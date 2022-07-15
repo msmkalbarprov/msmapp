@@ -66,23 +66,23 @@ public function datatable_json(){
 
 		if($this->input->post('submit')){
 				$this->form_validation->set_rules('nobukti', 'No. Bukti', 'trim|required');
-				$this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
+				// $this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
                 $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
 				$this->form_validation->set_rules('no_acc', 'Akun', 'trim|required');
 				$this->form_validation->set_rules('no_rekening', 'Rekening', 'trim|required');
 				$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
 				
 				$nomor				= $this->pelimpahan_model->get_nomor_kb();
-                $nilai = $this->proyek_model->number($this->input->post('nilai'));
-                $saldo = $this->proyek_model->number($this->input->post('saldo'));
+                // $nilai = $this->proyek_model->number($this->input->post('nilai'));
+                // $saldo = $this->proyek_model->number($this->input->post('saldo'));
 
-                if ($nilai>$saldo){
-                    $data = array(
-						'errors' => 'Saldo anda tidak cukup'
-					);
-					$this->session->set_flashdata('errors', $data['errors']);
-					redirect(base_url('penerimaan_lain/add'),'refresh');
-                }
+                // if ($nilai>$saldo){
+                //     $data = array(
+				// 		'errors' => 'Saldo anda tidak cukup'
+				// 	);
+				// 	$this->session->set_flashdata('errors', $data['errors']);
+				// 	redirect(base_url('penerimaan_lain/add'),'refresh');
+                // }
 				
 				if ($this->form_validation->run() == FALSE) {
 					$data = array(
@@ -143,21 +143,10 @@ public function datatable_json(){
 
 		if($this->input->post('submit')){
             $this->form_validation->set_rules('nobukti', 'No Bukti', 'trim|required');
-            $this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
             $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
             $this->form_validation->set_rules('no_acc', 'Akun', 'trim|required');
 			$this->form_validation->set_rules('no_rekening', 'Rekening', 'trim|required');
             $this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
-
-            $nilai = $this->proyek_model->number($this->input->post('nilai'));
-            $saldo = $this->proyek_model->number($this->input->post('saldo'));
-			if ($nilai>$saldo){
-                $data = array(
-                    'errors' => 'Saldo anda tidak cukup'
-                );
-                $this->session->set_flashdata('errors', $data['errors']);
-                redirect(base_url('penerimaan_lain/edit/'.$id),'refresh');
-            }
 
             if ($this->form_validation->run() == FALSE) {
 				$data = array(

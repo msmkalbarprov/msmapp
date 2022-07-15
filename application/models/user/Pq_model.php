@@ -336,6 +336,13 @@ public function get_pencairan_by_idtahun($id,$tahun){
 			return $result = $this->db->get()->row_array();
 		}
 
+		public function get_header_pq_pdo($id){
+			$this->db->select('kd_area,nm_area');
+			$this->db->from("ci_area");
+			$this->db->where('kd_area', $id);
+	   return $result = $this->db->get()->row_array();
+   }
+
 	public function get_rincian_proyek_by_id($id){
 				 $this->db->select('*');
 				 $this->db->from("ci_proyek_rincian");

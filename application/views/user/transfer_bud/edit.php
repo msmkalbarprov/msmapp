@@ -8,10 +8,10 @@
         <div class="card-header">
           <div class="d-inline-block">
               <h3 class="card-title">
-              Edit Pelimpahan </h3>
+              Edit Pemindahbukuan </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('transfer_bud/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Pelimpahan</a>
+            <a href="<?= base_url('transfer_bud/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List</a>
           </div>
         </div>
         <div class="card-body">   
@@ -20,20 +20,34 @@
               
             <?php echo form_open(base_url('transfer_bud/edit/'.$transfer['id']), 'class="form-horizontal"' )?> 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="id" class="control-label">No. Bukti</label>
                     <input type="text" name="nobukti" value="<?= $transfer['no_bukti']; ?>"  class="form-control" id="nobukti" placeholder="" readonly>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
-                    <label for="sub_area" class="control-label">rekening Asal</label>
-                    <input type="text" name="rek_asal" value="<?= $transfer['nm_rek_asal']; ?>"  class="form-control" id="rek_asal" placeholder="" readonly>
-                    <input type="hidden" name="rek_asal" value="<?= $transfer['rek_asal']; ?>"  class="form-control" id="rek_asal" placeholder="" readonly>
+                    <label for="sub_area" class="control-label">Tanggal</label>
+                    <input type="date" name="tanggal" id="tanggal" value="<?= $transfer['tgl_transfer']; ?>" class="form-control">
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="id" class="control-label">Rekening Asal</label>
+                    <select name="rek_asal" id="rek_asal" class="form-control select2" style="width: 100%;" required>
+                      <option value="">No Selected</option>
+                      <?php foreach($data_rekening as $rekening): ?>
+                          <?php if($rekening['no_rekening']== $transfer['rek_asal']): ?>
+                            <option value="<?= $rekening['no_rekening']; ?>" selected><?= $rekening['nm_rekening']; ?></option>
+                          <?php else: ?>
+                            <option value="<?= $rekening['no_rekening']; ?>"><?= $rekening['nm_rekening']; ?></option>
+                          <?php endif; ?>    
+                        <?php endforeach; ?>
+                      </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Saldo Kas</label>
                     <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" readonly>
@@ -43,20 +57,29 @@
                 
               </div>
               <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-3">
                   <div class="form-group">
-                    <label for="sub_area" class="control-label">Tanggal</label>
-                    <input type="date" name="tanggal" id="tanggal" value="<?= $transfer['tgl_transfer']; ?>" class="form-control">
+                    <label for="id" class="control-label">Rekening Tujuan</label>
+                    <select name="rek_tujuan" id="rek_tujuan" class="form-control select2" style="width: 100%;" required>
+                      <option value="">No Selected</option>
+                      <?php foreach($data_rekening as $rekening): ?>
+                          <?php if($rekening['no_rekening']== $transfer['rek_tujuan']): ?>
+                            <option value="<?= $rekening['no_rekening']; ?>" selected><?= $rekening['nm_rekening']; ?></option>
+                          <?php else: ?>
+                            <option value="<?= $rekening['no_rekening']; ?>"><?= $rekening['nm_rekening']; ?></option>
+                          <?php endif; ?>    
+                        <?php endforeach; ?>
+                      </select>
                   </div>
                 </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Keterangan</label>
                     <textarea name="keterangan" id="keterangan" rows="1" class="form-control"><?= $transfer['keterangan']; ?></textarea>
                   </div>
                 </div>
                 
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label for="nilai" class="control-label">Nilai</label>
                     <input type="text" name="nilai" id="nilai" class="form-control" value="<?= number_format($transfer['nilai'],2,',','.'); ?>"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">

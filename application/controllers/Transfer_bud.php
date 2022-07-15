@@ -38,15 +38,17 @@ public function datatable_json(){
 		foreach ($records['data']   as $row) 
 		{  
 				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('transfer_bud/edit/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("transfer_bud/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("transfer_bud/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				<a title="Potongan" class="update btn btn-sm btn-secondary" href="'.base_url('transfer_bud/potongan/'.str_replace("/","",$row['no_bukti'])).'"> <i class="fa fa-percent"></i></a>';
 		
 			$data[]= array(
 				$i++,
-				$row['rek_asal'],
-				$row['nm_rek_asal'],
-				$row['tgl_transfer'],
-                $row['keterangan'],
+				'<div class="text-left"><span align="left"><font size="2px">'.$row['rek_asal'].'<br>'.$row['nm_rek_asal'].'</font></span></div>',
+				'<div class="text-left"><span align="left"><font size="2px">'.$row['rek_tujuan'].'<br>'.$row['nm_rek_tujuan'].'</font></span></div>',
+				'<div class="text-left"><span align="left"><font size="2px">'.$row['tgl_transfer'].'</font></span></div>',
+                '<div class="text-left"><span align="left"><font size="2px">'.$row['keterangan'].'</font></span></div>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><font size="2px">'.number_format($row['potongan'],2,',','.').'</font></div>',
 				$button
 			);
 		}
@@ -56,6 +58,82 @@ public function datatable_json(){
 
 	//-----------------------------------------------------------
 
+	public function potongan($nomor= 0){
+
+		$nomor_new 	= str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
+		$nocair_new = str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('submit')){
+				$data = array(
+					'username' 			=> $this->session->userdata('username'),
+					'no_kas' 			=> $this->input->post('no_kas'),
+					'no_acc'			=> $this->input->post('no_acc'),
+					'uraian'			=> $this->input->post('keterangan'),
+					'nilai'				=> $this->proyek_model->number($this->input->post('nilai')),
+					'created_at' 		=> date('Y-m-d : h:m:s'),
+				);
+				
+				$data 				= $this->security->xss_clean($data);
+				$result 			= $this->pelimpahan_model->simpan_potongan($data);
+
+				if($result){
+					// Activity Log 
+					$this->activity_model->add_log(2);
+					$this->session->set_flashdata('success', 'Potongan berhasil diinput!');
+					redirect(base_url('transfer_bud/potongan/'.$nomor),'refresh');
+				}else{
+					$this->session->set_flashdata('errors', 'Potongan gagal diinput!');
+					redirect(base_url('transfer_bud/potongan/'.$nomor),'refresh');
+				}
+			
+		}
+		else{
+			$data['transfer'] = $this->pelimpahan_model->get_transferbud_potongan_by_id($nomor);
+			$data2['title'] 		= 'Potongan Pemindah Bukuan';
+			// $data['proyek'] 		= $this->pdo_model->get_proyek_by_id($id_proyek);
+			$this->load->view('admin/includes/_header', $data2);
+			$this->load->view('user/transfer_bud/potongan', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	}
+
+
+	public function datatable_json_rincian_potongan($nomor){				   					   
+		$records['data'] = $this->pelimpahan_model->get_potongan_transfer_by_id($nomor);
+		$data = array();
+
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+
+				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("transfer_bud/delete_potongan/".$nomor.'/'.$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+
+			$data[]= array(
+				++$i,
+				'<font size="2px">'.$row['no_acc'].'</font>',
+				'<font size="2px">'.$row['nm_acc'].'</font>',
+				'<font size="2px">'.$row['uraian'].'</font>',
+				'<div class="text-right"><font size="2px">'.number_format($row['nilai'],2,',','.').'</font></div>',
+				$tombol
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
+	public function delete_potongan($nomor= 0,$id = 0)
+	{
+		$this->rbac->check_operation_access('');
+			
+			$this->db->delete('ci_transfer_bud_potongan', array('id' => $id, 'no_kas' =>  $nomor));
+
+			$this->activity_model->add_log(3);
+
+			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
+			redirect(base_url('transfer_bud/potongan/'.$nomor));
+		
+	}
 
 	function add(){
 
@@ -66,6 +144,7 @@ public function datatable_json(){
 
 		if($this->input->post('submit')){
 				$this->form_validation->set_rules('rek_asal', 'Rekening Asal', 'trim|required');
+				$this->form_validation->set_rules('rek_tujuan', 'Rekening Tujuan', 'trim|required');
 				$this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
                 $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
 				$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
@@ -98,6 +177,7 @@ public function datatable_json(){
 
 					$data = array(
 						'rek_asal' 		    => $this->input->post('rek_asal'),
+						'rek_tujuan'	    => $this->input->post('rek_tujuan'),
 						'no_bukti' 		    => $nomor['nomor'],
 						'tgl_transfer'    	=> $this->input->post('tanggal'),
                         'keterangan'        => $this->input->post('keterangan'),
@@ -150,6 +230,7 @@ public function datatable_json(){
 
 		if($this->input->post('submit')){
             	$this->form_validation->set_rules('rek_asal', 'Rekening Asal', 'trim|required');
+				$this->form_validation->set_rules('rek_tujuan', 'Rekening Tujuan', 'trim|required');
 				$this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
                 $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
 				$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
@@ -174,6 +255,8 @@ public function datatable_json(){
 			else{
 				$data = array(
 					'tgl_transfer'    	=> $this->input->post('tanggal'),
+					'rek_asal'    		=> $this->input->post('rek_asal'),
+					'rek_tujuan'    	=> $this->input->post('rek_tujuan'),
 					'keterangan'        => $this->input->post('keterangan'),
 					'nilai' 		    => $this->proyek_model->number($this->input->post('nilai')),
 					'username' 		    =>  $this->session->userdata('username'),
@@ -196,6 +279,7 @@ public function datatable_json(){
 			redirect('transfer_bud/index');
 		}
 		else{
+			$data['data_rekening']	= $this->pelimpahan_model->get_rekening_transfer();
 			$data2['title'] = "Transfer";
 			$data['transfer'] = $this->pelimpahan_model->get_transferbud_by_id($id);
 			$this->load->view('admin/includes/_header', $data2);
@@ -222,6 +306,12 @@ public function datatable_json(){
 	   
 		$this->rbac->check_operation_access(); // check opration permission
 
+		$query="SELECT no_bukti from ci_transfer_bud where id='$id'";
+		$hasil = $this->db->query($query);
+		$nomor = $hasil->row('no_bukti');
+
+		$this->db->delete('ci_transfer_bud_potongan', array('no_kas' =>  $nomor));
+		
 		$this->pelimpahan_model->delete_transfer($id);
 
 		// Activity Log 

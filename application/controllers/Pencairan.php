@@ -346,7 +346,7 @@ function get_realisasi(){
 					'created_at' 		=> date('Y-m-d : h:m:s'),
 				);
 				$data 		= $this->security->xss_clean($data);
-				$id_proyek 	= $this->input->post('kd_proyek');
+				$id_proyek 	= $this->input->post('kd_proyek2');
 
 				$rek_pencairan = $this->input->post('rek_pencairan');
 
@@ -364,7 +364,7 @@ function get_realisasi(){
 					'jenis_cair'		=> $this->input->post('jns_pencairan'),
 					'kd_rekening'		=> $this->input->post('rek_pencairan'),
 					'nilai'				=> $this->proyek_model->number($this->input->post('nilai_bruto')),
-					'created_at' 		=> date('Y-m-d : h:m:s'),
+					'created_at' 		=> date('Y-m-d  h:m:s'),
 				);
 				$data2 		= $this->security->xss_clean($data2);
 
@@ -386,10 +386,12 @@ function get_realisasi(){
 				// UPDATE STATUS PENCAIRAN
 				$data2 = array(
 					'tgl_cair' 			=> $this->input->post('tgl_cair'),
-					'status_cair'		=> 1
+					'status_cair'		=> 1,
+					'updated_cair' 		=> date('Y-m-d  h:m:s')
 				);
 				$data2 		= $this->security->xss_clean($data2);
 				$result 	= $this->proyek_model->cair_proyek($data2, $id_proyek);
+
 				if($result){
 					// Activity Log 
 					$this->activity_model->add_log(2);

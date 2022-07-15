@@ -1,4 +1,4 @@
-  <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/autoCurrency.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/autoCurrency.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/numberFormat.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/select2/select2.min.css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.css"> 
@@ -154,10 +154,10 @@
             <div class="form-group">
               <label for="proyek" class="control-label">Divisi</label>
                 
-                <select name="divisi" id ="divisi" class="form-control select2" style="width: 100%;" required>
+                <select name="divisi2" id ="divisi2" class="form-control select2" style="width: 100%;" required>
                 <option value="">No Selected</option>
-                  <?php foreach($data_divisi as $divisi): ?>
-                      <option value="<?= $divisi['kd_projek']; ?>"><?= $divisi['nm_projek']; ?></option>
+                  <?php foreach($data_divisi as $divisi2): ?>
+                      <option value="<?= $divisi2['kd_projek']; ?>"><?= $divisi2['nm_projek']; ?></option>
                   <?php endforeach; ?>
                 </select>
 
@@ -303,7 +303,7 @@
     // get_pqproyek()
     // get_datatable();
     get_projekcombo()
-    $('#divisi').prop('disabled', true)
+    $('#divisi2').prop('disabled', true)
 
   $('#c_transfer').click(function() {
       if ($('#c_transfer').prop('checked') == true){
@@ -451,6 +451,7 @@ $('#projek').change(function(){
     var idproyek    = $(this).val();
     var nomorurut   = $('#urut').val();
     var jnspdo      = $('#jns_pdo').val();
+    var kodedivisi = idproyek.substr(11,1);
     $.ajax({
         url : "<?php echo site_url('cpdo/get_item_pq_gaji_by_pq');?>",
         method : "POST",
@@ -464,8 +465,9 @@ $('#projek').change(function(){
             $('select[name="item_hpp"]').append('<option value="">No Selected</option>');
             $.each(data, function(key, value) {
 
-              var kodedivisi = idproyek.substr(11,1);
-                $('[name="divisi"]').val(kodedivisi).trigger('change');
+              
+                $('[name="divisi2"]').val(kodedivisi).trigger('change');
+                
                 if (value.jenis_tk == '' || value.jenis_tk == null){
                   $('select[name="item_hpp"]').append('<option value="'+value.kd_item+'">'+ value.kd_item +' '+value.nm_item +'</option>');
                 }else{
@@ -670,7 +672,7 @@ $('#butsave').on('click', function() {
     var satuan        = $('#satuan').val();
     var kd_pegawai    = $('#kd_pegawai').val();
     var harga         = number($('#harga').val());
-    var divisi        = $('#divisi').val();
+    var divisi        = $('#divisi2').val();
     var idpdo         = no_pdo.replace(/\//g,'');
     var kodeproject   = projek.replace('PQ/','');
 

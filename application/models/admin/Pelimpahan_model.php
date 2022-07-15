@@ -67,6 +67,7 @@ class Pelimpahan_model extends CI_Model{
 			
 	
 	public function get_all_tf_bud(){
+			$this->db->select('ci_transfer_bud.*, (select ifnull(sum(nilai),0) from ci_transfer_bud_potongan where no_kas=ci_transfer_bud.no_bukti)as potongan');
 			$this->db->from('ci_transfer_bud');
 			$this->db->order_by('id','asc');
 		return $this->db->get()->result_array();
@@ -74,7 +75,7 @@ class Pelimpahan_model extends CI_Model{
 
 	function get_rekening_transfer()
 		{	
-			$id= array('1010301','1010302','1010303','1010304','1010305','1010306','1010307','1010308','1010309','1010310');
+			$id= array('1010301','1010302','1010303','1010304','1010305','1010306','1010307','1010308','1010309','1010310','1010102');
 			$this->db->from('ci_saldo_awal');
 			$this->db->where_in('no_rekening', $id);
 			$query=$this->db->get();
@@ -98,9 +99,16 @@ function get_kas_rekening($id)
 	}
 
 
-	
+public function get_potongan_transfer_by_id($id){
+		$this->db->from("ci_transfer_bud_potongan");
+		$this->db->where('no_kas',$id);
+		return $this->db->get()->result_array();
+}	
 
-	
+public function simpan_potongan($data){
+	$this->db->insert('ci_transfer_bud_potongan', $data);
+	return true;
+}
 
 	function get_pegawai_by_area($area)
 	{
@@ -187,6 +195,13 @@ function get_transferbud_by_id($id)
 		$query=$this->db->get();
 		return $query->row_array();
 	}
+	function get_transferbud_potongan_by_id($id)
+	{
+		$this->db->from('ci_transfer_bud');
+		$this->db->where('no_bukti',$id);
+		$query=$this->db->get();
+		return $query->row_array();
+	}
 function get_plain_by_id($id)
 	{
 		$this->db->from('ci_pengeluaran_lain');
@@ -216,7 +231,7 @@ function get_plain_by_id($id)
 
 	function get_akun_terima()
 	{	
-		$id= array('4010101','4010201','4010301','4010401','4010501','4020101','4020201','4020301','4020401');
+		$id= array('4010101','4010201','4010301','4010401','4010501','4020101','4020201','4020301','4020401','2010405','6010201','6010401','2010602');
 		$this->db->from('ci_coa');
 		$this->db->where_in('no_acc', $id);
 		$query=$this->db->get();
