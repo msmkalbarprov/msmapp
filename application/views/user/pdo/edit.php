@@ -32,7 +32,7 @@
           <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
         </div>
         <?php $this->load->view('admin/includes/_messages.php') ?>
-         <?php echo form_open_multipart('cpdo/edit_pdo_keterangan_proyek/'.$data_pdo["id_pdo"].'/1');?>
+         <?php echo form_open_multipart('cpdo/edit_pdo_keterangan/'.$data_pdo["id_pdo"].'/1');?>
          <div class="row">
           <div class="col-md-3">
             <div class="form-group">

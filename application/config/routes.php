@@ -121,8 +121,8 @@ $route['pencairan/detail/(:any)']					= 'pencairan/edit_proyek/$1';
 
 
 
-// $route['default_controller'] = 'home';
-$route['default_controller'] = 'maintenance';
+$route['default_controller'] = 'home';
+// $route['default_controller'] = 'maintenance';
 $route['admin'] = 'admin/dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
