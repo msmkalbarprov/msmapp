@@ -87,9 +87,10 @@ class Auth extends MY_Controller {
 				$data['footer'] = false;
 				$data['bg_cover'] = true;
 
-				$this->load->view('admin/includes/_header', $data);
-				$this->load->view('admin/auth/login');
-				$this->load->view('admin/includes/_footer', $data);
+				// $this->load->view('admin/includes/_header', $data);
+				// $this->load->view('admin/auth/login');
+				// $this->load->view('admin/includes/_footer', $data);
+				redirect('maintenance');
 			}
 		}	
 
