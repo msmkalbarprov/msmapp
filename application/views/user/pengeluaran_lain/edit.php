@@ -20,19 +20,40 @@
               
             <?php echo form_open(base_url('pengeluaran_lain/edit/'.$data_plain['id']), 'class="form-horizontal"' )?> 
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
-                    <label for="id" class="control-label">Area</label>
+                    <label for="id" class="control-label">No. Bukti</label>
                     <input type="text" name="nobukti" value="<?= $data_plain['no_bukti']; ?>"  class="form-control" id="nobukti" placeholder="" readonly>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="sub_area" class="control-label">Tanggal</label>
                     <input type="date" name="tanggal" id="tanggal" value="<?= $data_plain['tgl_bukti']; ?>" class="form-control">
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="id" class="control-label">Divisi</label>
+                    <select name="divisi" id="divisi" class="form-control select2" style="width: 100%;" required>
+                      <option value="">No Selected</option>
+                      <?php foreach($data_jnsproyek as $jnsproyek): 
+                        
+                        if($jnsproyek['kd_projek'] == $data_plain['divisi']):
+                          ?> 
+                        <option value="<?= $jnsproyek['kd_projek']; ?>" selected><?= $jnsproyek['nm_projek']; ?></option>
+                        <?php else: ?>
+                          <option value="<?= $jnsproyek['kd_projek']; ?>"><?= $jnsproyek['nm_projek']; ?></option>
+                      <?php
+                      endif;
+                     endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+                
+                </div>
+              <div class="row">
+              <div class="col-md-4">
                   <div class="form-group">
                     <label for="id" class="control-label">Akun</label>
                     <select name="no_acc" id="no_acc" class="form-control select2" style="width: 100%;" required>
@@ -51,7 +72,7 @@
                       </select>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="id" class="control-label">Rekening</label>
                     <select name="no_rekening" id="no_rekening" class="form-control select2" style="width: 100%;" required>
@@ -69,21 +90,22 @@
                       </select>
                   </div>
                 </div>
-              </div>
-              <div class="row">
-              <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="saldo" class="control-label">Keterangan</label>
-                    <textarea name="keterangan" id="keterangan" rows="1" class="form-control"><?= $data_plain['keterangan']; ?></textarea>
-                  </div>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Saldo Kas</label>
                     <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" readonly>
                   </div>
                 </div>
-                <div class="col-md-3">
+                </div>
+              <div class="row">
+              <div class="col-md-8">
+                  <div class="form-group">
+                    <label for="saldo" class="control-label">Keterangan</label>
+                    <textarea name="keterangan" id="keterangan" rows="1" class="form-control"><?= $data_plain['keterangan']; ?></textarea>
+                  </div>
+                </div>
+                
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="nilai" class="control-label">Nilai</label>
                     <input type="text" name="nilai" id="nilai" class="form-control" value="<?= number_format($data_plain['nilai'],2,',','.'); ?>"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
@@ -108,13 +130,13 @@
       $(document).ready(function(){
     get_kas_area();
     function get_kas_area(){
-                    var area  = '01';
+                    var no_rekening = $('#no_rekening').val();
                     $.ajax({
                         url : "<?php echo site_url('pengeluaran_lain/get_kas');?>",
                         method : "POST",
                         data : {
                         '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                        id: area},
+                        id: no_rekening},
                         async : true,
                         dataType : 'json',
                         success: function(data){

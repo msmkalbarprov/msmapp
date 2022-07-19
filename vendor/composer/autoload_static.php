@@ -22,6 +22,10 @@ class ComposerStaticInit3c32bb37bf16c07422ee85f9c9feff7d
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'c' => 
+        array (
+            'chriskacerguis\\RestServer\\' => 26,
+        ),
         'Z' => 
         array (
             'ZipStream\\' => 10,
@@ -80,6 +84,10 @@ class ComposerStaticInit3c32bb37bf16c07422ee85f9c9feff7d
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
+        'chriskacerguis\\RestServer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/chriskacerguis/codeigniter-restserver/src',
+        ),
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
@@ -118,8 +126,8 @@ class ComposerStaticInit3c32bb37bf16c07422ee85f9c9feff7d
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (

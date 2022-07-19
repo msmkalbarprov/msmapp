@@ -11,6 +11,7 @@ class Pengeluaran_lain extends MY_Controller
 		$this->load->model('admin/pelimpahan_model', 'pelimpahan_model');
 		$this->load->model('admin/Activity_model', 'activity_model');
 		$this->load->model('admin/area_model', 'area');
+		$this->load->model('admin/jnsproyek_model', 'jnsproyek');
 		$this->load->model('user/proyek_model', 'proyek_model');
 		$this->load->model('user/bku_model', 'bku_model');
 		$this->load->model('user/spj_model', 'spj_model');
@@ -64,8 +65,9 @@ public function datatable_json(){
 
 		$this->rbac->check_operation_access(); // check opration permission
 
-			$data['data_akun'] 	    = $this->pelimpahan_model->get_akun();
-            $data['title'] 			= 'Input Pengeluaran lainnya';
+			$data['data_akun'] 	    	= $this->pelimpahan_model->get_akun();
+			$data['data_jnsproyek'] 	= $this->jnsproyek->get_jnsproyek();
+            $data['title'] 				= 'Input Pengeluaran lainnya';
 
 		if($this->input->post('submit')){
 				$this->form_validation->set_rules('nobukti', 'No. Bukti', 'trim|required');
@@ -98,6 +100,7 @@ public function datatable_json(){
 					$data = array(
 						'no_bukti' 		    => $nomor['nomor'],
 						'no_acc' 		    => $this->input->post('no_acc'),
+						'divisi' 		    => $this->input->post('divisi'),
 						'no_bukti'   	    => $this->input->post('nobukti'),
 						'tgl_bukti'         => $this->input->post('tanggal'),
 						'no_rekening'	    => $this->input->post('no_rekening'),
@@ -173,6 +176,7 @@ public function datatable_json(){
 				$data = array(
                         'no_acc' 		    => $this->input->post('no_acc'),
                         'no_bukti'   	    => $this->input->post('nobukti'),
+						'divisi' 		    => $this->input->post('divisi'),
                         'tgl_bukti'         => $this->input->post('tanggal'),
 						'no_rekening'	    => $this->input->post('no_rekening'),
                         'keterangan'        => $this->input->post('keterangan'),
@@ -198,6 +202,7 @@ public function datatable_json(){
 		}
 		else{
 			$data['data_rekening'] 	= $this->bku_model->get_rekening_kas();
+			$data['data_jnsproyek'] 	= $this->jnsproyek->get_jnsproyek();
             $data['data_akun'] 	    = $this->pelimpahan_model->get_akun();
 			$data2['title']     = "Pengeluaran lainnya";
 			$data['data_plain'] = $this->pelimpahan_model->get_plain_by_id($id);
