@@ -77,7 +77,7 @@
           
     <?php 
         
-            if($list['urut']!=7){
+            if($list['urut']!=8){
                 $subtotal = $subtotal+$list['terima']-$list['keluar'];
             }else{
                 
@@ -86,7 +86,7 @@
     
                 
                 
-                <?php if($list['urut']==8): ?>
+                <?php if($list['urut']==9): ?>
                     <tr>
                         <td align="center"></td>
                         <td></td>
@@ -96,7 +96,7 @@
                         <td align="right" ><?= number_format($list['keluar'],2,',','.'); ?></td>
                         <td align="right" ><?= number_format($subtotal,2,',','.'); ?></td>
                     </tr>
-                <?php elseif($list['urut']==7): ?>
+                <?php elseif($list['urut']==8): ?>
                     <tr>
                         <td align="center"><?= ++$i; ?></td>
                         <td><?= $list['nomor']; ?></td>

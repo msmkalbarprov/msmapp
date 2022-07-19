@@ -27,9 +27,11 @@
                       <th>#id</th>
                       <th>No. Bukti</th>
                       <th>Tanggal</th>
+                      <th>rekening</th>
                       <th>Akun</th>
                       <th>Keterangan</th>
                       <th>Nilai</th>
+                      <th>Potongan</th>
                       <th>Action</th>
                     </tr>
                   </thead>

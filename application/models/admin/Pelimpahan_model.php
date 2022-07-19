@@ -5,9 +5,11 @@ class Pelimpahan_model extends CI_Model{
 	public function get_all(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
 			$this->db->from('ci_pelimpahan');
+			$this->db->where('kd_area <>', 01);
 		}else{
 			$this->db->from('ci_pelimpahan');
 			$this->db->where('kd_area', $this->session->userdata('kd_area'));
+			$this->db->where('kd_area <>', 01);
 		}
 			
 			$this->db->order_by('id','asc');
@@ -40,6 +42,7 @@ class Pelimpahan_model extends CI_Model{
 
 	public function get_all_plainnya(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->select('ci_pengeluaran_lain.*,(select ifnull(sum(nilai),0) from ci_pengeluaran_lain_potongan where no_kas=ci_pengeluaran_lain.no_bukti)as potongan');
 			$this->db->from('ci_pengeluaran_lain');
 			$this->db->where('kd_area', 01);
 		}else{
@@ -103,11 +106,74 @@ public function get_potongan_transfer_by_id($id){
 		$this->db->from("ci_transfer_bud_potongan");
 		$this->db->where('no_kas',$id);
 		return $this->db->get()->result_array();
-}	
+}
+
+public function get_potongan_plain_by_id($id){
+	$this->db->from("ci_pengeluaran_lain_potongan");
+	$this->db->where('no_kas',$id);
+	return $this->db->get()->result_array();
+}
+
+public function get_potongan_pkb_by_id($id){
+	$this->db->from("ci_pelimpahan_potongan");
+	$this->db->where('no_kas',$id);
+	$this->db->where('rek_asal',null);
+	return $this->db->get()->result_array();
+}
+
+
+public function get_potongan_pelimpahan_by_id($id){
+	$this->db->from("ci_pelimpahan_potongan");
+	$this->db->where('no_kas',$id);
+	$this->db->where('rek_asal <>',null);
+	return $this->db->get()->result_array();
+}
 
 public function simpan_potongan($data){
 	$this->db->insert('ci_transfer_bud_potongan', $data);
 	return true;
+}
+
+public function simpan_potongan_plain($data){
+	$this->db->insert('ci_pengeluaran_lain_potongan', $data);
+	return true;
+}
+
+public function simpan_potongan_pkb($data){
+	$this->db->insert('ci_pelimpahan_potongan', $data);
+	return true;
+}
+
+public function simpan_potongan_pelimpahan($data){
+	// $this->db->insert('ci_pelimpahan_potongan', $data);
+
+	$rekasal = $data['rek_asal'];
+	$query="SELECT nomor from get_urut_spj_pegawai where kd_pegawai='$rekasal'";
+	$hasil = $this->db->query($query);
+	$nomor = $hasil->row('nomor');
+
+	$insert_data['no_bukti'] 			= $nomor;
+	$insert_data['no_kas'] 				= $data['no_kas'];
+	$insert_data['rek_asal']			= $data['rek_asal'];
+	$insert_data['no_acc'] 				= $data['no_acc'];
+	$insert_data['uraian']				= $data['uraian'];
+	$insert_data['nilai'] 				= $data['nilai'];
+	$insert_data['username']			= $this->session->userdata('username');
+	$insert_data['created_at']			= date("Y-m-d h:i:s");
+	$this->db->insert('ci_pelimpahan_potongan', $insert_data);
+
+	if (substr($rekasal,0,2)=='PG'){
+		$this->db->where('kd_pegawai', $rekasal);
+		$this->db->set('no_spj', $nomor);
+		$this->db->update('ci_pegawai');
+	}
+	
+
+
+	return true;
+
+	
+	
 }
 
 	function get_pegawai_by_area($area)
@@ -202,6 +268,31 @@ function get_transferbud_by_id($id)
 		$query=$this->db->get();
 		return $query->row_array();
 	}
+
+function get_plain_potongan_by_id($id)
+	{
+		$this->db->from('ci_pengeluaran_lain');
+		$this->db->where('no_bukti',$id);
+		$query=$this->db->get();
+		return $query->row_array();
+	}
+
+function get_pelimpahan_potongan_by_id($id)
+	{
+		$this->db->from('ci_pelimpahan');
+		$this->db->where('no_bukti',$id);
+		$query=$this->db->get();
+		return $query->row_array();
+	}
+
+	function get_pkb_potongan_by_id($id)
+	{
+		$this->db->from('ci_pelimpahan');
+		$this->db->where('no_bukti',$id);
+		$query=$this->db->get();
+		return $query->row_array();
+	}
+
 function get_plain_by_id($id)
 	{
 		$this->db->from('ci_pengeluaran_lain');

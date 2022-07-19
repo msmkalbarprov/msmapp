@@ -101,7 +101,7 @@
     $('.select2').select2()
     get_nomor_urut()
         $('#saldo').val('0,00');
-    get_kas_area();
+    
     // $('#area').change(function(){ 
     //     $('#saldo').val('0,00');
     //     get_kas_area($(this).val())
@@ -126,15 +126,18 @@
     //             return false;
     //         });
 
+$('#no_rekening').change(function(){ 
+      get_kas_area();
+  });
 
-            function get_kas_area(area){
-                    var area  = '01';
+            function get_kas_area(){
+                    var no_rekening = $('#no_rekening').val();
                     $.ajax({
                         url : "<?php echo site_url('pengeluaran_lain/get_kas');?>",
                         method : "POST",
                         data : {
                         '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                        id: area},
+                        id: no_rekening},
                         async : true,
                         dataType : 'json',
                         success: function(data){

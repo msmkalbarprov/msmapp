@@ -37,7 +37,8 @@ public function datatable_json(){
 		foreach ($records['data']   as $row) 
 		{  
 				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pelimpahan_kb/edit/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pelimpahan_kb/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pelimpahan_kb/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				<a title="Potongan" class="update btn btn-sm btn-secondary" href="'.base_url('pelimpahan_kb/potongan/'.str_replace("/","",$row['no_bukti'])).'"> <i class="fa fa-percent"></i></a>';
 		
 			$data[]= array(
 				$i++,
@@ -214,6 +215,11 @@ public function datatable_json(){
 	function delete($id=''){
 	   
 		$this->rbac->check_operation_access(); // check opration permission
+		$query="SELECT no_bukti from ci_pelimpahan where id='$id'";
+		$hasil = $this->db->query($query);
+		$nomor = $hasil->row('no_bukti');
+
+		$this->db->delete('ci_pelimpahan_potongan', array('no_kas' =>  $nomor, 'rek_asal' =>  null));
 
 		$this->pelimpahan_model->delete($id);
 
@@ -222,6 +228,83 @@ public function datatable_json(){
 
 		$this->session->set_flashdata('success','Pelimpahan berhasil dihapus.');	
 		redirect('pelimpahan_kb/index');
+	}
+
+	public function potongan($nomor= 0){
+
+		$nomor_new 	= str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
+		$nocair_new = str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
+		$this->rbac->check_operation_access('');
+
+		if($this->input->post('submit')){
+				$data = array(
+					'username' 			=> $this->session->userdata('username'),
+					'no_kas' 			=> $this->input->post('no_kas'),
+					'no_acc'			=> $this->input->post('no_acc'),
+					'uraian'			=> $this->input->post('keterangan'),
+					'nilai'				=> $this->proyek_model->number($this->input->post('nilai')),
+					'created_at' 		=> date('Y-m-d : h:m:s'),
+				);
+				
+				$data 				= $this->security->xss_clean($data);
+				$result 			= $this->pelimpahan_model->simpan_potongan_pkb($data);
+
+				if($result){
+					// Activity Log 
+					$this->activity_model->add_log(2);
+					$this->session->set_flashdata('success', 'Potongan berhasil diinput!');
+					redirect(base_url('pelimpahan_kb/potongan/'.$nomor),'refresh');
+				}else{
+					$this->session->set_flashdata('errors', 'Potongan gagal diinput!');
+					redirect(base_url('pelimpahan_kb/potongan/'.$nomor),'refresh');
+				}
+			
+		}
+		else{
+			$data['transfer'] = $this->pelimpahan_model->get_pkb_potongan_by_id($nomor);
+			$data2['title'] 		= 'Potongan Pemindah Bukuan';
+			// $data['proyek'] 		= $this->pdo_model->get_proyek_by_id($id_proyek);
+			$this->load->view('admin/includes/_header', $data2);
+			$this->load->view('user/pelimpahan_kb/potongan', $data);
+			$this->load->view('admin/includes/_footer');
+		}
+	}
+
+
+	public function datatable_json_rincian_potongan($nomor){				   					   
+		$records['data'] = $this->pelimpahan_model->get_potongan_pkb_by_id($nomor);
+		$data = array();
+
+		$i=0;
+		foreach ($records['data']   as $row) 
+		{  
+
+				$tombol='<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pelimpahan_kb/delete_potongan/".$nomor.'/'.$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+
+			$data[]= array(
+				++$i,
+				'<font size="2px">'.$row['no_acc'].'</font>',
+				'<font size="2px">'.$row['nm_acc'].'</font>',
+				'<font size="2px">'.$row['uraian'].'</font>',
+				'<div class="text-right"><font size="2px">'.number_format($row['nilai'],2,',','.').'</font></div>',
+				$tombol
+			);
+		}
+		$records['data']=$data;
+		echo json_encode($records);						   
+	}
+
+	public function delete_potongan($nomor= 0,$id = 0)
+	{
+		$this->rbac->check_operation_access('');
+			
+			$this->db->delete('ci_pelimpahan_kb_potongan', array('id' => $id, 'no_kas' =>  $nomor));
+
+			$this->activity_model->add_log(3);
+
+			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
+			redirect(base_url('pelimpahan_kb/potongan/'.$nomor));
+		
 	}
 	
 }
