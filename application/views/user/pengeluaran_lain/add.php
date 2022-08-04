@@ -40,6 +40,16 @@
                   </div>
                 </div>
                 <div class="col-md-4">
+                  <label for="id" class="control-label">Area</label>
+                  <select name="area" id="area" class="form-control select2" style="width: 100%;" required>
+                    <option value="">No Selected</option>
+                    <option value="00">00 - HEAD OFFICE</option>
+                    <option value="01">01	- SISTEM-HO(PUSAT)</option>
+                  </select>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="id" class="control-label">Divisi</label>
                     <select name="divisi" id="divisi" class="form-control select2" style="width: 100%;" required>
@@ -50,22 +60,18 @@
                     </select>
                   </div>
                 </div>
-                </div>
-                <div class="row">
                 <div class="col-md-4">
                 <div class="form-group">
                     <label for="id" class="control-label">Akun</label>
                     <select name="no_acc" id="no_acc" class="form-control select2" style="width: 100%;" required>
                       <option value="">No Selected</option>
-                      <?php foreach($data_akun as $akun): ?>
-                            <option value="<?= $akun['no_acc']; ?>"><?= $akun['nm_acc']; ?></option>
-                        <?php endforeach; ?>
+                      
                       </select>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="id" class="control-label">Rekening</label>
+                    <label for="id" class="control-label">Rekening sumber</label>
                     <select name="no_rekening" id="no_rekening" class="form-control select2" style="width: 100%;" required>
                       <option value="">No Selected</option>
                       <?php foreach($data_rekening as $rekening): ?>
@@ -74,18 +80,19 @@
                       </select>
                   </div>
                 </div>
+                
+              </div>
+              <div class="row">
+              <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="saldo" class="control-label">Keterangan</label>
+                    <textarea name="keterangan" id="keterangan" rows="1" class="form-control"></textarea>
+                  </div>
+                </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Saldo Kas</label>
                     <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" readonly>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-              <div class="col-md-8">
-                  <div class="form-group">
-                    <label for="saldo" class="control-label">Keterangan</label>
-                    <textarea name="keterangan" id="keterangan" rows="1" class="form-control"></textarea>
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -111,33 +118,79 @@
   <script type="text/javascript">
 
   $(document).ready(function(){
-    $('.select2').select2()
+    // $('.select2').select2()
+    $(".select2").select2({ width: 'resolve' });         
     get_nomor_urut()
         $('#saldo').val('0,00');
     
-    // $('#area').change(function(){ 
-    //     $('#saldo').val('0,00');
-    //     get_kas_area($(this).val())
-    //             var subarea=$(this).val();
-    //             $.ajax({
-    //                 url : "<?php echo site_url('pengeluaran_lain/get_pegawai_by_area');?>",
-    //                 method : "POST",
-    //                 data : {
-    //                   '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-    //                   id: subarea},
-    //                 async : true,
-    //                 dataType : 'json',
-    //                 success: function(data){
-    //                     $('select[name="kd_pegawai"]').empty();
-    //                     $('select[name="kd_pegawai"]').append('<option value="">No Selected</option>');
-    //                     $.each(data, function(key, value) {
-    //                         $('select[name="kd_pegawai"]').append('<option value="'+ value.kd_pegawai +'">'+ value.nama +'</option>');
-    //                     });
+  
 
-    //                 }
-    //             });
-    //             return false;
-    //         });
+    $('#area').change(function(){ 
+      var area = $('#area').val();
+      if (area=='00'){
+        document.getElementById('divisi').disabled=true;
+        var divisi ='';
+                $.ajax({
+                    url : "<?php echo site_url('pengeluaran_lain/get_akun_pengeluaran');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: divisi,area:area},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="no_acc"]').empty();
+                        $('select[name="no_acc"]').append('<option value="">No Selected</option>');
+                        // $('select[name="no_acc"]').append('<option value="5041501">5041501 - Administrasi Bank</option>');
+                        $.each(data, function(key, value) {
+                          kode = value.no_acc;
+                          if(kode.length!='5'){
+                            $('select[name="no_acc"]').append('<option value="'+ value.no_acc +'">'+value.no_acc +' - '+ value.nm_acc +'</option>');
+                          }else{
+                            $('select[name="no_acc"]').append('<optgroup label="'+ value.nm_acc +'"></optgroup>');
+                          }
+                          
+                        });
+
+                    }
+                });
+                
+      }else{
+        document.getElementById('divisi').disabled=false;
+        $('select[name="no_acc"]').empty();
+      }
+  });
+
+  $('#divisi').change(function(){ 
+        var divisi  = $(this).val();
+        var area    = $('#area').val();
+                var subarea=$(this).val();
+                $.ajax({
+                    url : "<?php echo site_url('pengeluaran_lain/get_akun_pengeluaran');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: divisi,area:area},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="no_acc"]').empty();
+                        $('select[name="no_acc"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                          kode = value.no_acc;
+                          if(kode.length!='5'){
+                            $('select[name="no_acc"]').append('<option value="'+ value.no_acc +'">'+value.no_acc +' - '+ value.nm_acc +'</option>');
+                          }else{
+                            $('select[name="no_acc"]').append('<optgroup label="'+ value.nm_acc +'"></optgroup>');
+                          }
+                        });
+
+                    }
+                });
+                return false;
+            });
+
+
 
 $('#no_rekening').change(function(){ 
       get_kas_area();

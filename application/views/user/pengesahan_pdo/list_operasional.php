@@ -66,7 +66,7 @@
     { "targets": 0, "name": "no", 'searchable':true, 'orderable':true},
     { "targets": 1, "name": "kode_pdo", 'searchable':true, 'orderable':false},
     { "targets": 2, "name": "area", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "tgl_pdo", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "tgl_pdo", 'searchable':true, 'orderable':true},
     { "targets": 4, "name": "nilai", 'searchable':true, 'orderable':false},
     { "targets": 5, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]

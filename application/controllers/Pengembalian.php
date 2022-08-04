@@ -9,6 +9,7 @@ class Pengembalian extends MY_Controller
         $this->rbac->check_module_access();
 
 		$this->load->model('admin/pengembalian_model', 'pengembalian_model');
+		$this->load->model('user/spj_pegawai_model', 'spj_pegawai_model');
 		$this->load->model('admin/Activity_model', 'activity_model');
 		$this->load->model('admin/area_model', 'area');
 		$this->load->model('user/proyek_model', 'proyek_model');
@@ -130,7 +131,7 @@ public function datatable_json(){
     function get_kas(){
 		$id 		= $this->input->post('id',TRUE);
         $kd_pegawai	= $this->input->post('kd_pegawai',TRUE);
-		$data 		= $this->pengembalian_model->get_kas($id,$kd_pegawai)->result();
+		$data 		= $this->spj_pegawai_model->get_kas($kd_pegawai)->result();
 		echo json_encode($data);
 	}
 

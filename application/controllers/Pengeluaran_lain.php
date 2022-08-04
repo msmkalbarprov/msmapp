@@ -73,6 +73,7 @@ public function datatable_json(){
 				$this->form_validation->set_rules('nobukti', 'No. Bukti', 'trim|required');
 				$this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
                 $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
+				$this->form_validation->set_rules('area', 'area', 'trim|required');
 				$this->form_validation->set_rules('no_acc', 'Akun', 'trim|required');
 				$this->form_validation->set_rules('no_rekening', 'Rekening', 'trim|required');
 				$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
@@ -101,6 +102,7 @@ public function datatable_json(){
 						'no_bukti' 		    => $nomor['nomor'],
 						'no_acc' 		    => $this->input->post('no_acc'),
 						'divisi' 		    => $this->input->post('divisi'),
+						'kd_area'	    	=> $this->input->post('area'),
 						'no_bukti'   	    => $this->input->post('nobukti'),
 						'tgl_bukti'         => $this->input->post('tanggal'),
 						'no_rekening'	    => $this->input->post('no_rekening'),
@@ -151,6 +153,7 @@ public function datatable_json(){
             $this->form_validation->set_rules('nobukti', 'No Bukti', 'trim|required');
             $this->form_validation->set_rules('saldo', 'Saldo', 'trim|required');
             $this->form_validation->set_rules('nilai', 'nilai', 'trim|required');
+			$this->form_validation->set_rules('area', 'area', 'trim|required');
             $this->form_validation->set_rules('no_acc', 'Akun', 'trim|required');
 			$this->form_validation->set_rules('no_rekening', 'Rekening', 'trim|required');
             $this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
@@ -177,6 +180,7 @@ public function datatable_json(){
                         'no_acc' 		    => $this->input->post('no_acc'),
                         'no_bukti'   	    => $this->input->post('nobukti'),
 						'divisi' 		    => $this->input->post('divisi'),
+						'kd_area' 		    => $this->input->post('area'),
                         'tgl_bukti'         => $this->input->post('tanggal'),
 						'no_rekening'	    => $this->input->post('no_rekening'),
                         'keterangan'        => $this->input->post('keterangan'),
@@ -210,6 +214,14 @@ public function datatable_json(){
 			$this->load->view('user/pengeluaran_lain/edit', $data);
 			$this->load->view('admin/includes/_footer');
 		}		
+	}
+
+
+	function get_akun_pengeluaran(){
+		$area = $this->input->post('area',TRUE);
+		$divisi = $this->input->post('id',TRUE);
+		$data = $this->pelimpahan_model->get_akun_pengeluaran($area,$divisi)->result();
+		echo json_encode($data);
 	}
 
 	//--------------------------------------------------

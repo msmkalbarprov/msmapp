@@ -33,6 +33,18 @@
                   </div>
                 </div>
                 <div class="col-md-4">
+                  <label for="id" class="control-label">Area</label>
+                  <select name="area" id="area" class="form-control select2" style="width: 100%;" required>
+                    <option value="">No Selected</option>
+                    <option value="00">00 - HEAD OFFICE</option>
+                    <option value="01">01	- SISTEM-HO(PUSAT)</option>
+                  </select>
+                </div>
+                
+                
+                </div>
+              <div class="row">
+              <div class="col-md-4">
                   <div class="form-group">
                     <label for="id" class="control-label">Divisi</label>
                     <select name="divisi" id="divisi" class="form-control select2" style="width: 100%;" required>
@@ -50,26 +62,15 @@
                     </select>
                   </div>
                 </div>
-                
-                </div>
-              <div class="row">
               <div class="col-md-4">
+                  <div class="form-group">
                   <div class="form-group">
                     <label for="id" class="control-label">Akun</label>
                     <select name="no_acc" id="no_acc" class="form-control select2" style="width: 100%;" required>
                       <option value="">No Selected</option>
-                      <?php foreach($data_akun as $akun): 
-                        if($akun['no_acc']==$data_plain['no_acc']):
-                        ?>
-                        <option value="<?= $akun['no_acc']; ?>" selected><?= $akun['nm_acc']; ?></option>
-                        <?php else: ?>
-                            <option value="<?= $akun['no_acc']; ?>"><?= $akun['nm_acc']; ?></option>
-
-                        <?php 
-                    endif;  
-                    endforeach; 
-                      ?>
+                      
                       </select>
+                  </div>
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -90,21 +91,21 @@
                       </select>
                   </div>
                 </div>
+                
+                </div>
+              <div class="row">
+              <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="saldo" class="control-label">Keterangan</label>
+                    <textarea name="keterangan" id="keterangan" rows="1" class="form-control"><?= $data_plain['keterangan']; ?></textarea>
+                  </div>
+                </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Saldo Kas</label>
                     <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" readonly>
                   </div>
                 </div>
-                </div>
-              <div class="row">
-              <div class="col-md-8">
-                  <div class="form-group">
-                    <label for="saldo" class="control-label">Keterangan</label>
-                    <textarea name="keterangan" id="keterangan" rows="1" class="form-control"><?= $data_plain['keterangan']; ?></textarea>
-                  </div>
-                </div>
-                
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="nilai" class="control-label">Nilai</label>
@@ -128,7 +129,42 @@
 
   <script type="text/javascript">
       $(document).ready(function(){
+
+    $('#area').val('<?= $data_plain['kd_area']; ?>');
     get_kas_area();
+    get_akun_pengeluaran();
+
+    function get_akun_pengeluaran(){
+      var divisi = '<?= $data_plain['divisi']; ?>';
+      var area = '<?= $data_plain['kd_area']; ?>';
+      var akun = '<?= $data_plain['no_acc']; ?>';
+      $.ajax({
+                    url : "<?php echo site_url('pengeluaran_lain/get_akun_pengeluaran');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: divisi,area:area},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="no_acc"]').empty();
+                        $('select[name="no_acc"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                          kode = value.no_acc;
+                          if(kode.length!='5'){
+                            if (akun==kode){
+                              $('select[name="no_acc"]').append('<option value="'+ value.no_acc +'" selected>'+value.no_acc +' - '+ value.nm_acc +'</option>');
+                            }else{
+                              $('select[name="no_acc"]').append('<option value="'+ value.no_acc +'">'+value.no_acc +' - '+ value.nm_acc +'</option>');
+                            }
+                          }else{
+                            $('select[name="no_acc"]').append('<optgroup label="'+ value.nm_acc +'"></optgroup>');
+                          }
+                        });
+
+                    }
+                });
+    }
     function get_kas_area(){
                     var no_rekening = $('#no_rekening').val();
                     $.ajax({

@@ -31,7 +31,7 @@ class Area_model extends CI_Model{
 
 	function get_area()
 	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Divisi Finance'){
 			$this->db->from('ci_area');
 			$this->db->where('id <>','0');	
 		}else{

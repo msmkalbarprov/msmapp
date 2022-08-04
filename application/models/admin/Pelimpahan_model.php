@@ -46,6 +46,7 @@ class Pelimpahan_model extends CI_Model{
 			$this->db->from('ci_pengeluaran_lain');
 			$this->db->where('kd_area', 01);
 		}else{
+			$this->db->select('ci_pengeluaran_lain.*,(select ifnull(sum(nilai),0) from ci_pengeluaran_lain_potongan where no_kas=ci_pengeluaran_lain.no_bukti)as potongan');
 			$this->db->from('ci_pengeluaran_lain');
 			$this->db->where('kd_area', $this->session->userdata('kd_area'));
 		}
@@ -309,7 +310,34 @@ function get_plain_by_id($id)
 		return $query->row_array();
 	}
 
-	
+	function get_akun_pengeluaran($area,$divisi)
+	{
+		if ($area=='00'){
+			$id=array('1010101','1010106','1010301','1010302','1010306','1010307','1011301','1020302','1020506','1020902','2010405','2010801','2010802','2010801','2010802','2010804','2020201','5010201','5010202','5020101','5020501','5030101','5030109','5030111','5040101','5040102','5040104','5040105','5040106','5040201','5040202','5040203','5040204','5040205','5040206','5040301','5040601','5040602','5040701','5040702','5040704','5040801','5040802','5040804','5040805','5040901','5040902','5041001','5041002','5041101','5041202','5041401','5041404','5041406','5041501','5041504','5041601','5030112');
+			$where1 = 'no_acc';
+		}else if ($area=='01' && ($divisi=='3A' || $divisi=='3B' || $divisi=='3C' || $divisi=='3D' || $divisi=='3E' || $divisi=='3F')){
+			$id= array('5010101','5010102','5010103','5010104','5010105','5010106','5010501','5010601','5041501');
+			$where1 = 'no_acc';
+		}else{
+			$this->db->select('kd_item');
+			$this->db->from('ci_pq_operasional');
+			$this->db->where_in('kd_area', $area);
+			$query 			=	$this->db->get();
+			$query1_result 	= 	$query->result();
+			$id= array();
+			foreach($query1_result as $row){
+				$id[] = $row->kd_item;
+			}
+			$ids = implode(",",$id);
+			$id = explode(",", $ids);
+			$where1 = 'left(no_acc,5)';
+		}
+		$this->db->where_in($where1, $id);
+		$this->db->from('ci_coa');
+		
+		$query=$this->db->get();
+		return $query;
+	}
 
 	function get_akun()
 	{	

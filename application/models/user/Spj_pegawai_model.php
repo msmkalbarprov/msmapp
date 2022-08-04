@@ -368,14 +368,16 @@ function get_realisasi($id, $no_acc,$jns_spj)
 			$this->db->select("ifnull(sum(nilai),0) as total");
 			$this->db->from('get_realisasi_spj_kantor');
 			$this->db->where('kd_pqproyek', 'PQ/'.$id);
+			$this->db->where('no_acc', $no_acc);
 		
 		}else{
 			$this->db->select("ifnull(sum(nilai),0) as total");
 			$this->db->from('get_realisasi_spj_kantor');
 			$this->db->where('kd_pqproyek', $id);
+			$this->db->where('left(no_acc,5)', substr($no_acc,0,5));
 		
 		}
-		$this->db->where('no_acc', $no_acc);
+		
 			
 		$query=$this->db->get();
 		return $query;
