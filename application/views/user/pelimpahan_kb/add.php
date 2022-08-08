@@ -116,14 +116,15 @@
             });
 
 
-            function get_kas_area(area){
+            function get_kas_area(){
+                    var rekening ='1010102';
                     var project  = $('#project').val();
                     $.ajax({
                         url : "<?php echo site_url('pelimpahan_kb/get_kas');?>",
                         method : "POST",
                         data : {
                         '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                        id: area},
+                        id: rekening},
                         async : true,
                         dataType : 'json',
                         success: function(data){

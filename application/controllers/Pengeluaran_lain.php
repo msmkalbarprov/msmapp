@@ -224,6 +224,12 @@ public function datatable_json(){
 		echo json_encode($data);
 	}
 
+	function get_area_pengeluaran(){
+		$divisi = $this->input->post('id',TRUE);
+		$data = $this->pelimpahan_model->get_area_pengeluaran($divisi)->result();
+		echo json_encode($data);
+	}
+
 	//--------------------------------------------------
 	function check_username($id=0){
 

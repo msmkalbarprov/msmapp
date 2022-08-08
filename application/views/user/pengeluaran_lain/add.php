@@ -40,25 +40,24 @@
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <label for="id" class="control-label">Area</label>
-                  <select name="area" id="area" class="form-control select2" style="width: 100%;" required>
-                    <option value="">No Selected</option>
-                    <option value="00">00 - HEAD OFFICE</option>
-                    <option value="01">01	- SISTEM-HO(PUSAT)</option>
-                  </select>
-                </div>
-                </div>
-                <div class="row">
-                <div class="col-md-4">
                   <div class="form-group">
                     <label for="id" class="control-label">Divisi</label>
                     <select name="divisi" id="divisi" class="form-control select2" style="width: 100%;" required>
                       <option value="">No Selected</option>
                       <?php foreach($data_jnsproyek as $jnsproyek): ?>
-                        <option value="<?= $jnsproyek['kd_projek']; ?>"><?= $jnsproyek['nm_projek']; ?></option>
+                        <option value="<?= $jnsproyek['kd_projek']; ?>"><?= $jnsproyek['kd_projek'].' - '.$jnsproyek['nm_projek']; ?></option>
                       <?php endforeach; ?>
                     </select>
                   </div>
+                </div>
+                
+                </div>
+                <div class="row">
+                <div class="col-md-4">
+                  <label for="id" class="control-label">Area</label>
+                  <select name="area" id="area" class="form-control select2" style="width: 100%;" required>
+                    <option value="">No Selected</option>
+                  </select>
                 </div>
                 <div class="col-md-4">
                 <div class="form-group">
@@ -125,45 +124,39 @@
     
   
 
-    $('#area').change(function(){ 
-      var area = $('#area').val();
-      if (area=='00'){
-        document.getElementById('divisi').disabled=true;
-        var divisi ='';
+    $('#divisi').change(function(){ 
+      var divisi = $(this).val();
+      // if (area=='00'){
+        // document.getElementById('divisi').disabled=true;
                 $.ajax({
-                    url : "<?php echo site_url('pengeluaran_lain/get_akun_pengeluaran');?>",
+                    url : "<?php echo site_url('pengeluaran_lain/get_area_pengeluaran');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: divisi,area:area},
+                      id: divisi},
                     async : true,
                     dataType : 'json',
                     success: function(data){
-                        $('select[name="no_acc"]').empty();
-                        $('select[name="no_acc"]').append('<option value="">No Selected</option>');
+                        $('select[name="area"]').empty();
+                        $('select[name="area"]').append('<option value="">No Selected</option>');
                         // $('select[name="no_acc"]').append('<option value="5041501">5041501 - Administrasi Bank</option>');
                         $.each(data, function(key, value) {
-                          kode = value.no_acc;
-                          if(kode.length!='5'){
-                            $('select[name="no_acc"]').append('<option value="'+ value.no_acc +'">'+value.no_acc +' - '+ value.nm_acc +'</option>');
-                          }else{
-                            $('select[name="no_acc"]').append('<optgroup label="'+ value.nm_acc +'"></optgroup>');
-                          }
+                            $('select[name="area"]').append('<option value="'+ value.kd_area +'">'+value.kd_area +' - '+ value.nm_area +'</option>');
                           
                         });
 
                     }
                 });
                 
-      }else{
-        document.getElementById('divisi').disabled=false;
-        $('select[name="no_acc"]').empty();
-      }
+      // }else{
+      //   document.getElementById('divisi').disabled=false;
+      //   $('select[name="no_acc"]').empty();
+      // }
   });
 
-  $('#divisi').change(function(){ 
-        var divisi  = $(this).val();
-        var area    = $('#area').val();
+  $('#area').change(function(){ 
+        var divisi  = $('#divisi').val();
+        var area    = $(this).val();
                 var subarea=$(this).val();
                 $.ajax({
                     url : "<?php echo site_url('pengeluaran_lain/get_akun_pengeluaran');?>",

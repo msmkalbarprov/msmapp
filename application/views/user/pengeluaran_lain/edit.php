@@ -33,34 +33,31 @@
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <label for="id" class="control-label">Area</label>
-                  <select name="area" id="area" class="form-control select2" style="width: 100%;" required>
-                    <option value="">No Selected</option>
-                    <option value="00">00 - HEAD OFFICE</option>
-                    <option value="01">01	- SISTEM-HO(PUSAT)</option>
-                  </select>
+                  <div class="form-group">
+                    <label for="id" class="control-label">Divisi</label>
+                    <select name="divisi" id="divisi" class="form-control select2" style="width: 100%;" required>
+                      <option value="">No Selected</option>
+                      <?php foreach($data_jnsproyek as $jnsproyek): ?>
+                        <?php if($jnsproyek['kd_projek']==$data_plain['divisi']): ?>
+                        <option value="<?= $jnsproyek['kd_projek']; ?>" selected><?= $jnsproyek['kd_projek'].' - '.$jnsproyek['nm_projek']; ?></option>
+                        <?php else :?>
+                          <option value="<?= $jnsproyek['kd_projek']; ?>"><?= $jnsproyek['kd_projek'].' - '.$jnsproyek['nm_projek']; ?></option>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
                 </div>
                 
                 
                 </div>
               <div class="row">
               <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="id" class="control-label">Divisi</label>
-                    <select name="divisi" id="divisi" class="form-control select2" style="width: 100%;" required>
-                      <option value="">No Selected</option>
-                      <?php foreach($data_jnsproyek as $jnsproyek): 
-                        
-                        if($jnsproyek['kd_projek'] == $data_plain['divisi']):
-                          ?> 
-                        <option value="<?= $jnsproyek['kd_projek']; ?>" selected><?= $jnsproyek['nm_projek']; ?></option>
-                        <?php else: ?>
-                          <option value="<?= $jnsproyek['kd_projek']; ?>"><?= $jnsproyek['nm_projek']; ?></option>
-                      <?php
-                      endif;
-                     endforeach; ?>
-                    </select>
-                  </div>
+                  <label for="id" class="control-label">Area</label>
+                  <select name="area" id="area" class="form-control select2" style="width: 100%;" required>
+                    <option value="">No Selected</option>
+                    <!-- <option value="00">00 - HEAD OFFICE</option>
+                    <option value="01">01	- SISTEM-HO(PUSAT)</option> -->
+                  </select>
                 </div>
               <div class="col-md-4">
                   <div class="form-group">
@@ -75,7 +72,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="id" class="control-label">Rekening</label>
+                    <label for="id" class="control-label">Rekening Sumber</label>
                     <select name="no_rekening" id="no_rekening" class="form-control select2" style="width: 100%;" required>
                       <option value="">No Selected</option>
                       <?php foreach($data_rekening as $rekening): 
@@ -133,6 +130,7 @@
     $('#area').val('<?= $data_plain['kd_area']; ?>');
     get_kas_area();
     get_akun_pengeluaran();
+    get_area();
 
     function get_akun_pengeluaran(){
       var divisi = '<?= $data_plain['divisi']; ?>';
@@ -185,8 +183,55 @@
                     });
     
             }
+   $('#divisi').change(function(){ 
+      var divisi = $(this).val();
+                $.ajax({
+                    url : "<?php echo site_url('pengeluaran_lain/get_area_pengeluaran');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: divisi},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="area"]').empty();
+                        $('select[name="area"]').append('<option value="">No Selected</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="area"]').append('<option value="'+ value.kd_area +'">'+value.kd_area +' - '+ value.nm_area +'</option>');
+                          
+                        });
 
+                    }
+                });
+  });
 
+function get_area(){
+  var divisi = $('#divisi').val();
+  var area_simpan = '<?= $data_plain['kd_area']; ?>'
+  $.ajax({
+      url : "<?php echo site_url('pengeluaran_lain/get_area_pengeluaran');?>",
+      method : "POST",
+      data : {
+        '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+        id: divisi},
+      async : true,
+      dataType : 'json',
+      success: function(data){
+          $('select[name="area"]').empty();
+          $('select[name="area"]').append('<option value="">No Selected</option>');
+          $.each(data, function(key, value) {
+              if (value.kd_area==area_simpan){
+                $('select[name="area"]').append('<option value="'+ value.kd_area +'" selected>'+value.kd_area +' - '+ value.nm_area +'</option>');
+              }else{
+                $('select[name="area"]').append('<option value="'+ value.kd_area +'">'+value.kd_area +' - '+ value.nm_area +'</option>');
+              }
+              
+            
+          });
+
+      }
+  });
+}
 
   });
   </script>

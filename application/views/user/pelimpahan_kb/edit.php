@@ -83,7 +83,7 @@
     get_pegawai(kd_area);
     var kd_pegawai='<?= $bank['kd_pegawai']; ?>'
     function get_pegawai (kd_area){ 
-        get_kas_area(kd_area)
+        get_kas_area()
                 $.ajax({
                     url : "<?php echo site_url('pelimpahan_kb/get_pegawai_by_area');?>",
                     method : "POST",
@@ -110,14 +110,15 @@
             }
 
             $('#kd_pegawai').val("<?= $bank['kd_pegawai']; ?>");
-            function get_kas_area(area){
+            function get_kas_area(){
                     var project  = $('#project').val();
+                    var rekening = '1010102';
                     $.ajax({
                         url : "<?php echo site_url('pelimpahan_kb/get_kas');?>",
                         method : "POST",
                         data : {
                         '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                        id: area},
+                        id: rekening},
                         async : true,
                         dataType : 'json',
                         success: function(data){
