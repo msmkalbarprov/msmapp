@@ -111,7 +111,7 @@ public function datatable_json(){
 						'kd_pegawai' 	=> $this->input->post('rekening'),
 						'jenis' 		=> $this->input->post('jenis'),
 						'pemilik' 		=> $this->input->post('pemilik'),
-						'saldo' 		=> $this->proyek_model->number($saldo),
+						'saldo' 		=> $this->proyek_model->number2($saldo),
 						'username' 		=>  $this->session->userdata('username'),
 						'created_at' 	=> date('Y-m-d : h:m:s')
 					);

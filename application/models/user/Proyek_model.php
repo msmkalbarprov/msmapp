@@ -13,6 +13,11 @@
 		return $nilai;
 	}
 
+	public function number2($nilai){
+		$nilai1=str_replace('.',',',$nilai);
+		return $nilai;
+	}
+
 	function angka_format($nilai){
 
 	    if($nilai<0){

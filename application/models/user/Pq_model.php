@@ -76,6 +76,22 @@ function get_area_by_pqprojectid($id)
 				}
                 return $this->db->get()->result_array();
 		}
+		public function get_pq_operasional2($id){
+			$tahun = '2022';
+			$kd_area= $id;
+				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing'){
+					$this->db->select('*');
+					$this->db->from("ci_pq_operasional");
+					$this->db->where('left(kd_pq_operasional,4)',$tahun);
+					$this->db->where('kd_area',substr($kd_area,4,2));
+				}else{
+					$this->db->select('*');
+					$this->db->from("ci_pq_operasional");
+					$this->db->where('left(kd_pq_operasional,4)',$tahun);
+					$this->db->where('kd_area',$this->session->userdata('kd_area'));
+				}
+                return $this->db->get()->result_array();
+		}
 
 public function get_pq_hpp_rinci($pqproyek){
 					$this->db->select('*');
@@ -196,7 +212,7 @@ public function get_pq_operasional_view($id){
 			$kd_proyek = explode(",", $proyeks);
 
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing'){
-			$this->db->from('v_get_proyek_pqs');
+			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');
 			$this->db->where('thn_anggaran >=',date("Y")-1);	
 			$this->db->where('kd_area =',$area);	

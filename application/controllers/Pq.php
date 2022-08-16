@@ -708,7 +708,7 @@ public function datatable_json_hpp_rinci_view(){
 
 
 	public function datatable_json_operasional_edit($id='',$url=''){				   					   
-		$records['data'] = $this->pq_model->get_pq_operasional($id);
+		$records['data'] = $this->pq_model->get_pq_operasional2($id);
 		$data = array();
 
 		$i=0;

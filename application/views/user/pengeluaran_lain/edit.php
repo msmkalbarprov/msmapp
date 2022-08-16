@@ -163,6 +163,11 @@
                     }
                 });
     }
+
+    $('#no_rekening').change(function(){ 
+      get_kas_area();
+  });
+
     function get_kas_area(){
                     var no_rekening = $('#no_rekening').val();
                     $.ajax({

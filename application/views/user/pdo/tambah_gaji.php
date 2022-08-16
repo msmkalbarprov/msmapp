@@ -452,6 +452,7 @@ $('#projek').change(function(){
     var nomorurut   = $('#urut').val();
     var jnspdo      = $('#jns_pdo').val();
     var kodedivisi = idproyek.substr(11,1);
+    $('[name="divisi2"]').val(kodedivisi).trigger('change');
     $.ajax({
         url : "<?php echo site_url('cpdo/get_item_pq_gaji_by_pq');?>",
         method : "POST",
@@ -463,11 +464,7 @@ $('#projek').change(function(){
         success: function(data){
             $('select[name="item_hpp"]').empty();
             $('select[name="item_hpp"]').append('<option value="">No Selected</option>');
-            $.each(data, function(key, value) {
-
-              
-                $('[name="divisi2"]').val(kodedivisi).trigger('change');
-                
+            $.each(data, function(key, value) {                
                 if (value.jenis_tk == '' || value.jenis_tk == null){
                   $('select[name="item_hpp"]').append('<option value="'+value.kd_item+'">'+ value.kd_item +' '+value.nm_item +'</option>');
                 }else{
