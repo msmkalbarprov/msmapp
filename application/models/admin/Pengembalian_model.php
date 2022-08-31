@@ -3,7 +3,7 @@
 class Pengembalian_model extends CI_Model{
 
 	public function get_all(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->from('ci_pengembalian_pegawai');
 		}else{
 			$this->db->from('ci_pengembalian_pegawai');

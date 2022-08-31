@@ -621,7 +621,7 @@ if($kode==7){
 	    			$sub_total_b = $tothpp['nilai_hpp']*-1;
 	    		}
 
-	    	$lr_operasional = $sub_total_a+$sub_total_b+$tahunlalu['tahunlalu'];
+	    	$lr_operasional = $sub_total_a+$sub_total_b;
 
 	    	$total_lr_operasional=$total_lr_operasional+$lr_operasional;
 	    	

@@ -1,98 +1,109 @@
   <!-- Content Wrapper. Contains page content -->
   <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/autoCurrency.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>assets/dist/numberFormat.js"></script>
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/select2/select2.min.css">
+    <style type="text/css">
+.select2-container .select2-selection {
+  height: 37px; 
+}
+    </style>
   <div class="content-wrapper">
     <!-- Main content -->
     <section class="content">
       <div class="card card-default color-palette-bo">
         <div class="card-header">
           <div class="d-inline-block">
-              <h3 class="card-title"> <i class="fa fa-pencil"></i>
-              Edit Pelimpahan </h3>
+              <h3 class="card-title">
+              Tambah Pengembalian Pinjaman </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('pelimpahan/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Pelimpahan</a>
+            <a href="<?= base_url('pinjaman/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List pinjaman</a>
           </div>
         </div>
         <div class="card-body">   
            <!-- For Messages -->
             <?php $this->load->view('admin/includes/_messages.php') ?>
               
-            <?php echo form_open(base_url('pelimpahan/edit/'.$bank['id']), 'class="form-horizontal"' )?> 
-            <div class="row">
-            <div class="col-md-4">
+            <?php echo form_open(base_url('pinjaman/add_pengembalian/'), 'class="form-horizontal"' )?> 
+
+              <div class="row">
+              <div class="col-md-6">
                   <div class="form-group">
                     <label for="sub_area" class="control-label">No. Kas</label>
-                    <input type="text" name="no_kas" id="no_kas" value="<?= $bank['no_bukti']; ?>" class="form-control" readonly required>
+                    <input type="text" name="no_kas" id="no_kas" class="form-control" readonly required>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="id" class="control-label">Area</label>
-                    <input type="text" name="nm_area" value="<?= $bank['nm_area']; ?>"  class="form-control" id="nm_area" placeholder="" readonly>
-                      <input type="hidden" name="area" value="<?= $bank['kd_area']; ?>"  class="form-control" id="area" placeholder="">
+                    <select name="area" id="area" class="form-control select2" style="width: 100%;" required>
+                      <option value="">No Selected</option>
+                      <?php foreach($data_area as $area): ?>
+                            <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
+                        <?php endforeach; ?>
+                      </select>
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="sub_area" class="control-label">Tanggal</label>
-                    <input type="date" name="tanggal" id="tanggal" value="<?= $bank['tgl_pelimpahan']; ?>" class="form-control" required>
-                  </div>
-                </div>
-                
-                
               </div>
               <div class="row">
-              <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
-                    <label for="saldo" class="control-label">Jenis Kas</label>
-                    <select name="jns_kas"  id="jns_kas" class="form-control" required>
+                    <label for="sub_area" class="control-label">Tanggal</label>
+                    <input type="date" name="tanggal" id="tanggal" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="sub_area" class="control-label">Tujuan Kas</label>
+                    <select name="tipe" id="tipe" class="form-control">
                       <option value="">No Selected</option>
                       <option value="BANK">BANK</option>
                       <option value="TUNAI">TUNAI</option>
                     </select>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="form-group">
-                    <label for="sub_area" class="control-label">Pegawai Tujuan</label>
-                    <select name="kd_pegawai_asal"  id="kd_pegawai_asal" class="form-control" required>
+                    <label for="sub_area" class="control-label">Pegawai Asal</label>
+                    <select name="kd_pegawai_asal"  id="kd_pegawai_asal" class="form-control select2" style="width: 100%;" required>
                       <option value="">No Selected</option>
                     </select>
                   </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="sub_area" class="control-label">Pegawai</label>
-                      <select name="kd_pegawai"  id="kd_pegawai" class="form-control" required>
-                        <option value="">No Selected</option>
-                      </select>
-                    </div>
-                  </div>
-            </div>
+                
+                
+              </div>
               <div class="row">
-              
-              <div class="col-md-4">
+              <div class="col-md-6">
                   <div class="form-group">
-                    <label for="saldo" class="control-label">Keterangan</label>
-                    <textarea name="keterangan" id="keterangan" rows="1" class="form-control"><?= $bank['keterangan']; ?></textarea>
+                    <label for="sub_area" class="control-label">Pegawai Tujuan</label>
+                    <select name="kd_pegawai"  id="kd_pegawai" class="form-control select2" style="width: 100%;" required>
+                      <option value="">No Selected</option>
+                    </select>
                   </div>
                 </div>
-                <div class="col-md-4">
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="saldo" class="control-label">Keterangan</label>
+                    <textarea name="keterangan" id="keterangan" rows="1" class="form-control"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="saldo" class="control-label">Saldo Kas</label>
                     <input type="text" name="saldo" id="saldo" class="form-control" value="0,00"  placeholder="" style="text-align:right;" readonly>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="nilai" class="control-label">Nilai</label>
-                    <input type="text" name="nilai" id="nilai" class="form-control" value="<?= number_format($bank['nilai'],2,',','.'); ?>"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
+                    <input type="text" name="nilai" id="nilai" class="form-control" value="0,00"  placeholder="" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))">
                   </div>
                 </div>
               </div>
-
-             
+              
                 <div class="form-group">
                   <div class="col-md-12">
                     <input type="submit" name="submit" value="Simpan" class="btn btn-primary pull-right">
@@ -104,93 +115,80 @@
             </div>
     </section>
   </div>
-
+<!-- Select2 -->
+<script src="<?php echo base_url(); ?>assets/plugins/select2/select2.full.min.js"></script>
   <script type="text/javascript">
-      $(document).ready(function(){
-    kd_area = "<?= $bank['kd_area']; ?>";
-    jns_kas = "<?= $bank['jns_kas']; ?>";
-    $('#jns_kas').val(jns_kas);
-    get_pegawai(kd_area);
-    get_pegawai_asal(kd_area);
-    var kd_pegawai='<?= $bank['kd_pegawai']; ?>'
-    var kd_pegawai_asal='<?= $bank['kd_pegawai_asal']; ?>'
-    get_kas_area(kd_pegawai_asal);
-    function get_pegawai (kd_area){ 
+
+  $(document).ready(function(){
+    $('.select2').select2()
+    $('#area').change(function(){ 
+        $('#saldo').val('0,00');
+                var subarea=$(this).val();
                 $.ajax({
-                    url : "<?php echo site_url('pelimpahan/get_pegawai_by_area');?>",
+                    url : "<?php echo site_url('pinjaman/get_pegawai_by_area');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: kd_area},
+                      id: subarea},
                     async : true,
                     dataType : 'json',
                     success: function(data){
                         $('select[name="kd_pegawai"]').empty();
                         $('select[name="kd_pegawai"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
-                            if (value.kd_pegawai==kd_pegawai){
-                                $('select[name="kd_pegawai"]').append('<option value="'+ value.kd_pegawai +'" selected>'+ value.nama +'</option>');
-                            }else{
-                                $('select[name="kd_pegawai"]').append('<option value="'+ value.kd_pegawai +'">'+ value.nama +'</option>');
-                            }
-                            
+                            $('select[name="kd_pegawai"]').append('<option value="'+ value.kd_pegawai +'">'+ value.nama +'</option>');
                         });
 
                     }
                 });
-                return false;
-            }
 
-  function get_pegawai_asal (kd_area){ 
                 $.ajax({
-                    url : "<?php echo site_url('pelimpahan/get_pegawai_kas_by_area');?>",
+                    url : "<?php echo site_url('pinjaman/get_pegawai_by_area');?>",
                     method : "POST",
                     data : {
                       '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                      id: kd_area},
+                      id: subarea},
                     async : true,
                     dataType : 'json',
                     success: function(data){
                         $('select[name="kd_pegawai_asal"]').empty();
                         $('select[name="kd_pegawai_asal"]').append('<option value="">No Selected</option>');
                         $.each(data, function(key, value) {
-                            if (value.kd_pegawai==kd_pegawai_asal){
-                                $('select[name="kd_pegawai_asal"]').append('<option value="'+ value.kd_pegawai +'" selected>'+ value.nama +'</option>');
-                            }else{
-                                $('select[name="kd_pegawai_asal"]').append('<option value="'+ value.kd_pegawai +'">'+ value.nama +'</option>');
-                            }
-                            
+                            $('select[name="kd_pegawai_asal"]').append('<option value="'+ value.kd_pegawai +'">'+ value.nama +'</option>');
                         });
 
                     }
                 });
+                
                 return false;
-            }
+            });
 
-            $('#kd_pegawai').val("<?= $bank['kd_pegawai']; ?>");
-            $('#kd_pegawai_asal').val("<?= $bank['kd_pegawai_asal']; ?>");
-            
-            $('#jns_kas').change(function(){ 
-              $('[name="kd_pegawai_asal"]').val('').trigger('change');
+            $('#tipe').change(function(){ 
               $('[name="saldo"]').val(number_format(0,"2",",",".")).trigger('change');
             });
 
             $('#kd_pegawai_asal').change(function(){ 
-              
+              if ($('#tipe').val()==''){
+                alert('Silahkan pilih sumber kas terlebih dahulu !!!');
+                $('[name="saldo"]').val(number_format(0,"2",",",".")).trigger('change');
+                return;
+              }
+
               if ($(this).val()!=''){
                 get_kas_area($(this).val())
+                get_nomor_urut($(this).val());
               }
               
             });
 
+
             function get_kas_area(id){
-                    var jns_kas  = $('#jns_kas').val();
                     $.ajax({
-                        url : "<?php echo site_url('pelimpahan/get_kas_area');?>",
+                        url : "<?php echo site_url('pinjaman/get_kas_pinjaman_area');?>",
                         method : "POST",
                         data : {
                         '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-                        id: id,jns_kas:jns_kas},
+                        id: id},
                         async : true,
                         dataType : 'json',
                         success: function(data){
@@ -203,6 +201,26 @@
                     });
     
             }
+
+
+  function get_nomor_urut(kd_pegawai){
+        $.ajax({
+        url : "<?php echo site_url('pinjaman/get_nomor');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          kd_pegawai: kd_pegawai},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                nospj = value.nomor;
+                $('[name="no_kas"]').val(value.nomor).trigger('change');
+            });
+
+        }
+    });
+}
 
   });
   </script>

@@ -97,7 +97,7 @@ function get_ttd_by_area($id)
 	//-----------------------------------------------------
 public function get_all(){
 
-	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 		$this->db->select('ci_subarea.*,ci_area.nm_area');
 			$this->db->from('ci_subarea');
 			$this->db->join('ci_area','ci_subarea.kd_area=ci_area.kd_area', 'left');
@@ -117,7 +117,7 @@ public function get_all(){
 
 public function get_ttd(){
 
-	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 		$this->db->select('ci_ttd.*,ci_area.nm_area');
 			$this->db->from('ci_ttd');
 			$this->db->join('ci_area','ci_ttd.kd_area=ci_area.kd_area', 'left');
@@ -143,7 +143,7 @@ public function get_ttd_all(){
 
  public function count_all()
     {
-        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+        if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
         	$this->db->from('ci_subarea');
         }else{
         	$this->db->from('ci_subarea');

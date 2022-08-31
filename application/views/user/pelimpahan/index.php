@@ -27,10 +27,11 @@
                       <th>#id</th>
                       <th>Area</th>
                       <th>Tanggal</th>
-                      <th>Pegawai Asal</th>
-                      <th>Pegawai Tujuan</th>
+                      <th>Asal/Tujuan</th>
+                      <th>Jenis Kas</th>
                       <th>Keterangan</th>
                       <th>Nilai</th>
+                      <th>Potongan</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -63,7 +64,8 @@
     { "targets": 4, "name": "pegawai_tujuan", 'searchable':true, 'orderable':false},
     { "targets": 5, "name": "keterangan", 'searchable':true, 'orderable':false},
     { "targets": 6, "name": "nilai", 'searchable':true, 'orderable':false},
-    { "targets": 7, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
+    { "targets": 7, "name": "potongan", 'searchable':true, 'orderable':false},
+    { "targets": 8, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
   </script>

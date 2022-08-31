@@ -24,7 +24,7 @@ class Pelimpahan extends MY_Controller
 		$this->session->set_userdata('filter_keyword','');
 		$data['title'] = 'pelimpahan';
 
-		$this->load->view('admin/includes/_header');
+		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('user/pelimpahan/index', $data);
 		$this->load->view('admin/includes/_footer');
 	}
@@ -49,16 +49,17 @@ public function datatable_json(){
 		{  
 				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pelimpahan/edit/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pelimpahan/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
-				<a title="Potongan" class="update btn btn-sm btn-secondary" href="'.base_url('pelimpahan/potongan/'.str_replace("/","",$row['no_bukti'])).'"> <i class="fa fa-percent"></i></a>';
+				<a title="Potongan" class="update btn btn-sm btn-secondary" href="'.base_url('pelimpahan/potongan/'.str_replace("/","",$row['no_bukti']).'/'.$row['kd_pegawai_asal']).'"> <i class="fa fa-percent"></i></a>';
 		
 			$data[]= array(
 				$i++,
 				$row['nm_area'],
 				$row['tgl_pelimpahan'],
-				$row['nm_pegawai_asal'],
-				$row['nm_pegawai'],
+				'<b>Asal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</b> '.$row['nm_pegawai_asal'].'<br> <b>Tujuan :</b> '.$row['nm_pegawai'],
+				$row['jns_kas'],
                 $row['keterangan'],
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['potongan'],2,",",".").'</font></span></div>',
 				$button
 			);
 		}
@@ -106,6 +107,7 @@ public function datatable_json(){
 					$data = array(
 						'kd_area' 		    => $this->input->post('area'),
 						'no_bukti' 		    => $this->input->post('no_kas'),
+						'jns_kas' 		    => $this->input->post('jns_kas'),
 						'jenis' 		    => 'area',
 						'kd_pegawai' 	    => $this->input->post('kd_pegawai'),
 						'kd_pegawai_asal'   => $this->input->post('kd_pegawai_asal'),
@@ -167,7 +169,13 @@ public function datatable_json(){
 	}
 	function get_kas_area(){
 		$id 		= $this->input->post('id',TRUE);
-		$data 		= $this->spjpegawai_model->get_kas($id)->result();
+        $jns_kas 		= $this->input->post('jns_kas',TRUE);
+        if ($jns_kas=='TUNAI'){
+            $data 		= $this->spjpegawai_model->get_kas_tunai($id)->result();
+        }else{
+            $data 		= $this->spjpegawai_model->get_kas($id)->result();
+        }
+		
 		echo json_encode($data);
 	}
 
@@ -191,7 +199,7 @@ public function datatable_json(){
                     'errors' => 'Saldo anda tidak cukup'
                 );
                 $this->session->set_flashdata('errors', $data['errors']);
-                redirect(base_url('pelimpahan/add'),'refresh');
+                redirect(base_url('pelimpahan/edit/'.$id),'refresh');
             }
 
             if ($this->form_validation->run() == FALSE) {
@@ -205,6 +213,7 @@ public function datatable_json(){
 				$data = array(
 					    'kd_area' 		    => $this->input->post('area'),
 						'kd_pegawai' 	    => $this->input->post('kd_pegawai'),
+						'jns_kas' 		    => $this->input->post('jns_kas'),
 						'kd_pegawai_asal' 	=> $this->input->post('kd_pegawai_asal'),
 						'tgl_pelimpahan'    => $this->input->post('tanggal'),
                         'keterangan'        => $this->input->post('keterangan'),
@@ -270,10 +279,10 @@ public function datatable_json(){
 	}
 
 	// POTONGAN
-	public function potongan($nomor= 0){
+	public function potongan($nomor= 0,$kd_pegawai=0){
 
-		$nomor_new 	= str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
-		$nocair_new = str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
+		// $nomor_new 	= str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
+		// $nocair_new = str_replace('f58ff891333ec9048109908d5f720903','/',$nomor);
 		$this->rbac->check_operation_access('');
 
 		if($this->input->post('submit')){
@@ -302,7 +311,7 @@ public function datatable_json(){
 			
 		}
 		else{
-			$data['transfer'] = $this->pelimpahan_model->get_pelimpahan_potongan_by_id($nomor);
+			$data['transfer'] = $this->pelimpahan_model->get_pelimpahan_potongan_by_id($nomor,$kd_pegawai);
 			$data2['title'] 		= 'Potongan Pelimpahan';
 			// $data['proyek'] 		= $this->pdo_model->get_proyek_by_id($id_proyek);
 			$this->load->view('admin/includes/_header', $data2);

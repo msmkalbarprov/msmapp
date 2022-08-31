@@ -3,10 +3,12 @@
 class Pelimpahan_model extends CI_Model{
 
 	public function get_all(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
+			$this->db->select('ci_pelimpahan.*,(select ifnull(sum(nilai),0) from ci_pelimpahan_potongan where ci_pelimpahan.no_bukti=ci_pelimpahan_potongan.no_kas and ci_pelimpahan_potongan.rek_asal=ci_pelimpahan.kd_pegawai_asal) as potongan');
 			$this->db->from('ci_pelimpahan');
 			$this->db->where('kd_area <>', 01);
 		}else{
+			$this->db->select('ci_pelimpahan.*,(select ifnull(sum(nilai),0) from ci_pelimpahan_potongan where ci_pelimpahan.no_bukti=ci_pelimpahan_potongan.no_kas and ci_pelimpahan_potongan.rek_asal=ci_pelimpahan.kd_pegawai_asal) as potongan');
 			$this->db->from('ci_pelimpahan');
 			$this->db->where('kd_area', $this->session->userdata('kd_area'));
 			$this->db->where('kd_area <>', 01);
@@ -17,7 +19,7 @@ class Pelimpahan_model extends CI_Model{
 		}
 
 		public function get_all_tunai(){
-			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 				$this->db->from('ci_ambil_tunai');
 			}else{
 				$this->db->from('ci_ambil_tunai');
@@ -28,7 +30,7 @@ class Pelimpahan_model extends CI_Model{
 			}
 
 		public function get_all_pkb(){
-			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 				$this->db->from('ci_pelimpahan');
 				$this->db->where('kd_area', 01);
 			}else{
@@ -41,7 +43,7 @@ class Pelimpahan_model extends CI_Model{
 			}
 
 	public function get_all_plainnya(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 			$this->db->select('ci_pengeluaran_lain.*,(select ifnull(sum(nilai),0) from ci_pengeluaran_lain_potongan where no_kas=ci_pengeluaran_lain.no_bukti)as potongan');
 			$this->db->from('ci_pengeluaran_lain');
 		}else{
@@ -55,7 +57,7 @@ class Pelimpahan_model extends CI_Model{
 
 
 		public function get_all_tlainnya(){
-			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 				$this->db->from('ci_penerimaan_lain');
 				$this->db->where('kd_area', 01);
 			}else{
@@ -276,10 +278,11 @@ function get_plain_potongan_by_id($id)
 		return $query->row_array();
 	}
 
-function get_pelimpahan_potongan_by_id($id)
+function get_pelimpahan_potongan_by_id($id,$kd_pegawai)
 	{
 		$this->db->from('ci_pelimpahan');
 		$this->db->where('no_bukti',$id);
+		$this->db->where('kd_pegawai_asal',$kd_pegawai);
 		$query=$this->db->get();
 		return $query->row_array();
 	}
@@ -326,7 +329,7 @@ function get_plain_by_id($id)
 			$ids = implode(",",$id);
 			$id = explode(",", $ids);
 			$where1 = 'left(no_acc,5)';
-		}
+	}
 		$this->db->where_in($where1, $id);
 		$this->db->from('ci_coa');
 		

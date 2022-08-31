@@ -4,13 +4,31 @@ class Pinjaman_model extends CI_Model{
 
 	public function get_all(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+			$this->db->select('ci_pinjaman.*,(select ifnull(sum(nilai),0) from ci_pinjaman_potongan where ci_pinjaman.no_bukti=ci_pinjaman_potongan.no_kas and ci_pinjaman_potongan.rek_asal=ci_pinjaman.kd_pegawai_asal) as potongan');
 			$this->db->from('ci_pinjaman');
 			$this->db->where('kd_area <>', 01);
 		}else{
+			$this->db->select('ci_pinjaman.*,(select ifnull(sum(nilai),0) from ci_pinjaman_potongan where ci_pinjaman.no_bukti=ci_pinjaman_potongan.no_kas and ci_pinjaman_potongan.rek_asal=ci_pinjaman.kd_pegawai_asal) as potongan');
 			$this->db->from('ci_pinjaman');
 			$this->db->where('kd_area', $this->session->userdata('kd_area'));
+			$this->db->where('kd_pegawai', $this->session->userdata('username'));
 			$this->db->where('kd_area <>', 01);
 		}
+			
+			$this->db->order_by('id','asc');
+        return $this->db->get()->result_array();
+		}
+
+		public function get_all_pengembalian(){
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+				$this->db->from('ci_pinjaman_pengembalian');
+				$this->db->where('kd_area <>', 01);
+			}else{
+				$this->db->from('ci_pinjaman_pengembalian');
+				$this->db->where('kd_area', $this->session->userdata('kd_area'));
+				$this->db->where('kd_pegawai', $this->session->userdata('username'));
+				$this->db->where('kd_area <>', 01);
+			}
 			
 			$this->db->order_by('id','asc');
         return $this->db->get()->result_array();
@@ -36,6 +54,11 @@ class Pinjaman_model extends CI_Model{
 	
 	public function simpan_pinjaman($data){
 		$this->db->insert('ci_pinjaman', $data);
+		return true;
+	}
+
+	public function simpan_pengembalian_pinjaman($data){
+		$this->db->insert('ci_pinjaman_pengembalian', $data);
 		return true;
 	}
 

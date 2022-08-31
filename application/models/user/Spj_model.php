@@ -30,7 +30,7 @@
 // MULAI
 	// get all users for server-side datatable processing (ajax based)
 public function get_all_spj(){
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_kantor");
 			$this->db->group_by("no_spj,kd_area");

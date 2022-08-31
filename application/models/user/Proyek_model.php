@@ -46,7 +46,7 @@
 		public function get_all_proyek(){
 
 			
-			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Divisi Finance'){
+			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'){
 				$this->db->select('ci_proyek.*,
 					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu,
 					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
@@ -260,11 +260,12 @@ public function get_pdp_detail($id,$id_proyek){
 								end as jns_cair,
 								sum( case when ci_proyek_cair_potongan.kd_acc='5041405' then ci_proyek_cair_potongan.nilai else 0 end) as ppn,
 								sum( case when ci_proyek_cair_potongan.kd_acc in ('5041401','5041402','5041403') then ci_proyek_cair_potongan.nilai else 0 end) as pph,
-								sum( case when ci_proyek_cair_potongan.kd_acc='5020501' then ci_proyek_cair_potongan.nilai else 0 end) as infaq
+								sum( case when ci_proyek_cair_potongan.kd_acc='5020501' then ci_proyek_cair_potongan.nilai else 0 end) as infaq,
+								sum( case when ci_proyek_cair_potongan.kd_acc='5041501' then ci_proyek_cair_potongan.nilai else 0 end) as adm
 								");
 			$this->db->from("ci_proyek_cair");
 			$this->db->join("ci_proyek", "ci_proyek_cair.id_proyek=ci_proyek.id_proyek", "left");
-			$this->db->join("ci_proyek_cair_potongan", "ci_proyek_cair.id_proyek=ci_proyek_cair_potongan.id_proyek", "left");
+			$this->db->join("ci_proyek_cair_potongan", "ci_proyek_cair.id_proyek=ci_proyek_cair_potongan.id_proyek and ci_proyek_cair.id = ci_proyek_cair_potongan.id_cair", "left");
 			$this->db->where("ci_proyek_cair.id_proyek", $id_proyek);
 			$this->db->where("ci_proyek_cair.id", $id);
 			$this->db->order_by("id");
@@ -422,7 +423,7 @@ public function get_pdp_header($id,$id_proyek){
 	// PQ
 	function get_mprojek()
 	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Divisi Finance'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');
 			$this->db->where('thn_anggaran >=',date("Y"));	

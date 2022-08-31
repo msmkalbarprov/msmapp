@@ -124,6 +124,9 @@ $lang['proyek_pekerjaan']                       = "Proyek/Pekerjaan";
 $lang['pq']                       				= "Project Qualifying";
 $lang['register_pdo']                       	= "Register PDO";
 $lang['register_pdp']                       	= "Register PDP";
+$lang['pinjaman']                       		= "Pinjaman";
+$lang['beri_pinjaman']                       	= "Beri Pinjaman";
+$lang['kembali_pinjaman']                       = "Pengembalian Pinjaman";
 
 
 

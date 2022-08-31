@@ -11,7 +11,7 @@ class Pegawai_model extends CI_Model{
 
 public function get_all(){
 
-	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance'){
+	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'){
 		$this->db->select('ci_pegawai.*,ci_area.nm_area');
 			$this->db->from('ci_pegawai');
 			$this->db->join('ci_area','ci_pegawai.kd_area=ci_area.kd_area', 'left');

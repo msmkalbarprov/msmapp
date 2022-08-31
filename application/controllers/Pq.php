@@ -51,41 +51,100 @@ class Pq extends MY_Controller {
 				$revisi="";
 			}
 
-			if($row['status']==1){
-				$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-success'>Disetujui</span>";
+			if ($this->session->userdata('is_supper')){
+				if($row['status']==1){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-success'>Disetujui</span>";
+				}else if($row['status']==2 && $row['status_revisi']==0){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-danger'>".$revisi." (Ditolak)</span>";
+				}else if($row['status']==2 && $row['status_revisi']==1){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-primary'>".$revisi." (Revisi)</span>";
+				}else if($row['status']==3){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-primary'>".$revisi." (Direvisi)</span>";
+				}else{
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-danger'>Belum disetujui</span>";
+				}
 				$tombol='
-				<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
-				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
-			}else if($row['status']==2 && $row['status_revisi']==0){
-				$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-danger'>".$revisi." (Ditolak)</span>";
-				$tombol='
-				<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
-				<a title="Edit HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
-				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>
-				<a title="Ajukan Revisi" class="update btn btn-outline-success btn-sm" href="'.base_url('pq/revisi/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-upload"></i></a>';
-			}else if($row['status']==2 && $row['status_revisi']==1){
-				$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-primary'>".$revisi." (Revisi)</span>";
-				$tombol='
-				<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
-				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>
-				<a title="Revisi Sudah Diajukan" class="update btn btn-outline-success btn-sm disabled" href="'.base_url('pq/revisi/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-upload"></i></a>';
-			}else if($row['status']==3){
-				$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-primary'>".$revisi." (Direvisi)</span>";
-				$tombol='
-				<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
-				<a title="Tambah HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
-				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Tambah HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
+					<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
+					<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pq/delete/".$row['id_pqproyek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
+			}else if ($this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+				if($row['status']==1){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-success'>Disetujui</span>";
+					$tombol='
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
+				}else if($row['status']==2 && $row['status_revisi']==0){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-danger'>".$revisi." (Ditolak)</span>";
+					$tombol='
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Edit HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
+					<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>
+					<a title="Ajukan Revisi" class="update btn btn-outline-success btn-sm" href="'.base_url('pq/revisi/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-upload"></i></a>';
+				}else if($row['status']==2 && $row['status_revisi']==1){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-primary'>".$revisi." (Revisi)</span>";
+					$tombol='
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>
+					<a title="Revisi Sudah Diajukan" class="update btn btn-outline-success btn-sm disabled" href="'.base_url('pq/revisi/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-upload"></i></a>';
+				}else if($row['status']==3){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-primary'>".$revisi." (Direvisi)</span>";
+					$tombol='
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Tambah HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
+					<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
+				}else{
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-danger'>Belum disetujui</span>";
+					$tombol='
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Tambah HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
+					<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
+					<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pq/delete/".$row['id_pqproyek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
+				}
 			}else{
-				$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-danger'>Belum disetujui</span>";
-				$tombol='
-				<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
-				<a title="Tambah HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
-				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pq/delete/".$row['id_pqproyek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
-				<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
+				if($row['status']==1){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-success'>Disetujui</span>";
+					$tombol='
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
+				}else if($row['status']==2 && $row['status_revisi']==0){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-danger'>".$revisi." (Ditolak)</span>";
+					$tombol='
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Edit HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
+					<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>
+					<a title="Ajukan Revisi" class="update btn btn-outline-success btn-sm" href="'.base_url('pq/revisi/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-upload"></i></a>';
+				}else if($row['status']==2 && $row['status_revisi']==1){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-primary'>".$revisi." (Revisi)</span>";
+					$tombol='
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>
+					<a title="Revisi Sudah Diajukan" class="update btn btn-outline-success btn-sm disabled" href="'.base_url('pq/revisi/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-upload"></i></a>';
+				}else if($row['status']==3){
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-primary'>".$revisi." (Direvisi)</span>";
+					$tombol='
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Tambah HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
+					<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
+				}else{
+					$statuspq="<br> <b>Status</b> &nbsp;: <span class='text-danger'>Belum disetujui</span>";
+					$tombol='
+					<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view/'.$row['id_pqproyek']).'"> <i class="fa fa-eye"></i></a>
+					<a title="Tambah HPP" class="update btn btn-sm btn-success" href="'.base_url('pq/add_hpp/'.str_replace("/","",$row['id_pqproyek'])).'"> <i class="fa fa-list"></i></a>
+					<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit/'.$row['id_pqproyek']).'"> <i class="fa fa-pencil-square-o"></i></a>
+					<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pq/delete/".$row['id_pqproyek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+					<a title="Cetak" class="update btn btn-sm btn-dark" href="'.base_url('pq/cetak_pq_satuan/'.str_replace("/","",$row['id_pqproyek'])).'" target="_blank" > <i class="fa fa-print"></i></a>';
+				}
 			}
+
+			
 
 			
 			
@@ -114,12 +173,16 @@ class Pq extends MY_Controller {
 		$i=0;
 		foreach ($records['data']   as $row) 
 		{  
-			
-			if($row['status']=='1'){
-				$tombol = '<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-eye"></i></a>';
-			}else{
+			if($this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('is_supper')){
 				$tombol = '<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-eye"></i></a>
-				<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-pencil-square-o"></i></a>';
+					<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-pencil-square-o"></i></a>';
+			}else{
+				if($row['status']=='1'){
+					$tombol = '<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-eye"></i></a>';
+				}else{
+					$tombol = '<a title="View" class="view btn btn-sm btn-info" href="'.base_url('pq/view_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-eye"></i></a>
+					<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pq/edit_pq_operasional/'.str_replace("/","",$row['kode'])).'"> <i class="fa fa-pencil-square-o"></i></a>';
+				}
 			}
 
 			$data[]= array(
@@ -158,6 +221,19 @@ public function datatable_json_hpp(){
 	}
 
 	// <a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/del/".$row['kode']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+	function get_realisasi_spj(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$data 		= $this->pq_model->get_realisasi_spj($id, $no_acc)->result();
+		echo json_encode($data);
+	}
+
+	function get_realisasi_pq(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$data 		= $this->pq_model->get_realisasi_pq($id, $no_acc)->result();
+		echo json_encode($data);
+	}
 
 	public function tambah_pq(){
 		

@@ -31,7 +31,7 @@ class Area_model extends CI_Model{
 
 	function get_area()
 	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Divisi Finance'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin' ){
 			$this->db->from('ci_area');
 			$this->db->where('id <>','0');
 			$this->db->where('kdgroup','1');	
@@ -58,7 +58,7 @@ class Area_model extends CI_Model{
 
 	function get_area_pusat()
 	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='AE' || $this->session->userdata('admin_role')=='Marketing'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'  || $this->session->userdata('admin_role')=='AE' || $this->session->userdata('admin_role')=='Marketing'){
 			$this->db->from('ci_area');
 			$this->db->where('id <>','0');	
 			$this->db->where('kdgroup','1');	
@@ -76,7 +76,7 @@ class Area_model extends CI_Model{
 
 	function get_area_pdp()
 	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Marketing'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'  || $this->session->userdata('admin_role')=='Marketing'){
 			$this->db->from('ci_area');
 			$this->db->where('kd_area <>','all');	
 			$this->db->where('kdgroup','1');	
@@ -95,7 +95,7 @@ class Area_model extends CI_Model{
 
 	function get_area2()
 	{	
-		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing'){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->from('ci_area');
 			$this->db->where('kdgroup','1');	
 		}else{

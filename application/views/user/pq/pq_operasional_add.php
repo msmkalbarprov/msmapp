@@ -125,6 +125,24 @@
           </div>
          </div>
 
+         <div class="row">
+          <div class="col-md-6">
+           
+          </div>
+          <div class="col-md-3">
+           <div class="form-group">
+            <label for="dinas" class="control-label">Total PQ</label>
+               <input type="text" name="realisasi_pq" id="realisasi_pq" class="form-control" value="0" style="background:none;text-align:right;"readonly >
+          </div>
+          </div>
+          <div class="col-md-3">
+           <div class="form-group">
+            <label for="dinas" class="control-label">Realisasi</label>
+               <input type="text" name="realisasi" id="realisasi" class="form-control" value="0" style="background:none;text-align:right;"readonly >
+          </div>
+          </div>
+         </div>
+
         <div class="form-group">
           <div class="col-md-12">
             <input type="submit" name="submit" id="butsave" value="Simpan" class="btn btn-primary pull-right btn-sm">
@@ -190,7 +208,52 @@
     ]
   });
 
+  $('#item_op').change(function(){
+    let no_acc  =  $(this).val();
+    let kodepq  =  $('#kd_pq').val();
+    let area    =  $('#area').val();
+    get_realisasi(no_acc,kodepq);
+    get_realisasi_pq(no_acc,area);
+  });
 
+  // get realisasi SPJ 
+  function get_realisasi(no_acc,kodepq){
+        $.ajax({
+        url : "<?php echo site_url('pq/get_realisasi_spj');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: kodepq,no_acc:no_acc},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="realisasi"]').val(number_format(value.total,"2",",",".")).trigger('change');
+            });
+
+        }
+    });
+        
+}
+
+function get_realisasi_pq(no_acc,area){
+        $.ajax({
+        url : "<?php echo site_url('pq/get_realisasi_pq');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: area,no_acc:no_acc},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="realisasi_pq"]').val(number_format(value.total,"2",",",".")).trigger('change');
+            });
+
+        }
+    });
+        
+}
 
 
 
@@ -214,8 +277,14 @@ $('#butsave').on('click', function() {
     var satuan        = $('#satuan').val();
     var harga         = number($('#harga').val());
     var total         = number($('#total').val());
+    var realisasi     = number($('#realisasi').val());
+    var total_pq      = number($('#realisasi_pq').val());
     var area          = $('#area').val();
 
+    if ((total+total_pq)< realisasi){
+      alert('Nilai PQ kurang tidak boleh kurang dari nilai realisasi');
+      return;
+    }
     
     if(kd_item!="" && volume!="" && harga!="" && total!="" && area!=""){
       $("#butsave").attr("disabled", "disabled");

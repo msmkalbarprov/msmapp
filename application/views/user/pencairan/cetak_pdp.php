@@ -155,12 +155,13 @@ function terbilang($nilai) {
       <!-- TABEL -->
       <table width="100%" style="border-spacing: -1px;border-collapse: collapse;" cellspacing="2" cellpadding="3">
         <tr style="font-size:12px">
-          <td width="35%" align="center" bgcolor="#DCDCDC" >Nama Pekerjaan</td>
-          <td width="25%" align="center" bgcolor="#DCDCDC" >Nama Instansi</td>
+          <td width="25%" align="center" bgcolor="#DCDCDC" >Nama Pekerjaan</td>
+          <td width="15%" align="center" bgcolor="#DCDCDC" >Nama Instansi</td>
           <td width="10%" align="center" bgcolor="#DCDCDC" >N. Bruto</td>
           <td width="10%" align="center" bgcolor="#DCDCDC" >PPN</td>
           <td width="10%" align="center" bgcolor="#DCDCDC" >PPH</td>
           <td width="10%" align="center" bgcolor="#DCDCDC" >INFAQ</td>
+          <td width="10%" align="center" bgcolor="#DCDCDC" >ADM. BANK</td>
           <td width="10%" align="center" bgcolor="#DCDCDC" >N. Netto</td>
         </tr>
         <?php 
@@ -169,6 +170,7 @@ function terbilang($nilai) {
           $totalpph   =0; 
           $totalinfaq =0; 
           $totalnetto =0; 
+          $totaladm   =0;
           $i=1;
         ?>
         <?php foreach($pdp_detail as $pdp): ?>
@@ -178,17 +180,19 @@ function terbilang($nilai) {
               $totalppn   = $totalppn+$pdp['ppn'];
               $totalpph   = $totalpph+$pdp['pph'];
               $totalinfaq = $totalinfaq+$pdp['infaq'];
-              $potongan = $pdp['infaq']+$pdp['pph']+$pdp['ppn'];
-              $netto = $pdp['nilai_bruto']-$potongan;
+              $totaladm   = $totaladm+$pdp['adm'];
+              $potongan   = $pdp['infaq']+$pdp['pph']+$pdp['ppn']+$pdp['adm'];
+              $netto      = $pdp['nilai_bruto']-$potongan;
               $totalnetto = $totalnetto+$netto;  
         ?>
           <tr style="font-size:12px">
             <td width="25%"><?= $pdp['nm_paket_proyek'].' '.$pdp['jns_cair']; ?></td>
-            <td width="25%"><?= $pdp['nm_dinas']; ?></td>
+            <td width="15%"><?= $pdp['nm_dinas']; ?></td>
             <td width="10%" align="right"><?= number_format($pdp['nilai_bruto'],2,',','.'); ?></td>
             <td width="10%" align="right"><?= number_format($pdp['ppn'],2,',','.'); ?></td>
             <td width="10%" align="right"><?= number_format($pdp['pph'],2,',','.'); ?></td>
             <td width="10%" align="right"><?= number_format($pdp['infaq'],2,',','.'); ?></td>
+            <td width="10%" align="right"><?= number_format($pdp['adm'],2,',','.'); ?></td>
             <td width="10%" align="right"><?= number_format($netto,2,',','.'); ?></td>
           </tr>
         <?php endforeach; ?>
@@ -198,6 +202,7 @@ function terbilang($nilai) {
           <td width="10%" align="right"><?= number_format($totalppn,2,',','.'); ?></td>
           <td width="10%" align="right"><?= number_format($totalpph,2,',','.'); ?></td>
           <td width="10%" align="right"><?= number_format($totalinfaq,2,',','.'); ?></td>
+          <td width="10%" align="right"><?= number_format($totaladm,2,',','.'); ?></td>
           <td width="10%" align="right"><?= number_format($totalnetto,2,',','.'); ?></td>
         </tr>
       </table>

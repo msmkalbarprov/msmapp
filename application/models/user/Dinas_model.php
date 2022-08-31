@@ -51,7 +51,7 @@ class Dinas_model extends CI_Model{
 	//-----------------------------------------------------
 public function get_all(){
 
-	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
+	if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin'){
 		$this->db->select('ci_dinas.*,ci_subarea.nm_subarea');
 			$this->db->from('ci_dinas');
 			$this->db->join('ci_subarea','ci_subarea.kd_subarea=ci_dinas.kd_sub_area', 'left');
