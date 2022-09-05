@@ -243,16 +243,33 @@
          <div class="row">
           <div class="col-md-6" >
            <div class="form-group">
-                <label for="dinas" class="control-label">Realisasi</label>
-                <input type="text" name="thpp" id="thpp" class="form-control"   style="background:none;text-align:right;"readonly >
+                <label for="dinas" class="control-label">Realisasi PDO</label>
+                <input type="text" name="thpp" id="thpp" class="form-control"   style="background:none;text-align:right;" readonly >
             </div>
           </div>
          
 
           <div class="col-md-6">
            <div class="form-group">
-                <label for="dinas" class="control-label">Sisa</label>
-                <input type="text" name="sisa" id="sisa" class="form-control"   style="background:none;text-align:right;"readonly >
+                <label for="dinas" class="control-label">Sisa (HPP-PDO)</label>
+                <input type="text" name="sisa" id="sisa" class="form-control"   style="background:none;text-align:right;" readonly >
+            </div>
+          </div>
+         
+         </div>
+         <div class="row">
+          <div class="col-md-6" >
+           <div class="form-group">
+                <label for="dinas" class="control-label">Realisasi SPJ</label>
+                <input type="text" name="thpp_spj" id="thpp_spj" class="form-control"   style="background:none;text-align:right;" readonly >
+            </div>
+          </div>
+         
+
+          <div class="col-md-6">
+           <div class="form-group">
+                <label for="dinas" class="control-label">Sisa  (HPP-SPJ)</label>
+                <input type="text" name="sisa_spj" id="sisa_spj" class="form-control"   style="background:none;text-align:right;" readonly >
             </div>
           </div>
          
@@ -453,6 +470,25 @@ function get_realisasi(kd_coa,kode_pqproyek,nil_hpp){
 
         }
     });
+
+    $.ajax({
+        url : "<?php echo site_url('cpdo/get_realisasi_spj');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: kode_pqproyek,no_acc:kd_coa},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="thpp_spj"]').val(number_format(value.total,"2",",",".")).trigger('change');
+
+                $('[name="sisa_spj"]').val(number_format(nil_hpp - value.total,"2",",",".")).trigger('change');
+
+            });
+
+        }
+    });
         
 }
 
@@ -534,8 +570,14 @@ $('#butsave').on('click', function() {
 
     var jenis_tkl     = $('#jns_tkls').val();
     var sisa          = number($('#sisa').val());
+    var sisa_spj      = number($('#sisa_spj').val());
     if(total>sisa){
       alert('Gagal! Nilai Melebihi sisa HPP');
+      return;
+    }
+
+    if(total>sisa_spj){
+      alert('Gagal! Nilai Melebihi sisa SPJ');
       return;
     }
     
@@ -650,7 +692,8 @@ $('#item_hpp').change(function(){
 
 
    var kd_coa         = $(this).val();
-   var kode_pqproyek  = "<?= $data_pdo['kd_pqproyek'] ?>";
+   var kode_pqproyek  = $('#projek').val(); 
+  
    if (kd_coa.substr(0,7)=='5010202'){
     
     var no_acc      = kd_coa.substr(0,7);

@@ -228,7 +228,7 @@
           
           <div class="col-md-12">
            <div class="form-group">
-                <label for="dinas" class="control-label">Nilai HPP</label>
+                <label for="dinas" class="control-label">Nilai PQ</label>
                 <input type="text" name="pnet" id="pnet" class="form-control"  style="background:none;text-align:right;"readonly >
             </div>
           </div>
@@ -236,20 +236,33 @@
          </div>
 
          <div class="row">
-          <div class="col-md-12" >
+          <div class="col-md-6" >
            <div class="form-group">
-                <label for="dinas" class="control-label">Realisasi</label>
-                <input type="text" name="thpp" id="thpp" class="form-control"   style="background:none;text-align:right;"readonly >
+                <label for="dinas" class="control-label">Realisasi PDO</label>
+                <input type="text" name="thpp" id="thpp" class="form-control"   style="background:none;text-align:right;" readonly >
+            </div>
+          </div>
+          <div class="col-md-6" >
+           <div class="form-group">
+                <label for="dinas" class="control-label">Realisasi SPJ</label>
+                <input type="text" name="thpp_spj" id="thpp_spj" class="form-control"   style="background:none;text-align:right;" readonly >
             </div>
           </div>
          
          </div>
 
          <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
            <div class="form-group">
-                <label for="dinas" class="control-label">Sisa</label>
+                <label for="dinas" class="control-label">Sisa (PQ - PDO)</label>
                 <input type="text" name="sisa" id="sisa" class="form-control"   style="background:none;text-align:right;"readonly >
+            </div>
+          </div>
+
+          <div class="col-md-6">
+           <div class="form-group">
+                <label for="dinas" class="control-label">Sisa (PQ - SPJ)</label>
+                <input type="text" name="sisa_spj" id="sisa_spj" class="form-control"   style="background:none;text-align:right;"readonly >
             </div>
           </div>
          
@@ -462,6 +475,25 @@ function get_realisasi(kode_pqoperasional,nil_pq){
 
         }
     });
+
+    $.ajax({
+        url : "<?php echo site_url('cpdo/get_realisasi_op_spj');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          kode_pqoperasional: kode_pqoperasional},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="thpp_spj"]').val(number_format(value.total,"2",",",".")).trigger('change');
+
+                $('[name="sisa_spj"]').val(number_format(nil_pq - value.total,"2",",",".")).trigger('change');
+
+            });
+
+        }
+    });
         
 }
 
@@ -509,9 +541,17 @@ $('#butsave').on('click', function() {
     var idpdo         = no_pdo.replace(/\//g,'');
     var kodeproject   = projek;
     var sisa          = number($('#sisa').val());
+    var sisa_spj      = number($('#sisa_spj').val());
     var no_rekening   = $('#no_rekening').val();
+    
+    
     if(total>sisa){
-      alert('Gagal! Nilai Melebihi sisa HPP');
+      alert('Gagal! Nilai Melebihi sisa PQ-PDO');
+      return;
+    }
+
+    if(total>sisa_spj){
+      alert('Gagal! Nilai Melebihi sisa PQ-SPJ');
       return;
     }
 
@@ -590,7 +630,9 @@ $('#butsave').on('click', function() {
             document.getElementById("pnet").value='';
             document.getElementById("no_rekening").value='';
             document.getElementById("thpp").value='';
+            document.getElementById("thpp_spj").value='';
             document.getElementById("sisa").value='';
+            document.getElementById("sisa_spj").value='';
             document.getElementById("satuan").value='';
             document.getElementById("qty").value='';
             document.getElementById("harga").value='';

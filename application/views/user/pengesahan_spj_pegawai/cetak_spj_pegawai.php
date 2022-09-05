@@ -114,7 +114,7 @@ function format_indo($date){
                                 <tr>
 								<td width="15%" align='left'></td>
 								<td width="1%" align='left'><b>I.</td>
-								<td width="15%" align='left'><b>Saldo Bulan Lalu</td>
+								<td width="15%" align='left'><b>Saldo Bulan Lalu (tunai)</td>
 								<td width="1%" align='left'></td>
 								<td width="20%" align='left'><b></td>
 								

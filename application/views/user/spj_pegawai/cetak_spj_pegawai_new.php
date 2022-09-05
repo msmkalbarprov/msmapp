@@ -86,8 +86,8 @@ function format_indo($date){
 								<tr><td colspan='10'></td></tr>
 								<tr><td colspan='10'></td></tr>
 								<tr><td colspan='10'></td></tr>
-								<tr><td colspan='10'></td></tr><tr>
-								<td colspan='10'></td></tr>
+								<tr><td colspan='10'></td></tr>
+                                <tr><td colspan='10'></td></tr>
 								<tr><td colspan='10'></td></tr>
 								<tr><td colspan='10'></td></tr>
 								<tr><td colspan='10'></td></tr>
@@ -97,7 +97,7 @@ function format_indo($date){
 								<td width="1%" align='left'></td>
 								<td width="15%" align='left'>Nama Pegawai</td>
 								<td width="1%" align='left'>:</td>
-								<td width="20%" align='left'> <?= $spj_header['nama']; ?></td>
+								<td width="15%" align='left'> <?= $spj_header['nama']; ?></td>
 								
 								<td width="5%" align='left'>Bulan</td>
 								<td width="1%" align='left'>:</td>
@@ -110,7 +110,7 @@ function format_indo($date){
 								<td width="1%" align='left' style="border-bottom:solid 1px black;"></td>
 								<td width="15%" align='left' style="border-bottom:solid 1px black;">Daerah</td>
 								<td width="1%" align='left' style="border-bottom:solid 1px black;">:</td>
-								<td width="20%" align='left' style="border-bottom:solid 1px black;"><?= ucwords(strtolower($spj_header['nm_area'])); ?></td>
+								<td width="15%" align='left' style="border-bottom:solid 1px black;"><?= ucwords(strtolower($spj_header['nm_area'])); ?></td>
 								
 								<td width="5%" align='left' style="border-bottom:solid 1px black;">No.HP</td>
 								<td width="1%" align='left' style="border-bottom:solid 1px black;">:</td>
@@ -124,27 +124,30 @@ function format_indo($date){
 								<tr><td colspan='10'></td></tr>
 								<tr><td colspan='10'></td></tr>
 			  <!-- mulai $Nope -->
-
+                    </table>
+                    <table style="border-collapse:collapse; font-size:9;" width="100%" align="center" border="0" cellspacing="0" cellpadding="2">
 			  					<tr>
-								<td width="15%" align='right'>A. TUNAI</td>
+								<td width="5%" align='right'><b>A. </b></td>
+                                <td width="15%" align='left'><b>TUNAI</b></td>
 								<td width="1%" align='left'><b></td>
 								<td width="15%" align='left'><b></td>
 								<td width="1%" align='left'></td>
-								<td width="20%" align='left'><b></td>
+								<td width="15%" align='left'><b></td>
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
-								<td width="8%" align='right'><b><?= angka($spj_header3['terima']-$spj_header5['keluar']); ?></td>
+								<td width="8%" align='right'></td>
 								<td width="15%" align='left'></td>
                                 </tr>
 
                                 <tr>
-								<td width="15%" align='left'></td>
-								<td width="1%" align='left'><b>I.</td>
-								<td width="15%" align='left'><b>Saldo Bulan Lalu</td>
+								<td width="5%" align='left'></td>
+                                <td width="15" align='right'></td>
+								<td width="1%" align='left'><b>1.</td>
+								<td width="15%" align='left'><b>Saldo Lalu</td>
 								<td width="1%" align='left'></td>
-								<td width="20%" align='left'><b></td>
+								<td width="15%" align='left'><b></td>
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
@@ -153,17 +156,18 @@ function format_indo($date){
 								<td width="15%" align='left'></td>
                                 </tr>
 								
-								<tr><td colspan='10'></td></tr>
-								<tr><td colspan='10'></td></tr>
-								<tr><td colspan='10'></td></tr>
-								<tr><td colspan='10'></td></tr>
+								<tr><td colspan='11'></td></tr>
+								<tr><td colspan='11'></td></tr>
+								<tr><td colspan='11'></td></tr>
+								<tr><td colspan='11'></td></tr>
 								
 								<tr>
-								<td width="15%" align='left'></td>
+								<td width="5%" align='left'></td>
+                                <td width="15%" align='right'></td>
 								<td width="1%" align='left'><b>II.</td>
 								<td width="15%" align='left'><b>Penerimaan</td>
 								<td width="1%" align='left'></td>
-								<td width="20%" align='left'><b></td>
+								<td width="15%" align='left'><b></td>
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
@@ -172,26 +176,11 @@ function format_indo($date){
 								<td width="15%" align='left'></td>
                                 </tr>
 
-
-								<tr>
-									<td width="15%" align='left'></td>
-									<td width="1%" align='left'><b></td>
-									<td width="15%" align='left'>Transfer Penerimaan</td>
-									<td width="1%" align='left'></td>
-									<td width="20%" align='left'><b></td>
-									
-									<td width="5%" align='left'></td>
-									<td width="1%" align='left'></td>
-									<td width="10%" align='left'></td>
-									<td width="8%" align='left'></td>
-									<td width="15%" align='left'></td>
-									</tr>
-
-                                
 							<?php foreach($rincian_penerimaan as $rincian_penerimaan):  ?>
 								    
 								    <tr>
-        								<td width="15%" align='left'></td>
+                                        <td width="10%" align='left'></td>
+                                        <td width="5" align='right'></td>
         								<td width="1%" align='left'><b></td>
         								<td colspan="2" align='left'><?= $rincian_penerimaan['tanggal']; ?></td>
         								
@@ -205,33 +194,33 @@ function format_indo($date){
                                     
 								<?php endforeach; ?>
 								<tr>
-							<td colspan='5'></td>
+							<td colspan='6'></td>
 							<td colspan='2' align='left' align='left' ></td>
 							<td align='left' colspan='2'>+</td>
 							</td></tr>
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b></td>
 								<td colspan="2" align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Penerimaan</td>
-								
-								
 								<td colspan='2' width="5%" align='right' style="border-top:solid 1px black;"><b><?= angka($spj_header4['terima']); ?></td>
 								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
 								<td width="8%" align='right'></td>
 								<td width="15%" align='left'></td>
                             </tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
 							
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="15%" align='right'></td>
 								<td width="1%" align='left'><b>III.</td>
 								<td width="15%" align='left'><b>Pengeluaran</td>
 								<td width="1%" align='left'></td>
-								<td width="20%" align='left'><b></td>
+								<td width="15%" align='left'><b></td>
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
@@ -240,21 +229,7 @@ function format_indo($date){
 								<td width="15%" align='left'></td>
                             </tr>
 							<tr>
-								<td width="15%" align='left'></td>
-								<td width="1%" align='left'><b></td>
-								<td width="15%" colspan='3' align='left'>&nbsp;&nbsp;&nbsp;&nbsp;Pengeluaran NON PAKET</td>
-								
-								
-								<td width="5%" align='right'></td>
-								<td width="1%" align='left'></td>
-								<td width="10%" align='right' ></td>
-								<td width="8%" align='right'></td>
-								<td width="15%" align='left'></td>
-                            </tr>
-							
-							
-							<tr>
-								<td colspan='5'></td>
+								<td colspan='6'></td>
 								<td width="5%"  align='left'><?= angka($spj_header2['total']); ?></td>
 								<td width="1%"  align='left'></td>
 								<td width="10%" align='right'></td>
@@ -262,13 +237,14 @@ function format_indo($date){
 								</td>
 							</tr>
 							<tr>
-							<td colspan='5'></td>
+							<td colspan='6'></td>
 							<td colspan='2' align='left' align='left' ></td>
 							<td align='left' colspan='2'>+</td>
 							</td></tr>
 							
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b></td>
 								<td colspan="2" align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Pengeluaran</td>
 								
@@ -280,12 +256,13 @@ function format_indo($date){
 								<td width="15%" align='left'></td>
                             </tr>
 							
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b>IV.</td>
 								<td width="15%" colspan='3' align='left'><b>Total Penerimaan - Total Pengeluaran</td>
 								
@@ -296,12 +273,13 @@ function format_indo($date){
 								<td width="8%" align='right'><b><?= angka($spj_header4['terima']-$spj_header2['total']); ?></b></td>
 								<td width="15%" align='left'></td>
                             </tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b>V.</td>
 								<td width="15%" colspan='3' align='left'><b>Pengembalian kas</td>
 								
@@ -312,12 +290,13 @@ function format_indo($date){
 								<td width="8%" align='right'><b><?= angka($pengembalian['keluar']); ?></b></td>
 								<td width="15%" align='left'></td>
                             </tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b>VI.</td>
 								<td width="15%" colspan='3' align='left'><b>Saldo Akhir</td>
 								
@@ -332,26 +311,28 @@ function format_indo($date){
 
 							<!-- BANK -->
 
-							<tr>
-								<td width="15%" align='right'>B. BANK</td>
+                            <tr>
+                                <td width="5%" align='right'><b>B. </b></td>
+                                <td width="15%" align='left'><b>BANK</b></td>
 								<td width="1%" align='left'><b></td>
 								<td width="15%" align='left'><b></td>
 								<td width="1%" align='left'></td>
-								<td width="20%" align='left'><b></td>
+								<td width="15%" align='left'><b></td>
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
-								<td width="8%" align='right'><b><?= angka($spj_header3['terima']-$spj_header5['keluar']); ?></td>
+								<td width="8%" align='right'></td>
 								<td width="15%" align='left'></td>
-                                </tr>
+                            </tr>
 
                                 <tr>
-								<td width="15%" align='left'></td>
+								<td width="5%" align='left'></td>
+                                <td width="15%" align='right'></td>
 								<td width="1%" align='left'><b>I.</td>
-								<td width="15%" align='left'><b>Saldo Bulan Lalu</td>
+								<td width="15%" align='left'><b>Saldo Lalu</td>
 								<td width="1%" align='left'></td>
-								<td width="20%" align='left'><b></td>
+								<td width="15%" align='left'><b></td>
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
@@ -360,17 +341,18 @@ function format_indo($date){
 								<td width="15%" align='left'></td>
                                 </tr>
 								
-								<tr><td colspan='10'></td></tr>
-								<tr><td colspan='10'></td></tr>
-								<tr><td colspan='10'></td></tr>
-								<tr><td colspan='10'></td></tr>
+								<tr><td colspan='11'></td></tr>
+								<tr><td colspan='11'></td></tr>
+								<tr><td colspan='11'></td></tr>
+								<tr><td colspan='11'></td></tr>
 								
 								<tr>
-								<td width="15%" align='left'></td>
+								<td width="5%" align='left'></td>
+                                <td width="15%" align='right'></td>
 								<td width="1%" align='left'><b>II.</td>
 								<td width="15%" align='left'><b>Penerimaan</td>
 								<td width="1%" align='left'></td>
-								<td width="20%" align='left'><b></td>
+								<td width="15%" align='left'><b></td>
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
@@ -378,27 +360,12 @@ function format_indo($date){
 								<td width="8%" align='left'></td>
 								<td width="15%" align='left'></td>
                                 </tr>
-
-
-								<tr>
-									<td width="15%" align='left'></td>
-									<td width="1%" align='left'><b></td>
-									<td width="15%" align='left'>Transfer Penerimaan</td>
-									<td width="1%" align='left'></td>
-									<td width="20%" align='left'><b></td>
-									
-									<td width="5%" align='left'></td>
-									<td width="1%" align='left'></td>
-									<td width="10%" align='left'></td>
-									<td width="8%" align='left'></td>
-									<td width="15%" align='left'></td>
-									</tr>
-
                                 
 							<?php foreach($rincian_penerimaan as $rincian_penerimaan):  ?>
 								    
 								    <tr>
-        								<td width="15%" align='left'></td>
+                                        <td width="10%" align='left'></td>
+                                        <td width="5" align='right'></td>
         								<td width="1%" align='left'><b></td>
         								<td colspan="2" align='left'><?= $rincian_penerimaan['tanggal']; ?></td>
         								
@@ -412,12 +379,13 @@ function format_indo($date){
                                     
 								<?php endforeach; ?>
 								<tr>
-							<td colspan='5'></td>
+							<td colspan='6'></td>
 							<td colspan='2' align='left' align='left' ></td>
 							<td align='left' colspan='2'>+</td>
 							</td></tr>
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b></td>
 								<td colspan="2" align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Penerimaan</td>
 								
@@ -428,17 +396,18 @@ function format_indo($date){
 								<td width="8%" align='right'></td>
 								<td width="15%" align='left'></td>
                             </tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
 							
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="15%" align='right'></td>
 								<td width="1%" align='left'><b>III.</td>
 								<td width="15%" align='left'><b>Pengeluaran</td>
 								<td width="1%" align='left'></td>
-								<td width="20%" align='left'><b></td>
+								<td width="15%" align='left'><b></td>
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
@@ -447,21 +416,7 @@ function format_indo($date){
 								<td width="15%" align='left'></td>
                             </tr>
 							<tr>
-								<td width="15%" align='left'></td>
-								<td width="1%" align='left'><b></td>
-								<td width="15%" colspan='3' align='left'>&nbsp;&nbsp;&nbsp;&nbsp;Pengeluaran NON PAKET</td>
-								
-								
-								<td width="5%" align='right'></td>
-								<td width="1%" align='left'></td>
-								<td width="10%" align='right' ></td>
-								<td width="8%" align='right'></td>
-								<td width="15%" align='left'></td>
-                            </tr>
-							
-							
-							<tr>
-								<td colspan='5'></td>
+								<td colspan='6'></td>
 								<td width="5%"  align='left'><?= angka($spj_header2['total']); ?></td>
 								<td width="1%"  align='left'></td>
 								<td width="10%" align='right'></td>
@@ -469,13 +424,14 @@ function format_indo($date){
 								</td>
 							</tr>
 							<tr>
-							<td colspan='5'></td>
+							<td colspan='6'></td>
 							<td colspan='2' align='left' align='left' ></td>
 							<td align='left' colspan='2'>+</td>
 							</td></tr>
 							
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b></td>
 								<td colspan="2" align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Pengeluaran</td>
 								
@@ -487,12 +443,13 @@ function format_indo($date){
 								<td width="15%" align='left'></td>
                             </tr>
 							
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b>IV.</td>
 								<td width="15%" colspan='3' align='left'><b>Total Penerimaan - Total Pengeluaran</td>
 								
@@ -503,12 +460,13 @@ function format_indo($date){
 								<td width="8%" align='right'><b><?= angka($spj_header4['terima']-$spj_header2['total']); ?></b></td>
 								<td width="15%" align='left'></td>
                             </tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b>V.</td>
 								<td width="15%" colspan='3' align='left'><b>Pengembalian kas</td>
 								
@@ -519,12 +477,13 @@ function format_indo($date){
 								<td width="8%" align='right'><b><?= angka($pengembalian['keluar']); ?></b></td>
 								<td width="15%" align='left'></td>
                             </tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
 							<tr>
-								<td width="15%" align='left'></td>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b>VI.</td>
 								<td width="15%" colspan='3' align='left'><b>Saldo Akhir</td>
 								
@@ -535,11 +494,35 @@ function format_indo($date){
 								<td width="8%" align='right'><b><?= angka($spj_header4['terima']+$spj_header3['terima']-$spj_header5['keluar']-$spj_header2['total']-$pengembalian['keluar']); ?></td>
 								<td width="15%" align='left'></td>
                             </tr>
-
-							<tr><td colspan='10'></td></tr>
-							<tr><td colspan='10'></td></tr>
+                            <tr>
+                                <td width="5%" align='left'></td>
+                                <td width="10%" align='right'></td>
+								<td width="1%" align='left'><b>VII.</td>
+								<td width="15%" colspan='3' align='left'><b>Saldo Akhir Bank Lainnya</td>
+								
+								
+								<td width="5%" align='left'></td>
+								<td width="1%" align='left'></td>
+								<td width="10%" align='right'></td>
+								<td width="8%" align='right'><b><?= angka($spj_header4['terima']+$spj_header3['terima']-$spj_header5['keluar']-$spj_header2['total']-$pengembalian['keluar']); ?></td>
+								<td width="15%" align='left'></td>
+                            </tr>
+                            <tr>
+                                <td width="5%" align='right'><b>C. </b></td>
+                                <td width="15%" colspan="3" align='left'><b>TOTAL SALDO AKHIR</b></td>
+								<td width="1%" align='left'></td>
+								<td width="15%" align='left'><b></td>
+								
+								<td width="5%" align='left'></td>
+								<td width="1%" align='left'></td>
+								<td width="10%" align='right'></td>
+								<td width="8%" align='right'></td>
+								<td width="15%" align='left'></td>
+                            </tr>
+							<tr><td colspan='11'></td></tr>
+							<tr><td colspan='11'></td></tr>
 			
-							<tr><td colspan='10'></td></tr>
+							<tr><td colspan='11'></td></tr>
 							
 				  
 				  </table>

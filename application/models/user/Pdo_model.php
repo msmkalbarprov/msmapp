@@ -289,6 +289,29 @@ function get_realisasi($id, $no_acc)
 		return $query;
 	}
 
+	function get_realisasi_spj($id, $no_acc)
+	{	
+		$this->db->select('ifnull(sum(nilai),0)as total');
+		$this->db->from('get_realisasi_spj');
+		$this->db->where('kd_pqproyek', $id);	
+		$this->db->where('no_acc', $no_acc);	
+		$query=$this->db->get();
+		return $query;
+
+	}
+
+	function get_realisasi_spj2($id, $no_acc, $jns_tk)
+	{	
+		$this->db->select('ifnull(sum(nilai),0)as total');
+		$this->db->from('get_realisasi_spj');
+		$this->db->where('kd_pqproyek', $id);	
+		$this->db->where('no_acc', $no_acc);
+		$this->db->where('jns_tkl', $jns_tk);		
+		$query=$this->db->get();
+		return $query;
+
+	}
+
 function get_realisasi2($id, $no_acc, $jns_tk)
 	{
 		
@@ -674,11 +697,20 @@ function get_nilai_op($kode_pqoperasional)
 		return $query;
 	}
 
-function get_realisasi_op($kode_pqoperasional)
+function get_realisasi_op_pdo($kode_pqoperasional)
 	{
-		$this->db->select('ifnull(sum(total),0)as total');
-		$this->db->from('v_get_realisasi_hpp');
-		$this->db->where('kd_pqproyek', $kode_pqoperasional);	
+		$this->db->select('ifnull(sum(nilai),0)as total');
+		$this->db->from('ci_pdo');
+		$this->db->where("concat(left(kd_pqproyek,10),'/',left(no_acc,5))", $kode_pqoperasional);	
+		$query=$this->db->get();
+		return $query;
+	}
+
+	function get_realisasi_op_spj($kode_pqoperasional)
+	{
+		$this->db->select('ifnull(sum(nilai),0)as total');
+		$this->db->from('get_realisasi_spj');
+		$this->db->where("concat(kd_pqproyek,'/',left(no_acc,5))", $kode_pqoperasional);	
 		$query=$this->db->get();
 		return $query;
 	}

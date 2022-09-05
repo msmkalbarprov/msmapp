@@ -394,6 +394,25 @@ function get_realisasi(kd_coa,kode_pqproyek,nil_hpp){
 
         }
     });
+
+    $.ajax({
+        url : "<?php echo site_url('cpdo/get_realisasi_spj');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: kode_pqproyek,no_acc:kd_coa},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="thpp_spj"]').val(number_format(value.total,"2",",",".")).trigger('change');
+
+                $('[name="sisa_spj"]').val(number_format(nil_hpp - value.total,"2",",",".")).trigger('change');
+
+            });
+
+        }
+    });
         
 }
 

@@ -446,7 +446,7 @@ public function get_spj_by_id($id,$kd_pegawai){
 
 public function get_rincian_spj_cetak($area,$kd_pegawai,$bulan,$tahun){
 
-	if ($kd_pegawai=='PG24105'){
+	if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
 		$this->db->select('*');
 		$this->db->from("ci_spj_pegawai");
 		$this->db->where('kd_pegawai',$kd_pegawai);

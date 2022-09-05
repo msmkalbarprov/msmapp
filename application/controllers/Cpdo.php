@@ -491,9 +491,8 @@ public function datatable_json_pdo_proyek_edit($id='',$kodepdo=''){
 				$row['satuan'],
 				$row['harga'],
 				$row['uraian'],
-				$row['no_rekening'],
 				number_format($row['nilai'],2,',','.'),
-				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("cpdo/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/1'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("cpdo/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/3'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -822,6 +821,8 @@ public function delete_pdo_project_temp($id = 0,$kodepdo='',$jns='')
 		$this->session->set_flashdata('success', 'Data berhasil dihapus!');
 		if ($jns=='1'){
 			redirect(base_url('cpdo/edit_pdo_project/'.$kodepdo));
+		}else if ($jns=='3'){
+			redirect(base_url('cpdo/edit_pdo_project/'.$kodepdo));
 		}else{
 			redirect(base_url('cpdo/edit_pdo_operasional/'.$kodepdo));	
 		}
@@ -888,7 +889,7 @@ public function delete_pdo_operasional($id = 0)
 
 	function get_pq_projek_gaji_by_area(){
 		$area = $this->input->post('id',TRUE);
-		$data = $this->pdo_model->get_pq_projek_gaji_by_area($area)->result();
+		$data = $this->pdo_model->get_pq_projek_by_area($area)->result();
 		echo json_encode($data);
 	}
 
@@ -972,6 +973,21 @@ public function delete_pdo_operasional($id = 0)
 		echo json_encode($data);
 	}
 
+	function get_realisasi_spj(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$data 		= $this->pdo_model->get_realisasi_spj($id, $no_acc)->result();
+		echo json_encode($data);
+	}
+
+	function get_realisasi_spj2(){
+		$id 		= $this->input->post('id',TRUE);
+		$no_acc 	= $this->input->post('no_acc',TRUE);
+		$jns_tk 	= $this->input->post('jns_tk',TRUE);
+		$data 		= $this->pdo_model->get_realisasi_spj2($id, $no_acc,$jns_tk)->result();
+		echo json_encode($data);
+	}
+
 	function get_realisasi2(){
 		$id 		= $this->input->post('id',TRUE);
 		$no_acc 	= $this->input->post('no_acc',TRUE);
@@ -991,7 +1007,13 @@ public function delete_pdo_operasional($id = 0)
 
 	function get_realisasi_op(){
 		$kode_pqoperasional 	= $this->input->post('kode_pqoperasional',TRUE);
-		$data 		= $this->pdo_model->get_realisasi_op($kode_pqoperasional)->result();
+		$data 		= $this->pdo_model->get_realisasi_op_pdo($kode_pqoperasional)->result();
+		echo json_encode($data);
+	}
+
+	function get_realisasi_op_spj(){
+		$kode_pqoperasional 	= $this->input->post('kode_pqoperasional',TRUE);
+		$data 		= $this->pdo_model->get_realisasi_op_spj($kode_pqoperasional)->result();
 		echo json_encode($data);
 	}
 

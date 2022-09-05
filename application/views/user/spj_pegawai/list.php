@@ -1,10 +1,15 @@
 <!-- DataTables -->
-<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.css"> 
+<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/select2/select2.min.css">
 <style type="text/css">
- .tabs {
+  .select2-container .select2-selection {
+    height: 37px; 
+  }
+
+  .tabs {
     display: inline-block;
     margin-left: 40px;
-}
+  }
 </style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -48,7 +53,7 @@
       
     </div>
 
-    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal fade" id="largeModal" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
       <div class="modal-dialog ">
         <div class="modal-content">
           <div class="modal-header">
@@ -87,7 +92,7 @@
                         <select name="tahun"  id="tahun" class="form-control" required>
                           <option value="">No Selected</option>
                           <option value="<?= date("Y")-1; ?>"><?= date("Y")-1; ?></option>
-                          <option value="<?= date("Y"); ?>"><?= date("Y"); ?></option>
+                          <option value="<?= date("Y"); ?>" selected><?= date("Y"); ?></option>
                           <option value="<?= date("Y")+1; ?>"><?= date("Y")+1; ?></option>
                         </select> 
                 </div>
@@ -97,7 +102,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="kd_pegawai" class="control-label">Pegawai</label>
-                      <select name="kd_pegawai"  id="kd_pegawai" class="form-control" required>
+                      <select name="kd_pegawai"  id="kd_pegawai" class="form-control select2" style="width: 100%;" required>
                         <option value="">No Selected</option>
                       </select> 
 
@@ -133,11 +138,13 @@
 <!-- DataTables -->
 <script src="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
+<script src="<?php echo base_url(); ?>assets/plugins/select2/select2.full.min.js"></script>
 <script>
   // $("#proyek").addClass('menu-open');
   
 </script>
 <script>
+  $('.select2').select2()
   get_pegawai();
   $("#spj_pegawai").addClass('active');
   //---------------------------------------------------
