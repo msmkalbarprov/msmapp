@@ -85,12 +85,45 @@ class Pegawai extends MY_Controller
 		foreach ($records['data']   as $row) 
 		{  
 
+			if ($row['jabatan']=='DU'){
+				$jabatan = 'Direktur Utama';
+			}else if ($row['jabatan']=='D'){
+				$jabatan = 'Direktur';
+			}else if ($row['jabatan']=='MK'){
+				$jabatan = 'Manager Keuangan';
+			}else if ($row['jabatan']=='MSAI'){
+				$jabatan = 'Manajer Senior Audit Internal';
+			}else if ($row['jabatan']=='MPS'){
+				$jabatan = 'Manajer Pengembangan Sistem<';
+			}else if ($row['jabatan']=='MJM'){
+				$jabatan = 'Manager Junior Multimedia';
+			}else if ($row['jabatan']=='AE'){
+				$jabatan = 'Asisten Eksekutif';
+			}else if ($row['jabatan']=='AMRM'){
+				$jabatan = 'AM/RM';
+			}else if ($row['jabatan']=='kk'){
+				$jabatan = 'Kepala kantor';
+			}else if ($row['jabatan']=='adminkantor'){
+				$jabatan = 'Admin Kantor';
+			}else if ($row['jabatan']=='programer'){
+				$jabatan = 'Programer';
+			}else if ($row['jabatan']=='akuntan'){
+				$jabatan = 'Akuntan';
+			}else if ($row['jabatan']=='rc'){
+				$jabatan = 'Resident Consultant';
+			}else if ($row['jabatan']=='implementator'){
+				$jabatan = 'Implementator';
+			}else{
+				$jabatan = 'Lainnya';
+			}
+
+	
 			$data[]= array(
 				$i++,
 				$row['nm_area'],
 				$row['kd_pegawai'],
 				$row['nama'],
-				$row['jabatan'],
+				$jabatan,
 				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pegawai/edit/cf78f9e3bb0b11225084de457d4672bf31a22a6502834033f933df25e570a76bd431bbd7f9112cad60ec5a201a4df5d4253413b44185880ddaccd4be17400581'.$row['id'].'0x0100abbe56e02bdc2d659d105ea8ca83f853e8ae4a65fd8aa0fe').'"> <i class="fa fa-pencil-square-o"></i></a>
 				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pegawai/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);

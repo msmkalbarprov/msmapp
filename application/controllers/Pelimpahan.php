@@ -164,7 +164,7 @@ public function datatable_json(){
 	}
 	function get_nomor(){
 		$kd_pegawai 		= $this->input->post('kd_pegawai',TRUE);
-		$data 		= $this->spjpegawai_model->get_nomor($kd_pegawai)->result();
+		$data 		= $this->spjpegawai_model->get_nomor_pelimpahan($kd_pegawai)->result();
 		echo json_encode($data);
 	}
 	function get_kas_area(){

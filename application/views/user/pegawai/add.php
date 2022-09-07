@@ -59,6 +59,12 @@
                                 <label for="id" class="col-md-6 control-label">Jabatan</label>
                                 <select name="jabatan" id="jabatan" class="form-control">
                                     <option value="">No Selected</option>
+                                    <option value="DU">Direktur Utama</option>
+                                    <option value="D">Direktur</option>
+                                    <option value="MK">Manager Keuangan</option>
+                                    <option value="MSAI">Manajer Senior Audit Internal</option>
+                                    <option value="MPS">Manajer Pengembangan Sistem</option>
+                                    <option value="MJM">Manager Junior Multimedia</option>
                                     <option value="AE">AE</option>
                                     <option value="AMRM">AM/RM</option>
                                     <option value="kk">Kepala kantor</option>

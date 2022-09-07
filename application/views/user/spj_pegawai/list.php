@@ -120,6 +120,17 @@
                   </div>
               </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="ttd" class="control-label">Mengetahui</label>
+                      <select name="ttd_spj"  id="ttd_spj" class="form-control select2" style="width: 100%;" required>
+                        <option value="">No Selected</option>
+                      </select> 
+
+                  </div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
@@ -182,11 +193,31 @@
 
           }
       });
+
+
+      $.ajax({
+          url : "<?php echo site_url('spj_pegawai/get_ttd');?>",
+          method : "POST",
+          data : {
+            '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>'},
+          async : true,
+          dataType : 'json',
+          success: function(data){
+              $('select[name="ttd_spj"]').empty();
+              $('select[name="ttd_spj"]').append('<option value="">No Selected</option>');
+              $.each(data, function(key, value) {
+                  $('select[name="ttd_spj"]').append('<option value="'+ value.nama +'">'+ value.nama +'</option>');
+              });
+
+          }
+      });
+
 }
 $('#kd_pegawai').change(function(){ 
     var kd_pegawai = $(this).val();
   get_area_by_user(kd_pegawai);
 });
+
 
 
 function get_area_by_user(kd_pegawai) {
@@ -214,8 +245,11 @@ $('#but_cetak').on('click', function() {
   var bulan             = $('#bulan').val();
   var tahun             = $('#tahun').val();
   var area              = $('#area').val();
+  var ttd                = $('#ttd_spj').val();
 
-      var url = '<?= base_url() ?>'+'spj_pegawai/cetak_spj_pegawai/'+kd_pegawai+'/'+area+'/'+bulan+'/'+tahun+'/0/Laporan SPJ';   
+  alert(ttd);
+
+      var url = '<?= base_url() ?>'+'spj_pegawai/cetak_spj_pegawai/'+kd_pegawai+'/'+area+'/'+bulan+'/'+tahun+'/'+ttd+'/0/Laporan SPJ';   
     window.open(url, '_blank');
 
 });

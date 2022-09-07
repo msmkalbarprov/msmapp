@@ -62,6 +62,7 @@ class Auth extends MY_Controller {
 							'is_supper' 	=> $result['is_supper'],
 							'kd_area' 		=> $result['kd_area'],
 							'avatar' 		=> $result['avatar'],
+							'kd_pegawai'	=> $result['kd_pegawai'],
 							'is_admin_login'=> TRUE
 						);
 						$this->session->set_userdata($admin_data);

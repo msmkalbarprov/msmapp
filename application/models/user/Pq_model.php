@@ -298,9 +298,12 @@ public function get_pq_operasional_view($id){
 		//---------------------------------------------------
 		// Get user detial by ID
 	public function get_pq_by_id($id){
-				 $this->db->select('*,(select sum(total) from ci_hpp where ci_hpp.id_pqproyek=ci_pendapatan.id_pqproyek)as hpp');
+				$stts_batal = array('0', null, '');
+				 $this->db->select('ci_pendapatan.*,(select sum(total) from ci_hpp where ci_hpp.id_pqproyek=ci_pendapatan.id_pqproyek)as hpp');
 				 $this->db->from("ci_pendapatan");
-                 $this->db->where('id_pqproyek', $id);
+				 $this->db->join("ci_proyek","ci_pendapatan.id_proyek=ci_proyek.kd_proyek",'inner');
+                 $this->db->where('ci_pendapatan.id_pqproyek', $id);
+				 $this->db->where_in('ci_proyek.batal', $stts_batal);
 			return $result = $this->db->get()->row_array();
 		}
 

@@ -594,6 +594,11 @@ function get_pegawai_by_area_cetak(){
 	echo json_encode($data);
 }
 
+function get_ttd(){
+	$data = $this->spjpegawai_model->get_ttd_spj()->result();
+	echo json_encode($data);
+}
+
 function get_area_by_user(){
 	$user = $this->input->post('id',TRUE);
 	$data = $this->spjpegawai_model->get_area_by_user($user)->result();
@@ -628,16 +633,29 @@ function get_area_by_user(){
     return $result;
   }
 
-  public function cetak_spj_pegawai($kd_pegawai,$area,$bulan,$tahun,$jenis='')
+  public function cetak_spj_pegawai($kd_pegawai,$area,$bulan,$tahun,$ttd='',$jenis='')
 	{	
-		$data['spj_header'] 		= $this->spjpegawai_model->get_spj_header($area,$kd_pegawai);
-		$data['spj_header2'] 		= $this->spjpegawai_model->get_spj_header2($area,$kd_pegawai,$bulan,$tahun);
-		$data['spj_header3'] 		= $this->spjpegawai_model->get_spj_header3($area,$kd_pegawai,$bulan,$tahun);
-		$data['spj_header4'] 		= $this->spjpegawai_model->get_spj_header4($area,$kd_pegawai,$bulan,$tahun);
-		$data['spj_header5'] 		= $this->spjpegawai_model->get_spj_header5($area,$kd_pegawai,$bulan,$tahun);
-		$data['pengembalian'] 		= $this->spjpegawai_model->pengembalian_kas($area,$kd_pegawai,$bulan,$tahun);
-		$data['rincian_spj'] 		= $this->spjpegawai_model->get_rincian_spj_cetak($area,$kd_pegawai,$bulan,$tahun);
-		$data['rincian_penerimaan'] = $this->spjpegawai_model->get_rincian_penerimaan($area,$kd_pegawai,$bulan,$tahun);
+		
+		$data['spj_header'] 				= $this->spjpegawai_model->get_spj_header($area,$kd_pegawai);
+		// TUNAI
+		$data['spj_header2_tunai'] 			= $this->spjpegawai_model->get_spj_header2_tunai($area,$kd_pegawai,$bulan,$tahun);
+		$data['spj_header3_tunai'] 			= $this->spjpegawai_model->get_spj_header3_tunai($area,$kd_pegawai,$bulan,$tahun);
+		$data['spj_header4_tunai'] 			= $this->spjpegawai_model->get_spj_header4_tunai($area,$kd_pegawai,$bulan,$tahun);
+		$data['spj_header5_tunai'] 			= $this->spjpegawai_model->get_spj_header5_tunai($area,$kd_pegawai,$bulan,$tahun);
+		$data['rincian_penerimaan_tunai'] 	= $this->spjpegawai_model->get_rincian_penerimaan_tunai($area,$kd_pegawai,$bulan,$tahun);
+		$data['pengembalian_tunai'] 		= $this->spjpegawai_model->pengembalian_kas_tunai($area,$kd_pegawai,$bulan,$tahun);
+
+		// BANK
+		$data['spj_header2_bank'] 			= $this->spjpegawai_model->get_spj_header2_bank($area,$kd_pegawai,$bulan,$tahun);
+		$data['spj_header3_bank'] 			= $this->spjpegawai_model->get_spj_header3_bank($area,$kd_pegawai,$bulan,$tahun);
+		$data['spj_header4_bank'] 			= $this->spjpegawai_model->get_spj_header4_bank($area,$kd_pegawai,$bulan,$tahun);
+		$data['spj_header5_bank'] 			= $this->spjpegawai_model->get_spj_header5_bank($area,$kd_pegawai,$bulan,$tahun);
+		$data['rincian_penerimaan_bank'] 	= $this->spjpegawai_model->get_rincian_penerimaan_bank($area,$kd_pegawai,$bulan,$tahun);
+		$data['pengembalian_bank'] 			= $this->spjpegawai_model->pengembalian_kas_bank($area,$kd_pegawai,$bulan,$tahun);
+		$data['bank_lainnya'] 				= $this->spjpegawai_model->get_bank_lainnya($area,$bulan,$tahun);
+
+		$data['rincian_spj'] 				= $this->spjpegawai_model->get_rincian_spj_cetak($area,$kd_pegawai,$bulan,$tahun);
+		$data['ttd'] 						= $ttd;
 		$data['title']	= 'Cetak SPJ';
 		// $html = $this->load->view('user/pq/pq_view', $data);
 		// $cRet = $this->load->view('user/pq/cetak_pq_satuan',$data);
@@ -655,10 +673,10 @@ function get_area_by_user(){
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'Landscape');
 			    $this->pdf->filename = "laporan.pdf";
-			    $this->pdf->load_view('user/spj_pegawai/cetak_spj_pegawai', $data);
+			    $this->pdf->load_view('user/spj_pegawai/cetak_spj_pegawai_new', $data);
                 break;
             case 1;
-                $this->load->view('user/spj_pegawai/cetak_spj_pegawai', $data);
+                $this->load->view('user/spj_pegawai/cetak_spj_pegawai_new', $data);
                break;
         }
 
@@ -667,13 +685,24 @@ function get_area_by_user(){
 
 	public function cetak_spj_pegawai_lama($id=0,$kd_area,$kd_pegawai,$jenis='')
 	{	
-		$data['spj_header'] 		= $this->spjpegawai_model->get_spj_header($id,$kd_area,$kd_pegawai);
-		$data['spj_header2'] 		= $this->spjpegawai_model->get_spj_header2($id,$kd_area,$kd_pegawai);
-		$data['spj_header3'] 		= $this->spjpegawai_model->get_spj_header3($id,$kd_area,$kd_pegawai);
-		$data['spj_header4'] 		= $this->spjpegawai_model->get_spj_header4($id,$kd_area,$kd_pegawai);
-		$data['spj_header5'] 		= $this->spjpegawai_model->get_spj_header5($id,$kd_area,$kd_pegawai);
+		// TUNAI
+		$data['spj_header_tunai'] 			= $this->spjpegawai_model->get_spj_header_tunai($id,$kd_area,$kd_pegawai);
+		$data['spj_header2_tunai'] 			= $this->spjpegawai_model->get_spj_header2_tunai($id,$kd_area,$kd_pegawai);
+		$data['spj_header3_tunai'] 			= $this->spjpegawai_model->get_spj_header3_tunai($id,$kd_area,$kd_pegawai);
+		$data['spj_header4_tunai'] 			= $this->spjpegawai_model->get_spj_header4_tunai($id,$kd_area,$kd_pegawai);
+		$data['spj_header5_tunai'] 			= $this->spjpegawai_model->get_spj_header5_tunai($id,$kd_area,$kd_pegawai);
+		$data['rincian_penerimaan_tunai'] 	= $this->spjpegawai_model->get_rincian_penerimaan_tunai($id,$kd_pegawai);
+
+		// BANK
+		$data['spj_header_bank'] 			= $this->spjpegawai_model->get_spj_header_bank($id,$kd_area,$kd_pegawai);
+		$data['spj_header2_bank'] 			= $this->spjpegawai_model->get_spj_header2_bank($id,$kd_area,$kd_pegawai);
+		$data['spj_header3_bank'] 			= $this->spjpegawai_model->get_spj_header3_bank($id,$kd_area,$kd_pegawai);
+		$data['spj_header4_bank'] 			= $this->spjpegawai_model->get_spj_header4_bank($id,$kd_area,$kd_pegawai);
+		$data['spj_header5_bank'] 			= $this->spjpegawai_model->get_spj_header5_bank($id,$kd_area,$kd_pegawai);
+		$data['rincian_penerimaan_bank'] 	= $this->spjpegawai_model->get_rincian_penerimaan_bank($id,$kd_pegawai);
+
 		$data['rincian_spj'] 		= $this->spjpegawai_model->get_rincian_spj($id,$kd_pegawai);
-		$data['rincian_penerimaan'] = $this->spjpegawai_model->get_rincian_penerimaan($id,$kd_pegawai);
+		
 		$data['title']	= 'Cetak SPJ';
 		// $html = $this->load->view('user/pq/pq_view', $data);
 		// $cRet = $this->load->view('user/pq/cetak_pq_satuan',$data);

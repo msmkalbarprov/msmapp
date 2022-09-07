@@ -59,6 +59,7 @@ class Admin extends MY_Controller
 
 		$data['admin_roles']=$this->admin->get_admin_roles();
 		$data['data_area']=$this->admin->get_area();
+		$data['data_pegawai']=$this->admin->get_pegawai();
 
 		if($this->input->post('submit')){
 				$this->form_validation->set_rules('username', 'Username', 'trim|is_unique[ci_users.username]|required');
@@ -78,7 +79,7 @@ class Admin extends MY_Controller
 					$data = array(
 						'admin_role_id' => $this->input->post('role'),
 						'username' => $this->input->post('username'),
-						'firstname' => $this->input->post('firstname'),
+						'kd_pegawai' => $this->input->post('firstname'),
 						'lastname' => $this->input->post('lastname'),
 						'email' => $this->input->post('email'),
 						'mobile_no' => $this->input->post('mobile_no'),
