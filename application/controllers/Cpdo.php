@@ -62,6 +62,7 @@ class Cpdo extends MY_Controller {
 				'<font size="2px">'.$row['kd_pdo'].'</font>',
 				'<font size="2px">'.$row['nm_area'].'</font>',
 				'<font size="2px">'.$row['tgl_pdo'].'</font>',
+				'<font size="2px">'.$row['keterangan'].'</font>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
 				$tombol
 			);
@@ -91,6 +92,7 @@ class Cpdo extends MY_Controller {
 				'<font size="2px">'.$row['kd_pdo'].'</font>',
 				'<font size="2px">'.$row['nm_area'].'</font>',
 				'<font size="2px">'.$row['tgl_pdo'].'</font>',
+				'<font size="2px">'.$row['keterangan'].'</font>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
 				$tombol
 			);
@@ -118,6 +120,7 @@ public function datatable_json_operasional(){
 				'<font size="2px">'.$row['kd_pdo'].'</font>',
 				'<font size="2px">'.$row['nm_area'].'</font>',
 				'<font size="2px">'.$row['tgl_pdo'].'</font>',
+				'<font size="2px">'.$row['keterangan'].'</font>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai'],2,",",".").'</font></span></div>',
 				$tombol
 			);
@@ -491,6 +494,7 @@ public function datatable_json_pdo_proyek_edit($id='',$kodepdo=''){
 				$row['satuan'],
 				$row['harga'],
 				$row['uraian'],
+				$row['no_rekening'].'<br>'.$row['nm_rekening'],
 				number_format($row['nilai'],2,',','.'),
 				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("cpdo/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/3'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);

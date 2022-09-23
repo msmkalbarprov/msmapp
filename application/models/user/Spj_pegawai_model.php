@@ -503,6 +503,17 @@ public function get_rincian_penerimaan_bank($area,$kd_pegawai,$bulan,$tahun){
 return $this->db->get()->result_array();
 }
 
+public function get_rincian_pengeluaran_bank($area,$kd_pegawai,$bulan,$tahun){ //NON SPJ
+	$this->db->select('*');
+	$this->db->from("get_pengeluaran_spj_pegawai"); //NON SPJ
+	$this->db->where('kd_pegawai',$kd_pegawai);
+	$this->db->where("kd_area",$area);
+	$this->db->where("jenis",'BANK');
+	$this->db->where("month(tanggal)",$bulan);
+	$this->db->where("YEAR(tanggal)",$tahun);
+return $this->db->get()->result_array();
+}
+
 public function get_bank_lainnya($area,$bulan,$tahun){
 	$this->db->select('no_acc,nm_acc,kd_area,tanggal,keterangan,sum(nilai) as nilai');
 	$this->db->from("get_bank_lainnya");
@@ -1374,7 +1385,7 @@ public function get_pendapatanarea($id){
 			if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
 				$this->db->select("kd_pegawai,'$bulan' as bulan,'$tahun' as tahun, (select sum(nilai) as total from ci_spj_pegawai where MONtH(tgl_spj)='$bulan' and YEAR(tgl_spj)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and tunai=1 ) as total");
 			}else{
-				$this->db->select("kd_pegawai,'$bulan' as bulan,'$tahun' as tahun, (select sum(nilai) as total from ci_spj_pegawai where MONtH(tgl_spj)='$bulan' and YEAR(tgl_spj)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and tunai=1) as total");
+				$this->db->select("kd_pegawai,'$bulan' as bulan,'$tahun' as tahun, (select ifnull(sum(nilai),0) as total from ci_spj_pegawai where MONtH(tgl_spj)='$bulan' and YEAR(tgl_spj)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and tunai=1)+(select ifnull(sum(nilai),0) as total from ci_pelimpahan where MONtH(tgl_pelimpahan)='$bulan' and YEAR(tgl_pelimpahan)='$tahun' and kd_pegawai_asal=ci_pegawai.kd_pegawai and jns_kas='TUNAI') as total");
 			}
 			
 					$this->db->from("ci_pegawai");
@@ -1394,7 +1405,9 @@ public function get_pendapatanarea($id){
 			if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
 				$this->db->select("kd_pegawai,'$bulan' as bulan,'$tahun' as tahun, (select sum(nilai) as total from ci_spj_pegawai where MONtH(tgl_spj)='$bulan' and YEAR(tgl_spj)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and tunai=0) as total");
 			}else{
-				$this->db->select("kd_pegawai,'$bulan' as bulan,'$tahun' as tahun, (select sum(nilai) as total from ci_spj_pegawai where MONtH(tgl_spj)='$bulan' and YEAR(tgl_spj)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and tunai=0) as total");
+				$this->db->select("kd_pegawai,'$bulan' as bulan,'$tahun' as tahun, (select ifnull(sum(nilai),0) as total from ci_spj_pegawai where MONtH(tgl_spj)='$bulan' and YEAR(tgl_spj)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and tunai=0)+
+				(select ifnull(sum(nilai),0) as total from ci_pelimpahan where MONtH(tgl_pelimpahan)='$bulan' and YEAR(tgl_pelimpahan)='$tahun' and kd_pegawai_asal=ci_pegawai.kd_pegawai and jns_kas='BANK')
+				 as total");
 			}
 			
 					$this->db->from("ci_pegawai");

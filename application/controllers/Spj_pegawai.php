@@ -651,6 +651,7 @@ function get_area_by_user(){
 		$data['spj_header4_bank'] 			= $this->spjpegawai_model->get_spj_header4_bank($area,$kd_pegawai,$bulan,$tahun);
 		$data['spj_header5_bank'] 			= $this->spjpegawai_model->get_spj_header5_bank($area,$kd_pegawai,$bulan,$tahun);
 		$data['rincian_penerimaan_bank'] 	= $this->spjpegawai_model->get_rincian_penerimaan_bank($area,$kd_pegawai,$bulan,$tahun);
+		$data['rincian_pengeluaran_bank'] 	= $this->spjpegawai_model->get_rincian_pengeluaran_bank($area,$kd_pegawai,$bulan,$tahun);
 		$data['pengembalian_bank'] 			= $this->spjpegawai_model->pengembalian_kas_bank($area,$kd_pegawai,$bulan,$tahun);
 		$data['bank_lainnya'] 				= $this->spjpegawai_model->get_bank_lainnya($area,$bulan,$tahun);
 

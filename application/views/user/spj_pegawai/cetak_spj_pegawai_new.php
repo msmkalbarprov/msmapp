@@ -298,16 +298,15 @@ function format_indo($date){
                                 <td width="5%" align='left'></td>
                                 <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b>VI.</td>
-								<td width="15%" colspan='3' align='left'><b>Saldo Akhir</td>
-								
-								
-								<td width="5%" align='left'></td>
-								<td width="1%" align='left'></td>
-								<td width="10%" align='right'></td>
-								<td width="8%" align='right'><b><?= angka($spj_header4_tunai['terima']+$spj_header3_tunai['terima']-$spj_header5_tunai['keluar']-$spj_header2_tunai['total']-$pengembalian_tunai['keluar']); ?></td>
+								<td align='left' ><b>Saldo Akhir Tunai</td>
+								<td colspan='2' align='left' style="border-bottom:solid 1px black;"></td>
+								<td width="5%" align='left' style="border-bottom:solid 1px black;"></td>
+								<td width="1%" align='left' style="border-bottom:solid 1px black;"></td>
+								<td width="10%" align='right' style="border-bottom:solid 1px black;"></td>
+								<td width="8%" align='right' style="border-bottom:solid 1px black;"><b><?= angka($spj_header4_tunai['terima']+$spj_header3_tunai['terima']-$spj_header5_tunai['keluar']-$spj_header2_tunai['total']-$pengembalian_tunai['keluar']); ?></td>
 								<td width="15%" align='left'></td>
                             </tr>
-
+							
 
 							<!-- BANK -->
 
@@ -415,14 +414,41 @@ function format_indo($date){
 								<td width="8%" align='left'><b></td>
 								<td width="15%" align='left'></td>
                             </tr>
+							<!-- ambil simpanan -->
+							<?php 
+							$pengeluaran_bank = 0;
+							foreach($rincian_pengeluaran_bank as $rincian_pengeluaran_bank):  
+								$pengeluaran_bank = $pengeluaran_bank+$rincian_pengeluaran_bank['nilai'];
+							?>
+								    
+								    <tr>
+                                        <td width="10%" align='left'></td>
+                                        <td width="5" align='right'></td>
+        								<td width="1%" align='left'><b></td>
+        								<td colspan="2" align='left'><?= $rincian_pengeluaran_bank['tanggal'].' '.$rincian_pengeluaran_bank['keterangan']; ?></td>
+        								
+        								
+        								<td colspan='2' width="5%" align='right'><?= angka($rincian_pengeluaran_bank['nilai']); ?></td>
+        								<td width="1%" align='left'></td>
+        								<td width="10%" align='right'></td>
+        								<td width="8%" align='right'></td>
+        								<td width="15%" align='left'></td>
+                                    </tr>
+                                    
+								<?php endforeach; ?>
 							<tr>
-								<td colspan='6'></td>
-								<td width="5%"  align='left'><?= angka($spj_header2_bank['total']); ?></td>
-								<td width="1%"  align='left'></td>
+								<td width="10%" align='left'></td>
+								<td width="5" align='right'></td>
+								<td width="1%" align='left'><b></td>
+								<td colspan="2" align='left'></td>
+								<td colspan='2' width="5%" align='right'><?= angka($spj_header2_bank['total']); ?></td>
+								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
-								<td colspan='2' align='left'></td>
-								</td>
+								<td width="8%" align='right'></td>
+								<td width="15%" align='left'></td>
 							</tr>
+
+							
 							<tr>
 							<td colspan='6'></td>
 							<td colspan='2' align='left' align='left' ></td>
@@ -436,7 +462,7 @@ function format_indo($date){
 								<td colspan="2" align='left'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Total Pengeluaran</td>
 								
 								
-								<td colspan='2' width="5%" align='right' style="border-top:solid 1px black;"><b><?= angka($spj_header2_bank['total']); ?></td>
+								<td colspan='2' width="5%" align='right' style="border-top:solid 1px black;"><b><?= angka($spj_header2_bank['total']+$pengeluaran_bank); ?></td>
 								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
 								<td width="8%" align='right'></td>
@@ -457,7 +483,7 @@ function format_indo($date){
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
-								<td width="8%" align='right'><b><?= angka($spj_header4_bank['terima']-$spj_header2_bank['total']); ?></b></td>
+								<td width="8%" align='right'><b><?= angka($spj_header4_bank['terima']-$spj_header2_bank['total']-$pengeluaran_bank); ?></b></td>
 								<td width="15%" align='left'></td>
                             </tr>
 							<tr><td colspan='11'></td></tr>
@@ -482,16 +508,15 @@ function format_indo($date){
 							<tr><td colspan='11'></td></tr>
 							<tr><td colspan='11'></td></tr>
 							<tr>
-                                <td width="5%" align='left'></td>
+								<td width="5%" align='left'></td>
                                 <td width="10%" align='right'></td>
 								<td width="1%" align='left'><b>VI.</td>
-								<td width="15%" colspan='3' align='left'><b>Saldo Akhir</td>
-								
-								
-								<td width="5%" align='left'></td>
-								<td width="1%" align='left'></td>
-								<td width="10%" align='right'></td>
-								<td width="8%" align='right'><b><?= angka($spj_header4_bank['terima']+$spj_header3_bank['terima']-$spj_header5_bank['keluar']-$spj_header2_bank['total']-$pengembalian_bank['keluar']); ?></td>
+								<td align='left' ><b>Saldo Akhir Bank</td>
+								<td colspan='2' align='left' style="border-bottom:solid 1px black;"></td>
+								<td width="5%" align='left' style="border-bottom:solid 1px black;"></td>
+								<td width="1%" align='left' style="border-bottom:solid 1px black;"></td>
+								<td width="10%" align='right' style="border-bottom:solid 1px black;"></td>
+								<td width="8%" align='right' style="border-bottom:solid 1px black;"><b><?= angka($spj_header4_bank['terima']+$spj_header3_bank['terima']-$spj_header5_bank['keluar']-$spj_header2_bank['total']-$pengembalian_bank['keluar']-$pengeluaran_bank); ?></td>
 								<td width="15%" align='left'></td>
                             </tr>
                             <tr><td colspan='11'></td></tr>
@@ -553,14 +578,14 @@ function format_indo($date){
                             <tr><td colspan='11'></td></tr>
                             <tr>
                                 <td width="5%" align='right'><b>C. </b></td>
-                                <td width="15%" colspan="3" align='left'><b>TOTAL SALDO AKHIR (A+B+C)</b></td>
+                                <td width="15%" colspan="3" align='left'><b>TOTAL SALDO AKHIR (A+B)</b></td>
 								<td width="1%" align='left'></td>
 								<td width="15%" align='left'><b></td>
 								
 								<td width="5%" align='left'></td>
 								<td width="1%" align='left'></td>
 								<td width="10%" align='right'></td>
-								<td width="8%" align='right'><b><?= angka(($spj_header4_tunai['terima']+$spj_header3_tunai['terima']-$spj_header5_tunai['keluar']-$spj_header2_tunai['total']-$pengembalian_tunai['keluar'])+($spj_header4_bank['terima']+$spj_header3_bank['terima']-$spj_header5_bank['keluar']-$spj_header2_bank['total']-$pengembalian_bank['keluar'])+$saldo_akhir); ?></td>
+								<td width="8%" align='right'><b><?= angka(($spj_header4_tunai['terima']+$spj_header3_tunai['terima']-$spj_header5_tunai['keluar']-$spj_header2_tunai['total']-$pengembalian_tunai['keluar'])+($spj_header4_bank['terima']+$spj_header3_bank['terima']-$spj_header5_bank['keluar']-$spj_header2_bank['total']-$pengembalian_bank['keluar']-$pengeluaran_bank)+$saldo_akhir); ?></td>
 								<td width="15%" align='left'></td>
                             </tr>
 							<tr><td colspan='11'></td></tr>

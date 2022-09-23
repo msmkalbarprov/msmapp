@@ -76,9 +76,11 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	// 'username' => 'codeglam_codecan',
-	// 'password' => 'Pakistan@123+-',
-	// 'database' => 'codeglam_demotest',
+	// 'hostname' => 'msmkalbar.com',
+	
+	// 'username' => 'u1548762_root',
+	// 'password' => 'msmapp2022',
+	// 'database' => 'u1548762_msmapp',
 	'username' => 'root',
 	'password' => '',
 	'database' => 'db_msm',

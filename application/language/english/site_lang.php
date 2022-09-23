@@ -69,13 +69,13 @@ $lang['pengembalian']               			= "Pengembalian";
 $lang['pengeluaran_lain']               		= "Pengeluaran lain-lain";
 $lang['penerimaan_lain']               			= "Penerimaan lain-lain";
 
-$lang['pengesahan_spj']               			= "Pengesahan SPJ <span class='badge badge-danger'>New</span>";
-$lang['validasi_pdp']               			= "Validasi PDP <span class='badge badge-danger'>New</span>";
-$lang['laporan_kas_rekening']               	= "Kas Rekening Pusat <span class='badge badge-danger'>New</span>";
-$lang['lap_saldo_awal']               			= "lap. Saldo Awal <span class='badge badge-danger'>New</span>";
-$lang['ambil_tunai']               				= "Ambil Kas Tunai <span class='badge badge-danger'>New</span>";
-$lang['spj_tunai']               				= "SPJ Tunai <span class='badge badge-danger'>New</span>";
-$lang['lap_realisasi_proyek']      				= "Lap. Realisasi Proyek <span class='badge badge-danger'>New</span>";
+$lang['pengesahan_spj']               			= "Pengesahan SPJ ";
+$lang['validasi_pdp']               			= "Validasi PDP ";
+$lang['laporan_kas_rekening']               	= "Kas Rekening Pusat ";
+$lang['lap_saldo_awal']               			= "lap. Saldo Awal ";
+$lang['ambil_tunai']               				= "Ambil Kas Tunai ";
+$lang['spj_tunai']               				= "SPJ Tunai ";
+$lang['lap_realisasi_proyek']      				= "Lap. Realisasi Proyek ";
 
 
 
@@ -127,6 +127,10 @@ $lang['register_pdp']                       	= "Register PDP";
 $lang['pinjaman']                       		= "Pinjaman";
 $lang['beri_pinjaman']                       	= "Beri Pinjaman";
 $lang['kembali_pinjaman']                       = "Pengembalian Pinjaman";
+
+$lang['jurnal_umum']                       		= "Jurnal Umum <span class='badge badge-danger'>New</span>";
+$lang['Input_jurnal_umum']                       	= "Input jurnal <span class='badge badge-danger'>New</span>";
+$lang['cetak_jurnal']                       	= "Cetak Jurnal <span class='badge badge-danger'>New</span>";
 
 
 
