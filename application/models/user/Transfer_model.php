@@ -168,8 +168,38 @@ public function save_transfer($data){
 
 public function add_transfer($nomor_transfer)
 		{	
-				$query = $this->db->query("INSERT into ci_proyek_transfer
-                           				SELECT * FROM ci_proyek_transfer_temp WHERE no_transfer = '$nomor_transfer'");
+				$query = $this->db->query("INSERT into ci_proyek_transfer (no_transfer,
+				tgl_transfer,
+				no_cair,
+				kd_area,
+				id_proyek,
+				kd_proyek,
+				jenis_cair,
+				kd_rekening,
+				nm_rekening,
+				nilai,
+				approve,
+				tgl_approve,
+				created_at,
+				username,
+				updated_at
+				)
+                           				SELECT no_transfer,
+tgl_transfer,
+no_cair,
+kd_area,
+id_proyek,
+kd_proyek,
+jenis_cair,
+kd_rekening,
+nm_rekening,
+nilai,
+approve,
+tgl_approve,
+created_at,
+username,
+updated_at
+ FROM ci_proyek_transfer_temp WHERE no_transfer = '$nomor_transfer'");
 			$this->db->delete('ci_proyek_transfer_temp', array('no_transfer' => $nomor_transfer));
 			return true;
 		} 

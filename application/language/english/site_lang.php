@@ -129,8 +129,9 @@ $lang['beri_pinjaman']                       	= "Beri Pinjaman";
 $lang['kembali_pinjaman']                       = "Pengembalian Pinjaman";
 
 $lang['jurnal_umum']                       		= "Jurnal Umum <span class='badge badge-danger'>New</span>";
-$lang['Input_jurnal_umum']                       	= "Input jurnal <span class='badge badge-danger'>New</span>";
+$lang['Input_jurnal_umum']                      = "Input jurnal <span class='badge badge-danger'>New</span>";
 $lang['cetak_jurnal']                       	= "Cetak Jurnal <span class='badge badge-danger'>New</span>";
+$lang['cetak_bb']                       		= "Cetak Buku Besar <span class='badge badge-danger'>New</span>";
 
 
 

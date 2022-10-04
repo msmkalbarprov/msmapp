@@ -34,6 +34,14 @@ class Jurnal extends MY_Controller {
 		$this->load->view('admin/includes/_footer');
 	}
 
+	public function cetak_buku_besar(){
+		$data2['title'] 		= 'Cetak Jurnal';
+		$data['data_area'] 			= $this->area->get_area();
+		$this->load->view('admin/includes/_header', $data2);
+		$this->load->view('user/jurnal/cetak_bb', $data);
+		$this->load->view('admin/includes/_footer');
+	}
+
 	public function cetak_jurnal_umum($tahun=0,$jenis=0,$bulan=0,$jns_jurnal=0)
 	{	
 		$data['list'] 			    = $this->jurnal_model->get_jurnal_umum($tahun,$bulan,$jns_jurnal);
@@ -63,6 +71,42 @@ class Jurnal extends MY_Controller {
                	break;
              case 2;
 				$this->load->view('user/jurnal/jurnal_umum', $data);
+               	break;
+        }
+
+	}
+
+	public function cetak_bb($tahun=0,$jenis=0,$bulan=0,$area=0)
+	{	
+		$data['list'] 			    = $this->jurnal_model->get_rincian_bb($tahun,$bulan,$area);
+		$data['list_acc'] 			= $this->jurnal_model->get_acc($tahun,$bulan,$area);
+		$data['tahun'] 				= $tahun;
+		$data['area'] 				= $this->area->get_area_by_kode($area);
+
+		if ($bulan==0){
+			$data['bulan'] 				= "";	
+		}else{
+			$data['bulan'] 				= $this->format_indo($bulan);
+		}
+
+		
+		switch ($jenis)
+        {
+            case 1;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'landscape');
+			    $this->pdf->filename = "jurnal_umum.pdf";
+			    $this->pdf->load_view('user/jurnal/buku_besar', $data);
+                break;
+            case 0;
+				$html = $this->load->view('user/jurnal/buku_besar', $data);
+				header("Cache-Control: no-cache, no-store, must-revalidate");
+				header("Content-Type: application/vnd.ms-excel");
+				header("Content-Disposition: attachment; filename= buku_besar.xls");
+				$html;
+               	break;
+             case 2;
+				$this->load->view('user/jurnal/buku_besar', $data);
                	break;
         }
 

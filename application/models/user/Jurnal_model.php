@@ -100,6 +100,54 @@
     return $query->result_array();
 }
 
+public function get_rincian_bb($tahun,$bulan,$area){
+    $this->db->select("*,(select nm_area from ci_area where ci_area.kd_area=ci_jurnal.kd_area)as nm_area,CASE 
+	WHEN (substr(kd_project,8,4)='/98/' OR right(kd_project,3)='/98') THEN
+		(SELECT nm_area from ci_area where kd_area=ci_jurnal.kd_area)
+	ELSE
+		(SELECT nm_sub_area from ci_proyek where kd_proyek=ci_jurnal.kd_project) END as subarea");
+    $this->db->from("ci_jurnal");
+
+if($bulan==0){
+    $this->db->where("year(tgl_voucher)>=", $tahun);
+}else{
+    $this->db->where("year(tgl_voucher)>=", $tahun);
+    $this->db->where("month(tgl_voucher)", $bulan);
+}
+
+if ($area!=0){
+    $this->db->where("kd_area", $area);
+}
+
+$this->db->order_by("no_acc,tgl_voucher,no_voucher");
+
+    $query=$this->db->get();
+return $query->result();
+}
+
+public function get_acc($tahun,$bulan,$area){
+    $this->db->select("*,(select nm_area from ci_area where ci_area.kd_area=ci_jurnal.kd_area)as nm_area");
+    $this->db->from("ci_jurnal");
+
+if($bulan==0){
+    $this->db->where("year(tgl_voucher)>=", $tahun);
+}else{
+    $this->db->where("year(tgl_voucher)>=", $tahun);
+    $this->db->where("month(tgl_voucher)", $bulan);
+}
+
+if ($area!=0){
+    $this->db->where("kd_area", $area);
+}
+
+$this->db->group_by("no_acc");
+$this->db->order_by("no_acc");
+    $query = $this->db->get();
+    return $query->result(); 
+}
+
+
+
     public function simpan_jurnal($data){
         $this->db->insert('ci_jurnal', $data);
         return true;

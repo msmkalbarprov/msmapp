@@ -130,7 +130,7 @@
               <?php $nilai_pl = $pqproyek['pl']; ?>
               <?= number_format($nilai_pl,2,',','.'); ?>
       </td>
- -->
+ 
 
     <td align="right"><?= number_format($titip_pl['nilai'],2,',','.'); ?></td>
     <td align="right"><?= number_format($titip_pl['nilai'],2,',','.'); ?></td>

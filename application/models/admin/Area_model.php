@@ -109,6 +109,15 @@ class Area_model extends CI_Model{
 		return $query->result_array();
 	}
 
+
+	function get_area_by_kode($area)
+	{	
+		$this->db->from('ci_area');
+		$this->db->where('kd_area',$area);	
+		$query=$this->db->get();
+		return $query->row_array();
+	}
+
 	//-----------------------------------------------------
 	function get_admin_by_id($id)
 	{

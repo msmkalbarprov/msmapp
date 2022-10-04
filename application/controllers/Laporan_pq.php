@@ -91,6 +91,7 @@ class Laporan_pq extends MY_Controller {
 			    $this->pdf->filename = "laporan.pdf";
 			    $this->pdf->load_view('user/pq/cetak_pq_pdo_proyek', $data);
                 break;
+				
             case 1;
                 $this->load->view('user/pq/cetak_pq_pdo_proyek', $data);
                break;
@@ -147,8 +148,11 @@ class Laporan_pq extends MY_Controller {
 			    $this->pdf->load_view('user/pq/cetak_pq_pdo_all', $data);
                 break;
             case 0;
-                $this->load->view('user/pq/cetak_pq_pdo_all', $data);
-               break;
+			header("Cache-Control: no-cache, no-store, must-revalidate");
+			header("Content-Type: application/vnd.ms-excel");
+			header("Content-Disposition: attachment; filename= LAPORAN PQ PDO SPJ.xls");
+			$this->load->view('user/pq/cetak_pq_pdo_all', $data);
+		   break;
         }
 
 	}
