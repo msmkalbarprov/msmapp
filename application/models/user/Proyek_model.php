@@ -404,6 +404,12 @@ public function get_pdp_header($id,$id_proyek){
 			return true;
 		}
 
+		public function update_status_pencairan($data3, $id){
+			$this->db->where('id_proyek', $id);
+			$this->db->update('ci_pendapatan', $data3);
+			return true;
+		}
+
 		public function get_nomor_pdp($area)
 		{
 		$query = $this->db->get_where('get_urut_pdp', array('kd_area' => $area));

@@ -55,7 +55,7 @@
               <label for="area" class="control-label"><?= trans('area') ?></label>
                 <select name="area" id ="area" class="form-control" required>
                 <option value="">No Selected</option>
-                <option value="0">Keseluruhan</option>
+                <option value="all">Keseluruhan</option>
                 <?php foreach($data_area as $area): ?>
                       <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
                   <?php endforeach; ?>

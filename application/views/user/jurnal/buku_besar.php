@@ -37,8 +37,8 @@
                 <th align="center" width="10%"><b>Kode Project</b></th>
                 <th align="center" width="5%"><b>Kode Divisi</b></th>
                 <th align="center" width="25%"><b>uraian</b></th>
-                <th align="center" width="10%"><b>Kredit</b></th>
                 <th align="center" width="10%"><b>debet</b></th>
+                <th align="center" width="10%"><b>Kredit</b></th>
                 
         </tr>
         </thead>
@@ -56,8 +56,8 @@
                 <td style="font-size:10px ;" align="center"><?= $listjurnal->kd_project; ?></td>
                 <td style="font-size:10px ;" align="center"><?= $listjurnal->kd_divisi; ?></td>
                 <td style="font-size:10px ;"><?= $listjurnal->uraian; ?></td>
-                <td style="font-size:10px ;" align="right" ><?= number_format($listjurnal->kredit,2,',','.'); ?></td>
                 <td style="font-size:10px ;" align="right" ><?= number_format($listjurnal->debet,2,',','.'); ?></td>
+                <td style="font-size:10px ;" align="right" ><?= number_format($listjurnal->kredit,2,',','.'); ?></td>
             </tr>
         <?php endif; ?>    
     <?php endforeach; ?>        

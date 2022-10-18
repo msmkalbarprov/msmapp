@@ -26,10 +26,11 @@
         }
 
         public function get_all(){
+            $jns_jurnal= array('2','3');
             if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
                 $this->db->select("*,sum(kredit)as t_kredit,sum(debet)as t_debet,(select nm_area from ci_area where kd_area = ci_jurnal.kd_area)as nm_area");
                 $this->db->from("ci_jurnal");
-                $this->db->where("jns_jurnal",2);
+                $this->db->where_in("jns_jurnal",$jns_jurnal);
                 $this->db->group_by("no_voucher,kd_area");
                 $this->db->order_by("tgl_voucher,no_voucher,kd_area");
                    return $this->db->get()->result_array();
@@ -37,7 +38,7 @@
             else{
                 $this->db->select("*,sum(kredit)as t_kredit,sum(debet)as t_debet,(select nm_area from ci_area where kd_area = ci_jurnal.kd_area)as nm_area");
                 $this->db->from("ci_jurnal");
-                $this->db->where("jns_jurnal",2);
+                $this->db->where_in("jns_jurnal",$jns_jurnal);
                 $this->db->where('kd_area',$this->session->userdata('kd_area'));
                 $this->db->group_by("no_voucher,kd_area");
                 $this->db->order_by("tgl_voucher,no_voucher,kd_area");
@@ -63,7 +64,7 @@
 						'tgl_voucher'   => $value['tgl_voucher'],
 						'no_voucher'    => $value['no_voucher'],
 						'kd_area'       => $value['kd_area'],
-						'kd_divisi'     => "",
+						'kd_divisi'     => $value['divisi'],
 						'kd_project'    => "",
 						'no_acc'        => $value['no_acc'],
 						'nm_acc'        => $value['nm_acc'],
@@ -101,23 +102,41 @@
 }
 
 public function get_rincian_bb($tahun,$bulan,$area){
-    $this->db->select("*,(select nm_area from ci_area where ci_area.kd_area=ci_jurnal.kd_area)as nm_area,CASE 
-	WHEN (substr(kd_project,8,4)='/98/' OR right(kd_project,3)='/98') THEN
-		(SELECT nm_area from ci_area where kd_area=ci_jurnal.kd_area)
-	ELSE
-		(SELECT nm_sub_area from ci_proyek where kd_proyek=ci_jurnal.kd_project) END as subarea");
-    $this->db->from("ci_jurnal");
+    if ($area == 'all'){
+        $this->db->select("*,(select nm_area from ci_area where ci_area.kd_area=ci_jurnal.kd_area)as nm_area,CASE 
+                    WHEN (substr(kd_project,8,4)='/98/' OR right(kd_project,3)='/98') THEN
+                    (SELECT nm_area from ci_area where kd_area=ci_jurnal.kd_area)
+                    ELSE
+                    (SELECT nm_sub_area from ci_proyek where kd_proyek=ci_jurnal.kd_project) END as subarea");
+        if($bulan==0){
+            $this->db->where("year(tgl_voucher)>=", $tahun);
+        }else{
+            $this->db->where("year(tgl_voucher)>=", $tahun);
+            $this->db->where("month(tgl_voucher)", $bulan);
+        }
+        $this->db->from("ci_jurnal");
+    }else{
+        $this->db->select("*,(select nm_area from ci_area where ci_area.kd_area=ci_jurnal.kd_area)as nm_area,CASE 
+                    WHEN (substr(kd_project,8,4)='/98/' OR right(kd_project,3)='/98') THEN
+                    (SELECT nm_area from ci_area where kd_area=ci_jurnal.kd_area)
+                    ELSE
+                    (SELECT nm_sub_area from ci_proyek where kd_proyek=ci_jurnal.kd_project) END as subarea");
+        if($bulan==0){
+            $this->db->where("year(tgl_voucher)>=", $tahun);
+        }else{
+            $this->db->where("year(tgl_voucher)>=", $tahun);
+            $this->db->where("month(tgl_voucher)", $bulan);
+        }
 
-if($bulan==0){
-    $this->db->where("year(tgl_voucher)>=", $tahun);
-}else{
-    $this->db->where("year(tgl_voucher)>=", $tahun);
-    $this->db->where("month(tgl_voucher)", $bulan);
-}
+        $this->db->where("kd_area", $area);
+        $this->db->from("ci_jurnal");
 
-if ($area!=0){
-    $this->db->where("kd_area", $area);
-}
+        
+    }
+
+    
+
+
 
 $this->db->order_by("no_acc,tgl_voucher,no_voucher");
 

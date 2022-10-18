@@ -52,31 +52,26 @@
 
          <div class="row">
          <div class="col-md-6">
-            <div class="form-group">
-              <label for="area" class="control-label"><?= trans('area') ?></label>
-                <select name="area" id ="area" class="form-control select2" style="width: 100%;" required >
-                <option value="">No Selected</option>
-                <?php foreach($data_area as $area): ?>
-                      <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
-                  <?php endforeach; ?>
-                </select>
-
-            </div>
-          </div>
-          <div class="col-md-6">
-                <div class="form-group">
-                      <label for="item_hpp" class="control-label">Jenis Jurnal</label>
-                        <select name="jns_jurnal"  id="jns_jurnal" class="form-control" required>
-                          <option value="">No Selected</option>
-                          <!-- <option value="1">Proyek</option> -->
-                          <option value="2">Penyusutan</option>
-                        </select> 
+                  <div class="form-group">
+                    <label for="id" class="control-label">Divisi</label>
+                    <select name="divisi" id="divisi" class="form-control select2" style="width: 100%;" required>
+                      <option value="">No Selected</option>
+                      <?php foreach($data_jnsproyek as $jnsproyek): ?>
+                        <option value="<?= $jnsproyek['kd_projek']; ?>"><?= $jnsproyek['kd_projek'].' - '.$jnsproyek['nm_projek']; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
                 </div>
-            </div>
-
-          
+         <div class="col-md-6">
+                  <label for="id" class="control-label">Area</label>
+                  <select name="area" id="area" class="form-control select2" style="width: 100%;" required>
+                    <option value="">No Selected</option>
+                  </select>
+                </div>
+            
          </div>
          <div class="row">
+         
          <div class="col-md-6">
             <div class="form-group">
               <label for="area" class="control-label">Akun</label>
@@ -98,7 +93,18 @@
          </div>
 
          <div class="row">
-         <div class="col-md-6">
+         <div class="col-md-3">
+                <div class="form-group">
+                      <label for="item_hpp" class="control-label">Jenis Jurnal</label>
+                        <select name="jns_jurnal"  id="jns_jurnal" class="form-control" required>
+                          <option value="">No Selected</option>
+                          <!-- <option value="1">Proyek</option> -->
+                          <option value="2">Akumulasi Penyusutan</option>
+                          <option value="3">Penyusaian</option>
+                        </select> 
+                </div>
+            </div>
+         <div class="col-md-3">
               <div class="form-group">
                 <label for="item_hpp" class="control-label">Kredit/Debet</label><br>
                     <small>Kredit</small>
@@ -137,11 +143,11 @@
                     <th>Tanggal Voucher</th>
                     <!-- <th>Kode Area</th> -->
                     <th>Area</th>
-                    <!-- <th>Kode Akun</th> -->
+                    <th>Divisi</th>
                     <th>Akun</th>
                     <th>Keterangan</th>
-                    <th>Kredit</th>
                     <th>Debet</th>
+                    <th>Kredit</th>
                     <th width="5%"><?= trans('action') ?></th>
                   </tr>
               </thead>
@@ -178,15 +184,48 @@
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
-    { "targets": 1, "name": "no_acc", 'searchable':true, 'orderable':false},
-    { "targets": 2, "name": "nm_acc", 'searchable':true, 'orderable':false},
-    { "targets": 3, "name": "nilai", 'searchable':true, 'orderable':false},
-    { "targets": 4, "name": "Action", 'searchable':false, 'orderable':false}
+    { "targets": 1, "name": "no_voucher", 'searchable':true, 'orderable':false},
+    { "targets": 2, "name": "tgl_voucher", 'searchable':true, 'orderable':false},
+    { "targets": 3, "name": "area", 'searchable':true, 'orderable':false},
+    { "targets": 4, "name": "akun", 'searchable':true, 'orderable':false},
+    { "targets": 5, "name": "nilai", 'searchable':true, 'orderable':false},
+    { "targets": 6, "name": "keterangan", 'searchable':true, 'orderable':false},
+    { "targets": 7, "name": "debet", 'searchable':true, 'orderable':false},
+    { "targets": 8, "name": "kredit", 'searchable':true, 'orderable':false},
+    { "targets": 9, "name": "Action", 'searchable':false, 'orderable':false}
     ]
   });
 
 
+  $('#divisi').change(function(){ 
+      var divisi = $(this).val();
+      // if (area=='00'){
+        // document.getElementById('divisi').disabled=true;
+                $.ajax({
+                    url : "<?php echo site_url('jurnal/get_area_pengeluaran');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: divisi},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="area"]').empty();
+                        $('select[name="area"]').append('<option value="">No Selected</option>');
+                        // $('select[name="no_acc"]').append('<option value="5041501">5041501 - Administrasi Bank</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="area"]').append('<option value="'+ value.kd_area +'">'+value.kd_area +' - '+ value.nm_area +'</option>');
+                          
+                        });
 
+                    }
+                });
+                
+      // }else{
+      //   document.getElementById('divisi').disabled=false;
+      //   $('select[name="no_acc"]').empty();
+      // }
+  }); 
 
 function get_akun(jns_spj,kd_proyek){
     $.ajax({

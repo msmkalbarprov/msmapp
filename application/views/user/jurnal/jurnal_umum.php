@@ -25,8 +25,8 @@
         <th align="center" width="10%"><b>Area</b></th>
         <th align="center" width="15%"><b>Akun</b></th>
         <th align="center" width="25%"><b>Uraian</b></th>
-        <th align="center" width="10%"><b>Kredit</b></th>
         <th align="center" width="10%"><b>debet</b></th>
+        <th align="center" width="10%"><b>Kredit</b></th>
         
   </tr>
 </thead>
@@ -46,8 +46,8 @@
         <td><?= $list['kd_area']; ?> - <?= $list['nm_area']; ?></td>
         <td><?= $list['no_acc']; ?> - <?= $list['nm_acc']; ?></td>
         <td><?= $list['uraian']; ?></td>
-        <td align="right" ><?= number_format($list['kredit'],2,',','.'); ?></td>
         <td align="right" ><?= number_format($list['debet'],2,',','.'); ?></td>
+        <td align="right" ><?= number_format($list['kredit'],2,',','.'); ?></td>
     </tr>
           
         

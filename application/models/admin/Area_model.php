@@ -56,6 +56,13 @@ class Area_model extends CI_Model{
 		return $query->result_array();
 	}
 
+	function get_area_jurnal()
+	{	
+		$this->db->from('ci_area');
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
 	function get_area_pusat()
 	{	
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'  || $this->session->userdata('admin_role')=='AE' || $this->session->userdata('admin_role')=='Marketing'){

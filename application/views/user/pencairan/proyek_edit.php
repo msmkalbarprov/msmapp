@@ -14,141 +14,279 @@
       <div class="card card-default">
         <div class="card-header bg-white">
           <div class="d-inline-block">
-            <h3 class="card-title"> <i class="fa fa-check"></i>
-             Pencairan Proyek </h3>
+            <h3 class="card-title"> Pencairan Proyek
+              </h3>
            </div>
            <div class="d-inline-block float-right">
             <a href="<?= base_url('pencairan'); ?>" class="btn btn-primary btn-sm text-white"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
-        <div class="card-body">
+      </div>
+        <!-- <div class="card-body"> -->
          
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
+      <!-- accordion -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-info collapsed-card card-outline">
+            <div class="card-header">
+              Rincian Proyek
 
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+              <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="area" class="control-label">Kode Proyek</label>
+                        <input type="text" name="kd_proyek" class="form-control" id="kd_proyek" placeholder="Nama Paket pekerjaan" readonly>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="area" class="control-label">&nbsp;</label>
+                        <input type="hidden" name="status_cair" class="form-control" id="status_cair" style="border:none;background:none" readonly>
+                        <input type="hidden" name="status_cair2" class="form-control" id="status_cair2" >
+                    </div>
+                  </div>
+                </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="area" class="control-label"><?= trans('area') ?></label><br />
+                      <select name="area" id="area"  class="form-control select2" style="width:100%"  readonly>
+                      <option value="">No Selected</option>
+                      <?php foreach($data_area as $area): ?>
+                        <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
+                          <option value="<?= $area['kd_area']; ?>" selected><?= $area['nm_area']; ?></option>
+                          <?php else: ?>
+                            <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
+                          <?php endif; ?>
+                        <?php endforeach; ?>
+                      </select>
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label><br />
+                    <select name="subarea" id="subarea" class="form-control select2" style="width:100%" readonly>
+                        <option value="">No Selected</option>
+                    </select>
+                </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="jenis_proyek" class="control-label">Jenis proyek</label><br />
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                      <select name="jnsproyek" id="jnsproyek" class="form-control" readonly>
+                        <option value="">No Selected</option>
+                        <?php foreach($data_jnsproyek as $jnsproyek): ?>
+                          <option value="<?= $jnsproyek['kd_projek']; ?>"><?= $jnsproyek['nm_projek']; ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="jenis_sub_proyek" class="control-label"><?= trans('jenis_sub_proyek') ?></label><br />
+                    <select class="form-control select2" style="width:100%" id="jnssubproyek" name="jnssubproyek" readonly>
+                      <option value="">No Selected</option>
+                    </select>
+                </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="perusahaan" class="control-label"><?= trans('perusahaan') ?></label><br />
+                      <select name="perusahaan" id="perusahaan" class="form-control select2" style="width:100%" readonly>
+                        <option value="">No Selected</option>
+                        <?php foreach($data_perusahaan as $perusahaan): ?>
+                          <option value="<?= $perusahaan['akronim']; ?>"><?= $perusahaan['nama']; ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="dinas" class="control-label"><?= trans('nm_dinas') ?></label><br />
+                    <select name="dinas" id="dinas" class="form-control select2" style="width:100%" readonly>
+                      <option value="">No Selected</option>
+                    </select>
+                </div>
+                </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="thn_ang" class="control-label">Tahun Anggaran</label><br />
+                      <select name="thn_ang" id="thn_ang" class="form-control" readonly>
+                        <option value="">No Selected</option>
+                        <option value="<?= date('Y')-1;?>"><?= date('Y')-1;?></option>
+                        <option value="<?= date('Y')?>"><?= date('Y')?></option>
+                        <option value="<?= date('Y')+1;?>"><?= date('Y')+1;?></option>
+                      </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nilai" class="control-label">Nama Paket pekerjaan</label><br />
+                    <input type="text" name="paketproyek" class="form-control" id="paketproyek" placeholder="Nama Paket pekerjaan" readonly>
+                </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                <div class="form-group">
+                    <label for="jns_pph" class="control-label">Keterangan</label><br />
+                    <textarea name="catatan" id="catatan" class="form-control" rows="1" readonly></textarea>
+                </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+      <!-- end accordion -->
          
-         <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="area" class="control-label">Kode Proyek</label>
-                <input type="text" name="kd_proyek" class="form-control" id="kd_proyek" placeholder="Nama Paket pekerjaan" readonly>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-                <label for="area" class="control-label">&nbsp;</label>
-                <input type="hidden" name="status_cair" class="form-control" id="status_cair" style="border:none;background:none" readonly>
-                <input type="hidden" name="status_cair2" class="form-control" id="status_cair2" >
-            </div>
-          </div>
-         </div>
+         
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-info collapsed-card card-outline">
+      <div class="card-header">
+        Tambah Pencairan Proyek
 
-         <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="area" class="control-label"><?= trans('area') ?></label>
-                <select name="area" id="area"  class="form-control select2" readonly>
-                <option value="">No Selected</option>
-                <?php foreach($data_area as $area): ?>
-                  <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
-                    <option value="<?= $area['kd_area']; ?>" selected><?= $area['nm_area']; ?></option>
-                    <?php else: ?>
-                      <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
-                    <?php endif; ?>
-                  <?php endforeach; ?>
-                </select>
-
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+          </button>
+        </div>
+        <!-- /.card-tools -->
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+          <?php echo form_open(base_url('pencairan/detail/'.$proyek['id_proyek']), 'class="form-horizontal"');  ?> 
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="area" class="control-label">Kode Proyek</label>
+                    <input type="text" name="kd_proyek2" class="form-control" id="kd_proyek2" readonly>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="area" class="control-label">Nomor PDP</label>
+                  <input type="text" name="nomor" class="form-control" id="nomor">
+                  <input type="hidden" name="urut" class="form-control" id="urut" >
+                  <input type="hidden" name="areas" class="form-control" id="areas" >
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="area" class="control-label">Tanggal Cair/PDP</label>
+                  <input type="date" name="tgl_cair" class="form-control" id="tgl_cair" required>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="area" class="control-label">Jenis pencairan</label>
+                    <select id="jns_pencairan" name="jns_pencairan" class="form-control" required>
+                      <option value="">No Selected</option>
+                      <option value="1">Uang Muka</option>
+                      <option value="2">Termin 1</option>
+                      <option value="3">Termin 2</option>
+                      <option value="4">Termin 3</option>
+                      <option value="5">Termin 4</option>
+                      <option value="6">Termin 5</option>
+                      <option value="7">Termin 6</option>
+                      <option value="8">Termin 7</option>
+                      <option value="9">Termin 8</option>
+                      <option value="10">Termin 9</option>
+                      <option value="11">Termin 10</option>
+                      <option value="12">Termin 11</option>
+                      <option value="13">Termin 12</option>
+                      <option value="14">Termin 13</option>
+                      <option value="15">Termin 14</option>
+                      <option value="16">Termin 15</option>
+                      <option value="100">Lunas</option>
+                    </select>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="sub_area" class="control-label"><?= trans('sub_area') ?></label>
-              <select name="subarea" id="subarea" class="form-control select2" readonly>
-                  <option value="">No Selected</option>
-              </select>
-          </div>
-          </div>
-         </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="area" class="control-label">Rekening pencairan</label>
+                    <select id="rek_pencairan" name="rek_pencairan" class="form-control" required>
+                      <option value="">No Selected</option>
+                      <option value="1">Rekening Lokal</option>
+                      <option value="1010301">Bank BRI MSM - Veteran Rek. 10302</option>
+                      <option value="1010302"> Bank BRI UMI - Veteran Rek. 12304</option>
+                      <option value="1010303"> Bank BRI RUB - Tanah Abang Rek. 23305</option>
+                      <option value="1010304"> Bank BRI PSK - Tanah Abang Rek. 24308</option>
+                      <option value="1010305"> Bank BRI MSM - Veteran 42152</option>
+                      <option value="1010306"> Bank BRI RUB - Veteran Rek. 87303</option>
+                      <option value="1010307"> Bank Rekening Pandawa 81304</option>
+                      <option value="1010308"> Bank BCA MSM Harmoni Plaza</option>
+                      <option value="1010309"> BRI umi veteran rek 032901003618309</option>
+                      <option value="1010310"> BPD Papua PT UMI</option>
+                    </select>
+                  </div>
 
-         <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="jenis_proyek" class="control-label">Jenis proyek</label>
-              <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                <select name="jnsproyek" id="jnsproyek" class="form-control" readonly>
-                  <option value="">No Selected</option>
-                  <?php foreach($data_jnsproyek as $jnsproyek): ?>
-                    <option value="<?= $jnsproyek['kd_projek']; ?>"><?= $jnsproyek['nm_projek']; ?></option>
-                  <?php endforeach; ?>
-                </select>
+                  
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="nilai" class="control-label">Nilai Proyek</label>
+                    <input type="text" name="nilai_proyek" class="form-control" id="nilai_proyek" placeholder="Nilai" style="text-align:right;"  readonly>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="area" class="control-label">Realisasi</label>
+                    <input type="text" name="realisasi" class="form-control" id="realisasi" placeholder="Nilai" style="text-align:right;"  readonly>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label for="area" class="control-label">Nilai Pencairan</label>
+                    <input type="text" name="nilai_bruto" class="form-control" id="nilai_bruto" value="0" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"  required>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="jenis_sub_proyek" class="control-label"><?= trans('jenis_sub_proyek') ?></label>
-              <select class="form-control select2" id="jnssubproyek" name="jnssubproyek" readonly>
-                <option value="">No Selected</option>
-              </select>
-          </div>
-          </div>
-         </div>
-         <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="perusahaan" class="control-label"><?= trans('perusahaan') ?></label>
-                <select name="perusahaan" id="perusahaan" class="form-control select2" readonly>
-                  <option value="">No Selected</option>
-                  <?php foreach($data_perusahaan as $perusahaan): ?>
-                    <option value="<?= $perusahaan['akronim']; ?>"><?= $perusahaan['nama']; ?></option>
-                  <?php endforeach; ?>
-                </select>
-            </div>
-          </div>
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="dinas" class="control-label"><?= trans('nm_dinas') ?></label>
-              <select name="dinas" id="dinas" class="form-control select2" readonly>
-                <option value="">No Selected</option>
-              </select>
-          </div>
-          </div>
-         </div>
 
-         <div class="row">
-            <div class="col-md-6">
-            <div class="form-group">
-              <label for="thn_ang" class="control-label">Tahun Anggaran</label>
-                <select name="thn_ang" id="thn_ang" class="form-control" readonly>
-                  <option value="">No Selected</option>
-                  <option value="<?= date('Y')-1;?>"><?= date('Y')-1;?></option>
-                  <option value="<?= date('Y')?>"><?= date('Y')?></option>
-                  <option value="<?= date('Y')+1;?>"><?= date('Y')+1;?></option>
-                </select>
-            </div>
-          </div>
-          <div class="col-md-6">
-           <div class="form-group">
-            <label for="nilai" class="control-label">Nama Paket pekerjaan</label>
-              <input type="text" name="paketproyek" class="form-control" id="paketproyek" placeholder="Nama Paket pekerjaan" readonly>
-          </div>
-          </div>
-         </div>
-         <div class="row">
-          <div class="col-md-12">
-           <div class="form-group">
-              <label for="jns_pph" class="control-label">Keterangan</label>
-              <textarea name="catatan" id="catatan" class="form-control" rows="1" readonly></textarea>
-          </div>
-          </div>
-         </div>
 
+              <div class="form-group">
+                <div class="col-md-12" align="right">
+                  <input type="submit" name="submit" value="Submit" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+              </div>
+          <?php echo form_close( ); ?>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
               
 
 
         
-      </div>
+      <!-- </div> -->
       <!-- /.box-body -->
-    </div>
     <div class="card card-default" hidden>
       <div class="card-body">
            <div class="row">
@@ -175,110 +313,9 @@
       </div>
     </div>
     <div class="card card-default">
-    <div class="card-header bg-success">
-      Input pencairan proyek
-    </div>
-    <div class="card-body">
-      <?php echo form_open(base_url('pencairan/detail/'.$proyek['id_proyek']), 'class="form-horizontal"');  ?> 
-         <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-                <label for="area" class="control-label">Kode Proyek</label>
-                <input type="text" name="kd_proyek2" class="form-control" id="kd_proyek2" readonly>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="area" class="control-label">Nomor PDP</label>
-              <input type="text" name="nomor" class="form-control" id="nomor">
-              <input type="hidden" name="urut" class="form-control" id="urut" >
-              <input type="hidden" name="areas" class="form-control" id="areas" >
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="area" class="control-label">Tanggal Cair/PDP</label>
-              <input type="date" name="tgl_cair" class="form-control" id="tgl_cair" required>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-                <label for="area" class="control-label">Jenis pencairan</label>
-                <select id="jns_pencairan" name="jns_pencairan" class="form-control" required>
-                  <option value="">No Selected</option>
-                  <option value="1">Uang Muka</option>
-                  <option value="2">Termin 1</option>
-                  <option value="3">Termin 2</option>
-                  <option value="4">Termin 3</option>
-                  <option value="5">Termin 4</option>
-                  <option value="6">Termin 5</option>
-                  <option value="7">Termin 6</option>
-                  <option value="8">Termin 7</option>
-                  <option value="9">Termin 8</option>
-                  <option value="10">Termin 9</option>
-                  <option value="11">Termin 10</option>
-                  <option value="12">Termin 11</option>
-                  <option value="13">Termin 12</option>
-                  <option value="14">Termin 13</option>
-                  <option value="15">Termin 14</option>
-                  <option value="16">Termin 15</option>
-                  <option value="100">Lunas</option>
-                </select>
-            </div>
-          </div>
-         </div>
-         <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-                <label for="area" class="control-label">Rekening pencairan</label>
-                <select id="rek_pencairan" name="rek_pencairan" class="form-control" required>
-                  <option value="">No Selected</option>
-                  <option value="1">Rekening Lokal</option>
-                  <option value="1010301">Bank BRI MSM - Veteran Rek. 10302</option>
-                  <option value="1010302"> Bank BRI UMI - Veteran Rek. 12304</option>
-                  <option value="1010303"> Bank BRI RUB - Tanah Abang Rek. 23305</option>
-                  <option value="1010304"> Bank BRI PSK - Tanah Abang Rek. 24308</option>
-                  <option value="1010305"> Bank BRI MSM - Veteran 42152</option>
-                  <option value="1010306"> Bank BRI RUB - Veteran Rek. 87303</option>
-                  <option value="1010307"> Bank Rekening Pandawa 81304</option>
-                  <option value="1010308"> Bank BCA MSM Harmoni Plaza</option>
-                  <option value="1010309"> BRI umi veteran rek 032901003618309</option>
-                  <option value="1010310"> BPD Papua PT UMI</option>
-                </select>
-              </div>
-
-              
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-                <label for="nilai" class="control-label">Nilai Proyek</label>
-                <input type="text" name="nilai_proyek" class="form-control" id="nilai_proyek" placeholder="Nilai" style="text-align:right;"  readonly>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-                <label for="area" class="control-label">Realisasi</label>
-                <input type="text" name="realisasi" class="form-control" id="realisasi" placeholder="Nilai" style="text-align:right;"  readonly>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-                <label for="area" class="control-label">Nilai Pencairan</label>
-                <input type="text" name="nilai_bruto" class="form-control" id="nilai_bruto" value="0" placeholder="Nilai" style="text-align:right;" onkeypress="return(currencyFormat(this,'.',',',event))"  required>
-            </div>
-          </div>
-         </div>
-
-
-          <div class="form-group">
-            <div class="col-md-12" align="right">
-              <input type="submit" name="submit" value="Submit" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </div>
-          </div>
-      <?php echo form_close( ); ?>
-    </div>
-  </div>
-    <div class="card card-default">
+    <div class="card-header ">
+        Riwayat Pencairan Proyek
+      </div>
       <div class="card-body">
            <div class="row">
             <div class="col-md-12">

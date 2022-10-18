@@ -51,29 +51,23 @@
 
          <div class="row">
          <div class="col-md-6">
-            <div class="form-group">
-              <label for="area" class="control-label"><?= trans('area') ?></label>
-                <select name="area" id ="area" class="form-control select2" style="width: 100%;" required >
-                <option value="">No Selected</option>
-                <?php foreach($data_area as $area): ?>
-                      <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
-                  <?php endforeach; ?>
-                </select>
-
-            </div>
-          </div>
-          <div class="col-md-6">
-                <div class="form-group">
-                      <label for="item_hpp" class="control-label">Jenis Jurnal</label>
-                        <select name="jns_jurnal"  id="jns_jurnal" class="form-control" required>
-                          <option value="">No Selected</option>
-                          <!-- <option value="1">Proyek</option> -->
-                          <option value="2">Penyusutan</option>
-                        </select> 
+                  <div class="form-group">
+                    <label for="id" class="control-label">Divisi</label>
+                    <select name="divisi" id="divisi" class="form-control select2" style="width: 100%;" required>
+                      <option value="">No Selected</option>
+                      <?php foreach($data_jnsproyek as $jnsproyek): ?>
+                        <option value="<?= $jnsproyek['kd_projek']; ?>"><?= $jnsproyek['kd_projek'].' - '.$jnsproyek['nm_projek']; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
                 </div>
-            </div>
-
-          
+         <div class="col-md-6">
+                  <label for="id" class="control-label">Area</label>
+                  <select name="area" id="area" class="form-control select2" style="width: 100%;" required>
+                    <option value="">No Selected</option>
+                  </select>
+                </div>
+            
          </div>
          <div class="row">
          <div class="col-md-6">
@@ -97,7 +91,18 @@
          </div>
 
          <div class="row">
-         <div class="col-md-6">
+         <div class="col-md-3">
+                <div class="form-group">
+                      <label for="item_hpp" class="control-label">Jenis Jurnal</label>
+                        <select name="jns_jurnal"  id="jns_jurnal" class="form-control" required>
+                          <option value="">No Selected</option>
+                          <!-- <option value="1">Proyek</option> -->
+                          <option value="2">Akumulasi Penyusutan</option>
+                          <option value="3">Penyusaian</option>
+                        </select> 
+                </div>
+            </div>
+         <div class="col-md-3">
               <div class="form-group">
                 <label for="item_hpp" class="control-label">Kredit/Debet</label><br>
                     <small>Kredit</small>
@@ -138,11 +143,12 @@
                     <th>Tanggal Voucher</th>
                     <th>Kode Area</th>
                     <th>Area</th>
+                    <th>Divisi</th>
                     <th>Kode Akun</th>
                     <th>Akun</th>
                     <th>Keterangan</th>
-                    <th>Kredit</th>
                     <th>Debet</th>
+                    <th>Kredit</th>
                     <th>jns_jurnal</th>
                     <th width="5%"><?= trans('action') ?></th>
                   </tr>
@@ -193,11 +199,12 @@
                 { "data": "tgl_voucher" },  // Tampilkan nama
                 { "data": "kd_area" },  // Tampilkan nama
                 { "data": "nm_area" },  // Tampilkan nama
+                { "data": "divisi" },  // Tampilkan nama
                 { "data": "no_acc" },  // Tampilkan nama
                 { "data": "nm_acc" },  // Tampilkan nama
                 { "data": "uraian" }, // Tampilkan uraian
-                { "data": "kredit" , "className": "text-right"}, // Tampilkan total
                 { "data": "debet" , "className": "text-right"}, // Tampilkan total
+                { "data": "kredit" , "className": "text-right"}, // Tampilkan total
                 { "data": "jns_jurnal" }, // Tampilkan uraian
                 {
                     "data": null,
@@ -211,17 +218,18 @@
 
 
     var t = $('#na_datatable').DataTable();
-    t.columns([3,5,10]).visible(false);
+    t.columns([3,6,11]).visible(false);
     counter = 1;
     var data_jurnal = '';
     $('#btn_tambah').on('click', function () {
       var akun          = $('#no_acc').select2('data')
       var akun_id       = akun[0].id;
-      var akun_text       = akun[0].text;
+      var akun_text     = akun[0].text;
       var area          = $('#area').select2('data')
       var area_id       = area[0].id;
       var area_text     = area[0].text;
       var no_voucher    = $('#no_voucher').val()
+      var divisi        = $('#divisi').val()
       var tgl_voucher   = $('#tgl_voucher').val()
       var keterangan    = $('#keterangan').val()
       var nilai         = $('#nilai').val()
@@ -235,11 +243,37 @@
         var debet   = 0;
         var kredit  = nilai;
       }
+
+      if (no_voucher==''){
+        alert('Nomor Voucher harus diisi!');
+        return;
+      }
+      
+      if (divisi==''){
+        alert('divisi harus diisi!');
+        return;
+      }
+
+      if (jns_jurnal==''){
+        alert('Jenis Jurnal harus diisi!');
+        return;
+      }
+
+      if (keterangan==''){
+        alert('Keterangan harus diisi!');
+        return;
+      }
+
+      if (area_id==''){
+        alert('Area harus diisi!');
+        return;
+      }
+
       
       
       
-        t.row.add({ 'urut': counter,'no_voucher': no_voucher,'tgl_voucher': tgl_voucher, 'kd_area':area_id, 'nm_area': area_text, 'no_acc': akun_id,
-          'nm_acc': akun_text,'uraian': keterangan, 'kredit': kredit, 'debet': debet,'jns_jurnal':jns_jurnal, 'tombol': tombol}).draw(false);
+        t.row.add({ 'urut': counter,'no_voucher': no_voucher,'tgl_voucher': tgl_voucher, 'kd_area':area_id, 'nm_area': area_text,'divisi': divisi, 'no_acc': akun_id,
+          'nm_acc': akun_text,'uraian': keterangan, 'debet': debet,'kredit': kredit,'jns_jurnal':jns_jurnal, 'tombol': tombol}).draw(false);
         counter++;
 
         
@@ -255,7 +289,35 @@
 
      });
     
-    
+     $('#divisi').change(function(){ 
+      var divisi = $(this).val();
+      // if (area=='00'){
+        // document.getElementById('divisi').disabled=true;
+                $.ajax({
+                    url : "<?php echo site_url('jurnal/get_area_pengeluaran');?>",
+                    method : "POST",
+                    data : {
+                      '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+                      id: divisi},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+                        $('select[name="area"]').empty();
+                        $('select[name="area"]').append('<option value="">No Selected</option>');
+                        // $('select[name="no_acc"]').append('<option value="5041501">5041501 - Administrasi Bank</option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="area"]').append('<option value="'+ value.kd_area +'">'+value.kd_area +' - '+ value.nm_area +'</option>');
+                          
+                        });
+
+                    }
+                });
+                
+      // }else{
+      //   document.getElementById('divisi').disabled=false;
+      //   $('select[name="no_acc"]').empty();
+      // }
+  });    
 
 
 function get_akun(jns_spj,kd_proyek){

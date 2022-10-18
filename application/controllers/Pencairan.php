@@ -353,6 +353,14 @@ function get_realisasi(){
 				// SIMPAN DETAIL PENCAIRAN
 				$this->proyek_model->simpan_cair_proyek($data);
 
+				$data3 = array(
+					'tgl_cair' 			=> $this->input->post('tgl_cair'),
+					'kd_proyek'			=> $this->input->post('kd_proyek2'),
+					'updated_cair' 		=> date('Y-m-d : h:m:s'),
+				);
+				$id_proyek = $this->input->post('kd_proyek2');
+				$this->proyek_model->update_status_pencairan($data3,$id_proyek);
+
 				$data2 = array(
 					'username' 			=> $this->session->userdata('username'),
 					'tgl_transfer'		=> $this->input->post('tgl_cair'),

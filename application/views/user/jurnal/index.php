@@ -41,8 +41,8 @@
                       <th>Tanggal Voucher</th>
                       <th>Area</th>
                       <th>Keterangan</th>
-                      <th>Kredit</th>
                       <th>Debet</th>
+                      <th>Kredit</th>
                       <th width="10%"><?= trans('action') ?></th>
                     </tr>
                   </thead>
@@ -81,8 +81,8 @@
     { "targets": 2, "name": "tgl_voucher", 'searchable':true, 'orderable':false},
     { "targets": 3, "name": "kd_area", 'searchable':true, 'orderable':false},
     { "targets": 4, "name": "keterangan", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "kredit", 'searchable':false, 'orderable':false},
     { "targets": 6, "name": "debet", 'searchable':false, 'orderable':false},
+    { "targets": 5, "name": "kredit", 'searchable':false, 'orderable':false},
     { "targets": 7, "name": "Action", 'searchable':false, 'orderable':false,'width':'100px'}
     ]
   });
