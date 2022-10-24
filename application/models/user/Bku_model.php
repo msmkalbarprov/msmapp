@@ -26,7 +26,11 @@
 	    }
 	}
 
-	
+	public function get_nama_pegawai($id){
+		$this->db->from("ci_pegawai");
+		$this->db->where("kd_pegawai",$id);
+		   return $result = $this->db->get()->row_array();
+	}
 
 public function get_bku($id,$tahun,$bulan){
 			
@@ -62,6 +66,22 @@ public function get_bku($id,$tahun,$bulan){
 		return $query->result_array();
 	}
 
+	public function get_kas_rekening_area($id,$tahun,$bulan){
+		$this->db->select("*");
+		$this->db->from("cetakan_kas_pegawai");
+		$this->db->where("kd_pegawai", $id);
+	
+	if($bulan==0){
+		$this->db->where("year(tanggal)>=", $tahun);
+	}else{
+		$this->db->where("year(tanggal)>=", $tahun);
+		$this->db->where("month(tanggal)", $bulan);
+	}
+		$this->db->where("urut <>", 0);
+		$query=$this->db->get();
+	return $query->result_array();
+}
+
 	public function saldo_awal($id,$tahun,$bulan){
 			$this->db->select("ifnull(sum(terima),0)-ifnull(sum(keluar),0) as saldo");
 			$this->db->from("cetakan_kas_rekening");
@@ -83,6 +103,16 @@ public function get_bku($id,$tahun,$bulan){
 			$this->db->select('no_acc as kode, nm_acc as nama');
 			$this->db->from('ci_coa');
 			$this->db->where_in('no_acc',$rekening);
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+
+
+	function get_pegawai()
+	{	
+			$this->db->select('kd_pegawai as kode, nama as nama');
+			$this->db->from('ci_pegawai');
+			$this->db->where_in('pemegang_kas',1);
 		$query=$this->db->get();
 		return $query->result_array();
 	}
