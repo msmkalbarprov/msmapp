@@ -69,9 +69,13 @@ $lang['pengembalian']               			= "Pengembalian";
 $lang['pengeluaran_lain']               		= "Pengeluaran lain-lain";
 $lang['penerimaan_lain']               			= "Penerimaan lain-lain";
 
+$lang['pengeluaran_lain_area']               	= "Pengeluaran lain (area)";
+$lang['penerimaan_lain_area']               	= "Penerimaan lain (area)";
+
 $lang['pengesahan_spj']               			= "Pengesahan SPJ ";
 $lang['validasi_pdp']               			= "Validasi PDP ";
 $lang['laporan_kas_rekening']               	= "Kas Rekening Pusat ";
+$lang['kas_rekening_area']               		= "Kas Rekening Area <span class='badge badge-danger'>New</span>";
 $lang['lap_saldo_awal']               			= "lap. Saldo Awal ";
 $lang['ambil_tunai']               				= "Ambil Kas Tunai ";
 $lang['spj_tunai']               				= "SPJ Tunai ";
