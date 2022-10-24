@@ -84,6 +84,40 @@ public function get_all_spj(){
 	}
 
 
+	public function get_all_spj_pengesahan(){
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
+			$this->db->select('*,sum(nilai) as total');
+			$this->db->from("ci_spj_pegawai");
+            $this->db->group_by("no_spj,kd_pegawai");
+            $this->db->order_by("kd_pegawai,no_spj");
+       		return $this->db->get()->result_array();
+		}else if($this->session->userdata('admin_role')=='Divisi Finance'){
+			$kdarea = array('11','21','22','71','74','00','01');
+			$this->db->select('*,sum(nilai) as total');
+			$this->db->from("ci_spj_pegawai");
+			$this->db->where_in('kd_area',$kdarea);
+            $this->db->group_by("no_spj,kd_pegawai");
+            $this->db->order_by("kd_pegawai,no_spj");
+       		return $this->db->get()->result_array();
+		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin'){
+			$this->db->select('*,sum(nilai) as total');
+			$this->db->from("ci_spj_pegawai");
+			$this->db->where('kd_area',$this->session->userdata('kd_area'));
+            $this->db->group_by("no_spj,kd_pegawai");
+            $this->db->order_by("kd_pegawai,no_spj");
+       		return $this->db->get()->result_array();
+		}
+		else{
+			$this->db->select('*,sum(nilai) as total');
+			$this->db->from("ci_spj_pegawai");
+			$this->db->where('kd_pegawai',$this->session->userdata('username'));
+            $this->db->group_by("no_spj,kd_pegawai");
+            $this->db->order_by("kd_pegawai,no_spj");
+       		return $this->db->get()->result_array();
+		}
+	}
+
+
 	public function get_all_spj_tunai(){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 			$this->db->select('*,sum(nilai) as total');

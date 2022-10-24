@@ -27,7 +27,7 @@ class Pengesahan_spj_pegawai extends MY_Controller {
 	}
 
 	public function datatable_json(){				   					   
-		$records['data'] = $this->spjpegawai_model->get_all_spj();
+		$records['data'] = $this->spjpegawai_model->get_all_spj_pengesahan();
 		$data = array();
 		$i=0;
 		foreach ($records['data']   as $row) 
