@@ -24,7 +24,7 @@
            <!-- For Messages -->
             <?php $this->load->view('admin/includes/_messages.php') ?>
               
-            <?php echo form_open(base_url('tlain/add/'), 'class="form-horizontal"' )?> 
+            <?php echo form_open(base_url('penerimaan_lain_area/add/'), 'class="form-horizontal"' )?> 
 
               <div class="row">
               <div class="col-md-4">

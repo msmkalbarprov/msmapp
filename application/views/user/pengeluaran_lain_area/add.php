@@ -17,14 +17,14 @@
               Tambah Pengeluaran Lainnya (Area) </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('plain'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Pengeluaran</a>
+            <a href="<?= base_url('pengeluaran_lain_area'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Pengeluaran</a>
           </div>
         </div>
         <div class="card-body">   
            <!-- For Messages -->
             <?php $this->load->view('admin/includes/_messages.php') ?>
               
-            <?php echo form_open(base_url('plain/add/'), 'class="form-horizontal"' )?> 
+            <?php echo form_open(base_url('pengeluaran_lain_area/add/'), 'class="form-horizontal"' )?> 
 
               <div class="row">
               <div class="col-md-4">

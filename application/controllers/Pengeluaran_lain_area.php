@@ -37,8 +37,8 @@ public function datatable_json(){
 		$i=1;
 		foreach ($records['data']   as $row) 
 		{  
-				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('plain/edit/0b48b04152b78adab02750700dbf0f1bb5fba69c'.$row['id']).'707e6a779d28c9ea4cb463027da57cf23943922e'.'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("plain/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pengeluaran_lain_area/edit/0b48b04152b78adab02750700dbf0f1bb5fba69c'.$row['id']).'707e6a779d28c9ea4cb463027da57cf23943922e'.'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pengeluaran_lain_area/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
 		
 			$data[]= array(
 				$i++,
@@ -124,7 +124,7 @@ public function datatable_json(){
 						$this->activity_model->add_log(4);
 
 						$this->session->set_flashdata('success', 'Pengeluaran lainnya berhasil ditambahkan!');
-						redirect(base_url('plain'));
+						redirect(base_url('pengeluaran_lain_area'));
 					}
 				}
 			}
@@ -222,12 +222,12 @@ public function datatable_json(){
 					$this->activity_model->add_log(5);
 
 					$this->session->set_flashdata('success', 'Pengeluaran lainnya berhasil diupdate!');
-					redirect(base_url('plain'));
+					redirect(base_url('pengeluaran_lain_area'));
 				}
 			}
 		}
 		elseif($id==""){
-			redirect('plain');
+			redirect('pengeluaran_lain_area');
 		}
 		else{
 			$data['data_rekening'] 	= $this->Pengeluaran_model_area->get_rekening_kas();
@@ -267,7 +267,7 @@ public function datatable_json(){
 		$this->activity_model->add_log(6);
 
 		$this->session->set_flashdata('success','Pengeluaran lainnya berhasil dihapus.');	
-		redirect('plain');
+		redirect('pengeluaran_lain_area');
 	}
 
 	public function potongan($nomor= 0){

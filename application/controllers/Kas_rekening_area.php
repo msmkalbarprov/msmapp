@@ -76,7 +76,7 @@ function terbilang($nilai) {
 	{	
 		$data['list'] 			    = $this->bku_model->get_kas_rekening_area($id,$tahun,$bulan);
 		$data['rekening'] 			= $this->bku_model->get_nama_pegawai($id);
-        $data['lalu'] 			    = $this->bku_model->saldo_awal($id,$tahun,$bulan);
+        $data['lalu'] 			    = $this->bku_model->saldo_awal_area($id,$tahun,$bulan);
 		$data['tahun'] 				= $tahun;
 
 		if ($bulan==0){

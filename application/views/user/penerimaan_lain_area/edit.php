@@ -17,14 +17,14 @@
               Edit Penerimaan Lainnya (Area) </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('tlain'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List penerimaan</a>
+            <a href="<?= base_url('penerimaan_lain_area'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List penerimaan</a>
           </div>
         </div>
         <div class="card-body">   
            <!-- For Messages -->
             <?php $this->load->view('admin/includes/_messages.php') ?>
               
-            <?php echo form_open(base_url('tlain/edit/'. $data_plain['no_bukti']), 'class="form-horizontal"' )?> 
+            <?php echo form_open(base_url('penerimaan_lain_area/edit/'. $data_plain['no_bukti']), 'class="form-horizontal"' )?> 
 
               <div class="row">
               <div class="col-md-4">

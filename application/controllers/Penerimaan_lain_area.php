@@ -37,8 +37,8 @@ public function datatable_json(){
 		$i=1;
 		foreach ($records['data']   as $row) 
 		{  
-				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('tlain/edit/0b48b04152b78adab02750700dbf0f1bb5fba69c'.$row['id'].'707e6a779d28c9ea4cb463027da57cf23943922e').'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("tlain/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('penerimaan_lain_area/edit/0b48b04152b78adab02750700dbf0f1bb5fba69c'.$row['id'].'707e6a779d28c9ea4cb463027da57cf23943922e').'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("penerimaan_lain_area/delete/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
                 
 			$data[]= array(
 				$i++,
@@ -87,6 +87,7 @@ public function datatable_json(){
 						'no_acc' 		    => $this->input->post('no_acc'),
 						'kd_pegawai'	    => $this->input->post('kd_pegawai'),
 						'no_bukti'   	    => $this->input->post('nobukti'),
+						'kd_area'   	    => $this->input->post('area'),
 						'tgl_bukti'         => $this->input->post('tanggal'),
 						'jenis'         	=> $this->input->post('jenis'),
                         'keterangan'        => $this->input->post('keterangan'),
@@ -109,7 +110,7 @@ public function datatable_json(){
 						// Activity Log 
 						$this->activity_model->add_log(4);
 						$this->session->set_flashdata('success', 'Penerimaan lainnya berhasil ditambahkan!');
-						redirect(base_url('tlain'));
+						redirect(base_url('penerimaan_lain_area'));
 					}
 				}
 			}
@@ -176,12 +177,12 @@ public function datatable_json(){
 					$this->activity_model->add_log(5);
 
 					$this->session->set_flashdata('success', 'penerimaan lainnya berhasil diupdate!');
-					redirect(base_url('tlain'));
+					redirect(base_url('penerimaan_lain_area'));
 				}
 			}
 		}
 		elseif($id==""){
-			redirect('tlain');
+			redirect('penerimaan_lain_area');
 		}
 		else{
             $data['data_akun'] 	    = $this->penerimaan_lain_model->get_akun_terima();
@@ -218,7 +219,7 @@ public function datatable_json(){
 		$this->activity_model->add_log(6);
 
 		$this->session->set_flashdata('success','penerimaan lainnya berhasil dihapus.');	
-		redirect('tlain');
+		redirect('penerimaan_lain_area');
 	}
 	
 }

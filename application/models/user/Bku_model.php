@@ -97,6 +97,21 @@ public function get_bku($id,$tahun,$bulan){
 		   return $result = $this->db->get()->row_array();
 	}
 
+	public function saldo_awal_area($id,$tahun,$bulan){
+		$this->db->select("ifnull(sum(terima),0)-ifnull(sum(keluar),0) as saldo");
+		$this->db->from("cetakan_kas_pegawai");
+		$this->db->where("kd_pegawai",$id);
+	
+	if($bulan==0){
+		$this->db->where("tanggal ", '2022-01-31');
+	}else{
+		$this->db->where("year(tanggal)>=", $tahun);
+		$this->db->where("month(tanggal) < ", $bulan);
+		$this->db->where("urut <> ", 7);
+	}
+	   return $result = $this->db->get()->row_array();
+}
+
 	function get_rekening_kas()
 	{	
 		$rekening = array('1010102','1010301','1010302','1010303','1010304','1010305','1010306','1010307','1010308','1010309','1010310');

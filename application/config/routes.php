@@ -114,15 +114,15 @@ $route['pdo/get_pq_projek_by_area']				= 'cpdo/get_pq_projek_by_area';
 $route['pencairan/detail/(:any)']				= 'pencairan/edit_proyek/$1';
 
 
-$route['plain'] 								= 'pengeluaran_lain_area/index';
-$route['plain/add'] 							= 'pengeluaran_lain_area/add';
-$route['plain/edit/(:any)'] 					= 'pengeluaran_lain_area/edit/$1';
-$route['plain/delete/(:any)'] 					= 'pengeluaran_lain_area/delete/$1';
+$route['pengeluaran_lain_area'] 								= 'pengeluaran_lain_area/index';
+$route['pengeluaran_lain_area/add'] 							= 'pengeluaran_lain_area/add';
+$route['pengeluaran_lain_area/edit/(:any)'] 					= 'pengeluaran_lain_area/edit/$1';
+$route['pengeluaran_lain_area/delete/(:any)'] 					= 'pengeluaran_lain_area/delete/$1';
 
-$route['tlain'] 								= 'penerimaan_lain_area/index';
-$route['tlain/add'] 							= 'penerimaan_lain_area/add';
-$route['tlain/edit/(:any)'] 					= 'penerimaan_lain_area/edit/$1';
-$route['tlain/delete/(:any)'] 					= 'penerimaan_lain_area/delete/$1';
+$route['penerimaan_lain_area'] 								= 'penerimaan_lain_area/index';
+$route['penerimaan_lain_area/add'] 							= 'penerimaan_lain_area/add';
+$route['penerimaan_lain_area/edit/(:any)'] 					= 'penerimaan_lain_area/edit/$1';
+$route['penerimaan_lain_area/delete/(:any)'] 					= 'penerimaan_lain_area/delete/$1';
 
 
 
