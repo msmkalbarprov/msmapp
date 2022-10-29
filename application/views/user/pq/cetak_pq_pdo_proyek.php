@@ -21,7 +21,7 @@
     </td>
     <td align="center" style="background: #B9C0C5; color: #000;">Nilai PQ</td>
     <td align="center" style="background: #B9C0C5;border-left:white;color: #000;">Realisasi PDO</td>
-    <td align="center" style="background: #B9C0C5;border-left:white;color: #000;">%</td>
+    <td align="center" style="background: #B9C0C5;border-left:white;color: #000;">Realisasi SPJ</td>
   </tr>
   <tr>
     <td colspan="5" >
@@ -88,24 +88,27 @@
     <td align="right"><?= number_format($pencairan['infaq'],2,',','.'); ?></td>
   </tr>
   <?php $titipan = $pqproyek['titipan_net']; ?>
-  <tr>
-    <td colspan="2">
-      Potongan Pendapatan (Titipan)
-    </td>
-    <td align="right" ><?= number_format($titipan,2,',','.'); ?></td>
-    <td align="right"></td>
-    <td align="right"></td>
-  </tr>
-  <tr>
-    <td colspan="5">&nbsp;</td>
-  </tr>
+  
 <?php foreach($titip_pl as $titip_pl): ?>
 
   <?php if($titip_pl['no_acc'] == '5020501'): ?>
       <?php 
         $netto_pencairan  = $pencairan['netto']-$titip_pl['nilai']; 
         $nett             = $netto_pencairan;
+        $nett_spj         = $pencairan['netto']-$titip_pl['nilai_spj'];
       ?>
+
+<tr>
+    <td colspan="2">
+      Potongan Pendapatan (Titipan)
+    </td>
+    <td align="right" ><?= number_format($titipan,2,',','.'); ?></td>
+    <td align="right"><?= number_format($titip_pl['nilai'],2,',','.'); ?></td>
+    <td align="right"><?= number_format($titip_pl['nilai_spj'],2,',','.'); ?></td>
+  </tr>
+  <tr>
+    <td colspan="5">&nbsp;</td>
+  </tr>
         <tr>
           <td colspan="2">
             2. PENDAPATAN NETT
@@ -122,7 +125,7 @@
 
           <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($pqproyek['pendapatan_nett'],2,',','.'); ?></td>
           <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett ,2,',','.'); ?></td>
-          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett ,2,',','.'); ?></td>
+          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett_spj ,2,',','.'); ?></td>
         </tr>
         <tr>
           <td colspan="5">&nbsp;</td>
@@ -150,16 +153,8 @@
             <?php endif; ?>
       </td>
     <td align="right"><?= number_format($titip_pl['nilai'],2,',','.'); ?></td>
-    <?php 
-        if($nilai_pl==0){
-          $persenpl=0;
-        }else if($nilai_pl!=0 && $titip_pl['nilai']==0){
-          $persenpl=0;
-        }else{
-          $persenpl=$titip_pl['nilai']/$nilai_pl*100;
-        } 
-      ?>
-    <td align="right"><?= number_format($persenpl,2,',','.'); ?></td>
+   
+    <td align="right"><?= number_format($titip_pl['nilai_spj'],2,',','.'); ?></td>
   </tr>
   <?php $sub_total_a=$pqproyek['sub_total_a']; ?>
 
