@@ -55,6 +55,7 @@
     <td align="right" ><?= number_format($pencairan['pph'],2,',','.'); ?></td>
     <td align="right" ><?= number_format($pencairan['pph'],2,',','.'); ?></td>
   </tr>
+  
   <tr>
     <td colspan="2">
       Pajak Lainnya (Infaq, SP3)
@@ -73,14 +74,7 @@
     <td align="right"><?= number_format($pencairan['infaq'],2,',','.'); ?></td>
   </tr>
   <?php $titipan = $pqproyek['titip']; ?>
-  <tr>
-    <td colspan="2">
-      Potongan Pendapatan (Titipan)
-    </td>
-    <td align="right" ><?= number_format($titipan,2,',','.'); ?></td>
-    <td align="right"></td>
-    <td align="right"></td>
-  </tr>
+  
   <tr>
     <td colspan="5">&nbsp;</td>
   </tr>
@@ -90,7 +84,19 @@
       <?php 
         $netto_pencairan  = $pencairan['netto']-$titip_pl['nilai']; 
         $nett             = $netto_pencairan;
+        $nett_spj             =$pencairan['netto']-$titip_pl['nilai_spj'];
       ?>
+
+<tr>
+    <td colspan="2">
+      Potongan Pendapatan (Titipan)
+    </td>
+    <td align="right" ><?= number_format($titipan,2,',','.'); ?></td>
+    <td align="right"><?= number_format($titip_pl['nilai'],2,',','.'); ?></td>
+    <td align="right"><?= number_format($titip_pl['nilai_spj'],2,',','.'); ?></td>
+  </tr>
+
+  
         <tr>
           <td colspan="2">
             2. PENDAPATAN NETT
@@ -108,7 +114,7 @@
           </td>
           <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($pqproyek['pendapatan_nett'],2,',','.'); ?></td>
           <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett,2,',','.'); ?></td>
-          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett ,2,',','.'); ?></td>
+          <td align="right" style="background: #B9C0C5; color: #000;"><?= number_format($nett_spj ,2,',','.'); ?></td>
         </tr>
         <tr>
           <td colspan="5">&nbsp;</td>

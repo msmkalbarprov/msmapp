@@ -307,15 +307,17 @@ public function get_pq_operasional_view($id){
 			return $result = $this->db->get()->row_array();
 		}
 
+
+
+
+
 	public function get_pencairan_by_id($id){
-				 $this->db->select("
-					sum( case when ci_proyek_cair_potongan.kd_acc='5041405' then ci_proyek_cair_potongan.nilai else 0 end) as ppn,
-					sum( case when ci_proyek_cair_potongan.kd_acc in ('5041401','5041402','5041403') then ci_proyek_cair_potongan.nilai else 0 end) as pph,
-					sum( case when ci_proyek_cair_potongan.kd_acc='5041407' then ci_proyek_cair_potongan.nilai else 0 end) as infaq,
-				 	ifnull(sum(ci_proyek_cair.nilai_bruto)-sum(ci_proyek_cair_potongan.nilai),0) as netto");
+				 $this->db->select("id_pqproyek, (SELECT sum(nilai) from ci_proyek_cair_potongan where  `ci_proyek_cair_potongan`.`id_proyek`=`ci_pendapatan`.`kd_proyek` and ci_proyek_cair_potongan.kd_acc='5041405')as ppn,
+				 (SELECT sum(nilai) from ci_proyek_cair_potongan where  `ci_proyek_cair_potongan`.`id_proyek`=`ci_pendapatan`.`kd_proyek` and ci_proyek_cair_potongan.kd_acc in ('5041401', '5041402', '5041403'))as pph,
+				 (SELECT sum(nilai) from ci_proyek_cair_potongan where  `ci_proyek_cair_potongan`.`id_proyek`=`ci_pendapatan`.`kd_proyek` and ci_proyek_cair_potongan.kd_acc = '5041407')as infaq,
+				 (SELECT sum(nilai_bruto) from `ci_proyek_cair` where `ci_pendapatan`.`id_proyek`=`ci_proyek_cair`.`kd_proyek` ) 
+				 - (SELECT sum(nilai) from ci_proyek_cair_potongan where  `ci_proyek_cair_potongan`.`id_proyek`=`ci_pendapatan`.`kd_proyek`)as netto");
 				 $this->db->from("ci_pendapatan");
-				 $this->db->join("ci_proyek_cair","ci_pendapatan.id_proyek=ci_proyek_cair.kd_proyek","left");
-				 $this->db->join("ci_proyek_cair_potongan","ci_proyek_cair_potongan.id_proyek=ci_proyek_cair.id_proyek","left");
                  $this->db->where('id_pqproyek', $id);
                  $this->db->group_by('id_pqproyek');
 			return $result = $this->db->get()->row_array();
