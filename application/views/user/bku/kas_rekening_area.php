@@ -28,8 +28,8 @@
         <th align="center"><b>Nomor</b> </th>
         <th align="center"><b>Tanggal</b></th>
         <th align="center"><b>Uraian</b></th>
-        <th align="center"><b>Penerimaan</b></th>
-        <th align="center"><b>Pengeluaran</b></th>
+        <th align="center"><b>Debet</b></th>
+        <th align="center"><b>Kredit</b></th>
         <th align="center"><b>Saldo</b></th>
         
   </tr>
@@ -92,8 +92,8 @@
                         <td></td>
                         <td></td>
                         <td><?= $list['keterangan']; ?></td>
-                        <td align="right" ><?= number_format($list['terima'],2,',','.'); ?></td>
                         <td align="right" ><?= number_format($list['keluar'],2,',','.'); ?></td>
+                        <td align="right" ><?= number_format($list['terima'],2,',','.'); ?></td>
                         <td align="right" ><?= number_format($subtotal,2,',','.'); ?></td>
                     </tr>
                 <?php elseif($list['urut']==8): ?>
@@ -112,8 +112,8 @@
                         <td><?= $list['nomor']; ?></td>
                         <td><?= $list['tanggal']; ?></td>
                         <td><?= $list['keterangan']; ?></td>
-                        <td align="right" ><?= number_format($list['terima'],2,',','.'); ?></td>
                         <td align="right" ><?= number_format($list['keluar'],2,',','.'); ?></td>
+                        <td align="right" ><?= number_format($list['terima'],2,',','.'); ?></td>
                         <td align="right" ><?= number_format($subtotal,2,',','.'); ?></td>
                     </tr>
                 <?php endif; ?>

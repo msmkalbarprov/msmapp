@@ -515,15 +515,25 @@ public function get_rincian_spj($no_spj,$kd_pegawai){
 		return $this->db->get()->result_array();
 }
 
-		public function get_rincian_penerimaan_tunai($area,$kd_pegawai,$bulan,$tahun){
+		public function rincian_penerimaan_karyawan($area,$kd_pegawai,$bulan,$tahun){
 			$this->db->select('*');
 			$this->db->from("get_penerimaan_spj_pegawai");
 			$this->db->where('kd_pegawai',$kd_pegawai);
 			$this->db->where("kd_area",$area);
-			$this->db->where("jenis",'TUNAI');
 			$this->db->where("month(tanggal)",$bulan);
 			$this->db->where("YEAR(tanggal)",$tahun);
 		return $this->db->get()->result_array();
+}
+
+public function get_rincian_penerimaan_tunai($area,$kd_pegawai,$bulan,$tahun){
+	$this->db->select('*');
+	$this->db->from("get_penerimaan_spj_pegawai");
+	$this->db->where('kd_pegawai',$kd_pegawai);
+	$this->db->where("kd_area",$area);
+	$this->db->where("jenis",'TUNAI');
+	$this->db->where("month(tanggal)",$bulan);
+	$this->db->where("YEAR(tanggal)",$tahun);
+return $this->db->get()->result_array();
 }
 
 public function get_rincian_penerimaan_bank($area,$kd_pegawai,$bulan,$tahun){
@@ -1414,7 +1424,20 @@ public function get_pendapatanarea($id){
        		return $result = $this->db->get()->row_array();
 		}
 
-	
+		public function get_spj_header2_karyawan($area,$kd_pegawai,$bulan,$tahun){
+			if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
+				$this->db->select("kd_pegawai,'$bulan' as bulan,'$tahun' as tahun, (select sum(nilai) as total from ci_spj_pegawai where MONtH(tgl_spj)='$bulan' and YEAR(tgl_spj)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and tunai=1 ) as total");
+			}else{
+				$this->db->select("kd_pegawai,'$bulan' as bulan,'$tahun' as tahun, (select ifnull(sum(nilai),0) as total from ci_spj_pegawai where MONtH(tgl_spj)='$bulan' and YEAR(tgl_spj)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and tunai=1)+(select ifnull(sum(nilai),0) as total from ci_pelimpahan where MONtH(tgl_pelimpahan)='$bulan' and YEAR(tgl_pelimpahan)='$tahun' and kd_pegawai_asal=ci_pegawai.kd_pegawai and jns_kas='TUNAI') as total");
+			}
+			
+					$this->db->from("ci_pegawai");
+					$this->db->where("kd_pegawai",$kd_pegawai);
+					$this->db->group_by("kd_pegawai");
+					$this->db->group_by("no_spj");
+       		return $result = $this->db->get()->row_array();
+		}
+
 	public function get_spj_header2_tunai($area,$kd_pegawai,$bulan,$tahun){
 			if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
 				$this->db->select("kd_pegawai,'$bulan' as bulan,'$tahun' as tahun, (select sum(nilai) as total from ci_spj_pegawai where MONtH(tgl_spj)='$bulan' and YEAR(tgl_spj)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and tunai=1 ) as total");
@@ -1450,6 +1473,24 @@ public function get_pendapatanarea($id){
 					$this->db->group_by("no_spj");
        		return $result = $this->db->get()->row_array();
 		}
+		public function get_spj_header3_karyawan($area,$kd_pegawai,$bulan,$tahun){
+
+
+			if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
+				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai ) as terima, 
+						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai) as keluar");
+			}else{
+				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai) as terima, 
+						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai) as keluar");
+			}
+				
+						$this->db->from("ci_pegawai");
+						$this->db->where("kd_pegawai",$kd_pegawai);
+						$this->db->group_by("kd_pegawai");
+	
+	
+				   return $result = $this->db->get()->row_array();
+			}
 
 	public function get_spj_header3_tunai($area,$kd_pegawai,$bulan,$tahun){
 
@@ -1488,7 +1529,22 @@ public function get_pendapatanarea($id){
 	
 				   return $result = $this->db->get()->row_array();
 			}
-
+			public function get_spj_header4_karyawan($area,$kd_pegawai,$bulan,$tahun){
+	
+				// get nilai 
+				if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
+					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai ) as terima, 
+						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai ) as keluar");
+				}else{
+					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai ) as terima, 
+						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai ) as keluar");
+				}
+				
+						$this->db->from("ci_pegawai");
+						$this->db->where("kd_pegawai",$kd_pegawai);
+						$this->db->group_by("kd_pegawai");
+					   return $result = $this->db->get()->row_array();
+				}
 		public function get_spj_header4_tunai($area,$kd_pegawai,$bulan,$tahun){
 	
 			// get nilai 
@@ -1520,6 +1576,27 @@ public function get_pendapatanarea($id){
 						$this->db->group_by("kd_pegawai");
 					   return $result = $this->db->get()->row_array();
 				}
+
+			public function get_spj_header5_karyawan($area,$kd_pegawai,$bulan,$tahun){
+
+				if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
+					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai ) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai ) as keluar");
+				}else{
+					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai ) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai ) as keluar");
+				}
+		
+				// get nilai 
+					
+					$this->db->from("ci_pegawai");
+					$this->db->where("kd_pegawai",$kd_pegawai);
+					$this->db->group_by("kd_pegawai");
+					   return $result = $this->db->get()->row_array();
+				
+				
+				
+			}
 
 			public function get_spj_header5_tunai($area,$kd_pegawai,$bulan,$tahun){
 
@@ -1562,6 +1639,26 @@ public function get_pendapatanarea($id){
 				
 				
 			}
+
+					public function pengembalian_kas_karyawan($area,$kd_pegawai,$bulan,$tahun){
+
+						if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
+							$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai ) as terima, 
+							(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai  and identitas='pengembalian') as keluar");
+						}else{
+							$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai ) as terima, 
+							(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai  and identitas='pengembalian') as keluar");
+						}
+				
+						// get nilai 
+							
+							$this->db->from("ci_pegawai");
+							$this->db->where("kd_pegawai",$kd_pegawai);
+							$this->db->group_by("kd_pegawai");
+							   return $result = $this->db->get()->row_array();
+						
+					}
+
 
 					public function pengembalian_kas_bank($area,$kd_pegawai,$bulan,$tahun){
 

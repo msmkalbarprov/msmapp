@@ -91,5 +91,6 @@
     $('#spinner').hide();
     $('#myform').on('submit', function(ev) {
         $('#spinner').show();
+        document.getElementById('submit').disabled = true; 
     });
   </script>

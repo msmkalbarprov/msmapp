@@ -80,6 +80,7 @@ $lang['lap_saldo_awal']               			= "lap. Saldo Awal ";
 $lang['ambil_tunai']               				= "Ambil Kas Tunai ";
 $lang['spj_tunai']               				= "SPJ Tunai ";
 $lang['lap_realisasi_proyek']      				= "Lap. Realisasi Proyek ";
+$lang['posting_jurnal']      					= "Posting Jurnal <span class='badge badge-danger'>New</span> ";
 
 
 
