@@ -695,8 +695,8 @@ function get_area_by_user(){
 		$data['spj_header5_karyawan'] 			= $this->spjpegawai_model->get_spj_header5_karyawan($area,$kd_pegawai,$bulan,$tahun);
 		$data['rincian_penerimaan'] 			= $this->spjpegawai_model->rincian_penerimaan_karyawan($area,$kd_pegawai,$bulan,$tahun);
 		$data['pengembalian_karyawan'] 			= $this->spjpegawai_model->pengembalian_kas_karyawan($area,$kd_pegawai,$bulan,$tahun);
-		$data['rincian_spj'] 					= $this->spjpegawai_model->get_rincian_spj($area,$kd_pegawai,$bulan,$tahun);
-		
+		$data['rincian_spj'] 					= $this->spjpegawai_model->get_rincian_spj_cetak($area,$kd_pegawai,$bulan,$tahun);
+		$data['ttd'] 							= $ttd;
 		$data['title']	= 'Cetak SPJ';
 		// $html = $this->load->view('user/pq/pq_view', $data);
 		// $cRet = $this->load->view('user/pq/cetak_pq_satuan',$data);

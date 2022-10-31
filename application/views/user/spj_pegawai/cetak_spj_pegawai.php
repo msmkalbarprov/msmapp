@@ -418,20 +418,51 @@ function format_indo($date){
                   </table>
 
 				  <table style="border-collapse:collapse; font-size:9;" width="100%" align="center" border="0" cellspacing="0" cellpadding="2">
-					<tr >
-						<td width="10%">
-							Saldo Kas Tunai
-						</td>
-						<td width="90%">
-							: 
-						</td>
-					</tr>
-					<tr >
-						<td>
-							Saldo Kas Bank
-						</td>
-						<td>
-							: 
-						</td>
-					</tr>
+				  <tr>
+    <td width="100%" align="center" style="font-size:12px" colspan="3"></td>
+  </tr>
+  <tr>
+    <td width="50%" align="center" style="font-size:12px"> Diketahui oleh
+    </td>
+    <td width="50%" align="center" style="font-size:12px"> Diajukan oleh
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="font-size:12px" colspan="2">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="font-size:12px" colspan="2">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="font-size:12px" colspan="2">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="font-size:12px" colspan="2">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="font-size:12px" colspan="2">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="font-size:12px" colspan="2">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="font-size:12px" colspan="2">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="font-size:12px" colspan="2">
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center" style="font-size:12px">(<?= ucwords(strtolower(str_replace('%20',' ',$ttd))); ?>)
+    </td>
+    <td width="50%" align="center" style="font-size:12px"> (<?= ucwords(strtolower($spj_header['nama'])); ?>)
+    </td>
+  </tr>
 				  </table>
