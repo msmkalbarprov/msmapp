@@ -248,7 +248,6 @@ $('#but_cetak').on('click', function() {
   var area              = $('#area').val();
   var ttd                = $('#ttd_spj').val();
 
-  alert(ttd);
 
       var url = '<?= base_url() ?>'+'spj_pegawai/cetak_spj_pegawai/'+kd_pegawai+'/'+area+'/'+bulan+'/'+tahun+'/'+ttd+'/0/Laporan SPJ';   
     window.open(url, '_blank');
@@ -261,8 +260,6 @@ $('#but_cetak2').on('click', function() {
   var tahun             = $('#tahun').val();
   var area              = $('#area').val();
   var ttd                = $('#ttd_spj').val();
-
-  alert(ttd);
 
       var url = '<?= base_url() ?>'+'spj_pegawai/cetak_spj_karyawan/'+kd_pegawai+'/'+area+'/'+bulan+'/'+tahun+'/'+ttd+'/0/Laporan SPJ';   
     window.open(url, '_blank');
