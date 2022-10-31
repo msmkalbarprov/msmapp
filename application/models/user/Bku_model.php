@@ -107,7 +107,7 @@ public function get_bku($id,$tahun,$bulan){
 	}else{
 		$this->db->where("year(tanggal)>=", $tahun);
 		$this->db->where("month(tanggal) < ", $bulan);
-		$this->db->where("urut <> ", 7);
+		$this->db->where("urut <> ", 8);
 	}
 	   return $result = $this->db->get()->row_array();
 }
