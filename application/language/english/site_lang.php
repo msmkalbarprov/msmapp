@@ -80,6 +80,7 @@ $lang['lap_saldo_awal']               			= "lap. Saldo Awal ";
 $lang['ambil_tunai']               				= "Ambil Kas Tunai ";
 $lang['spj_tunai']               				= "SPJ Tunai ";
 $lang['lap_realisasi_proyek']      				= "Lap. Realisasi Proyek ";
+$lang['posting_jurnal']      					= "Posting Jurnal <span class='badge badge-danger'>New</span> ";
 
 
 
@@ -145,61 +146,7 @@ $lang['cetak_bb']                       		= "Cetak Buku Besar <span class='badge
 $lang['activity_log']                               = "Activity Log";
 $lang['settings']                               = "Settings";
 	$lang['general_settings']                               = "General Settings";
-	$lang['email_template_settings']                               = "Email Template Settings";
-$lang['codeigniter_examples']                               = "Codeingiter Examples";
-	$lang['simple_datatable']                               = "Simple Datatable";
-	$lang['ajax_datatable']                               = "Ajax Datatable";
-	$lang['pagination']                               = "Pagination";
-	$lang['advance_search']                               = "Advance Search";
-	$lang['file_upload']                               = "File Upload";
-	$lang['multiple_files_upload']                               = "Multiple Files Upload";
-$lang['backup_and_export']                               = "Backup & Export";
-$lang['invoicing_system']                               = "Invoicing System";
-	$lang['invoice_list']                               = "Invoice List";
-	$lang['add_new_invoice']                               = "Add New Invoice";
-$lang['database_joins_example']                               = "Database Joins Example";
-	$lang['serverside_join']                               = "Serverside Join";
-	$lang['simple_join']                               = "Simple Join";
-$lang['language_setting']                               = "Language Setting";
-$lang['locations']                               = "Locations";
-	$lang['country']                               = "Country";
-	$lang['state']                               = "State";
-	$lang['city']                               = "City";
-$lang['widgets']                               = "Widgets";
-$lang['charts']                               = "Charts";
-	$lang['charts_js']                               = "ChartJS";
-	$lang['charts_flot']                               = "Flot";
-	$lang['charts_inline']                               = "Inline";
-$lang['ui_elements']                               = "UI Elements";
-	$lang['general']                               = "General";
-	$lang['icons']                               = "Icons";
-	$lang['buttons']                               = "Buttons";
-$lang['forms']                               = "Forms";
-	$lang['general_elements']                               = "General Elements";
-	$lang['advanced_elements']                               = "Adnvaced Elements";
-	$lang['editors']                               = "Editors";
-$lang['tables']                               = "Tables";
-	$lang['simple_tables']                               = "Simple Tables";
-	$lang['data_tables']                               = "Data Tables";
-$lang['mailbox']                               = "Mailbox";
-	$lang['inbox']                               = "Inbox";
-	$lang['compose']                               = "Compose";
-	$lang['read']                               = "Read";
-$lang['pages']                               = "Pages";
-	$lang['login']                               = "Login";
-	$lang['register']                               = "Register";
-	$lang['lock_screen']                               = "Lock Screen";
-$lang['extras']                               = "Extras";
-	$lang['error_404']                               = "Error 404";
-	$lang['error_500']                               = "Error 500";
-	$lang['blank_page']                               = "Blank Page";
-	$lang['starter_page']                               = "Starter Page";
-$lang['miscellaneous']                               = "Miscellaneous";
-$lang['documentation']                               = "Documentation";
-$lang['labels']                               = "Labels";
-$lang['important']                               = "Important";
-$lang['warning']                               = "Warning";
-$lang['informational']                               = "Informational";
+	
 
 //  Login
 $lang['signin_to_start_your_session']                               = "Signin to start your session";
@@ -209,16 +156,6 @@ $lang['password']                               = "Password";
 $lang['remember_me']                               = "Remember Me";
 $lang['i_forgot_my_password']                               = "I forgot my password";
 $lang['register_new_membership']                               = "Register a new membership";
-
-//  Register
-$lang['firstname']                               = "First Name";
-$lang['lastname']                               = "Last Name";
-$lang['email']                               = "Email Address";
-$lang['confirm']                               = "Confirm";
-$lang['i_agree_to_the']                               = "I agree to the";
-$lang['terms']                               = "Terms";
-$lang['register']                               = "Register";
-$lang['i_already_have_membership']                               = "I already have a membership";
 
 // Forgot Password
 $lang['forgot_password']                    = "Forget Password";
@@ -300,11 +237,7 @@ $lang['address'] = "Address";
 $lang['edit_user'] = "Edit User";
 $lang['update_user'] = "Update User";
 
-// Activity Log
-$lang['users_activity_log'] = "Users Activity Log";
-$lang['activity'] = "Activity";
-$lang['date'] = "Date";
-$lang['time'] = "Time";
+
 
 // Settings
 $lang['general_setting']                               = "General Setting";
@@ -333,55 +266,8 @@ $lang['preview']                               = "Preview";
 $lang['variables']                               = "Variables";
 $lang['title']                               = "Title";
 
-// Charts
-$lang['area_chart'] = "Area Chart";
-$lang['donut_chart'] = "Donut Chart";
-$lang['line_chart'] = "Line Chart";
-$lang['bar_chart'] = "Bar Chart";
-
-// Codeigniter Examples
-$lang['users_area_chart'] = "Registered Users Area Chart";
-$lang['payment_line_chart'] = " Payment Line Chart";
-$lang['admin_donut_chart'] = " Admin Donut Chart";
-$lang['payment_bar_chart'] = "Payment Bar Chart";
-$lang['simple_table_example'] = "User List with (Simple Datatables, Export PDF, CSV) Example";
-$lang['datatable_example'] = "Datatable - ServerSide Processing (Ajax Base Search & Pagination)";
-$lang['pagination_example'] = "User List with Pagination Example";
-$lang['advance_search_example'] = "User List with Advanced Serarch Example";
-$lang['file_upload_example'] = "File Upload Example";
-$lang['multiple_file_upload_example'] = "Multiple Files Upload Example";
-$lang['export_as_pdf'] = "Export as PDF";
-$lang['export_as_csv'] = "Export as CSV";
-$lang['max_allowed_size'] = "Maximum Allowed Size";
-$lang['max_files'] = "Maximum Files";
-$lang['multiple_files_uploader'] = "Multiple Files Uploader";
-$lang['dynamic_charts'] = "Dynamic Charts";
 
 // Backup
 $lang['database_backup'] = "Database Backup";
 $lang['download_and_create_backup'] = "Download & Create Backup";
 
-// Invoicing
-$lang['add_new_invoice'] = "Add New Invoice";
-$lang['invoice'] = "Invoice";
-$lang['client'] = "Client";
-$lang['amount'] = "Amount";
-$lang['due_date'] = "Due Date";
-$lang['bill_from'] = "Bill From";
-$lang['bill_to'] = "Bill To";
-$lang['company_name'] = "Company Name";
-$lang['address_line'] = "Address Line";
-$lang['customer'] = "Customer";
-$lang['billing_date'] = "Billing Date";
-$lang['product'] = "Product";
-$lang['quantity'] = "Quantity";
-$lang['price'] = "Price";
-$lang['tax'] = "Tax";
-$lang['total'] = "Total";
-$lang['subtotal'] = "Sub Total";
-$lang['discount'] = "Discount";
-$lang['client_note'] = "Client Note";
-$lang['terms_and_conditions'] = "Terms & Conditions";
-$lang['edit_invoice'] = "Edit Invoice";
-$lang['download'] = "Download";
-$lang['send_email'] = "Send Email";

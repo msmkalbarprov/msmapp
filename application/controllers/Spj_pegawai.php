@@ -700,26 +700,19 @@ function get_area_by_user(){
 	}
 
 
-	public function cetak_spj_pegawai_lama($id=0,$kd_area,$kd_pegawai,$jenis='')
+	public function cetak_spj_karyawan($kd_pegawai,$area,$bulan,$tahun,$ttd='',$jenis='')
 	{	
-		// TUNAI
-		$data['spj_header_tunai'] 			= $this->spjpegawai_model->get_spj_header_tunai($id,$kd_area,$kd_pegawai);
-		$data['spj_header2_tunai'] 			= $this->spjpegawai_model->get_spj_header2_tunai($id,$kd_area,$kd_pegawai);
-		$data['spj_header3_tunai'] 			= $this->spjpegawai_model->get_spj_header3_tunai($id,$kd_area,$kd_pegawai);
-		$data['spj_header4_tunai'] 			= $this->spjpegawai_model->get_spj_header4_tunai($id,$kd_area,$kd_pegawai);
-		$data['spj_header5_tunai'] 			= $this->spjpegawai_model->get_spj_header5_tunai($id,$kd_area,$kd_pegawai);
-		$data['rincian_penerimaan_tunai'] 	= $this->spjpegawai_model->get_rincian_penerimaan_tunai($id,$kd_pegawai);
-
 		// BANK
-		$data['spj_header_bank'] 			= $this->spjpegawai_model->get_spj_header_bank($id,$kd_area,$kd_pegawai);
-		$data['spj_header2_bank'] 			= $this->spjpegawai_model->get_spj_header2_bank($id,$kd_area,$kd_pegawai);
-		$data['spj_header3_bank'] 			= $this->spjpegawai_model->get_spj_header3_bank($id,$kd_area,$kd_pegawai);
-		$data['spj_header4_bank'] 			= $this->spjpegawai_model->get_spj_header4_bank($id,$kd_area,$kd_pegawai);
-		$data['spj_header5_bank'] 			= $this->spjpegawai_model->get_spj_header5_bank($id,$kd_area,$kd_pegawai);
-		$data['rincian_penerimaan_bank'] 	= $this->spjpegawai_model->get_rincian_penerimaan_bank($id,$kd_pegawai);
+		$data['spj_header'] 					= $this->spjpegawai_model->get_spj_header($area,$kd_pegawai);
 
-		$data['rincian_spj'] 		= $this->spjpegawai_model->get_rincian_spj($id,$kd_pegawai);
-		
+		$data['spj_header2_karyawan'] 			= $this->spjpegawai_model->get_spj_header2_karyawan($area,$kd_pegawai,$bulan,$tahun);
+		$data['spj_header3_karyawan'] 			= $this->spjpegawai_model->get_spj_header3_karyawan($area,$kd_pegawai,$bulan,$tahun);
+		$data['spj_header4_karyawan'] 			= $this->spjpegawai_model->get_spj_header4_karyawan($area,$kd_pegawai,$bulan,$tahun);
+		$data['spj_header5_karyawan'] 			= $this->spjpegawai_model->get_spj_header5_karyawan($area,$kd_pegawai,$bulan,$tahun);
+		$data['rincian_penerimaan'] 			= $this->spjpegawai_model->rincian_penerimaan_karyawan($area,$kd_pegawai,$bulan,$tahun);
+		$data['pengembalian_karyawan'] 			= $this->spjpegawai_model->pengembalian_kas_karyawan($area,$kd_pegawai,$bulan,$tahun);
+		$data['rincian_spj'] 					= $this->spjpegawai_model->get_rincian_spj_cetak($area,$kd_pegawai,$bulan,$tahun);
+		$data['ttd'] 							= $ttd;
 		$data['title']	= 'Cetak SPJ';
 		// $html = $this->load->view('user/pq/pq_view', $data);
 		// $cRet = $this->load->view('user/pq/cetak_pq_satuan',$data);

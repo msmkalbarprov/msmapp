@@ -135,6 +135,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
             <button name="but_cetak" id="but_cetak"  class="btn btn-primary btn-sm"> cetak </button>
+            <button name="but_cetak2" id="but_cetak2"  class="btn btn-primary btn-sm"> cetak (Format Karyawan) </button>
           </div>
         </div>
       </div>
@@ -247,9 +248,20 @@ $('#but_cetak').on('click', function() {
   var area              = $('#area').val();
   var ttd                = $('#ttd_spj').val();
 
-  alert(ttd);
 
       var url = '<?= base_url() ?>'+'spj_pegawai/cetak_spj_pegawai/'+kd_pegawai+'/'+area+'/'+bulan+'/'+tahun+'/'+ttd+'/0/Laporan SPJ';   
+    window.open(url, '_blank');
+
+});
+
+$('#but_cetak2').on('click', function() {
+  var kd_pegawai        = $('#kd_pegawai').val();
+  var bulan             = $('#bulan').val();
+  var tahun             = $('#tahun').val();
+  var area              = $('#area').val();
+  var ttd                = $('#ttd_spj').val();
+
+      var url = '<?= base_url() ?>'+'spj_pegawai/cetak_spj_karyawan/'+kd_pegawai+'/'+area+'/'+bulan+'/'+tahun+'/'+ttd+'/0/Laporan SPJ';   
     window.open(url, '_blank');
 
 });

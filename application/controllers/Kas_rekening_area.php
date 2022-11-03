@@ -95,7 +95,7 @@ function terbilang($nilai) {
 			    $this->pdf->load_view('user/bku/kas_rekening_area', $data);
                 break;
             case 0;
-				$html = $this->load->view('user/bku/bku', $data);
+				$html = $this->load->view('user/bku/kas_rekening_area', $data);
 				header("Cache-Control: no-cache, no-store, must-revalidate");
 				header("Content-Type: application/vnd.ms-excel");
 				header("Content-Disposition: attachment; filename= bku_$id.xls");
