@@ -233,6 +233,31 @@
   </div>
 </div>
 
+
+
+<div class="modal fade bd-example-modal-lg" id="ModalEditRincianSPJ" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+
+		
+			<div class="modal-content col-md-12">
+			  <div class="modal-header">
+				<h4 class="modal-title" >FORM EDIT RINCIAN SPJ PEGAWAI</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				
+			  </div>
+			  <form class="form-horizontal" id="formedit">
+			  
+				<div class="modal-body" id="data-edit-rincian">
+
+				</div>
+			</form>	
+		  </div>
+		</div>
+
+	</div>
+
+
+
       <!-- /.box-body -->
     </div>
   </section> 
@@ -332,6 +357,28 @@ function get_nilai(projek,kd_item,jns_spj){
 }
 
 
+function get_enilai(projek,kd_item,jns_spj){
+        $.ajax({
+        url : "<?php echo site_url('spj_tunai/get_nilai');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: projek,no_acc:kd_item,jns_spj:jns_spj},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="en_pq"]').val(number_format(value.nilai,"2",",",".")).trigger('change');
+                get_erealisasi(kd_item,projek,jns_spj,value.nilai);
+            });
+
+        }
+    });
+}
+
+
+
+
 function get_realisasi(kd_item,projek,jns_spj,nilai){
         $.ajax({
         url : "<?php echo site_url('spj_tunai/get_realisasi');?>",
@@ -353,6 +400,29 @@ function get_realisasi(kd_item,projek,jns_spj,nilai){
         
 }
 
+
+function get_erealisasi(kd_item,projek,jns_spj,nilai){
+        $.ajax({
+        url : "<?php echo site_url('spj_tunai/get_realisasi');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: projek,no_acc:kd_item,jns_spj:jns_spj},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="er_pq"]').val(number_format(value.total,"2",",",".")).trigger('change');
+                $('[name="es_pq"]').val(number_format(nilai - value.total,"2",",",".")).trigger('change');
+
+            });
+
+        }
+    });
+        
+}
+
+
 function get_kas(kd_pegawai){
         var project           = $('#project').val();
         $.ajax({
@@ -373,6 +443,31 @@ function get_kas(kd_pegawai){
     });
         
 }
+
+
+
+function get_ekas(kd_pegawai){
+       // var project           = $('#project').val();
+        $.ajax({
+        url : "<?php echo site_url('spj_tunai/get_kas');?>",
+        method : "POST",
+        data : {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          id: kd_pegawai},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+            $.each(data, function(key, value) {
+                $('[name="ekas"]').val(number_format(value.total,"2",",",".")).trigger('change');
+
+            });
+
+        }
+    });
+        
+}
+
+
 
 $('#jns_spj').change(function(){ 
     var jns_spj     = $(this).val();
@@ -397,6 +492,31 @@ $('#jns_spj').change(function(){
     });
     return false;
 });
+
+
+
+  function get_eakun(jns_spj,kd_proyek,eno_acc){
+	
+	$.ajax({
+			url: '<?php echo site_url('spj_tunai/get_akunspj'); ?>',
+			data : {
+            '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+					jns_spj:jns_spj,kd_proyek:kd_proyek},		
+			  type: 'POST',
+				success: function(data){
+					$('#eno_acc').html(data);
+					$("#eno_acc").val(eno_acc);
+         			$('#eno_acc').select2().trigger('change'); 
+					
+				}
+			})
+	
+    return false;
+ }
+
+
+
+
 $('#projek').change(function(){ 
   var jns_spj     = $('#jns_spj').val();
   var kd_proyek     = $('#projek').val();
@@ -506,106 +626,7 @@ $('#formtest').submit(function(e){
             });
         });
 
-  //   // SAVE
-  //   $('#butsave').on('click', function() {
-  //   var no_akun1             = $('#no_acc').val();
-  //   var no_spj1              = $('#no_spj').val();
-  //   var tgl_spj1             = $('#tgl_spj').val();
-  //   var tgl_bukti1           = $('#tgl_bukti').val();
-  //   var nourut1              = $('#urut').val();
-  //   var nilai1               = number($('#total').val());
-  //   var area1                = $('#kd_area').val();
-  //   var subarea1             = $('#kd_sub_area').val();
-  //   var uraian1              = $('#uraian').val();
-  //   var pegawai1             = $('#kd_pegawai').val();
-  //   var project1             = $('#kd_projek').val();
-  //   var kas1                 = number($('#kas').val());
-
-    
-    
-  //   if(tgl_spj1==""){
-  //     alert('Tanggal tidak boleh kosong')
-  //     return;
-  //   }
-
-  //   if(tgl_bukti1==""){
-  //     alert('Tanggal bukti tidak boleh kosong')
-  //     return;
-  //   }
-    
-  //   if(project1==""){
-  //     alert('Projek tidak boleh kosong')
-  //     return;
-  //   }
-  //   if(no_spj1==""){
-  //     alert('Nomor SPJ tidak boleh kosong')
-  //     return;
-  //   }
-  //   if(no_akun1==""){
-  //     alert('Kode Akun spj tidak boleh kosong')
-  //     return;
-  //   }
-  //   if(nilai1=="" || nilai1==0){
-  //     alert('Total tidak boleh kosong')
-  //     return;
-  //   }
-
-  //   if(area1==""){
-  //     alert('Area tidak boleh kosong')
-  //     return;
-  //   }
-
-  //   if(subarea1==""){
-  //     alert('Sub Area tidak boleh kosong')
-  //     return;
-  //   }
-
-  //   if(pegawai1==""){
-  //     alert('Pegawai tidak boleh kosong')
-  //     return;
-  //   }
-
-      
-  //     $.ajax({
-  //       url: "<?php echo base_url("spj_tunai/edit_spj/");?>",
-  //       type: "POST",
-  //       data: {
-  //           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
-  //           type:1,
-  //           area:area1,
-  //           subarea:subarea1,
-  //           project:project1,
-  //           pegawai:pegawai1,
-  //           tgl_spj:tgl_spj1,
-  //           tgl_bukti:tgl_bukti1,
-  //           no_akun:no_akun1,
-  //           uraian:uraian1,
-  //           nilai:nilai1,
-  //           no_spj:no_spj1,
-  //           nourut:nourut1
-  //           },
-  //           cache: false,
-  //           success: function(dataResult){
-  //               var dataResult = JSON.parse(dataResult);
-  //               if(dataResult.statusCode==200){
-  //                   document.getElementById("no_acc").value='';
-  //                   document.getElementById("uraian").value='';
-  //                   document.getElementById("total").value='';
-  //                   document.getElementById("tgl_bukti").value='';
-  //                   document.getElementById("kas").value='';
-  //                   load_rincian_temp(no_spj1);
-  //                   $('#largeModal').modal('toggle');
-  //                   $("#error").hide();
-  //               }
-  //               else if(dataResult.statusCode==201){
-  //                   $("#error").show();
-  //                   $("#success").hide();
-  //                   $('#error').html('Gagal Simpan');
-  //               }
-  //           }
-  //     });
-    
-  // });
+  
 
 function load_rincian_temp(nospj) {
     var kd_pegawai      = $('#kd_pegawai').val();
@@ -615,6 +636,249 @@ function load_rincian_temp(nospj) {
 }
 
 
+
+ $(document).on("click", ".showEdit-rincianSPJ", function() {	 //cekdn
+
+		var cnospj 			= $(this).attr("data-nospj");
+        var cid 			= $(this).attr("data-id");
+
+		$('#ModalEditRincianSPJ').modal('show');	
+			$.ajax({ 
+			type: 'POST',
+			data : {'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',cnospj,cid},
+			async : true,
+			//dataType: "json",
+			url: "<?php echo base_url(); ?>karyawan-spj_pegawai-get-rincian",
+			
+			
+            success: function(data) {
+				
+				$("#data-edit-rincian").html(data);
+				
+					
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+			
+        });
+		
+	
+	});
+
+	
+
+ $(document).on("click", ".showEdit-rincianSPJ", function() {	 //cekdn
+
+		var cnospj 			= $(this).attr("data-nospj");
+        var cid 			= $(this).attr("data-id");
+
+		$('#ModalEditRincianSPJ').modal('show');	
+			$.ajax({ 
+			type: 'POST',
+			data : {'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',cnospj,cid},
+			async : true,
+			//dataType: "json",
+			url: "<?php echo base_url(); ?>karyawan-spj_pegawai-get-rincian",
+			
+            success: function(data) {
+				//alert(data);
+				$("#data-edit-rincian").html(data);
+					
+            },
+            processResults: function(data) {
+                return {
+                    results: data
+                };
+            },
+			
+        });
+		
+	
+	});
+
+	
+
+
+		$(document).on("change", ".get-projek", function() {	
+
+			var ejns_spj    	 = $('#ejns_spj').val();
+			var ekd_proyek   	 = $('#eproyek').val();
+			var ekdprojek 		 = $(this).attr("data-projek");
+			var eno_acc			 = $(this).attr("data-acc");
+			var ebukti			 = $(this).attr("data-bukti");
+	
+			
+			//var jns_spj     = $(this).val();
+			var subarea     = $('#kd_sub_area').val();
+			var area        = $("#kd_area").val();
+			
+			
+			
+		
+			$.ajax({
+			  url: '<?php echo site_url('spj_tunai/get_projek'); ?>',
+			  data:{'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+							id: subarea,area:area,jns_spj:ejns_spj},
+			  type: 'POST',
+				success: function(data){
+					$('#eprojek').html(data);
+				      
+					$("#eprojek").val(ekdprojek); 
+					$('#eprojek').select2().trigger('change');	
+
+					$("#egambar").val(ebukti); 					
+					
+					
+				}
+			})
+
+		
+			
+        });
+		
+	
+
+		$(document).on("change", ".get-eakun", function() {	
+		
+			  var eno_acc			 = $(this).attr("data-acc");
+			  var ejns_spj     		 = $('#ejns_spj').val();
+			  var ekd_proyek    	 = $('#eprojek').val();
+			  
+				get_eakun(ejns_spj,ekd_proyek,eno_acc);
+
+        });
+		
+	
+
+		$(document).on("change", ".get-esaldo", function() {	
+
+			var kd_pegawai      = $('#kd_pegawai').val();
+
+			  var area          = $('#kd_area').val();
+			  var jns_spj       = $('#ejns_spj').val();
+			  var projek        = $('#eprojek').val();
+			  var kd_item       = $(this).val();
+
+			  if (kd_item=='5010205'){
+				document.getElementById("ejns_ta").disabled=false;
+			  }else{
+				document.getElementById("ejns_ta").disabled=true;
+			  }
+
+				get_ekas(kd_pegawai);
+				get_enilai(projek,kd_item,jns_spj);
+				return false;
+
+        });	
+	
+	
+
+
+$('#formedit').submit(function(e){
+            e.preventDefault();
+            var file_data = $('#egambar').prop('files')[0];
+            var form_data = new FormData(this);
+          
+            
+            var eid           	    = $('#eid').val();
+            var eno_acc             = $('#eno_acc').val();
+            var eno_spj             = $('#no_spj').val();
+            var etgl_spj            = $('#tgl_spj').val();
+            var etgl_bukti          = $('#etgl_bukti').val();
+            var ejns_ta             = $('#ejns_ta').val();
+            var etotal              = number($('#etotal').val());
+            var ekd_area            = $('#kd_area').val();
+            var ekd_sub_area        = $('#kd_sub_area').val();
+            var euraian             = $('#euraian').val();
+            var ekd_pegawai         = $('#kd_pegawai').val();
+            var eprojek             = $('#eprojek').val();
+            var ejns_spj            = $('#ejns_spj').val();
+            var ekas                = number($('#ekas').val());
+            var status              = $('#estatus').val();
+            var ebuktiawal          = $('#ebuktiawal').val();
+           
+
+			 if(status==1){
+			  alert('SPJ sudah di sahkan. Tidak bisa di Edit');
+			  return;
+			  }
+				
+				
+			if(etgl_bukti==""){
+			  alert('Tanggal Bukti tidak boleh kosong')
+			  return;
+			  }
+
+			  if(ejns_spj==""){
+			  alert('Jenis SPJ tidak boleh kosong')
+			  return;
+			  }
+
+			  if(eprojek==""){
+			  alert('Projek tidak boleh kosong')
+			  return;
+			  }
+			  if(eno_spj==""){
+			  alert('Nomor SPJ tidak boleh kosong')
+			  return;
+			  }
+			  if(eno_acc==""){
+			  alert('Kode Akun spj tidak boleh kosong')
+			  return;
+			  }
+			  if(etotal=="" || etotal==0){
+			  alert('Nilai SPJ tidak boleh kosong')
+			  return;
+			  }
+
+            
+            form_data.append('no_spj', eno_spj);
+            form_data.append('id', eid);
+            form_data.append('jns_spj', ejns_spj);
+            form_data.append('projek', eprojek);
+            form_data.append('tgl_bukti', etgl_bukti);
+            form_data.append('no_acc', eno_acc);
+            form_data.append('jns_ta', ejns_ta);
+            form_data.append('uraian', euraian);
+            form_data.append('total', etotal);
+            form_data.append('buktiawal', ebuktiawal);
+            form_data.append('file', file_data);
+
+            
+            $.ajax({
+                url:'<?php echo base_url();?>index.php/spj_tunai/update_rincispj',  //simpan_spj_file2
+                dataType: 'json',  // what to expect back from the PHP script, if anything
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function(data,status){
+                    //alert(php_script_response); // display response from the PHP script, if any
+                    if (data.status!='error') {
+                        $('#egambar').val('');
+                        document.getElementById("eno_acc").value='';
+                        document.getElementById("euraian").value='';
+                        document.getElementById("etotal").value='';
+                        document.getElementById("etgl_bukti").value='';
+                        document.getElementById("ebuktiawal").value='';
+                        document.getElementById("ekas").value='';
+                        load_rincian_temp(eno_spj);
+                        $('#ModalEditRincianSPJ').modal('toggle');
+                        $("#error").hide()
+                        alert(data.msg);
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+        });	
+	
+	
+	
 
 
   }); 
