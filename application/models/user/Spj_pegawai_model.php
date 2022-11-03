@@ -1749,5 +1749,316 @@ public function get_jumlah_revisi($id_pqproyek){
 		}
 
 
-	}
+		
+public function viewEditRincianSPJ($cnospj,$cid)
+		{
+			$ctkname =$this->security->get_csrf_token_name();
+			$chsname =$this->security->get_csrf_hash();
+
+			$query = "SELECT*FROM ci_spj_pegawai WHERE id='".$cid."' AND no_spj='".$cnospj."'";
+			$data = $this->db->query($query)->result();
+						
+			foreach ($data as $value) {
+
+				$cjns_spj=$value->jns_spj;
+				$ckd_proyek=$value->kd_proyek;
+				$ctgl_bukti=$value->tgl_bukti;
+				$cno_acc=$value->no_acc;
+				$cjns_ta=$value->jns_ta;
+				$curaian=$value->uraian;
+				$cbukti=$value->bukti;
+				$cstatus=$value->status;
+				$cnilai=number_format($value->nilai,2,',','.');
+				
+
+			}
+
+	
+		$cf ="return(currencyFormat(this,',','.',event))";
+		$html = "";	
+		$html.=' 
+		
+		
+		<script>
+			$("#ejns_spj").val("'.$cjns_spj.'");
+			$("#ejns_spj").select2().trigger("change"); 
+			
+		$("#eprojek").select2({
+			  placeholder: "Pilih Projek"
+			});			
+				
+		$("#eno_acc").select2({
+			  placeholder: "Pilih Akun"
+			});		
+	
+			
+		</script>
+		
+
+	
+        <div class="row">
+		<input type="hidden" name="eid" id="eid" value="'.$cid.'">
+		<input type="hidden" name="estatus" id="eid" value="'.$cstatus.'">
+		<input type="hidden" name="ebuktiawal" id="ebuktiawal" value="'.$cbukti.'">
+		
+				<div class="col-md-6">
+					<div class="form-group"> 
+						  <label class="control-label">jenis SPJ</label><br>
+						  <input type="hidden" name="'.$ctkname.'" value="'.$chsname.'">
+							<select name="ejns_spj"  style="width:100%" id="ejns_spj" value="'.$cjns_spj.'" class="form-control get-projek" data-projek="'.$ckd_proyek.'"  data-acc="'.$cno_acc.'" data-bukti="'.$cbukti.'"  required>
+							  <option value="">No Selected</option>
+							  <option value="1">Proyek</option>
+							  <option value="2">Operasional</option>
+							</select> 
+					</div>
+				</div>
+				<div class="col-md-6">
+						<div class="form-group">
+							<label class="control-label">Proyek</label><br>
+						   <input type="hidden" name="'.$ctkname.'" value="'.$chsname.'">
+							<input type="hidden" name="eproyek" id="eproyek" class="form-control " readonly>
+							  <select name="eprojek"  id="eprojek" class="form-control get-eakun" data-acc="'.$cno_acc.'"  style="width:100%">
+								
+							  </select> 
+
+					  </div>
+				  </div>
+          </div>
+          <div class="row">
+				<div class="col-md-6">
+				  <div class="form-group">
+					<label for="item_hpp" class="control-label">Tanggal Bukti</label>
+					  
+					  <input type="date" name="etgl_bukti" id="etgl_bukti" value="'.$ctgl_bukti.'" class="form-control" require>
+
+				  </div>
+				</div>
+				<div class="col-md-6">
+				  <div class="form-group">
+					<label for="item_hpp" class="control-label">Akun SPJ</label>
+					<input type="hidden" name="'.$ctkname.'" value="'.$chsname.'">
+					  <select name="eno_acc"  id="eno_acc" class="form-control get-esaldo" required>
+						<option value="" >No Selected</option>
+					  </select> 
+
+				  </div>
+				</div>
+          </div>
+          <div class="row">
+				<div class="col-md-12">
+				  <div class="form-group">
+					<label for="jns_ta" class="control-label">Jenis TA</label>
+					  <select name="ejns_ta"  id="ejns_ta" class="form-control" required>
+						<option value="">No Selected</option>
+						<option value="1">Biaya Transportasi Operasional</option>
+						<option value="2">Biaya Hotel, Penginapan & Akomodasi, Kost</option>
+						<option value="3">Biaya Perdiem/Paket</option>
+						<option value="4">Biaya Service, Perawatan, Sparepart & Perlengkapan</option>
+						<option value="5">BBM, Parkir, Tol</option>
+						<option value="6">Asuransi Kendaraan</option>
+						<option value="7">Biaya Telepon, Internet dan Fax</option>
+						<option value="8">Biaya Pos, Pengiriman</option>
+						<option value="9">Tunjangan Karyawan</option>
+						<option value="10">Pengobatan Medis</option>
+					  </select> 
+
+				  </div>
+				</div>
+          </div>
+          <div class="row">
+				<div class="col-md-6">
+				  <div class="form-group">
+					<label for="item_hpp" class="control-label">Uraian</label>
+					<input type="text" name="euraian" id="euraian" value="'.$curaian.'" class="form-control"  >
+				  </div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="dinas" class="control-label">Nilai SPJ </label>
+						<input type="text" name="etotal" id="etotal" value='.$cnilai.' class="form-control"  placeholder="" style="text-align:right;"  onkeypress="'.$cf.'">
+					</div>  
+				</div>
+          </div>
+         <div class="row">
+			  <div class="col-md-6">
+				   <div class="form-group">
+						<label for="dinas" class="control-label">Saldo Kas</label>
+						<input type="text" name="ekas" id="ekas" class="form-control"  style="background:none;text-align:right;"readonly >
+						<input type="hidden" name="en_pq" id="en_pq" class="form-control"  style="background:none;text-align:right;"readonly >
+						<input type="hidden" name="er_pq" id="er_pq" class="form-control"  style="background:none;text-align:right;"readonly >
+						<input type="hidden" name="es_pq" id="es_pq" class="form-control"  style="background:none;text-align:right;"readonly >
+					</div>
+			  </div>
+			  <div class="col-md-6">
+				   <div class="form-group">
+						<label for="dinas" class="control-label">Bukti kwitansi</label>
+					   <input type="file" name="egambar" class="form-control" id="egambar">
+				  </div>
+			  </div>
+         </div>
+        
+
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+        <button class="btn btn-success" id="btn_reupload" type="submit">Update</button>
+      </div>';	
+
+		return $html;
+			
+	}		
+		
+
+		
+		
+
+	function get_projek($subarea,$area,$jns_spj)
+		{	
+
+				$ctahun = date("Y");
+		
+			if ($jns_spj=='1'){
+				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
+					$sql = "SELECT kd_proyek,nm_paket_proyek FROM v_get_proyek_pq where jns_pagu > 1 and thn_anggaran >= '".$ctahun."' and kd_area='".$area."' and 
+							kd_sub_area='".$subarea."' and kd_proyek in(SELECT id_proyek from ci_pendapatan)";
+				}else{
+					$sql = "SELECT kd_proyek,nm_paket_proyek FROM v_get_proyek_pq where jns_pagu > 1 and thn_anggaran >= '".$ctahun."' and kd_area='".$area."' and kd_sub_area='".$subarea."' and kd_proyek in(SELECT id_proyek from ci_pendapatan)";				
+				}
+			 
+			}else{
+				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
+					$sql = "SELECT LEFT(kd_pq_operasional,10) AS kd_proyek,CONCAT('Operasional tahun ',LEFT(kd_pq_operasional,4)) AS nm_paket_proyek
+							FROM ci_pq_operasional WHERE STATUS = '1' and kd_area='".$area."' group by left(kd_pq_operasional,10)";
+
+				}else{
+	  
+					$sql = "SELECT LEFT(kd_pq_operasional,10) AS kd_proyek,'' as nm_paket_proyek
+							FROM ci_pq_operasional WHERE STATUS = '1' and kd_area='".$area."' group by left(kd_pq_operasional,10)";
+
+				}
+			}
+
+		
+					$result = $this->db->query($sql)->result_array();
+					
+					
+						$html = '';
+						$html .='<option value=""></option>';
+						foreach($result as $row){
+							$html .='<option value="'.$row['kd_proyek'].'">'.$row['kd_proyek'].' - '.$row['nm_paket_proyek'].'</option>';
+						}
+					
+					return $html;	
+		
+		
+		}
+
+
+
+	function get_akunspj($jns_spj,$kd_proyek)
+		{		
+			$username = $this->session->userdata('username');
+			$query="SELECT ifnull(jabatan,'nonstaf')as jabatan from ci_pegawai where kd_pegawai ='$username'";
+			$hasil = $this->db->query($query);
+			$jabatan = $hasil->row('jabatan');
+
+			if ($jns_spj=='1'){
+				$akun = "('5010202','5010205','5020101','5020501')";
+			}else{
+				$akun = "('5040201','5040202','5040203')";
+			}
+
+			if ($jabatan=='nonstaf'){ //non staff
+
+				if ($jns_spj=='1'){
+					$query1 = "select*From ci_coa_msm 
+						where no_acc in(SELECT kd_item from ci_hpp where level=4 and  right(kd_pqproyek,14)='$kd_proyek' 
+						UNION ALL SELECT no_acc from ci_coa where no_acc in ('5020101','5020501'))";
+				}else{
+					$query1 = "select*From ci_coa_msm where level=4 and left(no_acc,5) in(SELECT kd_item from ci_pq_operasional 
+							   where left(kd_pq_operasional,10)='$kd_proyek'";
+				}
+				
+			
+			}else if ($jabatan=='programer' || $jabatan=='akuntan' || $jabatan=='rc' || $jabatan=='lainnya'){ //staff
+				
+				if ($jns_spj=='1'){
+					$akun = "('5010202,5010205')";
+				}else{
+
+					if ($this->session->userdata('username')=='PG04221' || $this->session->userdata('username')=='PG61120' || $this->session->userdata('username')=='PG8533' || $this->session->userdata('username')=='PG21217'){
+						$akun = "('50401','50408','50403','50402','50410','50411')";
+					}else{
+						$akun = "('5040201','5040202','5040203')";
+					}
+					
+				}
+
+				if ($jns_spj=='1'){
+
+					$query1 = "select*From ci_coa_msm where no_acc in '".$akun."'";
+					
+				}else{
+
+					if ($this->session->userdata('username')=='PG04221' || $this->session->userdata('username')=='PG61120' || $this->session->userdata('username')=='PG8533' || $this->session->userdata('username')=='PG21217'){
+
+						$query1 = "select*From ci_coa_msm where level = 4 and left(no_acc,5) in '".$akun."'";
+						
+					}else{
+
+						$query1 = "select*From ci_coa_msm where level = 4 and left(no_acc,7) in '".$akun."'";
+						
+					}
+
+
+					
+				}
+			
+			}else if ($this->session->userdata('admin_role')=='Admin Area'){ //admin kantor
+
+				if ($jns_spj=='1'){
+					$akun = 'non';
+					$query1 = "select*From ci_coa_msm where level = 4 and left(no_acc) in '".$akun."'";
+				}else{
+					$query1 = "select*From ci_coa_msm where level = 4 and left(no_acc,5) in (SELECT kd_item from ci_pq_operasional where left(kd_pq_operasional,10)='$kd_proyek')";
+				}
+			}else{   //lainnya
+				if ($jns_spj=='1'){
+
+					$query1 = "select*From ci_coa_msm where level = 4 and no_acc in (SELECT kd_item from ci_hpp where right(kd_pqproyek,14)='$kd_proyek' UNION ALL SELECT no_acc from ci_coa where no_acc in ('5020101','5020501'))";
+
+				}else{
+					
+					$query1 = "select*From ci_coa_msm where level = 4 and left(no_acc,5) in (SELECT kd_item from ci_pq_operasional where left(kd_pq_operasional,10)='$kd_proyek')";
+
+				}
+				
+			}
+				
+				
+				$result = $this->db->query($query1)->result_array();
+		
+						$html = '';
+						$html .='<option value=""></option>';
+						foreach($result as $row){
+							$html .='<option value="'.$row['no_acc'].'">'.$row['no_acc'].' - '.$row['nm_acc'].'</option>';
+						}
+					
+					return $html;
+			
+			
+				
+				
+				
+		}
+
+
+		public function update_rincispj($whereUpdate,$dataUpdate){
+			$query = $this->db->where($whereUpdate);
+			$result= $this->db->update('ci_spj_pegawai', $dataUpdate);	
+			
+		}	
+		
+
+}
 ?>

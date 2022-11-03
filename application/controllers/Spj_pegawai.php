@@ -423,7 +423,7 @@ public function datatable_json_spj_edit($id='',$kd_pegawai=''){
 			if ($row['bukti']=="" || $row['bukti']==null){
 				$anchor='Tidak ada bukti';
 			}else{
-				$anchor = anchor('uploads/spj/'.$row['bukti'], 'preview','target="_blank"');
+				$anchor = anchor('uploads/spj_karyawan/'.$row['bukti'], 'preview','target="_blank"');
 			}
 
 					if($row['jns_ta']==1){
@@ -450,6 +450,17 @@ public function datatable_json_spj_edit($id='',$kd_pegawai=''){
 						$jns_ta='';
 					}
 
+
+
+ 			//	$btnadd = '<a class="list-group-item list-group-item-action showTambah-topik"  ><i class="fa fa-plus" aria-hidden="true" style="color: #18978F"></i> Tambah Topik</a>';
+		 		$btnedit = '<a class="list-group-item list-group-item-action showEdit-rincianSPJ" data-nospj="'.$row['no_spj'].'" data-id="'.$row['id'].'"><i class="fa fa-pencil-square-o" aria-hidden="true" style="color: #F15412"></i> Edit Rincian</a>';
+				$btndel = '<a class="list-group-item list-group-item-action hapus-rincian"  href='.base_url("spj_pegawai/delete_spj/".$row['id']).'/'.$id_new.'/'.$kode_pegawai.'/'.$row['bukti'].' title="Delete" onclick="return confirm(\'Do you want to delete ?\')" ><i class="fa fa-trash-o" aria-hidden="true" style="color: #F32424"></i> Hapus Rincian</a>';
+	 
+				$button3 = '<button style=" background-color: #3FA796; color: #F6F6F6; height:28px; width:28px;" data-toggle="dropdown"  id="btnGroupDrop1" class="btn btn-sm dropdown-toggle" aria-expanded="false"> <i class="fa fa-bars" aria-hidden="true" ></i>';
+
+				$subbutton=$btnedit.$btndel;
+ 
+					
 			$data[]= array(
 				$row['no_spj'],
 				$row['tgl_spj'],
@@ -457,7 +468,20 @@ public function datatable_json_spj_edit($id='',$kd_pegawai=''){
 				$row['uraian'],
 				$anchor,
 				number_format($row['nilai'],2,',','.'),
-				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("spj_pegawai/delete_spj/".$row['id']).'/'.$id_new.'/'.$kode_pegawai.'/'.$row['bukti'].' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+			//	'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("spj_pegawai/delete_spj/".$row['id']).'/'.$id_new.'/'.$kode_pegawai.'/'.$row['bukti'].' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<center>
+						<div class="btn-group" align="left" role="group" aria-label="Button group with nested dropdown" >  						  
+							'.$button3.'
+							</button><ul class="dropdown-menu" >
+							<div style="margin-left: 1px;  margin-top: 1px; position: relative;z-index: 99;"  aria-labelledby="Pilihan aksi" ><left>
+								  
+								  '.$subbutton.'
+								
+							</div> 
+						  </div>
+						
+					</center>'
+				
 			);
 		}
 		$records['data']=$data;
@@ -658,15 +682,7 @@ function get_area_by_user(){
 		$data['rincian_spj'] 				= $this->spjpegawai_model->get_rincian_spj_cetak($area,$kd_pegawai,$bulan,$tahun);
 		$data['ttd'] 						= $ttd;
 		$data['title']	= 'Cetak SPJ';
-		// $html = $this->load->view('user/pq/pq_view', $data);
-		// $cRet = $this->load->view('user/pq/cetak_pq_satuan',$data);
-		// $data['tahun'] 				= $tahun;
 
-		// if ($bulan==0){
-		// 	$data['bulan'] 				= "";	
-		// }else{
-		// 	$data['bulan'] 				= $this->format_indo($bulan);
-		// }
 
 		switch ($jenis)
         {
@@ -729,6 +745,130 @@ function get_area_by_user(){
         }
 
 	}
+	
+	
+	public function get_rincian(){  
+			$cnospj = $this->input->post('cnospj');			
+			$cid = $this->input->post('cid');
+			
+			$data = $this->spjpegawai_model->viewEditRincianSPJ($cnospj,$cid);
+			echo $data;
+		}	
+	
+
+	  
+  	public function get_projek(){ 
+
+		$subarea 	= $this->input->post('id',TRUE);
+		$area 		= $this->input->post('area',TRUE);
+		$jns_spj 	= $this->input->post('jns_spj',TRUE);
+		$data 		= $this->spjpegawai_model->get_projek($subarea,$area,$jns_spj);
+	
+		echo $data;
+	}
+
+
+	  
+  	public function get_akunspj(){ 
+
+		$jns_spj 	= $this->input->post('jns_spj',TRUE);
+		$kd_proyek  = $this->input->post('kd_proyek',TRUE);
+		$data 		= $this->spjpegawai_model->get_akunspj($jns_spj,$kd_proyek);
+	
+		echo $data;
+	}
+
+	
+	
+	public function update_rincispj(){
+		$config['upload_path'] 		= './uploads/spj_karyawan/';
+		$config['allowed_types']   	= '*';
+		$config['max_size']         = '0';
+		$config['encrypt_name'] 	= TRUE;
+	
+		$this->load->library('upload', $config);
+		
+		$status = "success";
+			$cnospj 			= $this->input->post('no_spj', TRUE);
+			$cid 				= $this->input->post('id', TRUE);
+			
+			$cjns_spj			= $this->input->post('jns_spj', TRUE);
+			$ckd_proyek			= $this->input->post('projek', TRUE);
+			$ctgl_bukti 		= $this->input->post('tgl_bukti', TRUE);
+			$cno_acc			= $this->input->post('no_acc', TRUE);
+			$cjns_ta			= $this->input->post('jns_ta', TRUE);
+			$curaian			= $this->input->post('uraian', TRUE);
+			$cbuktiawal			= $this->input->post('buktiawal', TRUE);
+			$cnilai				= $this->spjpegawai_model->number($this->input->post('total', TRUE)); 
+			
+			$whereUpdate = array(
+				'id' 				=> $cid,
+				'no_spj' 			=> $cnospj
+			);
+			
+		
+		if ( ! $this->upload->do_upload('file')){
+			$status = "success";
+			$cbukti	= '';
+			
+			
+			$dataUpdate = array(
+					'jns_spj' 				=> $cjns_spj,
+					'kd_proyek' 			=> $ckd_proyek,
+					'tgl_bukti' 			=> $ctgl_bukti,
+					'no_acc' 				=> $cno_acc,
+					'jns_ta' 				=> $cjns_ta,
+					'uraian' 				=> $curaian,
+					'nilai' 				=> $cnilai,
+					'bukti' 				=> $cbukti,
+					'username'				=> $this->session->userdata('username'),
+					'created_at'			=> date("Y-m-d h:i:s")
+				);
+			
+			
+			$result 					= $this->spjpegawai_model->update_rincispj($whereUpdate,$dataUpdate);
+			
+			if($xbukti==''){
+				$msg = "Data berhasil diupdate tanpa bukti";
+			}else{
+				
+				$msg = "Data berhasil diupdate";
+			}
+			
+		
+		}else{
+	
+			$dataupload = $this->upload->data();
+			$cbukti		= $dataupload['file_name'];
+			
+			$dataUpdate = array(
+					'jns_spj' 				=> $cjns_spj,
+					'kd_proyek' 			=> $ckd_proyek,
+					'tgl_bukti' 			=> $ctgl_bukti,
+					'no_acc' 				=> $cno_acc,
+					'jns_ta' 				=> $cjns_ta,
+					'uraian' 				=> $curaian,
+					'nilai' 				=> $cnilai,
+					'bukti' 				=> $cbukti,
+					'username'				=> $this->session->userdata('username'),
+					'created_at'			=> date("Y-m-d h:i:s")
+				);
+			
+			
+				$result = $this->spjpegawai_model->update_rincispj($whereUpdate,$dataUpdate);
+				
+				
+				
+		//	if($result){
+				unlink('./uploads/spj_karyawan/'.$cbuktiawal);
+				$msg = "Data Berhasil diupdate dengan bukti ".$cbukti;	
+			
+			
+		}
+	
+		$this->output->set_content_type('application/json')->set_output(json_encode(array('status'=>$status,'msg'=>$msg)));
+	}
+
 
 }
 ?>

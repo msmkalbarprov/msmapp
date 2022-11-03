@@ -144,3 +144,13 @@ $route['admin/location/state/del/(:num)'] = 'admin/location/state_del/$1';
 $route['admin/location/city/add'] = 'admin/location/city_add';
 $route['admin/location/city/edit/(:num)'] = 'admin/location/city_edit/$1';
 $route['admin/location/city/del/(:num)'] = 'admin/location/city_del/$1';
+
+
+
+$route['karyawan-spj_pegawai-get-rincian'] 					= 'Spj_pegawai/get_rincian';
+
+function EncryptLink($link='')
+{
+	$res = str_replace('=','',base64_encode($link));
+	return $res;
+}
