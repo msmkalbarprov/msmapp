@@ -42,14 +42,14 @@
 		}
 
 		//---------------------------------------------------
-		// get all users for server-side datatable processing (ajax based)
+		// get all users for server-side datatable processing (ajax based) 
 		public function get_all_proyek(){
 
 			
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'){
 				$this->db->select('ci_proyek.*,
 					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu,
-					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
+					(select format(nilai,0) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
 					(select loc from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as loc,
 					ROW_NUMBER() OVER(ORDER BY id ASC) AS row_num ');
 				$this->db->from("ci_proyek");
@@ -59,7 +59,7 @@
 			else{
 				$this->db->select('ci_proyek.*,
 					(select nm_jns_pagu from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nm_jns_pagu, 
-					(select frupiah(nilai) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
+					(select format(nilai,0) from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as nilai,
 					(select loc from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as loc,
 					ROW_NUMBER() OVER(ORDER BY id ASC) AS row_num ');
 				$this->db->from("ci_proyek");
