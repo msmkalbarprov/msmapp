@@ -1,6 +1,18 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/u1548762/public_html/msmapp
-    - /bin/cp * $DEPLOYPATH
-    
+    - export DEPLOYPATH=/home/u1548762/public_html
+    - /bin/cp index.html $DEPLOYPATH
+    - /bin/cp .gitignore.Text $DEPLOYPATH
+    - /bin/cp .composer.json $DEPLOYPATH
+    - /bin/cp .contributing.md $DEPLOYPATH
+    - /bin/cp .index.php $DEPLOYPATH
+    - /bin/cp .load_font.php $DEPLOYPATH
+    - /bin/cp .contributing.md $DEPLOYPATH
+    - /bin/cp .contributing.md $DEPLOYPATH
+    - /bin/cp -R application $DEPLOYPATH
+    - /bin/cp -R assets $DEPLOYPATH
+    - /bin/cp -R system $DEPLOYPATH    
+    - /bin/cp -R vendor $DEPLOYPATH
+    - /bin/cp -R assets $DEPLOYPATH
+    - /bin/cp -R assets $DEPLOYPATH
