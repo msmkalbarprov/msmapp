@@ -30,8 +30,15 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- jQuery -->
+  
   <script src="<?= base_url()?>assets/plugins/jquery/jquery.min.js"></script>
-
+  <script src="<?= base_url()?>vendor/select2/select2.js"></script>
+  <link rel="stylesheet" href="<?= base_url()?>vendor/select2/select2.css">
+  <link rel="stylesheet" href="<?= base_url()?>vendor/sweetalert2/sweetalert2.css">
+  <script src="<?= base_url()?>vendor/sweetalert2/sweetalert2.js"></script>
+  
+  
+  
 </head>
 
 <body class="hold-transition sidebar-mini <?=  (isset($bg_cover)) ? 'bg-cover' : '' ?>">

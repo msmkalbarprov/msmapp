@@ -21,6 +21,7 @@
   <tr style="background: #CACACA;">
         <th align="center" width="5%"><b>No.</th>
         <th align="center" width="15%"><b>Nomor</b> </th>
+        <th align="center" width="10%"><b>Projek</b> </th>
         <th align="center" width="10%"><b>Tanggal</b></th>
         <th align="center" width="10%"><b>Area</b></th>
         <th align="center" width="15%"><b>Akun</b></th>
@@ -42,12 +43,28 @@
     <tr>
         <td align="center"><?= ++$i; ?></td>
         <td><?= $list['no_voucher']; ?></td>
+		<td><?= $list['kd_project']; ?></td>
         <td><?= $list['tgl_voucher']; ?></td>
         <td><?= $list['kd_area']; ?> - <?= $list['nm_area']; ?></td>
         <td><?= $list['no_acc']; ?> - <?= $list['nm_acc']; ?></td>
         <td><?= $list['uraian']; ?></td>
-        <td align="right" ><?= number_format($list['debet'],2,',','.'); ?></td>
-        <td align="right" ><?= number_format($list['kredit'],2,',','.'); ?></td>
+	<?php	
+	
+		if($cjenis =='0'){ 
+	?>
+			<td align="right" ><?= $list['debet']; ?></td>
+			<td align="right" ><?= $list['kredit']; ?></td>
+	<?php	
+		}else{
+	?>		
+		
+			<td align="right" ><?= number_format($list['debet'],2,',','.'); ?></td>
+			<td align="right" ><?= number_format($list['kredit'],2,',','.'); ?></td>		
+	<?php	
+		} 
+	?>
+		
+        
     </tr>
           
         

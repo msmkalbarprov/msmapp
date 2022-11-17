@@ -99,7 +99,7 @@
     }
         $query=$this->db->get();
     return $query->result_array();
-}
+   }
 
 public function get_rincian_bb($tahun,$bulan,$area){
     if ($area == 'all'){

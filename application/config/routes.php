@@ -148,6 +148,22 @@ $route['admin/location/city/del/(:num)'] = 'admin/location/city_del/$1';
 
 
 $route['karyawan-spj_pegawai-get-rincian'] 					= 'Spj_pegawai/get_rincian';
+$route['laporan-Realisasi/list-acc'] 						= 'RealProyekRinciController/list_acc';
+$route['laporan-Realisasi/list-area'] 						= 'RealProyekRinciController/list_area';
+
+//$route[EncryptLink('kapip-laptri-teknologi-informasi')] 							= 'laporan/LaptriTeknologiInformasiController/index';
+
+$route['laporan-rinci-realisasi-proyek-pdo-prev'] 									= 'RealProyekRinciController/prev_laporan_pdo';
+$route['laporan-rinci-realisasi-proyek-pdo-pdf/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/pdf_laporan_pdo/$1/$2/$3/$4';
+$route['laporan-rinci-realisasi-proyek-pdo-excel/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/excel_laporan_pdo/$1/$2/$3/$4';
+
+
+$route['laporan-rinci-realisasi-proyek-spj-prev'] 									= 'RealProyekRinciController/prev_laporan_spj';
+$route['laporan-rinci-realisasi-proyek-spj-pdf/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/pdf_laporan_spj/$1/$2/$3/$4';
+$route['laporan-rinci-realisasi-proyek-spj-excel/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/excel_laporan_spj/$1/$2/$3/$4';
+
+
+
 
 function EncryptLink($link='')
 {

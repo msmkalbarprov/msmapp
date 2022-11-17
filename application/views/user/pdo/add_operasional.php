@@ -404,7 +404,10 @@ $('#area').change(function(){
             $.each(data, function(key, value) {
                 
                 $('select[name="item_hpp"]').append('<option value="'+ value.kd_pq_operasional+'">'+ value.kd_item +' - '+value.nm_item +'</option>');
-            });
+				  
+				//  $('select[name="item_hpp"]').append('<option value="'+ value.kd_item+'">'+ value.kd_item +' - '+value.nm_item +'</option>');
+                      
+		   });
 
         }
     });
@@ -526,7 +529,8 @@ function get_nomor_urut(area,thn_ang){
 
     // SAVE
 $('#butsave').on('click', function() {
-    var kd_item       = $('#item_hpp').val().substr(11,5);
+    var kd_item       = $('#item_hpp').val(); //alert(kd_item) ;return;
+	//.substr(11,5); 
     var no_pdo        = $('#kd_pdo').val();
     var tgl_pdo       = $('#tgl_pdo').val();
     var nourut        = $('#urut').val();

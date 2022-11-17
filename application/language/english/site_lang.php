@@ -86,6 +86,8 @@ $lang['posting_jurnal']      					= "Posting Jurnal <span class='badge badge-dan
 
 
 
+
+
 $lang['users']                               = "Users";
 	$lang['users_list']                      = "Users List";
 	$lang['add_new_user']                    = "Add New User";
@@ -271,3 +273,6 @@ $lang['title']                               = "Title";
 $lang['database_backup'] = "Database Backup";
 $lang['download_and_create_backup'] = "Download & Create Backup";
 
+$lang['lap_realisasi']                       				= "Laporan Realisasi <span class='badge badge-danger'>New</span>";
+$lang['Cetak_real_proyek_pdo_rinci']      					= "Rinci Proyek Cair PDO <span class='badge badge-danger'>New</span> ";
+$lang['Cetak_real_proyek_spj_rinci']      					= "Rinci Proyek Cair SPJ <span class='badge badge-danger'>New</span> ";

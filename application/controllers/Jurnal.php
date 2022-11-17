@@ -47,6 +47,7 @@ class Jurnal extends MY_Controller {
 	{	
 		$data['list'] 			    = $this->jurnal_model->get_jurnal_umum($tahun,$bulan,$jns_jurnal);
 		$data['tahun'] 				= $tahun;
+		$data['cjenis'] 			= $jenis;
 
 		if ($bulan==0){
 			$data['bulan'] 				= "";	

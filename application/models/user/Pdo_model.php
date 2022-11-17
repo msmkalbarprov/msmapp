@@ -162,7 +162,7 @@ function get_item_pq_by_pq($pq,$panjar)
 					 $hasil = $this->db->query($query1);
 					 $status_cair = $hasil->row('status_cair');
 					 
-		if ($status_cair==1){
+	if ($status_cair==1){
 		$this->db->from('vci_hpp');
 		$this->db->where("kd_pqproyek in ('1','2','$pq')");	
 		$this->db->where("kd_item not in ('5010202','5010205')");	
