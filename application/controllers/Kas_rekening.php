@@ -78,6 +78,8 @@ function terbilang($nilai) {
 		$data['rekening'] 			= $this->pdo_model->get_nama_rekening($id);
         $data['lalu'] 			    = $this->bku_model->saldo_awal($id,$tahun,$bulan);
 		$data['tahun'] 				= $tahun;
+		$data['acc'] 				= $id;
+		$data['cjenis'] 				= $jenis;
 
 		if ($bulan==0){
 			$data['bulan'] 				= "";	
@@ -92,17 +94,35 @@ function terbilang($nilai) {
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'landscape');
 			    $this->pdf->filename = "bku_$id.pdf";
-			    $this->pdf->load_view('user/bku/kas_rekening', $data);
+				if($id=='1010102'){
+						 $this->pdf->load_view('user/bku/kas_rekening_kasbesar', $data);
+				}else{
+						 $this->pdf->load_view('user/bku/kas_rekening', $data);
+				}
+			   
                 break;
             case 0;
-				$html = $this->load->view('user/bku/kas_rekening', $data);
+				
+				
+				if($id=='1010102'){
+						 $html = $this->load->view('user/bku/kas_rekening_kasbesar', $data);
+				}else{
+						 $html = $this->load->view('user/bku/kas_rekening', $data);
+				}
+				
 				header("Cache-Control: no-cache, no-store, must-revalidate");
 				header("Content-Type: application/vnd.ms-excel");
 				header("Content-Disposition: attachment; filename= bku_$id.xls");
 				$html;
                	break;
              case 2;
-				$this->load->view('user/bku/kas_rekening', $data);
+				
+				
+				if($id=='1010102'){
+						 $this->load->view('user/bku/kas_rekening_kasbesar', $data);
+				}else{
+						 $this->load->view('user/bku/kas_rekening', $data);
+				}
                	break;
         }
 

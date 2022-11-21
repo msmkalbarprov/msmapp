@@ -52,7 +52,12 @@ public function get_bku($id,$tahun,$bulan){
 
 		public function get_kas_rekening($id,$tahun,$bulan){
 			$this->db->select("*");
-			$this->db->from("cetakan_kas_rekening");
+			if($id=='1010102'){
+				$this->db->from("cetakan_kas_rekening_kasbesar");
+			}else{
+				$this->db->from("cetakan_kas_rekening");
+			}
+			
 			$this->db->where("no_rekening", $id);
 		
 		if($bulan==0){
@@ -84,7 +89,12 @@ public function get_bku($id,$tahun,$bulan){
 
 	public function saldo_awal($id,$tahun,$bulan){
 			$this->db->select("ifnull(sum(terima),0)-ifnull(sum(keluar),0) as saldo");
-			$this->db->from("cetakan_kas_rekening");
+			if($id='1010102'){
+				$this->db->from("cetakan_kas_rekening_kasbesar");
+			}else{
+				$this->db->from("cetakan_kas_rekening");
+			}
+			
 			$this->db->where("no_rekening",$id);
 		
 		if($bulan==0){
