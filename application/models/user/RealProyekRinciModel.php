@@ -131,7 +131,14 @@
 					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;border-top:none;\">".$abold."".$ckdpdo."".$nbold."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;border-top:none;\">".$abold."".$ctglpdo."".$nbold."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:left;vertical-align: text-top; border-bottom:none;border-top:none;padding-left:30px;\">".$abold."".$curaian."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:8pt;text-align:right; border-bottom:none;border-top:none;\">".$abold."".number_format($cnpdo,0,',','.')."".$nbold."</td>";				
+					
+					if($ctipe=='excel'){
+						$cRet .= "<td style=\"font-size:8pt;text-align:right; border-bottom:none;border-top:none;\">".$abold."".$cnpdo."".$nbold."</td>";				
+						
+					}else{
+						$cRet .= "<td style=\"font-size:8pt;text-align:right; border-bottom:none;border-top:none;\">".$abold."".number_format($cnpdo,0,',','.')."".$nbold."</td>";				
+						
+					}
 					
 					
 				}else if($clevel==3){ // style=\"border-top:none;border-bottom:none;\"
@@ -142,8 +149,14 @@
 					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;\">".$abold."".$ckdpdo."".$nbold."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;\">".$abold."".$ctglpdo."".$nbold."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:left;vertical-align: text-top; border-bottom:none;padding-left:20px;\">".$abold."".$curaian."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".number_format($cnpdo,0,',','.')."".$nbold."</td>";				
 					
+					if($ctipe=='excel'){
+							$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".$cnpdo."".$nbold."</td>";				
+
+					}else{
+							$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".number_format($cnpdo,0,',','.')."".$nbold."</td>";										
+					}
+									
 				}else if($clevel==2){ // style=\"border-top:none;border-bottom:none;\"
 					 
 					$cRet .="<tr>";
@@ -152,8 +165,12 @@
 					$cRet .= "<td style=\"font-size:8pt;text-align:center-;vertical-align: text-top; border-bottom:none;\">".$abold."".$ckdpdo."".$nbold."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;\">".$abold."".$ctglpdo."".$nbold."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:left;vertical-align: text-top; border-bottom:none;\">".$abold."".$curaian."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".number_format($cnpdo,0,',','.')."".$nbold."</td>";				
-					
+					if($ctipe=='excel'){
+						$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".$cnpdo."".$nbold."</td>";				
+					}else{
+						$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".number_format($cnpdo,0,',','.')."".$nbold."</td>";				
+						
+					}
 				}
 
 					$cRet .= "</tr>";
@@ -163,7 +180,13 @@
 
 			$cRet .="<tr>";
 			$cRet .= "<td colspan=\"5\" style=\"font-size:9pt;text-align:right;vertical-align: text-top;\"><b>JUMLAH</b></td>";
-			$cRet .= "<td style=\"font-size:9pt;text-align:right;\"><b>".number_format($cjumlah,0,',','.')."</b></td></tr>";
+			
+			if($ctipe=='excel'){
+				$cRet .= "<td style=\"font-size:9pt;text-align:right;\"><b>".$cjumlah."</b></td></tr>";
+			}else{
+				$cRet .= "<td style=\"font-size:9pt;text-align:right;\"><b>".number_format($cjumlah,0,',','.')."</b></td></tr>";
+			}
+			
 						
 			$cRet .= "</table></div>"; 
 
@@ -204,46 +227,43 @@
 											<th width=\"5%\"  style=\"font-size:8pt;text-align:center;padding:5px\" align=\"center\"><b>NO<b></th>
 											<th width=\"12%\"  style=\"font-size:8pt;text-align:center;padding:5px\" align=\"center\"><b>KODE <br>PROYEK<b></th>
 											<th width=\"12%\"  style=\"font-size:8pt;text-align:center;padding:5px\" align=\"center\"><b>NO PDO<b></th>
-											<th width=\"10%\"  style=\"font-size:8pt;text-align:center;padding:5px\" align=\"center\"><b>TANGGAL <br>PDO<b></th>
-											<th width=\"48%\"  style=\"font-size:8pt;text-align:center;padding:5px\" align=\"center\"><b>URAIAN<b></th>
+											<th width=\"12%\"  style=\"font-size:8pt;text-align:center;padding:5px\" align=\"center\"><b>NO SPJ<b></th>
+											<th width=\"10%\"  style=\"font-size:8pt;text-align:center;padding:5px\" align=\"center\"><b>TANGGAL <br>SPJ<b></th>
+											<th width=\"38%\"  style=\"font-size:8pt;text-align:center;padding:5px\" align=\"center\"><b>URAIAN<b></th>
 											<th width=\"15%\"  style=\"font-size:8pt;text-align:center;padding:5px\" align=\"center\"><b>NILAI</b></th>
 												
 										</tr>
 										
 									</thead>";							
 							
-			$sql1 = 'CALL sp_RinciPDO('.$ctahun.',"'.$carea.'","'.$cacc.'");';
+			$sql1 = 'CALL sp_RinciSPJAkun('.$ctahun.',"'.$carea.'","'.$cacc.'");';
 			$cdata = $this->db->query($sql1)->result_array();
 			$this->db->close();
 			
 			$no=0;
+			$cjumlah=0;
 			foreach ($cdata as $value) {
 				
 				$clevel=$value['clevel'];
 				$carea=$value['kd_area'];
 				$cproyek=$value['kd_proyek'];
 				$cpdo=$value['kd_pdo'];
-				$ctglpdo=$this->PublicModel->tanggal_indonesia($value['tgl_pdo']);
+				$cnospj=$value['no_spj'];
+				$ctglspj=$this->PublicModel->tanggal_indonesia($value['tgl_spj']);
 				$cacc=$value['no_acc'];
-				$curaian=$value['uraian'];
-				$cqty=$value['qty'];
-				$csatuan=$value['satuan'];
-				$charga=$value['harga'];
-				$cnpdo=$value['npdo'];
+				$cnmacc=$value['nm_acc'];
+				$curaian=$value['keterangan'];
+				$cnilai=$value['nilai'];
 				
 				$cno='';
 				
 				if($clevel==1){
-					$cjumlah=$cnpdo;
-				}else{
+					$cjumlah=$cjumlah+$cnilai;
 					
-					$cjumlah==0;
-				}
-			
-			  if($clevel==2){
+					
 					$no++;
 					$abold='<b>';
-					$nbold='<b>';				
+					$nbold='</b>';				
 					$ckdpro=$cproyek;
 					$ckdpdo='';
 					$ctglpdo='';
@@ -251,61 +271,87 @@
 					$cno=$no;
 					
 					
-				}else if($clevel==3){
+					
+				}else{
+					
+					$cjumlah==0;
+				}
+			
+			  if($clevel==2){
 					
 					$abold='<b><i>';
-					$nbold='</i></b>';
+					$nbold='</i></b>';				
 					$ckdpro='';
 					$ckdpdo=$cpdo;
+					$ctglpdo='';
+					$curaian=$curaian;
 					$cno='';
 					
 					
-				}else if($clevel==4){
+				}else if($clevel==3){
 					
 					$abold='';
 					$nbold='';
 					$ckdpro='';
-					$ctglpdo='';
 					$ckdpdo='';
-					$ctglpdo='';
 					$cno='';
-					$curaian= $curaian.' ( '.$cqty.' '.$csatuan.' x '.number_format($charga,0,',','.').' )';
 					
 					
 				}
 						
 				
 				
-				if($clevel==4){
-					
-					$cRet .="<tr>";
-					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;border-top:none;\">".$cno."</td>";
-					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;border-top:none;\">".$abold."".$ckdpro."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;border-top:none;\">".$abold."".$ckdpdo."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;border-top:none;\">".$abold."".$ctglpdo."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:8pt;text-align:left;vertical-align: text-top; border-bottom:none;border-top:none;padding-left:30px;\">".$abold."".$curaian."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:8pt;text-align:right; border-bottom:none;border-top:none;\">".$abold."".number_format($cnpdo,0,',','.')."".$nbold."</td>";				
-					
-					
-				}else if($clevel==3){ // style=\"border-top:none;border-bottom:none;\"
+			 if($clevel==3){ // style=\"border-top:none;border-bottom:none;\"
 					 
 					$cRet .="<tr>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top;border-bottom:none;border-top:none; \">".$cno."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;border-top:none;\">".$abold."".$ckdpro."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;\">".$abold."".$ckdpdo."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;\">".$abold."".$ctglpdo."".$nbold."</td>";
+					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;border-top:none;\">".$abold."".$ckdpdo."".$nbold."</td>";
+					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;\">".$abold."".$cnospj."".$nbold."</td>";
+					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;\">".$abold."".$ctglspj."".$nbold."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:left;vertical-align: text-top; border-bottom:none;padding-left:20px;\">".$abold."".$curaian."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".number_format($cnpdo,0,',','.')."".$nbold."</td>";				
+					
+					if($ctipe=='excel'){
+						$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".$cnilai."".$nbold."</td>";				
+						
+					}else{
+						$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".number_format($cnilai,0,',','.')."".$nbold."</td>";				
+						
+					}
 					
 				}else if($clevel==2){ // style=\"border-top:none;border-bottom:none;\"
+					 
+					$cRet .="<tr>";
+					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top;border-bottom:none;border-top:none; \"><b>".$cno."</b></td>";
+					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;border-top:none;\">".$abold."".$ckdpro."".$nbold."</td>";
+					$cRet .= "<td style=\"font-size:8pt;text-align:center-;vertical-align: text-top; border-bottom:none;\">".$abold."".$ckdpdo."".$nbold."</td>";
+					$cRet .= "<td style=\"font-size:8pt;text-align:center-;vertical-align: text-top; border-bottom:none;\">".$abold."".$cnospj."".$nbold."</td>";
+					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;\">".$abold."".$ctglpdo."".$nbold."</td>";
+					$cRet .= "<td style=\"font-size:8pt;text-align:left;vertical-align: text-top; border-bottom:none;\">".$abold."".$curaian."".$nbold."</td>";
+					if($ctipe=='excel'){
+						$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".$cnilai."".$nbold."</td>";				
+						
+					}else{
+						$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".number_format($cnilai,0,',','.')."".$nbold."</td>";				
+					
+					}
+					
+				}else if($clevel==1){ // style=\"border-top:none;border-bottom:none;\"
 					 
 					$cRet .="<tr>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top;border-bottom:none; \"><b>".$cno."</b></td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;\">".$abold."".$ckdpro."".$nbold."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:center-;vertical-align: text-top; border-bottom:none;\">".$abold."".$ckdpdo."".$nbold."</td>";
+					$cRet .= "<td style=\"font-size:8pt;text-align:center-;vertical-align: text-top; border-bottom:none;\">".$abold."".$cnospj."".$nbold."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:center;vertical-align: text-top; border-bottom:none;\">".$abold."".$ctglpdo."".$nbold."</td>";
 					$cRet .= "<td style=\"font-size:8pt;text-align:left;vertical-align: text-top; border-bottom:none;\">".$abold."".$curaian."".$nbold."</td>";
-					$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".number_format($cnpdo,0,',','.')."".$nbold."</td>";				
+						if($ctipe=='excel'){
+							$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".$cnilai."".$nbold."</td>";				
+							
+						}else{
+							$cRet .= "<td style=\"font-size:9pt;text-align:right; border-bottom:none;\">".$abold."".number_format($cnilai,0,',','.')."".$nbold."</td>";				
+							
+						}
 					
 				}
 
@@ -315,8 +361,13 @@
 					
 
 			$cRet .="<tr>";
-			$cRet .= "<td colspan=\"5\" style=\"font-size:9pt;text-align:right;vertical-align: text-top;\"><b>JUMLAH</b></td>";
-			$cRet .= "<td style=\"font-size:9pt;text-align:right;\"><b>".number_format($cjumlah,0,',','.')."</b></td></tr>";
+			$cRet .= "<td colspan=\"6\" style=\"font-size:9pt;text-align:right;vertical-align: text-top;\"><b>JUMLAH</b></td>";
+			if($ctipe=='excel'){
+				$cRet .= "<td style=\"font-size:9pt;text-align:right;\"><b>".$cjumlah."</b></td></tr>";
+			}else{
+				$cRet .= "<td style=\"font-size:9pt;text-align:right;\"><b>".number_format($cjumlah,0,',','.')."</b></td></tr>";
+			}
+			
 						
 			$cRet .= "</table></div>"; 
 

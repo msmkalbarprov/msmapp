@@ -132,7 +132,7 @@ class RealProyekRinciController extends MY_Controller {
 	{
 		 $data['title']= 'Rincian/Realisasi/SPJ/PerAkun';
 		 $data['filename']= 'Rincian-Realisasi-SPJ-PerAkun';
-		 $data['html']= $this->laporan_pdo($ctahun,$carea,$cacc,$ctipe);
+		 $data['html']= $this->laporan_spj($ctahun,$carea,$cacc,$ctipe);
 		 $this->load->view('cetakan/cetakan',$data);
 		
 	}	
