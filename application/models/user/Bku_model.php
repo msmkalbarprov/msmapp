@@ -56,9 +56,10 @@ public function get_bku($id,$tahun,$bulan){
 				$this->db->from("cetakan_kas_rekening_kasbesar");
 			}else{
 				$this->db->from("cetakan_kas_rekening");
+				$this->db->where("no_rekening", $id);
 			}
 			
-			$this->db->where("no_rekening", $id);
+			
 		
 		if($bulan==0){
 			$this->db->where("year(tanggal)>=", $tahun);
@@ -93,9 +94,10 @@ public function get_bku($id,$tahun,$bulan){
 				$this->db->from("cetakan_kas_rekening_kasbesar");
 			}else{
 				$this->db->from("cetakan_kas_rekening");
+				$this->db->where("no_rekening",$id);
 			}
 			
-			$this->db->where("no_rekening",$id);
+			
 		
 		if($bulan==0){
 			$this->db->where("tanggal ", '2022-01-31');
