@@ -110,11 +110,12 @@ function terbilang($nilai) {
 	}
 
 
-	public function cetak_register_pdo($id=0,$tahun=0,$jenis=0,$bulan=0)
+	public function cetak_register_pdo($id=0,$tahun=0,$jenis=0,$bulan=0,$status=0)
 	{	
-		$data['register_pdo'] 		= $this->pdo_model->get_register_pdo($id,$tahun,$bulan);
+		$data['register_pdo'] 		= $this->pdo_model->get_register_pdo($id,$tahun,$bulan,$status);
 		$data['area'] 				= $this->pdo_model->get_nama_area($id);
 		$data['tahun'] 				= $tahun;
+		$data['status'] 			= $status;
 
 		if ($bulan==0){
 			$data['bulan'] 				= "";	

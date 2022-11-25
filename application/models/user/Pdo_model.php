@@ -774,10 +774,14 @@ public function get_nama_area($id){
 
 		
 
-	public function get_register_pdo($id,$tahun,$bulan){
+	public function get_register_pdo($id,$tahun,$bulan,$status){
+		
+			
+			
 			$this->db->select("*");
 			$this->db->from("cetak_register_pdo");
 			$this->db->where("kd_area", $id);
+			
 
 			if($bulan==0){
 				$this->db->where("year(tgl_pdo)", $tahun);
@@ -785,6 +789,14 @@ public function get_nama_area($id){
 				$this->db->where("year(tgl_pdo)", $tahun);
 				$this->db->where("month(tgl_pdo)", $bulan);
 			}
+			
+			if($status==1){
+				$this->db->where("status_bayar",1);
+			}else if($status==2){
+				$this->db->where("status_bayar",0);
+			}
+			
+			
 			$this->db->order_by("kd_area,right(kd_pdo,4)");
 			$query=$this->db->get();
 			return $query->result_array();

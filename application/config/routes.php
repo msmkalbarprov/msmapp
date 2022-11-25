@@ -151,6 +151,8 @@ $route['karyawan-spj_pegawai-get-rincian'] 					= 'Spj_pegawai/get_rincian';
 $route['laporan-Realisasi/list-acc'] 						= 'RealProyekRinciController/list_acc';
 $route['laporan-Realisasi/list-area'] 						= 'RealProyekRinciController/list_area';
 
+$route['laporan-Realisasi/list-proyek'] 					= 'RealProyekRinciController/list_proyek';
+
 //$route[EncryptLink('kapip-laptri-teknologi-informasi')] 							= 'laporan/LaptriTeknologiInformasiController/index';
 
 $route['laporan-rinci-realisasi-proyek-pdo-prev'] 									= 'RealProyekRinciController/prev_laporan_pdo';
@@ -162,6 +164,10 @@ $route['laporan-rinci-realisasi-proyek-spj-prev'] 									= 'RealProyekRinciCon
 $route['laporan-rinci-realisasi-proyek-spj-pdf/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/pdf_laporan_spj/$1/$2/$3/$4';
 $route['laporan-rinci-realisasi-proyek-spj-excel/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/excel_laporan_spj/$1/$2/$3/$4';
 
+
+$route['laporan-realisasi-RAP-prev'] 									= 'RealProyekRinciController/prev_laporan_rap';
+$route['laporan-realisasi-RAP-pdf/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/pdf_laporan_rap/$1/$2/$3/$4';
+$route['laporan-realisasi-RAP-excel/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/excel_laporan_rap/$1/$2/$3/$4';
 
 
 

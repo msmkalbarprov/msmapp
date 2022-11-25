@@ -318,7 +318,7 @@ public function terima_pdo($id_pdo='',$jns=0)
 			$data['data_area'] 			= $this->area->get_area();
 			$data['data_divisi']		= $this->pdo_model->get_divisi();
 			$data['item_hpp'] 			= $this->pq_model->get_coa_item();
-			$data['data_pqproyek'] 	= $this->pq_model->get_pqproyek();
+			$data['data_pqproyek'] 		= $this->pq_model->get_pqproyek();
 			$data['data_pdo'] 			= $this->pdo_model->get_pdo_by_id($id_pdo);
 			$data2['title'] 				= 'penerimaan PDO Cair';
 			$this->load->view('admin/includes/_header',$data2);

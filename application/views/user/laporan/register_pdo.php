@@ -34,7 +34,7 @@
 
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="thn_ang" class="control-label">Tahun Anggaran</label>
                 <select name="thn_ang" id="thn_ang" class="form-control" required>
@@ -45,7 +45,7 @@
                 </select>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="bulan" class="control-label">Bulan</label>
                 <select name="bulan" id="bulan" class="form-control" required>
@@ -66,6 +66,19 @@
                 </select>
             </div>
           </div>
+		  
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="status" class="control-label">status</label>
+                <select name="status" id="status" class="form-control" required>
+                  <option value="">No Selected</option>
+                  <option value="0">Semua</option>
+                  <option value="1">Cair</option>
+                  <option value="2">Belum Cair</option>
+                </select>
+            </div>
+          </div>		  
+		  
          </div>
 
 
@@ -93,11 +106,14 @@ $('#butcetak').on('click', function() {
     var area = document.getElementById("area").value;
     var tahun = document.getElementById("thn_ang").value;
     var bulan = document.getElementById("bulan").value;
+    var status = document.getElementById("status").value;
+	
+	//alert(jenis);
     if(tahun==''){
       alert('Silahkan pilih tahun anggaran')
       return
     }
-    var url = '<?= base_url() ?>'+'laporan_pdo/cetak_register_pdo/'+area+'/'+tahun+'/1/'+bulan; 
+    var url = '<?= base_url() ?>'+'laporan_pdo/cetak_register_pdo/'+area+'/'+tahun+'/1/'+bulan+'/'+status; 
     window.open(url, '_blank');
 });
 
@@ -108,7 +124,7 @@ $('#butexport').on('click', function() {
       alert('Silahkan pilih tahun anggaran')
       return
     }
-    var url = '<?= base_url() ?>'+'laporan_pdo/cetak_register_pdo/'+area+'/'+tahun+'/0/'+bulan; 
+    var url = '<?= base_url() ?>'+'laporan_pdo/cetak_register_pdo/'+area+'/'+tahun+'/0/'+bulan+'/'+status; 
     window.open(url, '_blank');
 });
 
