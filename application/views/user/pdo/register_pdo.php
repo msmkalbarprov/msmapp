@@ -3,11 +3,23 @@
 <script src="<?= base_url() ?>assets/plugins/datatables/dataTables.bootstrap4.js"></script>
 
 <table border="0" width="100%">
+ <?php 
+      $status;
+	  if($status==1){
+		 $status_cair='( Sudah dibayar )';
+	  }else if($status==2){
+		$status_cair='( Belum dibayar )';
+	  }else{
+		  $status_cair='( Keseluruhan )';
+	  }
+  ?>
+  
+  
   <tr>
-    <td colspan="4" style="text-align:center"><h3>PT. MURFA SURYA MAHARDIKA<br>REGISTER PDO</h3></td>
+    <td colspan="5" style="text-align:center"><h3>PT. MURFA SURYA MAHARDIKA<br>REGISTER PDO</h3></td>
   </tr>
   <tr>
-    <td colspan="4" style="text-align:center">&nbsp;</td>
+    <td colspan="5" style="text-align:center">&nbsp;</td>
   </tr>
   <tr>
     <td width="10%" style="text-align:left"><b>AREA</b></td>
@@ -18,7 +30,8 @@
   <tr>
     <td width="10%" style="text-align:left"><b>Periode</b></td>
     <td width="2%" style="text-align:left"><b>:</b></td>
-    <td colspan="2" width="88%" style="text-align:left"><b><?= $bulan.' '.$tahun; ?></b></td>
+    <td colspan="2" width="88%" style="text-align:left"><b><?= $bulan.' '.$tahun; ?></b></td> 
+	<td align="right"><b><?= $status_cair ?></b></td> 
   </tr>
 </table>
 <table width="100%" border="1" style="border-spacing: -1px;border-collapse: collapse;font-size: 12px;" cellspacing="2" cellpadding="3">
