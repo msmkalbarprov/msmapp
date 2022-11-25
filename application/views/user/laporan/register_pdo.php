@@ -108,7 +108,7 @@ $('#butcetak').on('click', function() {
     var bulan = document.getElementById("bulan").value;
     var status = document.getElementById("status").value;
 	
-	//alert(jenis);
+	
     if(tahun==''){
       alert('Silahkan pilih tahun anggaran')
       return
@@ -120,7 +120,10 @@ $('#butcetak').on('click', function() {
 $('#butexport').on('click', function() {
     var area = document.getElementById("area").value;
     var tahun = document.getElementById("thn_ang").value;
-    if(tahun==''){
+    var bulan = document.getElementById("bulan").value;
+	var status = document.getElementById("status").value;
+    
+	if(tahun==''){
       alert('Silahkan pilih tahun anggaran')
       return
     }
