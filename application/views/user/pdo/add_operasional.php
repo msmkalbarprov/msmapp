@@ -529,7 +529,7 @@ function get_nomor_urut(area,thn_ang){
 
     // SAVE
 $('#butsave').on('click', function() {
-    var kd_item       = $('#item_hpp').val(); //alert(kd_item) ;return;
+    var kd_item       = $('#item_hpp').val().substr(11,5)//; alert(kd_item) ;return;
 	//.substr(11,5); 
     var no_pdo        = $('#kd_pdo').val();
     var tgl_pdo       = $('#tgl_pdo').val();
