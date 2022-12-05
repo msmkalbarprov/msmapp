@@ -36,6 +36,7 @@
                       <th>APBD</th>
                       <th>SPK</th>
                       <th>PDP</th>
+                      <th>PIUTANG PROJECT</th>
                       <th>PDO</th>
                       <th>SPJ</th>
                     </tr>
@@ -71,8 +72,9 @@
     { "targets": 2, "name": "apbd", 'searchable':true, 'orderable':false},
     { "targets": 3, "name": "spk", 'searchable':true, 'orderable':false},
     { "targets": 4, "name": "pdp", 'searchable':true, 'orderable':false},
-    { "targets": 5, "name": "pdo", 'searchable':true, 'orderable':false},
-    { "targets": 6, "name": "spj", 'searchable':true, 'orderable':false}
+    { "targets": 5, "name": "piutang_prj", 'searchable':true, 'orderable':false},
+    { "targets": 6, "name": "pdo", 'searchable':true, 'orderable':false},
+    { "targets": 7, "name": "spj", 'searchable':true, 'orderable':false}
     ]
   });
 

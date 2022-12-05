@@ -62,6 +62,7 @@ class Laporan_pq extends MY_Controller {
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['apbd'],2,",",".").'</font></span></div>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['spk'],2,",",".").'</font></span></div>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['pdp'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format(($row['spk']-$row['pdp']),2,",",".").'</font></span></div>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['pdo'],2,",",".").'</font></span></div>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['spj'],2,",",".").'</font></span></div>'
 

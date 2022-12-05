@@ -32,6 +32,20 @@ class RealProyekRinciController extends MY_Controller {
 	}
 
 
+	public function Cetak_RAP(){
+		$data['title'] = 'Realisasi RAP';
+		$this->load->view('admin/includes/_header', $data);
+		$this->load->view('user/laporan/laporan_real_RAP');
+		$this->load->view('admin/includes/_footer');
+	}
+
+
+	public function list_proyek(){ 
+		$ctahun 	= $this->input->post('ctahun');
+		$carea		= $this->input->post('carea');
+		$data		= $this->RealModel->listProyek($ctahun,$carea);
+		echo $data;			
+	}
 
 	public function list_acc(){ 
 		$ctahun 	= $this->input->post('ctahun');
@@ -74,6 +88,18 @@ class RealProyekRinciController extends MY_Controller {
 	}
 
 
+	function prev_laporan_rap(){ 
+
+		$ctahun = $this->input->post('ctahun');	
+		$carea = $this->input->post('carea');
+		$cproyek = $this->input->post('cproyek');
+		$ctipe = $this->input->post('ctipe');
+
+			$cRet = $this->laporan_rap($ctahun,$carea,$cproyek,$ctipe);
+			echo $cRet;
+		
+	}
+
 
 	function laporan_pdo($ctahun,$carea,$cacc,$ctipe){ 
 		$cRet = $this->RealModel->lap_proyek_cair_pdo($ctahun,$carea,$cacc,$ctipe);
@@ -97,6 +123,41 @@ class RealProyekRinciController extends MY_Controller {
 		
 	}
 
+
+	function laporan_rap($ctahun,$carea,$cproyek,$ctipe){		
+		$cRet = $this->RealModel->lap_rap($ctahun,$carea,$cproyek,$ctipe);
+		if ($ctipe == 'prev') {
+				echo $cRet;
+			}else{
+				return $cRet;
+			}	
+		
+	}
+
+
+	public function pdf_laporan_rap($ctahun='',$carea='',$cproyek='',$ctipe='')
+	{
+		$header = '';
+		$body=$this->laporan_rap($ctahun,$carea,$cproyek,$ctipe);
+		$cproyek = str_replace("12345678909", "/", $cproyek);
+		$filename = 'Realisasi-RAP-'.$cproyek.'.pdf';
+		$this->PublicModel->_mpdf('',$header,$body,10,10,25,10,10,'L',1,true,'A3',$filename);
+
+	}
+	
+	
+	public function excel_laporan_rap($ctahun='',$carea='',$cproyek='',$ctipe='')
+	{
+		 $data['title']= 'Rincian/Realisasi/PDO/PerAkun';
+		 $xproyek = str_replace("12345678909", "/", $cproyek);
+		 $data['filename']= 'Realisasi-RAP-'.$xproyek;
+		 $data['html']= $this->laporan_rap($ctahun,$carea,$cproyek,$ctipe);
+		
+		 
+		 $this->load->view('cetakan/cetakan',$data);
+		
+	}
+	
 
 	public function pdf_laporan_pdo($ctahun='',$carea='',$cacc='',$ctipe='')
 	{

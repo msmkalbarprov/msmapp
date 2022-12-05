@@ -276,3 +276,7 @@ $lang['download_and_create_backup'] = "Download & Create Backup";
 $lang['lap_realisasi']                       				= "Laporan Realisasi <span class='badge badge-danger'>New</span>";
 $lang['Cetak_real_proyek_pdo_rinci']      					= "Rinci Proyek Cair PDO <span class='badge badge-danger'>New</span> ";
 $lang['Cetak_real_proyek_spj_rinci']      					= "Rinci Proyek Cair SPJ <span class='badge badge-danger'>New</span> ";
+$lang['Cetak_RAP']      									= "Rinci RAP <span class='badge badge-danger'>New</span> ";
+
+
+

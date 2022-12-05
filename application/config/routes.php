@@ -165,9 +165,9 @@ $route['laporan-rinci-realisasi-proyek-spj-pdf/(:any)/(:any)/(:any)/(:any)'] 		=
 $route['laporan-rinci-realisasi-proyek-spj-excel/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/excel_laporan_spj/$1/$2/$3/$4';
 
 
-$route['laporan-realisasi-RAP-prev'] 									= 'RealProyekRinciController/prev_laporan_rap';
-$route['laporan-realisasi-RAP-pdf/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/pdf_laporan_rap/$1/$2/$3/$4';
-$route['laporan-realisasi-RAP-excel/(:any)/(:any)/(:any)/(:any)'] 		= 'RealProyekRinciController/excel_laporan_rap/$1/$2/$3/$4';
+$route['laporan-realisasi-rap-prev'] 												= 'RealProyekRinciController/prev_laporan_rap';
+$route['laporan-realisasi-rap-pdf/(:any)/(:any)/(:any)/(:any)'] 					= 'RealProyekRinciController/pdf_laporan_rap/$1/$2/$3/$4';
+$route['laporan-realisasi-rap-excel/(:any)/(:any)/(:any)/(:any)'] 					= 'RealProyekRinciController/excel_laporan_rap/$1/$2/$3/$4';
 
 
 

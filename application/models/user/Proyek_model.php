@@ -217,8 +217,10 @@ function get_realisasi_hpp2($id)
 				 $this->db->from("ci_proyek");
                  $this->db->Join('ci_proyek_rincian','ci_proyek_rincian.id_proyek=ci_proyek.id_proyek', 'inner');
                  $this->db->Join('ci_jnspagu','ci_proyek_rincian.jns_pagu=ci_jnspagu.id', 'inner');
-				 $this->db->where('ci_proyek.id_proyek', $id);
+				 $this->db->where('ci_proyek.id_proyek',$id);
 			return $result = $this->db->get()->row_array();
+			
+			
 		}
 
 	

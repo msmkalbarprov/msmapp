@@ -19,6 +19,7 @@
       <th>APBD</th>
       <th>SPK</th>
       <th>PDP</th>
+      <th>PIUTANG PROJECT</th>
       <th>PDO</th>
       <th>SPJ</th>
   </tr>
@@ -27,6 +28,7 @@
       $total_apbd = 0;
       $total_spk = 0;
       $total_pdp = 0;
+      $total_piutang = 0;
       $total_pdo = 0;
       $total_spj = 0;
       $i=0;
@@ -39,6 +41,7 @@
             <td align="right" ><?= number_format($rincian['apbd'],2,',','.'); ?></td>
             <td align="right" ><?= number_format($rincian['spk'],2,',','.'); ?></td>
             <td align="right" ><?= number_format($rincian['pdp'],2,',','.'); ?></td>
+            <td align="right" ><?= number_format($rincian['piutang_prj'],2,',','.'); ?></td>
             <td align="right" ><?= number_format($rincian['pdo'],2,',','.'); ?></td>
             <td align="right" ><?= number_format($rincian['spj'],2,',','.'); ?></td>
           </tr>
@@ -47,6 +50,7 @@
             $total_apbd = $total_apbd+$rincian['apbd']; 
             $total_spk = $total_spk+$rincian['spk']; 
             $total_pdp = $total_pdp+$rincian['pdp']; 
+            $total_piutang = $total_piutang+$rincian['piutang_prj']; 
             $total_pdo = $total_pdo+$rincian['pdo']; 
             $total_spj = $total_spj+$rincian['spj']; 
           ?>
@@ -61,6 +65,7 @@
         <td align="right" style="background: #CCCCCC"><?= number_format($total_apbd,2,',','.'); ?></td>
         <td align="right" style="background: #CCCCCC"><?= number_format($total_spk,2,',','.'); ?></td>
         <td align="right" style="background: #CCCCCC"><?= number_format($total_pdp,2,',','.'); ?></td>
+        <td align="right" style="background: #CCCCCC"><?= number_format($total_piutang,2,',','.'); ?></td>
         <td align="right" style="background: #CCCCCC"><?= number_format($total_pdo,2,',','.'); ?></td>
         <td align="right" style="background: #CCCCCC"><?= number_format($total_spj,2,',','.'); ?></td>
       </tr>
