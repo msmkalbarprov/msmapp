@@ -1092,10 +1092,22 @@
 
 	function listArea($ctahun)
 		{
+			//$this->session->userdata('admin_role')=='Direktur Utama'
+
+			$carea=$this->session->userdata('kd_area');
+			$crole=$this->session->userdata('admin_role');
+			
+			if($crole =='Super Admin' | $crole =='Direktur Utama' | $crole =='Admin'){
+				$cwhere = ''; 
+				
+			}else{
+				$cwhere = 'and b.kd_area="'.$carea.'"'; 
+			}
+			
 
 			$sql = "SELECT DISTINCT b.kd_area AS kd_area,b.nm_area AS nm_area
 					FROM (ci_proyek b JOIN ci_proyek_rincian a ON(b.id_proyek = a.id_proyek)) WHERE b.thn_anggaran='".$ctahun."'  AND (b.batal IS NULL OR b.batal = 0) 
-					AND a.jns_pagu IN ('3','6') GROUP BY b.kd_area";
+					AND a.jns_pagu IN ('3','6') $cwhere GROUP BY b.kd_area";// return($sql);
 
 			$data=$this->db->query($sql);
 			$html ='<option value=""> Pilih Area </option>';
