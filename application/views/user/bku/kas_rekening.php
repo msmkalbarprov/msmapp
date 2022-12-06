@@ -24,13 +24,14 @@
 <table width="100%" border="1" style="border-spacing: -1px;border-collapse: collapse;font-size: 12px;" cellspacing="2" cellpadding="3">
 <thead>
   <tr style="background: #CACACA;">
-        <th align="center"><b>No.</th>
-        <th align="center"><b>Nomor</b> </th>
-        <th align="center"><b>Tanggal</b></th>
-        <th align="center"><b>Uraian</b></th>
-        <th align="center"><b>Penerimaan</b></th>
-        <th align="center"><b>Pengeluaran</b></th>
-        <th align="center"><b>Saldo</b></th>
+        <th width="2%" align="center"><b>No.</th>
+        <th width="8%" align="center"><b>Nomor</b> </th>
+        <th width="6%" align="center"><b>Tanggal</b></th>
+		<th width="8%" align="center"><b>Proyek</b> </th>
+        <th width="40%" align="center"><b>Uraian</b></th>
+        <th width="10%" align="center"><b>Penerimaan</b></th>
+        <th width="10%" align="center"><b>Pengeluaran</b></th>
+        <th width="10%" align="center"><b>Saldo</b></th>
         
   </tr>
 </thead>
@@ -38,6 +39,7 @@
         <?php if($bulan==''): ?>
                     <tr>
                         <td align="center"></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td>Saldo Awal</td>
@@ -50,6 +52,7 @@
                         <td align="center"></td>
                         <td></td>
                         <td></td>
+                        <td></td>
                         <td>Saldo Awal</td>
                         <td align="right" ></td>
                         <td align="right" ></td>
@@ -58,6 +61,7 @@
         <?php else: ?>
                     <tr>
                         <td align="center"></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td>Saldo Lalu</td>
@@ -91,6 +95,7 @@
                         <td align="center"></td>
                         <td></td>
                         <td></td>
+                        <td></td>
                         <td><?= $list['keterangan']; ?></td>
                         <td align="right" ><?= number_format($list['terima'],2,',','.'); ?></td>
                         <td align="right" ><?= number_format($list['keluar'],2,',','.'); ?></td>
@@ -100,7 +105,8 @@
                     <tr>
                         <td align="center"><?= ++$i; ?></td>
                         <td><?= $list['nomor']; ?></td>
-                        <td><?= $list['tanggal']; ?></td>
+                        <td align="center"><?= $list['tanggal']; ?></td>
+                        <td><?= $list['kd_proyek']; ?></td>
                         <td><?= $list['keterangan']; ?></td>
                         <td align="right" ></td>
                         <td align="right" ></td>
@@ -110,7 +116,8 @@
                     <tr>
                         <td align="center"><?= ++$i; ?></td>
                         <td><?= $list['nomor']; ?></td>
-                        <td><?= $list['tanggal']; ?></td>
+                        <td align="center"><?= $list['tanggal']; ?></td>
+                        <td><?= $list['kd_proyek']; ?></td>
                         <td><?= $list['keterangan']; ?></td>
                         <td align="right" ><?= number_format($list['terima'],2,',','.'); ?></td>
                         <td align="right" ><?= number_format($list['keluar'],2,',','.'); ?></td>
@@ -122,7 +129,7 @@
 <?php endforeach; ?>
 <tfoot>
           <tr>
-            <td colspan="6"><b>Saldo akhir</td>
+            <td colspan="7"><b>Saldo akhir</td>
             <td align="right" ><?= number_format($subtotal,2,',','.'); ?></td>
           </tr>
         </tfoot>
