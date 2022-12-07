@@ -1091,13 +1091,13 @@
 		}	
 
 	function listArea($ctahun)
-		{
+		{ 
 			//$this->session->userdata('admin_role')=='Direktur Utama'
 
 			$carea=$this->session->userdata('kd_area');
 			$crole=$this->session->userdata('admin_role');
 			
-			if($crole =='Super Admin' | $crole =='Direktur Utama' | $crole =='Admin'){
+			if($crole =='Super Admin' | $crole =='Direktur Utama' | $crole =='Admin' | $crole =='Divisi Finance' | $crole =='Divisi Administrasi Proyek'){
 				$cwhere = ''; 
 				
 			}else{
