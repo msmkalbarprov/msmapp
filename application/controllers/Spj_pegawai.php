@@ -6,7 +6,7 @@ class Spj_pegawai extends MY_Controller {
 
 		parent::__construct();
 		auth_check(); // check login auth
-		$this->rbac->check_module_access();
+		//$this->rbac->check_module_access();
 
 		$this->load->model('user/Spj_pegawai_model', 'spjpegawai_model');
 		$this->load->model('user/pq_model', 'pq_model');
@@ -19,6 +19,8 @@ class Spj_pegawai extends MY_Controller {
 	}
 
 	//-----------------------------------------------------------
+
+ 
 	public function index(){
 		$data['title'] = 'SPJ';
 		$this->load->view('admin/includes/_header', $data);
@@ -348,7 +350,8 @@ public function simpan_spj_file2(){
 			$data['jns_spj']			= $this->input->post('jns_spj', TRUE);
 			// $data['nilai']				= $this->input->post('nilai', TRUE);
 			$data['nilai']				= $this->spjpegawai_model->number($this->input->post('total', TRUE));
-		
+			
+			
 		
 		if ( ! $this->upload->do_upload('file')){
 			$status = "success";
@@ -748,9 +751,9 @@ function get_area_by_user(){
 	
 	
 	public function get_rincian(){  
+			//$this->rbac->check_operation_access('');
 			$cnospj = $this->input->post('cnospj');			
-			$cid = $this->input->post('cid');
-			
+			$cid = $this->input->post('cid'); 
 			$data = $this->spjpegawai_model->viewEditRincianSPJ($cnospj,$cid);
 			echo $data;
 		}	
@@ -778,8 +781,7 @@ function get_area_by_user(){
 		echo $data;
 	}
 
-	
-	
+		
 	public function update_rincispj(){
 		$config['upload_path'] 		= './uploads/spj_karyawan/';
 		$config['allowed_types']   	= '*';
@@ -799,8 +801,7 @@ function get_area_by_user(){
 			$cjns_ta			= $this->input->post('jns_ta', TRUE);
 			$curaian			= $this->input->post('uraian', TRUE);
 			$cbuktiawal			= $this->input->post('buktiawal', TRUE);
-			$cnilai				= $this->spjpegawai_model->number($this->input->post('total', TRUE)); 
-			
+			$cnilai				= $this->spjpegawai_model->number2($this->input->post('total', TRUE));  
 			$whereUpdate = array(
 				'id' 				=> $cid,
 				'no_spj' 			=> $cnospj

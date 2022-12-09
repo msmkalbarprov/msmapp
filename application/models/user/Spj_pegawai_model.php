@@ -6,11 +6,18 @@
 		return $nilai;
 	}
 
+
 	public function number($nilai){
 		$nilai=str_replace('.','',$nilai);
 		$nilai=str_replace(',','.',$nilai);
 		return $nilai;
 	}
+
+	public function number2($nilai){
+		$nilai=str_replace(',','.',$nilai);
+		return $nilai;
+	}
+
 
 	function angka_format($nilai){
 
@@ -63,7 +70,7 @@ public function get_all_spj(){
             $this->db->group_by("no_spj,kd_pegawai");
             $this->db->order_by("kd_pegawai,no_spj");
        		return $this->db->get()->result_array();
-		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin'){
+		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Admin Area'){
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
 			$this->db->where("tunai",0);
@@ -99,7 +106,7 @@ public function get_all_spj(){
             $this->db->group_by("no_spj,kd_pegawai");
             $this->db->order_by("kd_pegawai,no_spj");
        		return $this->db->get()->result_array();
-		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin'){
+		}else if($this->session->userdata('admin_role')=='Direktur Area' || $this->session->userdata('admin_role')=='Kepala Kantor' || $this->session->userdata('admin_role')=='Admin'){ 
 			$this->db->select('*,sum(nilai) as total');
 			$this->db->from("ci_spj_pegawai");
 			$this->db->where('kd_area',$this->session->userdata('kd_area'));
@@ -1774,7 +1781,7 @@ public function viewEditRincianSPJ($cnospj,$cid)
 			}
 
 	
-		$cf ="return(currencyFormat(this,',','.',event))";
+		$cf ="return(currencyFormat(this,'.',',',event))";
 		$html = "";	
 		$html.=' 
 		

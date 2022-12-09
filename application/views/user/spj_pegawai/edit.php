@@ -769,10 +769,10 @@ function load_rincian_temp(nospj) {
 
 
 
- $(document).on("click", ".showEdit-rincianSPJ", function() {	 //cekdn
+ $(document).on("click", ".showEdit-rincianSPJ", function() {	 
 
 		var cnospj 			= $(this).attr("data-nospj");
-        var cid 			= $(this).attr("data-id");
+        var cid 			= $(this).attr("data-id"); 
 
 		$('#ModalEditRincianSPJ').modal('show');	
 			$.ajax({ 
@@ -784,13 +784,9 @@ function load_rincian_temp(nospj) {
 			
 			
             success: function(data) {
-				//alert(data);
+
 				$("#data-edit-rincian").html(data);
 				
-					
-					
-					
-					
 					
 					/* $('#data-edit-penilaian').html(data);
 					document.getElementById("euraian_penilaian").disabled = false;
