@@ -717,15 +717,26 @@ $('#butsave').on('click', function() {
     var jenis_tkl     = $('#jns_tkls').val();
     var sisa          = number($('#sisa').val());
     var sisa_spj      = number($('#sisa_spj').val());
-    if(total>sisa){
-      alert('Gagal! Nilai Melebihi sisa HPP');
-      return;
+
+    if ($('#c_transfer').prop('checked') == true){
+      if(total>sisa){
+        alert('Gagal! Nilai Melebihi sisa HPP');
+        return;
+      }
+    }else{
+      
+      if(total>sisa){
+        alert('Gagal! Nilai Melebihi sisa HPP');
+        return;
+      }
+
+      if(total>sisa_spj){
+        alert('Gagal! Nilai Melebihi sisa HPP');
+        return;
+      }
     }
 
-    if(total>sisa_spj){
-      alert('Gagal! Nilai Melebihi sisa HPP');
-      return;
-    }
+    
     
     if(divisi==""){
       alert('Divisi tidak boleh kosong')
