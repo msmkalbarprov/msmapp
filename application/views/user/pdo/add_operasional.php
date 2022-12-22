@@ -549,15 +549,26 @@ $('#butsave').on('click', function() {
     var no_rekening   = $('#no_rekening').val();
     
     
-    if(total>sisa){
-      alert('Gagal! Nilai Melebihi sisa PQ-PDO');
-      return;
+    if ($('#c_transfer').prop('checked') == true){
+      if(total>sisa){
+        alert('Gagal! Nilai Melebihi sisa PQ-PDO');
+        return;
+      }
+    }else{
+      
+      if(total>sisa){
+        alert('Gagal! Nilai Melebihi sisa PQ-PDO');
+        return;
+      }
+      
+      if(total>sisa_spj){
+        alert('Gagal! Nilai Melebihi sisa PQ-SPJ');
+        return;
+      }
     }
+    
 
-    if(total>sisa_spj){
-      alert('Gagal! Nilai Melebihi sisa PQ-SPJ');
-      return;
-    }
+    
 
 
     if(tgl_pdo==""){
