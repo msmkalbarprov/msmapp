@@ -104,6 +104,7 @@ $('#butcetak').on('click', function() {
 $('#butexport').on('click', function() {
     var area = document.getElementById("area").value;
     var tahun = document.getElementById("thn_ang").value;
+	var bulan = document.getElementById("bulan").value;
     if(tahun==''){
       alert('Silahkan pilih tahun anggaran')
       return

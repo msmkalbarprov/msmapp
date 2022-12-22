@@ -126,6 +126,14 @@ function terbilang($nilai) {
 				header("Content-Disposition: attachment; filename= register_pdp_$id.xls");
 				$html;
                	break;
+				
+				
+				/*  $data['title']= 'Rincian/Realisasi/PDO/PerAkun';
+				 $data['filename']= 'Rincian-Realisasi-PDO-PerAkun';
+				 $data['html']= $this->load->view('user/pencairan/'.$filename, $data); //$this->laporan_pdo($ctahun,$carea,$cacc,$ctipe);
+				 $this->load->view('cetakan/cetakan',$data); */
+						
+				
              case 2;
 				$this->load->view('user/pencairan/'.$filename, $data);
                	break;

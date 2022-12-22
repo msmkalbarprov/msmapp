@@ -19,6 +19,7 @@
 <thead>
   <tr style="background: #CACACA;">
         <th align="center" rowspan="2"><b>Area</th>
+        <th align="center" rowspan="2"><b>Kopek</th>
         <th align="center" rowspan="2"><b>No. PDP</th>
         <th align="center" rowspan="2"><b>Tgl. PDP</b> </th>
         <th align="center" rowspan="2"><b>Keterangan</b></th>
@@ -52,6 +53,7 @@
           <?php $netto = $register_pdp['nilai']-($register_pdp['ppn']+$register_pdp['pph21']+$register_pdp['pph22']+$register_pdp['pph23']+$register_pdp['infaq']+$register_pdp['adm']); ?>      
           <tr>
             <td><?= $register_pdp['nm_area']; ?></td>
+            <td><?= $register_pdp['kd_proyek']; ?></td>
             <td><?= $register_pdp['nomor']; ?></td>
             <td><?= $register_pdp['tgl_cair']; ?></td>
             <td><?= $register_pdp['keterangan'].'<br>'.$register_pdp['nm_paket_proyek']; ?></td>
@@ -81,7 +83,7 @@
 <?php endforeach; ?>
 
       <tr>
-        <td colspan="4" align="center">
+        <td colspan="5" align="center">
           Total Biaya
         </td>
         <td align="right" style="background: #CACACA;"><?= number_format($total_bruto,2,',','.'); ?></td>
