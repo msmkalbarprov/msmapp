@@ -100,6 +100,31 @@ class Area_model extends CI_Model{
 	}
 	
 
+	function get_area_pdp2()
+	{	
+		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'  || $this->session->userdata('admin_role')=='Marketing'){
+			
+			$query="SELECT*FROM(
+					SELECT kd_area,nm_area FROM ci_area WHERE kdgroup='1' 
+					UNION 
+					SELECT '0','SEMUA AREA' FROM ci_area 
+					)z ORDER BY kd_area";
+			$query = $this->db->query($query);
+			return $query->result_array();		 
+			
+		}else{
+			$userarea = $this->session->userdata('kd_area');
+			$this->db->from('ci_area');
+			$this->db->where('kd_area',$userarea);	
+			$this->db->where('id <>','0');
+			$this->db->where('kdgroup','1');
+			$query=$this->db->get();
+			return $query->result_array();			
+		}
+		
+	}
+
+
 	function get_area2()
 	{	
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Admin'){

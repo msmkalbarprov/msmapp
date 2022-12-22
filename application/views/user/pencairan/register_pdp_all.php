@@ -21,8 +21,8 @@
         <th align="center" rowspan="2"><b>Area</th>
         <th align="center" rowspan="2"><b>Kopek</th>
         <th align="center" rowspan="2"><b>No. PDP</th>
-        <th align="center" rowspan="2"><b>Tgl. PDP</b> </th>
-        <th align="center" rowspan="2"><b>Keterangan</b></th>
+        <th width="5%" align="center" rowspan="2"><b>Tgl. PDP</b> </th>
+        <th width="20%" align="center" rowspan="2"><b>Keterangan</b></th>
         <th align="center" rowspan="2"><b>Nilai</b></th>
         <th align="center" colspan="6"><b>Pajak/Potongan</b></th>
         <th align="center" rowspan="2"><b>Netto</b></th>

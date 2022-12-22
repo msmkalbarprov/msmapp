@@ -474,7 +474,7 @@ public function pq_proyek($idproyek){
 
 public function get_register_pdp($id,$tahun,$bulan){
 			
-			if ($id=='allarea'){
+			if ($id=='0'){
 				$this->db->select("*");
 			$this->db->from("cetak_register_pdp");
 			}else{

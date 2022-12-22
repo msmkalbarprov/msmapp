@@ -17,7 +17,7 @@ class Laporan_pdp extends MY_Controller {
 	//-----------------------------------------------------------
 
 	public function index(){
-		$data['data_area'] 	= $this->area->get_area_pdp();
+		$data['data_area'] 	= $this->area->get_area_pdp2();
 		$data2['title'] 		= 'Register PDP';
 		$this->load->view('admin/includes/_header', $data2);
 		$this->load->view('user/laporan/register_pdp', $data);

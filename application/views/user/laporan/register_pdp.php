@@ -27,7 +27,8 @@
                   <?php if($area['kd_area'] == $this->session->userdata('kd_area')): ?>
                     <option value="<?= $area['kd_area']; ?>" selected><?= $area['nm_area']; ?></option>
                     <?php else: ?>
-                      <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
+					  
+					  <option value="<?= $area['kd_area']; ?>"><?= $area['nm_area']; ?></option>
                     <?php endif; ?>
                   <?php endforeach; ?>
                 </select>
