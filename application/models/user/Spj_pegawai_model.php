@@ -411,7 +411,6 @@ function get_item_by_pdo($pq,$jenis_pdo)
 			  
 			}else{
 			  $kodeakun = substr($no_acc,0,5);
-
 			  $this->db->select("sum(total) as nilai");
 			  $this->db->from('ci_pq_operasional');
 			  $this->db->where('left(kd_pq_operasional,10)', $id);	
@@ -1077,14 +1076,14 @@ public function get_pdo_detail($id){
             if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
                 $this->db->from('v_get_proyek_pq');
                 $this->db->where('jns_pagu >','1');
-                $this->db->where('thn_anggaran >=',date("Y"));	
+            //    $this->db->where('thn_anggaran >=',date("Y"));	
                 $this->db->where('kd_area =',$area);	
                 $this->db->where('kd_sub_area =',$subarea);
                 $this->db->where_in('kd_proyek', $kd_proyek);
             }else{
                 $this->db->from('v_get_proyek_pq');
                 $this->db->where('jns_pagu >','1');	
-                $this->db->where('thn_anggaran >=',date("Y"));	
+            //    $this->db->where('thn_anggaran >=',date("Y"));	
                 $this->db->where('kd_area =',$area);	
                 $this->db->where('kd_sub_area =',$subarea);
                 $this->db->where_in('kd_proyek', $kd_proyek);
