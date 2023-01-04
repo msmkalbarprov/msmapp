@@ -1823,7 +1823,7 @@ public function viewEditRincianSPJ($cnospj,$cid)
 						<div class="form-group">
 							<label class="control-label">Proyek</label><br>
 						   <input type="hidden" name="'.$ctkname.'" value="'.$chsname.'">
-							<input type="hidden" name="eproyek" id="eproyek" class="form-control " readonly>
+							<input type="hidden" name="eproyek" id="eproyek" value="'.$ckd_proyek.'" class="form-control " readonly>
 							  <select name="eprojek"  id="eprojek" class="form-control get-eakun" data-acc="'.$cno_acc.'"  style="width:100%">
 								
 							  </select> 
@@ -1922,7 +1922,7 @@ public function viewEditRincianSPJ($cnospj,$cid)
 	function get_projek($subarea,$area,$jns_spj)
 		{	
 
-				$ctahun = date("Y");
+			$ctahun = '2022';
 		
 			if ($jns_spj=='1'){
 				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
