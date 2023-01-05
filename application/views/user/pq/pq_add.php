@@ -152,8 +152,8 @@
                     <input type="radio" name="jenispph" id="jenispph1" class="radio" value="1"> 5%&nbsp;&nbsp;
                     <input type="radio" name="jenispph" id="jenispph2" class="radio" value="2"> 7,5%&nbsp;&nbsp;
                     <input type="radio" name="jenispph" id="jenispph3" class="radio" value="3"> 15% &nbsp;&nbsp;
-                    <input type="radio" name="jenispph" id="jenispph4" class="radio" value="4"> 50% * 5%
-
+                    <input type="radio" name="jenispph" id="jenispph4" class="radio" value="4"> 50% * 5%&nbsp;&nbsp;
+                    <input type="radio" name="jenispph" id="jenispph5" class="radio" value="5"> lainnya
                     <input id='s_pph' name="s_pph"  type='hidden' />
                   </td>
                </tr>
@@ -162,7 +162,7 @@
                  <td width="2%">:</td>
                  <td width="68%" align="right" style="border-bottom: grey solid 1px;">
                     <input type="hidden" name="jnspph" id="jnspph">
-                    <input type="text" name="nilaipph" style="background:none;border: none;text-align:right;" id="nilaipph" class="form-control" readonly>
+                    <input type="text" name="nilaipph" style="background:none;border: none;text-align:right;" id="nilaipph"  onkeypress="return(currencyFormat(this,'.',',',event))"class="form-control" readonly> 
                   </td>
                </tr>
                 <tr>
@@ -179,13 +179,13 @@
                <tr>
                  <td width="30%">PPN titipan</td>
                  <td width="2%">:</td>
-                 <td width="68%" align="right"><input type="text" name="nilaippntitipan" style="background:none;border: none;text-align:right;" id="nilaippntitipan" class="form-control" readonly></td>
+                 <td width="68%" align="right"><input type="text" name="nilaippntitipan" style="background:none;border: none;text-align:right;" id="nilaippntitipan"  class="form-control" readonly></td>
                </tr>
                <tr>
                  <td width="30%">PPH titipan</td>
                  <td width="2%">:</td>
                  <td width="68%" align="right" style="border-bottom: grey solid 1px;">
-                  <input type="text" name="nilaipphtitipan" style="background:none;border: none;text-align:right;" id="nilaipphtitipan" class="form-control" readonly>
+                  <input type="text" name="nilaipphtitipan" style="background:none;border: none;text-align:right;" id="nilaipphtitipan" onkeypress="return(currencyFormat(this,'.',',',event))" class="form-control" readonly>
                 </td>
                </tr>
                <tr>
@@ -304,6 +304,9 @@ document.getElementById("titipan").onkeyup = function() {hitungtitipan()};
 document.getElementById("plpersen").onkeyup = function() {hitungtitipan()};
 document.getElementById("pl_bulat").onkeyup = function() {hitungtitipan()};
 
+document.getElementById("nilaipph").onkeyup = function() {hitungmanual()};
+document.getElementById("nilaipphtitipan").onkeyup = function() {hitungmanual()};
+
 function hitungtotalrow() {
   var harga     = number(document.getElementById("harga").value);
   var volume    = number(document.getElementById("volume").value);
@@ -318,6 +321,7 @@ function hitungtitipan() {
   var titipan     = number(document.getElementById("titipan").value);
   var pilihpph    = number(document.getElementById("jnspph").value);
   var spk         = number(document.getElementById("nilaispk").value);
+ 
   
   if (pilihpph==21){
     var jenispph =  $('.radio:checked').val();
@@ -360,27 +364,42 @@ function hitungtitipan() {
     var nilai_pph = (2/100)*((100/111)*spk);
   }else if (pilihpph==21){
       if(jenispph==1){
+		document.getElementById("nilaipph").readOnly = true; 
+		document.getElementById("nilaipphtitipan").readOnly = true; 	
         var nilai_pphtitipan  = ((5/100)*titipan);
         var nilai_pph         = ((5/100)*spk);
         $('[name="s_pph"]').val('1').trigger('change');
       }else if(jenispph==2){
+		document.getElementById("nilaipph").readOnly = true;
+		document.getElementById("nilaipphtitipan").readOnly = true; 	
         var nilai_pphtitipan  =((7.5/100)*titipan);
         var nilai_pph         =((7.5/100)*spk);
         $('[name="s_pph"]').val('2').trigger('change');
       }else if(jenispph==3){
+		document.getElementById("nilaipph").readOnly = true; 
+		document.getElementById("nilaipphtitipan").readOnly = true; 		
         var nilai_pphtitipan  = ((15/100)*titipan);
         var nilai_pph         = ((15/100)*spk);
         $('[name="s_pph"]').val('3').trigger('change');
-      }else{
+      }else if(jenispph==4){
+		document.getElementById("nilaipph").readOnly = true;  
+		document.getElementById("nilaipphtitipan").readOnly = true; 		
         var nilai_pphtitipan  = (50/100)*((5/100)*titipan);
         var nilai_pph         = (50/100)*((5/100)*spk);
         $('[name="s_pph"]').val('4').trigger('change');
-      }
+      }else{
+		  
+		 document.getElementById("nilaipph").readOnly = false; 
+		 document.getElementById("nilaipphtitipan").readOnly = false; 
+		 $('#nilaipph').val(0);	
+		
+		 
+	 }
     
     nilai_ppntitipan=0;
   }
   var titipan_net = titipan-nilai_ppntitipan-nilai_pphtitipan;
-  var pend_nett = spk-nilai_pph-ppn;
+  var pend_nett = nilai_pph;//spk-nilai_pph-ppn;
 
   $('[name="nilaipph"]').val(number_format(nilai_pph,"2",",",".")).trigger('change');
   $('[name="nilaipend_nett"]').val(number_format(pend_nett,"2",",",".")).trigger('change');
@@ -446,6 +465,9 @@ $('[name="nilai_pend_net_s_titipan"]').val(number_format(pendapatan_nett,"2",","
 
 
 }
+
+
+
 
 
 $('#area').change(function(){ 
@@ -605,6 +627,177 @@ $('#subarea_1').change(function(){
                 });
                 return false;
             };
+			
+			
+	function hitungmanual(){
+		var jenispph =  $('.radio:checked').val();
+		
+		if(jenispph==5){
+			
+			// hitungtitipan()
+
+		var titipan     = number(document.getElementById("titipan").value);
+		var pilihpph    = number(document.getElementById("jnspph").value);
+		var spk         = number(document.getElementById("nilaispk").value);
+
+
+		if (pilihpph==21){
+		var jenispph =  $('.radio:checked').val();
+		}
+
+  
+  
+  // hitung ppn lagi
+  if ($('#c_ppn').prop('checked') == true && pilihpph!=21){
+    var ppn = (10/100)*((100/111)*spk);
+    var ppntitipan = (10/100)*((100/111)*titipan);
+    $('[name="s_ppn"]').val('1').trigger('change');
+    $('[name="nilaippn"]').val(number_format(ppn,"2",",",".")).trigger('change');
+  }else if ( ($('#c_ppn').prop('checked') == true && pilihpph==21) ){
+    var ppn = 0;
+    $('[name="s_ppn"]').val('1').trigger('change');
+    $('[name="nilaippn"]').val(number_format(0,"2",",",".")).trigger('change');
+  }else if ($('#c_ppn').prop('checked') == false && pilihpph==21){
+    var ppn = 0;
+    $('[name="s_ppn"]').val('0').trigger('change');
+    $('[name="nilaippn"]').val(number_format(0,"2",",",".")).trigger('change');
+  }else{
+    var ppn = (11/100)*((100/111)*spk);
+    var ppntitipan = (11/100)*((100/111)*titipan);
+    $('[name="s_ppn"]').val('0').trigger('change');
+    $('[name="nilaippn"]').val(number_format(ppn,"2",",",".")).trigger('change');
+  }
+
+
+
+  
+  // hitung pph berdasarkan pajak di apbd
+  if (pilihpph==22){
+    var nilai_pphtitipan = (1.5/100)*((100/111)*titipan);
+    var nilai_ppntitipan=ppntitipan;
+    var nilai_pph = (1.5/100)*((100/111)*spk);
+  }else if (pilihpph==23){
+    var nilai_pphtitipan = (2/100)*((100/111)*titipan);
+    var nilai_ppntitipan=ppntitipan;
+    var nilai_pph = (2/100)*((100/111)*spk);
+  }else if (pilihpph==21){
+     /*  if(jenispph==1){
+		document.getElementById("nilaipph").readOnly = true;   
+        var nilai_pphtitipan  = ((5/100)*titipan);
+        var nilai_pph         = ((5/100)*spk);
+        $('[name="s_pph"]').val('1').trigger('change');
+      }else if(jenispph==2){
+		document.getElementById("nilaipph").readOnly = true;   
+        var nilai_pphtitipan  =((7.5/100)*titipan);
+        var nilai_pph         =((7.5/100)*spk);
+        $('[name="s_pph"]').val('2').trigger('change');
+      }else if(jenispph==3){
+		document.getElementById("nilaipph").readOnly = true;   
+        var nilai_pphtitipan  = ((15/100)*titipan);
+        var nilai_pph         = ((15/100)*spk);
+        $('[name="s_pph"]').val('3').trigger('change');
+      }else if(jenispph==4){
+		document.getElementById("nilaipph").readOnly = true;   
+        var nilai_pphtitipan  = (50/100)*((5/100)*titipan);
+        var nilai_pph         = (50/100)*((5/100)*spk);
+        $('[name="s_pph"]').val('4').trigger('change');
+      }else{ */
+		document.getElementById("nilaipph").readOnly = false;
+			 
+		var nilai_pphtitipan  = number(document.getElementById("nilaipphtitipan").value);//(50/100)*((5/100)*titipan);
+        var nilai_pph         =  number(document.getElementById("nilaipph").value);
+        $('[name="s_pph"]').val('5').trigger('change');
+		 
+	//  }
+    
+    nilai_ppntitipan=0;
+  }
+  var titipan_net = titipan-nilai_ppntitipan-nilai_pphtitipan;
+  var pend_nett = spk-nilai_pph-ppn;
+
+ // $('[name="nilaipph"]').val(number_format(nilai_pph,"2",",",".")).trigger('change');
+  $('[name="nilaipend_nett"]').val(number_format(pend_nett,"2",",",".")).trigger('change');
+
+  if ($('#c_titip').prop('checked') == true){
+    var nilai_pend_net_s_titipan = pend_nett-titipan_net;
+    $('[name="s_titip"]').val('1').trigger('change');
+  }else{
+    var nilai_pend_net_s_titipan = pend_nett-titipan;
+    $('[name="s_titip"]').val('0').trigger('change');
+  }
+ 
+  
+
+  $('[name="nilaippntitipan"]').val(number_format(nilai_ppntitipan,"2",",",".")).trigger('change');
+ // $('[name="nilaipphtitipan"]').val(number_format(nilai_pphtitipan,"2",",",".")).trigger('change');
+  $('[name="titipan_net"]').val(number_format(titipan_net,"2",",",".")).trigger('change');
+  
+
+
+  // hitung  infaq
+if ($('#c_infaq').prop('checked') == true){
+    var nilai_infaq = pend_nett*1/100;
+    $('[name="s_infaq"]').val('1').trigger('change');
+  }else{
+    var nilai_infaq = 0;
+    $('[name="s_infaq"]').val('0').trigger('change');
+  }
+
+$('[name="infaq"]').val(number_format(nilai_infaq,"2",",",".")).trigger('change');
+
+let pendapatan_nett = nilai_pend_net_s_titipan-nilai_infaq;
+$('[name="nilai_pend_net_s_titipan"]').val(number_format(pendapatan_nett,"2",",",".")).trigger('change');
+
+// hitung PL
+  var plpersen = number(document.getElementById("plpersen").value);
+
+  if (plpersen!=0 || plpersen!=0.00){
+    var al_pl = pendapatan_nett*plpersen/100;//20%  
+    $('[name="pl"]').val(number_format(al_pl,"2",",",".")).trigger('change');
+  }else{
+    var al_pl = number(document.getElementById("pl").value);
+    var persenpl = al_pl/pendapatan_nett*100;
+    $('[name="plpersen"]').val(number_format(persenpl,"2",",",".")).trigger('change');
+  }
+  
+  var pl2 = number(document.getElementById("pl_bulat").value);
+  if (pl2==0 || pl2==0.00){
+    al_pl_final=al_pl;
+  }else{
+    al_pl_final=pl2;
+  }
+  
+  
+// hitung HO
+  var al_HO = pendapatan_nett*0.15;//20%
+
+  $('[name="al_ho"]').val(number_format(al_HO,"2",",",".")).trigger('change');
+
+// Sub Total A
+  var nilai_pend_net_s_pl=pendapatan_nett-al_pl_final;
+  $('[name="nilai_pend_net_s_pl"]').val(number_format(nilai_pend_net_s_pl,"2",",",".")).trigger('change');
+
+
+			
+		
+			
+		}
+	 
+	  
+	 
+	  
+	  
+	//$('#no_lhp_e').val(out.no_lhp);
+		
+	 /* var harga     = number(document.getElementById("harga").value);
+	  var volume    = number(document.getElementById("volume").value);
+	  var periode   = number(document.getElementById("periode").value);
+	  let totalrow = 0;
+
+	  totalrow = harga*volume*periode;
+	  $('[name="total"]').val(number_format(totalrow,"2",",",".")).trigger('change'); */
+	};			
+			
 
   }); 
 </script>

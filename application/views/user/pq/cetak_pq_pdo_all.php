@@ -139,7 +139,7 @@
  
 
     <td align="right"><?= number_format($titip_pl['nilai'],2,',','.'); ?></td>
-    <td align="right"><?= number_format($titip_pl['nilai'],2,',','.'); ?></td>
+    <td align="right"><?= number_format($titip_pl['nilai_spj'],2,',','.'); ?></td>
   </tr>
   <?php $sub_total_a=$pqproyek['sub_total_a']; ?>
 

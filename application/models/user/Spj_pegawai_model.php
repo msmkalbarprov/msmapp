@@ -1212,6 +1212,21 @@ function get_pegawai_by_area_cetak()
 		return $query;
 	}
 
+
+	function get_subarea2($area)
+	{
+		$query1 = "select*From ci_subarea where kd_area='".$area."'";
+		$result = $this->db->query($query1)->result_array();
+
+				$html = '';
+				$html .='<option value=""></option>';
+				foreach($result as $row){
+					$html .='<option value="'.$row['kd_subarea'].'">'.$row['kd_subarea'].' - '.$row['nm_subarea'].'</option>';
+				}
+			
+			return $html;
+	}
+
 		//---------------------------------------------------
 		// Get user detial by ID
 	public function get_pq_by_id($id){

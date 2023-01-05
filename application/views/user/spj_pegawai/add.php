@@ -220,9 +220,9 @@
            <div class="form-group">
                 <label for="dinas" class="control-label">Saldo Kas</label>
                 <input type="text" name="kas" id="kas" class="form-control"  style="background:none;text-align:right;"readonly >
-                <input type="hidden" name="n_pq" id="n_pq" class="form-control"  style="background:none;text-align:right;"readonly >
-                <input type="hidden" name="r_pq" id="r_pq" class="form-control"  style="background:none;text-align:right;"readonly >
-                <input type="hidden" name="s_pq" id="s_pq" class="form-control"  style="background:none;text-align:right;"readonly >
+                <input type="text" name="n_pq" id="n_pq" class="form-control"  style="background:none;text-align:right;"readonly >
+                <input type="text" name="r_pq" id="r_pq" class="form-control"  style="background:none;text-align:right;"readonly >
+                <input type="text" name="s_pq" id="s_pq" class="form-control"  style="background:none;text-align:right;"readonly >
             </div>
           </div>
           <div class="col-md-6">

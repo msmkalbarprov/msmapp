@@ -359,7 +359,7 @@ public function get_pencairan_by_idtahun($id,$tahun){
 
 	public function get_titip_pl_by_idtahun($id, $tahun){
 				 $this->db->select("ci_coa.no_acc,ci_coa.nm_acc,
-				 		(select ifnull(sum(nilai),0) from ci_pdo where ci_coa.no_acc=ci_pdo.no_acc and kd_area = '$id' and left(kd_project,4)='$tahun' ) as nilai,
+				 		(select ifnull(sum(nilai),0) from ci_pdo where ci_coa.no_acc=ci_pdo.no_acc and kd_area = '$id' and left(kd_project,4)='$tahun' AND status_bayar=1) as nilai,
 					 	(select ifnull(sum(nilai),0) from ci_spj_pegawai where ci_coa.no_acc=ci_spj_pegawai.no_acc and kd_area = '$id' and year(tgl_bukti)='$tahun' )+
 						 (select ifnull(sum(nilai),0) from ci_spj_kantor where ci_coa.no_acc=ci_spj_kantor.no_acc and kd_area = '$id' and year(tgl_bukti)='$tahun' )+
 						 (select ifnull(sum(nilai),0) from ci_spj where ci_coa.no_acc=ci_spj.no_acc and kd_area = '$id' and year(tgl_spj)='$tahun' ) as nilai_spj");

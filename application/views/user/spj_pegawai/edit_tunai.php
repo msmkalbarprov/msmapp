@@ -63,8 +63,15 @@
          <div class="row">
          <div class="col-md-4">
             <div class="form-group">
-              <label for="subarea1" class="control-label">Sub Area</label>
-              <input type="text" name="subarea" id="subarea" class="form-control" value="<?= $data_spj["nm_sub_area"]; ?>">
+            <!--  <input type="text" name="subarea" id="subarea" class="form-control" value="<?= $data_spj["nm_sub_area"]; ?>">
+			  -->
+			   <div class="form-group">
+				<label for="subarea1" class="control-label">Sub Area</label>
+					<select name="cbsubarea"  id="cbsubarea" class="form-control">
+					</select>                
+
+              </div>
+			  
                 <input type="hidden" name="kd_sub_area" id="kd_sub_area" class="form-control" value="<?= $data_spj["kd_sub_area"]; ?>">
 
             </div>
@@ -293,6 +300,64 @@
 
 
 
+	var area     	= $('#kd_area').val();
+	var kdsubarea = $('#kd_sub_area').val();
+/* 	$.ajax({
+		url : "<?php echo site_url('spj_tunai/get_area');?>",
+		method : "POST",
+		data : {
+			'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+			id: area},
+		async : true,
+		dataType : 'json',
+		success: function(data){
+			$('select[name="subarea"]').empty();
+			$(subarea).append('<option value="">No Selected</option>');
+			$.each(data, function(key, value) {
+				$('select[name="subarea"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+			});
+
+		}
+	}); */
+	
+	
+	$.ajax({
+			url: '<?php echo site_url('spj_tunai/get_subarea'); ?>',
+			data : {'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+					id: area},		
+			  type: 'POST',
+				success: function(data){
+					$('#cbsubarea').html(data);
+					$("#cbsubarea").val(kdsubarea);
+         			$('#cbsubarea').select2().trigger('change'); 
+					
+				}
+			})
+			
+			
+			
+			
+			
+
+		/* $("#subarea").select2({
+			  placeholder: "Pilih cbsubarea"
+			}); */	
+
+
+/* 
+			type: 'POST',
+				success: function(data){
+					$('#eprojek').html(data);
+				      
+					$("#eprojek").val(ekdprojek); kd_proyek
+					$('#eprojek').select2().trigger('change');	
+
+					$("#egambar").val(ebukti); 					
+					
+					
+				} */
+
+
 
 
   function get_akun(jns_spj,kd_proyek){
@@ -315,6 +380,8 @@
         }
     });
     return false;
+     
+	
 }
 
 $('#no_acc').change(function(){ 

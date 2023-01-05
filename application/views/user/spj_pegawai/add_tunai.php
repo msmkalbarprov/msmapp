@@ -509,6 +509,8 @@ function get_realisasi(kd_item,projek,jns_spj,nilai){
             $.each(data, function(key, value) {
                 $('[name="r_pq"]').val(number_format(value.total,"2",",",".")).trigger('change');
                 $('[name="s_pq"]').val(number_format(nilai - value.total,"2",",",".")).trigger('change');
+				
+				//$('[name="s_pq"]').val(number_format(value.total,"2",",",".")).trigger('change');
 
             });
 
@@ -530,7 +532,7 @@ function get_kas(kd_pegawai){
         success: function(data){
             $.each(data, function(key, value) {
                 $('[name="kas"]').val(number_format(value.total,"2",",",".")).trigger('change');
-
+			 
             });
 
         }
@@ -586,6 +588,7 @@ $('#formtest').submit(function(e){
             var kas1                 = number($('#kas').val());
             var sisa1                = number($('#s_pq').val());
             
+			
 
               if(nilai1>sisa1){
                 alert('Gagal, Nilai SPJ melebihi sisa nilai PQ')

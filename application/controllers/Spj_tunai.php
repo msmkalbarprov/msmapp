@@ -139,7 +139,12 @@ public function add(){
 		echo json_encode($data);
 	}
 
-	
+
+	function get_subarea(){
+		$area = $this->input->post('id',TRUE); 
+		$data = $this->spjpegawai_model->get_subarea2($area);
+		echo($data);
+	}	
 
 	function get_kas(){
 		$id 		= $this->input->post('id',TRUE);

@@ -143,10 +143,11 @@
                  <td width="30%">Jenis PPH 21</td>
                  <td width="2%">:</td>
                  <td width="68%" align="center" >
-                    <input type="radio" name="jenispph" id="jenispph1" class="radio" value="1"> 5%&nbsp;&nbsp;
-                    <input type="radio" name="jenispph" id="jenispph2" class="radio" value="2"> 7,5%&nbsp;&nbsp;
-                    <input type="radio" name="jenispph" id="jenispph3" class="radio" value="3"> 15% &nbsp;&nbsp;
+                    <input type="radio" name="jenispph" id="jenispph1" class="radio" value="1"> 5%&nbsp;
+                    <input type="radio" name="jenispph" id="jenispph2" class="radio" value="2"> 7,5%&nbsp;
+                    <input type="radio" name="jenispph" id="jenispph3" class="radio" value="3"> 15% &nbsp;
                     <input type="radio" name="jenispph" id="jenispph4" class="radio" value="4"> 50% * 5%
+					<input type="radio" name="jenispph" id="jenispph5" class="radio" value="5"> lainnya
 
                     <input id='s_pph' name="s_pph"  type='hidden' />
                   </td>
@@ -156,7 +157,7 @@
                  <td width="5%">:</td>
                  <td width="45%" align="right" style="border-bottom: grey solid 1px;">
                     <input type="hidden" name="jnspph" id="jnspph">
-                    <input type="text" name="nilaipph" style="background:none;border: none;text-align:right;" id="nilaipph" class="form-control" readonly>
+                    <input type="text" name="nilaipph" style="background:none;border: none;text-align:right;" id="nilaipph" class="form-control">
                   </td>
                </tr>
                 <tr>
@@ -363,20 +364,30 @@ if (pilihpph==21){
     var nilai_pph         = (2/100)*((100/$pembagi)*spk);
   }else if (pilihpph==21){
     if(jenispph==1){
+		
+		document.getElementById("nilaipph").readOnly = true; 
         var nilai_pphtitipan  = ((5/100)*titipan);
         var nilai_pph         = ((5/100)*spk);
         $('[name="s_pph"]').val('1').trigger('change');
       }else if(jenispph==2){
+		document.getElementById("nilaipph").readOnly = true;  
         var nilai_pphtitipan  =((7.5/100)*titipan);
         var nilai_pph         =((7.5/100)*spk);
         $('[name="s_pph"]').val('2').trigger('change');
       }else if(jenispph==3){
+		document.getElementById("nilaipph").readOnly = true;  
         var nilai_pphtitipan  = ((15/100)*titipan);
         var nilai_pph         = ((15/100)*spk);
         $('[name="s_pph"]').val('3').trigger('change');
-      }else{
+      }else if(jenispph==4){
+		document.getElementById("nilaipph").readOnly = true;  
         var nilai_pphtitipan  = (50/100)*((5/100)*titipan);
         var nilai_pph         = (50/100)*((5/100)*spk);
+        $('[name="s_pph"]').val('4').trigger('change');
+      }else{
+		document.getElementById("nilaipph").readOnly = false;  
+        var nilai_pphtitipan  = (50/100)*((5/100)*titipan);
+        var nilai_pph         = spk;
         $('[name="s_pph"]').val('4').trigger('change');
       }
     
