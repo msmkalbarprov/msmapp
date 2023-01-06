@@ -538,7 +538,7 @@ function get_ekas(kd_pegawai){
 
 $('#jns_spj').change(function(){ 
     var jns_spj     = $(this).val();
-    var subarea     = $('#kd_sub_area').val();
+    var subarea     = $('#cbsubarea').val();  //$('#kd_sub_area').val();
     var area        = $("#kd_area").val();
     $.ajax({
         url : "<?php echo site_url('spj_tunai/get_proyek_by_area_subarea');?>",
@@ -603,7 +603,8 @@ $('#formtest').submit(function(e){
             var nourut1              = $('#urut').val();
             var nilai1               = number($('#total').val());
             var area1                = $('#kd_area').val();
-            var subarea1             = $('#kd_sub_area').val();
+           // var subarea1             = $('#kd_sub_area').val();
+            var subarea1             = $('#cbsubarea').val();
             var uraian1              = $('#uraian').val();
             var pegawai1             = $('#kd_pegawai').val();
             var project1             = $('#projek').val();
