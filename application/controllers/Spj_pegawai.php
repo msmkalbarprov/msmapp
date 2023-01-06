@@ -137,7 +137,7 @@ public function add(){
 	
 	function get_area(){
 		$area = $this->input->post('id',TRUE);
-		$data = $this->proyek_model->get_subarea2($area)->result();
+		$data = $this->proyek_model->get_subarea($area)->result();
 		echo json_encode($data);
 	}
 
