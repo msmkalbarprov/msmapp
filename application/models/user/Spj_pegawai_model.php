@@ -1227,6 +1227,22 @@ function get_pegawai_by_area_cetak()
 			return $html;
 	}
 
+
+	function get_area2($area)
+	{
+		$query1 = "select*From ci_area WHERE kdgroup=1 order by kd_area";
+		$result = $this->db->query($query1)->result_array();
+
+				$html = '';
+				$html .='<option value=""></option>';
+				foreach($result as $row){
+					$html .='<option value="'.$row['kd_area'].'">'.$row['kd_area'].' - '.$row['nm_area'].'</option>';
+				}
+			
+			return $html;
+	}
+
+
 		//---------------------------------------------------
 		// Get user detial by ID
 	public function get_pq_by_id($id){

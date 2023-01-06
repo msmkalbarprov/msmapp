@@ -146,6 +146,13 @@ public function add(){
 		echo($data);
 	}	
 
+
+	function get_area2(){
+		$area = $this->input->post('id',TRUE); 
+		$data = $this->spjpegawai_model->get_area2($area);
+		echo($data);
+	}
+
 	function get_kas(){
 		$id 		= $this->input->post('id',TRUE);
     $data 		= $this->spjpegawai_model->get_kas_tunai($id)->result();
