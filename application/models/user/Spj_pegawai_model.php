@@ -1485,19 +1485,39 @@ public function get_pendapatanarea($id){
 					$this->db->where("kd_pegawai",$kd_pegawai);
 					$this->db->group_by("kd_pegawai");
 					$this->db->group_by("no_spj");
-       		return $result = $this->db->get()->row_array();
+       		
+			
+			return $result = $this->db->get()->row_array();
 		}
 
 	public function get_spj_header3_tunai($area,$kd_pegawai,$bulan,$tahun){
 
 
-		if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
+		/* if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
 			$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-') ) as terima, 
 					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
 		}else{
 			$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as terima, 
 					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
+		} */
+			
+			
+			if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
+				
+/* 				$xx="select kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-') ) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+					CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan')and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar";
+print_r($xx);die(); */
+				
+			$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-') ) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+					CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan')and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
+		}else{
+			$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+					CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
 		}
+			
 			
 					$this->db->from("ci_pegawai");
 					$this->db->where("kd_pegawai",$kd_pegawai);
@@ -1511,11 +1531,13 @@ public function get_pendapatanarea($id){
 
 			$jenis = array('BANK','-');
 			if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
-				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
-						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
+				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
+						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+						CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
 			}else{
-				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
-						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
+				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
+						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+						CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
 			}
 				
 						$this->db->from("ci_pegawai");
@@ -1531,9 +1553,11 @@ public function get_pendapatanarea($id){
 			// get nilai 
 			if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
 				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as terima, 
-					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+					CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
 			}else{
-				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as terima, 
+				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where 
+				CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as terima, 
 					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
 			}
 			
@@ -1547,10 +1571,12 @@ public function get_pendapatanarea($id){
 				// get nilai 
 				if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
 					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
-						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
+						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+						CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
 				}else{
 					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
-						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)='$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
+						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+						CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
 				}
 						$this->db->from("ci_pegawai");
 						$this->db->where("kd_pegawai",$kd_pegawai);
@@ -1561,11 +1587,13 @@ public function get_pendapatanarea($id){
 			public function get_spj_header5_tunai($area,$kd_pegawai,$bulan,$tahun){
 
 				if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
-					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as terima, 
-					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
+					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+					CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
 				}else{
-					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as terima, 
-					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
+					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+					CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('TUNAI','-')) as keluar");
 				}
 		
 				// get nilai 
@@ -1582,11 +1610,13 @@ public function get_pendapatanarea($id){
 			public function get_spj_header5_bank($area,$kd_pegawai,$bulan,$tahun){
 
 				if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
-					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
-					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
+					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+					CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
 				}else{
-					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
-					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where MONtH(tanggal)<'$bulan' and YEAR(tanggal)='$tahun' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
+					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where 
+					CONCAT(YEAR(tanggal),MONTH(tanggal))<('$tahun$bulan') and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
 				}
 		
 				// get nilai 
