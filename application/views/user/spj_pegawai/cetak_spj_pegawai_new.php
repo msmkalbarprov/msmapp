@@ -517,7 +517,7 @@ function format_indo($date){
 								<td width="1%" align='left' style="border-bottom:solid 1px black;"></td>
 								<td width="10%" align='right' style="border-bottom:solid 1px black;"></td>
 								<td width="8%" align='right' style="border-bottom:solid 1px black;"><b><?= angka($spj_header4_bank['terima']+$spj_header3_bank['terima']-$spj_header5_bank['keluar']-$spj_header2_bank['total']-$pengembalian_bank['keluar']-$pengeluaran_bank); ?></td>
-								<td width="15%" align='left'></td>
+								<td width="15%" align='left'></td><!-- $spj_header4_bank['terima']+$spj_header3_bank['terima']-$spj_header5_bank['keluar']-$spj_header2_bank['total']-$pengembalian_bank['keluar']-$pengeluaran_bank)-->
                             </tr>
                             <tr><td colspan='11'></td></tr>
                             <tr><td colspan='11'></td></tr>
