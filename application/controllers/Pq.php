@@ -390,7 +390,7 @@ public function datatable_json_hpp(){
 
 	public function edit_pq_operasional(){
 		
-		$this->rbac->check_operation_access('');
+	//	$this->rbac->check_operation_access('');
 
 		$data['data_jnspagu'] 			= $this->jnspagu->get_jnspagu();
 		$data['data_tipeproyek'] 		= $this->tipeproyek->get_tipeproyek();
