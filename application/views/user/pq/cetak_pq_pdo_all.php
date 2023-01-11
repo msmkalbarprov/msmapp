@@ -82,9 +82,9 @@
 
   <?php if($titip_pl['no_acc'] == '5020501'): ?>
       <?php 
-        $netto_pencairan  = $pencairan['netto']-$titip_pl['nilai']; 
+        $netto_pencairan  = $pencairan['netto'];//-$titip_pl['nilai']; 
         $nett             = $netto_pencairan;
-        $nett_spj             =$pencairan['netto']-$titip_pl['nilai_spj'];
+        $nett_spj         = $pencairan['netto']-$titip_pl['nilai_spj'];
       ?>
 
 <tr>
