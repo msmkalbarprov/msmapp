@@ -17,7 +17,19 @@
           <div class="form-group has-feedback">
             <input type="password" name="password" id="password" class="form-control" placeholder="<?= trans('password') ?>" >
           </div>
-          <div class="row">
+          
+	
+		<div class="form-group has-feedback col-6">
+              
+                <select name="thn_ang" id="thn_ang" class="form-control" required>
+                  <option value="" disabled selected >Tahun Anggaran</option>
+                  <option value="<?= date('Y')-1;?>"><?= date('Y')-1;?></option>
+                  <option value="<?= date('Y')?>"><?= date('Y')?></option>
+                  <option value="<?= date('Y')+1;?>"><?= date('Y')+1;?></option>
+                </select>
+            </div>
+		  
+		  <div class="row">
             <div class="col-8">
               <div class="checkbox icheck">
                 <label>
@@ -40,4 +52,26 @@
   </div>
   <!-- /.login-box -->
 </div>
-          
+   
+
+	
+	<script type="text/javascript">
+	
+	$(document).ready(function() {	
+		 $(function() {
+			  $("#tgl_pdo").datepicker({
+			  	minViewMode: 2,
+	         	format: 'yyyy',
+			    onSelect: function(dateText) {
+			   //   display("Selected date: " + dateText + ", Current Selected Value= " + this.value);
+			     // $(this).change();
+			    }
+			  }).on("change", function() { 
+			    
+			  });
+		});
+	});
+	
+
+	
+	</script>		  

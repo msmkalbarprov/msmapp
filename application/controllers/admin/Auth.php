@@ -42,6 +42,8 @@ class Auth extends MY_Controller {
 				);
 				$result = $this->auth_model->login($data);
 				if($result){
+					$tahun=$this->input->post('thn_ang');
+					
 					if($result['is_verify'] == 0){
 						$this->session->set_flashdata('error', 'Please verify your email address!');
 						redirect(base_url('admin/auth/login'));
@@ -63,7 +65,9 @@ class Auth extends MY_Controller {
 							'kd_area' 		=> $result['kd_area'],
 							'avatar' 		=> $result['avatar'],
 							'kd_pegawai'	=> $result['kd_pegawai'],
-							'is_admin_login'=> TRUE
+							'tahun'			=> $tahun,
+							'is_admin_login'=> TRUE,
+							
 						);
 						$this->session->set_userdata($admin_data);
 						$this->rbac->set_access_in_session(); // set access in session

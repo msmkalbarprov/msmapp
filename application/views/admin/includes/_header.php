@@ -51,6 +51,7 @@
   <?php if(!isset($navbar)): ?>
 
     <?php 
+		$ctahun=$this->session->userdata('tahun');
       if($this->session->userdata('is_supper')){
         $warna3 = 'bg-white';
       }else if ($this->session->userdata('admin_role')=='Direktur Utama'){
@@ -72,7 +73,7 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i><label id="lbtahun" style="margin-left:10px;font-size: 20px;"">Tahun Anggara <?php echo  $this->session->userdata('tahun') ?></label></a>
       </li>
 
     </ul>
@@ -91,6 +92,7 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+		
       <li class="nav-item">
         <a href="<?= base_url('admin/auth/logout') ?>" class="nav-link"><?= trans('logout') ?></a>
       </li>
