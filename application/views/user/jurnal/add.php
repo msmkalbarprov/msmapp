@@ -369,7 +369,7 @@ function get_akun(jns_spj,kd_proyek){
                 $("#butsave").removeAttr("disabled");
                 $('#fupForm').find('input:text').val('');
                 $("#success").show();
-                $('#success').html('Data added successfully !');
+                $('#success').html('Data added successfully !'); alert("Data added successfully !");
                 window.location.replace('<?php echo base_url();?>index.php/jurnal');
               }
               else if(dataResult.statusCode==201){

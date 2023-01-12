@@ -242,7 +242,7 @@ class Jurnal extends MY_Controller {
 	
 
 		$data= $this->input->post('datasimpan', TRUE);
-		$result 					= $this->jurnal_model->save_jurnal_umum($data);
+		$result = $this->jurnal_model->save_jurnal_umum($data);
 		if ($result){
 			$msg = "Data berhasil disimpan tanpa bukti";
 			$status	= 200;

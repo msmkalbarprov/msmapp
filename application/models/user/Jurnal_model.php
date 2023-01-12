@@ -27,7 +27,7 @@
 
         public function get_all(){
             $jns_jurnal= array('2','3');
-            if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
+            if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Divisi Finance' ){
                 $this->db->select("*,sum(kredit)as t_kredit,sum(debet)as t_debet,(select nm_area from ci_area where kd_area = ci_jurnal.kd_area)as nm_area");
                 $this->db->from("ci_jurnal");
                 $this->db->where_in("jns_jurnal",$jns_jurnal);
