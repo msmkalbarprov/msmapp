@@ -1481,10 +1481,10 @@ public function get_pendapatanarea($id){
 			$jenis = array('BANK','-');
 			if ($kd_pegawai=='PG24105' || $kd_pegawai== 'PG00120'){
 				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),LPAD(MONTH(tanggal),2,'0'))<'$tahun$bulan' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
-						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),LPAD(MONTH(tanggal),2,'0'))<('$tahun$bulan') and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
+						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),LPAD(MONTH(tanggal),2,'0'))<'$tahun$bulan' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
 			}else{
 				$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),LPAD(MONTH(tanggal),2,'0'))<'$tahun$bulan' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
-						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where CAST(CONCAT(YEAR(tanggal),MONTH(tanggal)) as int) and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
+						(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),LPAD(MONTH(tanggal),2,'0'))<'$tahun$bulan'  and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
 			}
 				
 						$this->db->from("ci_pegawai");
@@ -1556,7 +1556,7 @@ public function get_pendapatanarea($id){
 
 				}else{
 					$this->db->select("kd_pegawai,(select ifnull(sum(terima),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),LPAD(MONTH(tanggal),2,'0'))<'$tahun$bulan' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as terima, 
-					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),LPAD(MONTH(tanggal),2,'0'))<'$tahun.$bulan' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
+					(select ifnull(sum(keluar),0) from get_saldo_spj_cetak where CONCAT(YEAR(tanggal),LPAD(MONTH(tanggal),2,'0'))<'$tahun$bulan' and kd_area = '$area' and kd_pegawai=ci_pegawai.kd_pegawai and jenis in ('BANK','-')) as keluar");
 				}
 		
 				// get nilai 
