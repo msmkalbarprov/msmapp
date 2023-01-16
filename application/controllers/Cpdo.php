@@ -6,7 +6,7 @@ class Cpdo extends MY_Controller {
 
 		parent::__construct();
 		auth_check(); // check login auth
-		$this->rbac->check_module_access();
+		//$this->rbac->check_module_access();
 
 		$this->load->model('user/proyek_model', 'proyek_model');
 		$this->load->model('user/pq_model', 'pq_model');
