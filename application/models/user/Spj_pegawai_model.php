@@ -914,8 +914,9 @@ function get_realisasi_op($kode_pqoperasional)
 
 
 	public function get_pdo_operasional($id){
-			$tahun = date("Y");
-					$this->db->select('*');
+			//$tahun = date("Y");
+				$tahun = $this->session->userdata('tahun');				
+				$this->db->select('*');
 					$this->db->from("ci_pdo");
 					$this->db->where('kd_pdo',$id);
 				return $this->db->get()->result_array();
@@ -924,7 +925,8 @@ function get_realisasi_op($kode_pqoperasional)
 
 
 public function get_pq_operasional_view($id){
-			$tahun = date("Y");
+			$tahun = $this->session->userdata('tahun');	
+			
 				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 					$this->db->select('*');
 					$this->db->from("ci_pq_operasional");
@@ -1920,10 +1922,10 @@ public function viewEditRincianSPJ($cnospj,$cid)
 		
 		
 
-	function get_projek($subarea,$area,$jns_spj)
+	function get_projek($subarea,$area,$jns_spj) 
 		{	
 
-				$ctahun = date("Y");
+				$ctahun = $this->session->userdata('tahun');   date("Y");
 		
 			if ($jns_spj=='1'){
 				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
