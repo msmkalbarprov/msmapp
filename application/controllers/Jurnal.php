@@ -107,7 +107,7 @@ class Jurnal extends MY_Controller {
 			    $this->pdf->load_view('user/jurnal/buku_besar', $data);
                 break;
             case 0;
-				$html = $this->load->view('user/jurnal/buku_besar', $data);
+				$html = $this->load->view('user/jurnal/buku_besar_xls', $data);
 				header("Cache-Control: no-cache, no-store, must-revalidate");
 				header("Content-Type: application/vnd.ms-excel");
 				header("Content-Disposition: attachment; filename= buku_besar.xls");
