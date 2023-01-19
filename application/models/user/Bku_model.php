@@ -126,7 +126,7 @@ public function get_bku($id,$tahun,$bulan){
 
 	function get_rekening_kas()
 	{	
-		$rekening = array('1010102','1010301','1010302','1010303','1010304','1010305','1010306','1010307','1010308','1010309','1010310');
+		$rekening = array('1010102','1010301','1010302','1010303','1010304','1010305','1010306','1010307','1010308','1010309','1010310','1010327','1010328');
 			$this->db->select('no_acc as kode, nm_acc as nama');
 			$this->db->from('ci_coa');
 			$this->db->where_in('no_acc',$rekening);
