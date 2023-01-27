@@ -358,7 +358,7 @@ public function get_pq_operasional_view($id){
 					from ci_pendapatan
 					inner join ci_proyek on ci_proyek.kd_proyek=ci_pendapatan.id_proyek
 					left join ci_proyek_cair on ci_pendapatan.id_proyek=ci_proyek_cair.kd_proyek
-					left join ci_proyek_cair_potongan on ci_proyek_cair_potongan.id_proyek=ci_pendapatan.kd_proyek
+					left join ci_proyek_cair_potongan on ci_proyek_cair_potongan.id_proyek=ci_pendapatan.kd_proyek and ci_proyek_cair.nomor=ci_proyek_cair_potongan.nomor
 					where ci_proyek.thn_anggaran=$tahun
 					and (batal=null|| batal=0)
 					and ci_pendapatan.kd_area='$id'
