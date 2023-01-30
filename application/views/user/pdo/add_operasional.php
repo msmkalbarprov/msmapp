@@ -471,8 +471,8 @@ function get_realisasi(kode_pqoperasional,nil_pq){
         success: function(data){
             $.each(data, function(key, value) {
                 $('[name="thpp"]').val(number_format(value.total,"2",",",".")).trigger('change');
-
                 $('[name="sisa"]').val(number_format(nil_pq - value.total,"2",",",".")).trigger('change');
+			   // $('[name="sisa"]').val(number_format(nil_pq,"2",",",".")).trigger('change');
 
             });
 

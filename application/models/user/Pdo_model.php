@@ -703,7 +703,7 @@ function get_nilai_op($kode_pqoperasional)
 		return $query;
 	}
 
-function get_realisasi_op_pdo($kode_pqoperasional)
+function get_realisasi_op_pdo_asl($kode_pqoperasional)
 	{
 		$this->db->select('ifnull(sum(nilai),0)as total');
 		$this->db->from('ci_pdo');
@@ -711,6 +711,26 @@ function get_realisasi_op_pdo($kode_pqoperasional)
 		$query=$this->db->get();
 		return $query;
 	}
+	
+function get_realisasi_op_pdo($kode_pqoperasional)
+	{	
+	
+//	$this->db->query('SELECT sum(nilai)nilai FROM ci_pdo where CONCAT(LEFT(kd_pqproyek,10),"/",LEFT(no_acc,5))='.$kode_pqoperasional.' 
+//					UNION SELECT sum(nilai) FROM ci_pdo_temp where CONCAT(LEFT(kd_pqproyek,10),"/",LEFT(no_acc,5))='.$kode_pqoperasional.'');
+//	$this->db->where("concat(left(ci_pdo.kd_pqproyek,10),'/',left(no_acc,5))", $kode_pqoperasional);	
+//	$this->db->where("concat(left(ci_pdo_temp.kd_pqproyek,10),'/',left(no_acc,5))", $kode_pqoperasional);	
+//	$query=$this->db->get();
+//	return $query;
+	
+			$query1 = $this->db->query("SELECT ifnull(SUM(nilai),0)total FROM(
+					SELECT SUM(nilai) nilai FROM ci_pdo WHERE CONCAT(LEFT(kd_pqproyek,10),'/',LEFT(no_acc,5))='".$kode_pqoperasional."'
+					UNION
+					SELECT SUM(nilai) nilai FROM ci_pdo_temp WHERE CONCAT(LEFT(kd_pqproyek,10),'/',LEFT(no_acc,5))='".$kode_pqoperasional."'
+					)z ");
+			$query = $query1;
+			return $query;
+	}
+	
 
 	function get_realisasi_op_spj($kode_pqoperasional)
 	{
