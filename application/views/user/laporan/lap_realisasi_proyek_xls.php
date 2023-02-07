@@ -49,16 +49,16 @@
           <tr>
             <td align="center"><?= ++$i; ?></td>
             <td><?= $rincian['nm_area']; ?></td>
-            <td align="right" ><?= number_format($rincian['apbd'],2,',','.'); ?></td>
-            <td align="right" ><?= number_format($rincian['spk'],2,',','.'); ?></td>
-            <td align="right" ><?= number_format($rincian['pdp'],2,',','.'); ?></td>
-            <td align="right" ><?= number_format($rincian['piutang_prj'],2,',','.'); ?></td>
+            <td align="right" ><?= $rincian['apbd']; ?></td>
+            <td align="right" ><?= $rincian['spk']; ?></td>
+            <td align="right" ><?= $rincian['pdp']; ?></td>
+            <td align="right" ><?= $rincian['piutang_prj']; ?></td>
            
          
-            <td align="right" ><?= number_format($rincian['pdo'],2,',','.'); ?></td>
-            <td align="right" ><?= number_format($rincian['pdo_pl'],2,',','.'); ?></td>
-            <td align="right" ><?= number_format($rincian['spj'],2,',','.'); ?></td>
-            <td align="right" ><?= number_format($rincian['spj_pl'],2,',','.'); ?></td>
+            <td align="right" ><?= $rincian['pdo']; ?></td>
+            <td align="right" ><?= $rincian['pdo_pl']; ?></td>
+            <td align="right" ><?= $rincian['spj']; ?></td>
+            <td align="right" ><?= $rincian['spj_pl']; ?></td>
           </tr>
 
           <?php 
@@ -79,14 +79,14 @@
         <td colspan="2" align="center">
           Total
         </td>
-        <td align="right" style="background: #CCCCCC"><?= number_format($total_apbd,2,',','.'); ?></td>
-        <td align="right" style="background: #CCCCCC"><?= number_format($total_spk,2,',','.'); ?></td>
-        <td align="right" style="background: #CCCCCC"><?= number_format($total_pdp,2,',','.'); ?></td>
-        <td align="right" style="background: #CCCCCC"><?= number_format($total_piutang,2,',','.'); ?></td>
-        <td align="right" style="background: #CCCCCC"><?= number_format($total_pdo,2,',','.'); ?></td>
-        <td align="right" style="background: #CCCCCC"><?= number_format($total_pdo_pl,2,',','.'); ?></td>
-        <td align="right" style="background: #CCCCCC"><?= number_format($total_spj,2,',','.'); ?></td>
-        <td align="right" style="background: #CCCCCC"><?= number_format($total_spj_pl,2,',','.'); ?></td>
+        <td align="right" style="background: #CCCCCC"><?= $total_apbd; ?></td>
+        <td align="right" style="background: #CCCCCC"><?= $total_spk; ?></td>
+        <td align="right" style="background: #CCCCCC"><?= $total_pdp; ?></td>
+        <td align="right" style="background: #CCCCCC"><?= $total_piutang; ?></td>
+        <td align="right" style="background: #CCCCCC"><?= $total_pdo; ?></td>
+        <td align="right" style="background: #CCCCCC"><?= $total_pdo_pl; ?></td>
+        <td align="right" style="background: #CCCCCC"><?= $total_spj; ?></td>
+        <td align="right" style="background: #CCCCCC"><?= $total_spj_pl; ?></td>
       </tr>
 
 </table>

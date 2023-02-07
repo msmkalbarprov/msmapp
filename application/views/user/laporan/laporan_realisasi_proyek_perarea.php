@@ -30,16 +30,26 @@
               <div class="card-body table-responsive">
                 <table id="na_datatable" class="table table-bordered table-striped" width="100%">
                   <thead>
-                    <tr>
-                      <th>#id</th>
-                      <th>Area</th>
-                      <th>APBD</th>
-                      <th>SPK</th>
-                      <th>PDP</th>
-                      <th>PIUTANG PROJECT</th>
-                      <th>PDO</th>
-                      <th>SPJ</th>
-                    </tr>
+                    
+						<tr style="text-align: center;">
+						  <th rowspan="2" >No</th>
+						  <th rowspan="2">Area</th>
+						  <th rowspan="2">APBD</th>
+						  <th rowspan="2">SPK</th>
+						  <th rowspan="2">PDP</th>
+						  <th rowspan="2">PIUTANG PROJECT</th>
+						  <th colspan="2" >PDO</th>
+						  <th colspan="2">SPJ</th>
+					  </tr>
+					  
+					   <tr style="text-align: center;">
+
+						  <th >NON PL</th>
+						  <th >PL</th>
+						  <th >NON PL</th>
+						  <th >PL</th>
+					  </tr>
+					
                   </thead>
                 </table>
               </div>
@@ -74,7 +84,9 @@
     { "targets": 4, "name": "pdp", 'searchable':true, 'orderable':false},
     { "targets": 5, "name": "piutang_prj", 'searchable':true, 'orderable':false},
     { "targets": 6, "name": "pdo", 'searchable':true, 'orderable':false},
-    { "targets": 7, "name": "spj", 'searchable':true, 'orderable':false}
+    { "targets": 7, "name": "pdo_pl", 'searchable':true, 'orderable':false},
+    { "targets": 8, "name": "spj", 'searchable':true, 'orderable':false},
+    { "targets": 9, "name": "spj", 'searchable':true, 'orderable':false},
     ]
   });
 

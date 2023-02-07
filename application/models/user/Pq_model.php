@@ -1054,7 +1054,7 @@ function get_filter1($area=0,$filter1=0)
 	}
 
 	public function get_realisasi_proyek(){
-				$this->db->from('cetakan_proyek_pdo_pdp_spj');
+				$this->db->from('cetakan_proyek_pdo_pdp_spj_pl');
 				$this->db->order_by('kd_area','asc');
 			
 			return $this->db->get()->result_array();

@@ -64,7 +64,9 @@ class Laporan_pq extends MY_Controller {
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['pdp'],2,",",".").'</font></span></div>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format(($row['spk']-$row['pdp']),2,",",".").'</font></span></div>',
 				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['pdo'],2,",",".").'</font></span></div>',
-				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['spj'],2,",",".").'</font></span></div>'
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['pdo_pl'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['spj'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['spj_pl'],2,",",".").'</font></span></div>'
 
 			);
 		}
@@ -173,7 +175,7 @@ class Laporan_pq extends MY_Controller {
 				header("Cache-Control: no-cache, no-store, must-revalidate");
 				header("Content-Type: application/vnd.ms-excel");
 				header("Content-Disposition: attachment; filename= LAPORAN PQ.xls");
-				$this->load->view('user/laporan/lap_realisasi_proyek', $data);
+				$this->load->view('user/laporan/lap_realisasi_proyek_xls', $data);
                break;
         }
 
