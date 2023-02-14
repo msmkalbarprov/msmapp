@@ -79,11 +79,22 @@ public function get_bku($id,$tahun,$bulan){
 	
 	if($bulan==0){
 		$this->db->where("year(tanggal)>=", $tahun);
-	}else{
-		$this->db->where("year(tanggal)>=", $tahun);
-		$this->db->where("month(tanggal)", $bulan);
-	}
 		$this->db->where("urut <>", 0);
+	}else{
+		
+		//$this->db->where("year(tanggal)>=", $tahun);
+		//$this->db->where("month(tanggal)", $bulan);
+	
+		/* $hari='31';
+		$bulan=str_pad($bulan,2,"0",STR_PAD_LEFT);
+		$ctanggal=$tahun.'-'.$bulan.'-'.$hari; 					
+		$this->db->where("tanggal  ", $ctanggal); */
+	
+		$this->db->where("year(tanggal)=", $tahun);
+		$this->db->where("month(tanggal)=", $bulan);
+		
+	}
+	//	$this->db->where("urut <>", 0);
 		$query=$this->db->get();
 	return $query->result_array();
 }
@@ -117,8 +128,12 @@ public function get_bku($id,$tahun,$bulan){
 	if($bulan==0){
 		$this->db->where("tanggal ", '2022-01-31');
 	}else{
-		$this->db->where("year(tanggal)>=", $tahun);
-		$this->db->where("month(tanggal) < ", $bulan);
+		$hari='01';
+		$bulan=str_pad($bulan,2,"0",STR_PAD_LEFT);
+		$ctanggal=$tahun.'-'.$bulan.'-'.$hari; 					//print_r($ctanggal);die();
+		$this->db->where("tanggal < ", $ctanggal);
+		/* $this->db->where("year(tanggal)>=", $tahun);
+		$this->db->where("month(tanggal) < ", $bulan); */
 		$this->db->where("urut <> ", 8);
 	}
 	   return $result = $this->db->get()->row_array();
