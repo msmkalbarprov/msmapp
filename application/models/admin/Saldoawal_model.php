@@ -3,13 +3,15 @@
 class Saldoawal_model extends CI_Model{
 
 	public function get_all(){
+		$tahun=$this->session->userdata('tahun');
+		
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->from('ci_saldo_awal');
 		}else{
 			$this->db->from('ci_saldo_awal');
 			$this->db->where('kd_area', $this->session->userdata('kd_area'));
 		}
-			
+			$this->db->where('thn_anggaran',$tahun);	
 			$this->db->order_by('id','asc');
         return $this->db->get()->result_array();
 		}

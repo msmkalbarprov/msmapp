@@ -32,7 +32,7 @@ class Saldo_awal extends MY_Controller
 	}
 	//--------------------------------------------------		
 
-public function datatable_json(){				   					   
+public function datatable_json(){	
 		$records['data'] = $this->saldoawal_model->get_all();
 		$data = array();
 
@@ -71,7 +71,7 @@ public function datatable_json(){
 
 
 	function add(){
-
+		$tahun=$this->session->userdata('tahun');
 		$this->rbac->check_operation_access(); // check opration permission
 
 			$data['data_area'] 			= $this->area->get_area();
@@ -113,7 +113,8 @@ public function datatable_json(){
 						'pemilik' 		=> $this->input->post('pemilik'),
 						'saldo' 		=> $this->proyek_model->number2($saldo),
 						'username' 		=>  $this->session->userdata('username'),
-						'created_at' 	=> date('Y-m-d : h:m:s')
+						'created_at' 	=> date('Y-m-d : h:m:s'),
+						'thn_anggaran'	=> $tahun
 					);
 					$data = $this->security->xss_clean($data);
 					$result = $this->saldoawal_model->add_saldoawal($data);
