@@ -44,7 +44,7 @@
 		//---------------------------------------------------
 		// get all users for server-side datatable processing (ajax based) 
 		public function get_all_proyek(){
-
+			$tahun = $this->session->userdata('tahun');
 			
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'){
 				$this->db->select('ci_proyek.*,
@@ -53,7 +53,7 @@
 					(select loc from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as loc,
 					ROW_NUMBER() OVER(ORDER BY id ASC) AS row_num ');
 				$this->db->from("ci_proyek");
-				
+				$this->db->where("thn_anggaran",$tahun);
         		return $this->db->get()->result_array();
 			}
 			else{
@@ -64,6 +64,7 @@
 					ROW_NUMBER() OVER(ORDER BY id ASC) AS row_num ');
 				$this->db->from("ci_proyek");
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
+				$this->db->where("thn_anggaran",$tahun);
         		return $this->db->get()->result_array();
 			}
 		}

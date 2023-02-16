@@ -61,6 +61,7 @@ function get_area_by_pqprojectid($id)
 
 	function get_realisasi_spj($id, $no_acc)
 	{	
+	
 			$this->db->select("ifnull(sum(nilai),0) as total");
 			$this->db->from('get_realisasi_spj_kantor');
 			$this->db->where('kd_pqproyek', $id);
@@ -71,10 +72,12 @@ function get_area_by_pqprojectid($id)
 	}
 
 	function get_realisasi_pq($id, $no_acc)
-	{	
+	{		
+			$tahun=$this->session->userdata('tahun');
 			$this->db->select("ifnull(sum(total),0) as total");
 			$this->db->from('ci_pq_operasional');
 			$this->db->where('kd_area', $id);
+			$this->db->where('left(kd_pq_operasional,4)', $tahun);
 			$this->db->where('left(kd_item,5)', substr($no_acc,0,5));
 		
 			$query=$this->db->get();
@@ -83,7 +86,8 @@ function get_area_by_pqprojectid($id)
 
 
 	public function get_pq_operasional($id){
-			$tahun = date("Y");
+			
+			$tahun=$this->session->userdata('tahun');
 			$kd_area= $id;
 				if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Admin'){
 					$this->db->select('*');
@@ -158,11 +162,13 @@ public function get_pq_operasional_view($id){
 		//---------------------------------------------------
 		// get all users for server-side datatable processing (ajax based)
 		public function get_all_pq(){
+			$tahun = $this->session->userdata('tahun');
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Admin'){
 				$this->db->select('*,(select nilai from ci_proyek_rincian where ci_proyek_rincian.id_proyek=ci_proyek.id_proyek order by id desc LIMIT 1)as spk,(select sum(total) from ci_hpp where ci_hpp.kd_pqproyek=ci_pendapatan.kd_pqproyek)as hpp,(select nama from ci_jnspagu where id=ci_pendapatan.jns_pagu) as pagu,(select nm_area from ci_area where kd_area=ci_pendapatan.kd_area)as area');
 				$this->db->from("ci_pendapatan");
 				$this->db->Join('ci_proyek','ci_pendapatan.id_proyek=ci_proyek.kd_proyek', 'inner');
 				$this->db->where('ci_proyek.batal',0);
+				$this->db->where('ci_proyek.thn_anggaran',$tahun);
         		return $this->db->get()->result_array();
 			}
 			else{
@@ -171,15 +177,18 @@ public function get_pq_operasional_view($id){
 				$this->db->Join('ci_proyek','ci_pendapatan.id_proyek=ci_proyek.kd_proyek', 'inner');
 				$this->db->where('ci_proyek.batal',0);
 				$this->db->where('ci_pendapatan.kd_area',$this->session->userdata('kd_area'));
+				$this->db->where('ci_proyek.thn_anggaran',$tahun);
         		return $this->db->get()->result_array();
 			}
 		}
 
 
 		public function get_all_pq_op(){
+			$tahun = $this->session->userdata('tahun');
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing' || $this->session->userdata('admin_role')=='Admin'){
 				$this->db->select('*');
 				$this->db->from("v_ci_pq_operasional");
+				$this->db->where("left(kode,4)",$tahun);
 				$this->db->group_by("left(kode,10)");
 
         		return $this->db->get()->result_array();
@@ -188,6 +197,7 @@ public function get_pq_operasional_view($id){
 				$this->db->select('*');
 				$this->db->from("v_ci_pq_operasional");
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
+				$this->db->where("left(kode,4)",$tahun);
 				$this->db->group_by("left(kode,10)");
         		return $this->db->get()->result_array();
 			}
@@ -226,8 +236,8 @@ public function get_pq_operasional_view($id){
 
 	function get_proyek_by_area_subarea($subarea,$area)
 	{	
-
-			$query1 = $this->db->query("SELECT id_proyek from ci_pendapatan");
+			$tahun = $this->session->userdata('tahun');
+			$query1 = $this->db->query("SELECT id_proyek from ci_pendapatan where left(id_proyek,4)='".$tahun."'");
 			$query1_result = $query1->result();
 			$proyek_id= array();
 			foreach($query1_result as $row){
@@ -242,6 +252,7 @@ public function get_pq_operasional_view($id){
 			$this->db->where('thn_anggaran >=',date("Y")-1);	
 			$this->db->where('kd_area =',$area);	
 			$this->db->where('kd_sub_area =',$subarea);
+			$this->db->where('left(kd_proyek,4)',$tahun);
 			$this->db->where_not_in('kd_proyek', $kd_proyek);
 		}else{
 			$this->db->from('v_get_proyek_pq');
@@ -249,6 +260,7 @@ public function get_pq_operasional_view($id){
 			$this->db->where('thn_anggaran >=',date("Y")-1);	
 			$this->db->where('kd_area =',$area);	
 			$this->db->where('kd_sub_area =',$subarea);
+			$this->db->where('left(kd_proyek,4)',$tahun);
 			$this->db->where_not_in('kd_proyek', $kd_proyek);
 		}
 		

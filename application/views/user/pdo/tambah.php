@@ -39,6 +39,7 @@
               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
               <input type="text" name="kd_pdo" id="kd_pdo" class="form-control" readonly>
               <input type="hidden" name="urut" id="urut" class="form-control" readonly>
+			  <input type="hidden" name="thnanggaran" id="thnanggaran" value="<?php echo $_SESSION['tahun'] ?>" class="form-control" readonly>
 
             </div>
           </div>
@@ -632,6 +633,8 @@ function get_realisasi2(kd_coa,kode_pqproyek,jns_tk,nil_hpp){
 }
 
 function get_nomor_urut(area){
+
+		var ctahun=document.getElementById("thnanggaran").value;		
         $.ajax({
         url : "<?php echo site_url('cpdo/get_nomor');?>",
         method : "POST",
@@ -643,8 +646,7 @@ function get_nomor_urut(area){
         success: function(data){
             $.each(data, function(key, value) {
                 $('[name="urut"]').val(value.nomor).trigger('change');
-
-                var kodepdo = 'PDO/2022/'+area+'/'+value.nomor;
+                var kodepdo = 'PDO/'+ctahun+'/'+area+'/'+value.nomor;
                 // var nomorpdo = kodepdo.replace('PQ','PDO');
 
                 $('[name="kd_pdo"]').val(kodepdo).trigger('change');

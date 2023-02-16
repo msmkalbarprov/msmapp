@@ -22,9 +22,11 @@
 
 	// get all users for server-side datatable processing (ajax based)
 public function get_all_pdo(){
+		$tahun=$this->session->userdata('tahun');
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->select('*');
 			$this->db->from("v_pdo");
+			$this->db->where("left(kd_project,4)", $tahun);
 			$this->db->order_by("tgl_pdo,kd_pdo", "DESC");
        		return $this->db->get()->result_array();
 		}
@@ -32,6 +34,7 @@ public function get_all_pdo(){
 			$this->db->select('*');
 			$this->db->from("v_pdo");
 			$this->db->where('kd_area',$this->session->userdata('kd_area'));
+			$this->db->where("left(kd_project,4)", $tahun);
 			$this->db->order_by("tgl_pdo,kd_pdo", "DESC");
        		return $this->db->get()->result_array();
 		}
@@ -115,6 +118,7 @@ function get_rekening()
 
 function get_pq_projek_by_area($area)
 	{
+		$tahun=$this->session->userdata('tahun');
 		// $query = $this->db->get_where('ci_pendapatan', array('kd_area' => $area, 'status' => 1));
 
 			$this->db->select('ci_pendapatan.*,ci_proyek.nm_sub_area');
@@ -123,6 +127,7 @@ function get_pq_projek_by_area($area)
 			$this->db->where('ci_pendapatan.kd_area', $area);	
 			$this->db->where("ci_pendapatan.status",1);
 			$this->db->where("batal <>",1);
+			$this->db->where("ci_proyek.thn_anggaran",$tahun);
 			$query=$this->db->get();
 		return $query;
 	}
