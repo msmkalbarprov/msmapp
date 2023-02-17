@@ -32,7 +32,7 @@
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label for="thn_ang" class="control-label">Tahun Anggaran</label>
+              <label for="thn_ang" class="control-label">Tahun</label>
                 <select name="thn_ang" id="thn_ang" class="form-control" required>
                   <option value="">No Selected</option>
                   <option value="<?= date('Y')-1;?>"><?= date('Y')-1;?></option>

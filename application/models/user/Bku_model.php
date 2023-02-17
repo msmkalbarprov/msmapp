@@ -63,14 +63,20 @@ public function get_bku($id,$tahun,$bulan){
 		
 		if($bulan==0){
 			$this->db->where("year(tanggal)>=", $tahun);
-		}else{
-			$this->db->where("year(tanggal)>=", $tahun);
-			$this->db->where("month(tanggal)", $bulan);
-		}
 			$this->db->where("urut <>", 0);
+		}else{
+			//$this->db->where("year(tanggal)>=", $tahun);
+			//$this->db->where("month(tanggal)", $bulan);
+			
+			$this->db->where("year(tanggal)=", $tahun);
+		    $this->db->where("month(tanggal)=", $bulan);
+			
+		}
+		//	$this->db->where("urut <>", 0);
 			$query=$this->db->get();
 		return $query->result_array();
 	}
+
 
 	public function get_kas_rekening_area($id,$tahun,$bulan){
 		$this->db->select("*");
@@ -101,7 +107,9 @@ public function get_bku($id,$tahun,$bulan){
 
 	public function saldo_awal($id,$tahun,$bulan){
 			$this->db->select("ifnull(sum(terima),0)-ifnull(sum(keluar),0) as saldo");
-			if($id='1010102'){
+			
+			
+			if($id=='1010102'){
 				$this->db->from("cetakan_kas_rekening_kasbesar");
 			}else{
 				$this->db->from("cetakan_kas_rekening");
@@ -111,13 +119,18 @@ public function get_bku($id,$tahun,$bulan){
 			
 		
 		if($bulan==0){
-			$this->db->where("tanggal ", '2022-01-31');
+			$this->db->where("tanggal ", $tahun.'-01-31');
 		}else{
-			$this->db->where("year(tanggal)>=", $tahun);
-			$this->db->where("month(tanggal) < ", $bulan);
-			$this->db->where("urut <> ", 7);
-		}
-		   return $result = $this->db->get()->row_array();
+			//$this->db->where("year(tanggal)>=", $tahun);
+			//$this->db->where("month(tanggal) < ", $bulan);
+						
+			$hari='01';
+			$bulan=str_pad($bulan,2,"0",STR_PAD_LEFT);
+			$ctanggal=$tahun.'-'.$bulan.'-'.$hari; 			
+			$this->db->where("tanggal < ", $ctanggal); 		
+			$this->db->where("urut <> ", 7); 
+		} 
+		   return $result = $this->db->get()->row_array(); 
 	}
 
 	public function saldo_awal_area($id,$tahun,$bulan){
