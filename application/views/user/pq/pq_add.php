@@ -399,7 +399,8 @@ function hitungtitipan() {
     nilai_ppntitipan=0;
   }
   var titipan_net = titipan-nilai_ppntitipan-nilai_pphtitipan;
-  var pend_nett = nilai_pph;//spk-nilai_pph-ppn;
+//  var pend_nett = nilai_pph;//spk-nilai_pph-ppn;
+  var pend_nett = spk-nilai_pph-ppn;
 
   $('[name="nilaipph"]').val(number_format(nilai_pph,"2",",",".")).trigger('change');
   $('[name="nilaipend_nett"]').val(number_format(pend_nett,"2",",",".")).trigger('change');
