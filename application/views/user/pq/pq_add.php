@@ -322,7 +322,7 @@ function hitungtitipan() {
   var pilihpph    = number(document.getElementById("jnspph").value);
   var spk         = number(document.getElementById("nilaispk").value);
  
-  
+ 
   if (pilihpph==21){
     var jenispph =  $('.radio:checked').val();
   }
@@ -388,7 +388,7 @@ function hitungtitipan() {
         var nilai_pph         = (50/100)*((5/100)*spk);
         $('[name="s_pph"]').val('4').trigger('change');
       }else{
-		  
+		  alert('ndak jaleh');return;
 		 document.getElementById("nilaipph").readOnly = false; 
 		 document.getElementById("nilaipphtitipan").readOnly = false; 
 		 $('#nilaipph').val(0);	
@@ -397,10 +397,14 @@ function hitungtitipan() {
 	 }
     
     nilai_ppntitipan=0;
+  }else{
+	   var nilai_pph  = 0;
+	  
   }
   var titipan_net = titipan-nilai_ppntitipan-nilai_pphtitipan;
 //  var pend_nett = nilai_pph;//spk-nilai_pph-ppn;
   var pend_nett = spk-nilai_pph-ppn;
+
 
   $('[name="nilaipph"]').val(number_format(nilai_pph,"2",",",".")).trigger('change');
   $('[name="nilaipend_nett"]').val(number_format(pend_nett,"2",",",".")).trigger('change');
