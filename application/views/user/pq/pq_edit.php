@@ -73,6 +73,7 @@
             <div class="form-group">
               <label for="perusahaan" class="control-label"><?= trans('perusahaan') ?></label>
                 <input type="text" name="perusahaan" id="perusahaan" class="form-control" readonly>
+				<input type="hidden" name="xperusahaan" id="xperusahaan" class="form-control" readonly>
             </div>
           </div>
          </div>
@@ -317,7 +318,7 @@ function hitungtitipan() {
   var titipan     = number(document.getElementById("titipan").value);
   var pilihpph    = number(document.getElementById("jnspph").value);
   var spk = number(document.getElementById("nilaispk").value);
-
+  var company	  = document.getElementById("xperusahaan").value; 
 
 if (pilihpph==21){
     $('#jnspph_toggle').show();
@@ -392,7 +393,17 @@ if (pilihpph==21){
       }
     
     nilai_ppntitipan=0;
+  }else{
+	  
+	  if(company=='Atcos'){
+		  var ppn=0;
+		  $('[name="nilaippn"]').val(number_format(0,"2",",",".")).trigger('change');
+		 
+	  }
+	   var nilai_pph  = 0;
+	  
   }
+  
   var titipan_net = titipan-nilai_ppntitipan-nilai_pphtitipan;
   var pend_nett = spk-nilai_pph-ppn;
 
@@ -606,6 +617,7 @@ function set_status_infaq() {
                         $('[name="jnsproyek"]').val(value.nm_jns_proyek).trigger('change');
                         $('[name="jnssubproyek"]').val(value.nm_jns_sub_proyek).trigger('change');
                         $('[name="perusahaan"]').val(value.nm_perusahaan).trigger('change');
+						$('[name="xperusahaan"]').val(value.nm_perusahaan);
                         $('[name="dinas"]').val(value.nm_dinas).trigger('change');
                         $('[name="tipeproyek"]').val(value.nm_tipe_proyek).trigger('change');
                         $('[name="paketproyek"]').val(value.nm_paket_proyek).trigger('change');

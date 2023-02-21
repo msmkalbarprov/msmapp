@@ -77,6 +77,7 @@
             <div class="form-group">
               <label for="perusahaan" class="control-label"><?= trans('perusahaan') ?></label>
                 <input type="text" name="perusahaan" id="perusahaan" class="form-control" readonly>
+				<input type="hidden" name="xperusahaan" id="xperusahaan" class="form-control" readonly>
             </div>
           </div>
          </div>
@@ -321,13 +322,13 @@ function hitungtitipan() {
   var titipan     = number(document.getElementById("titipan").value);
   var pilihpph    = number(document.getElementById("jnspph").value);
   var spk         = number(document.getElementById("nilaispk").value);
- 
- 
+  var company	  = document.getElementById("xperusahaan").value;	
+   
   if (pilihpph==21){
     var jenispph =  $('.radio:checked').val();
   }
 
-  
+	
   
   // hitung ppn lagi
   if ($('#c_ppn').prop('checked') == true && pilihpph!=21){
@@ -388,7 +389,7 @@ function hitungtitipan() {
         var nilai_pph         = (50/100)*((5/100)*spk);
         $('[name="s_pph"]').val('4').trigger('change');
       }else{
-		  alert('ndak jaleh');return;
+		  
 		 document.getElementById("nilaipph").readOnly = false; 
 		 document.getElementById("nilaipphtitipan").readOnly = false; 
 		 $('#nilaipph').val(0);	
@@ -398,6 +399,12 @@ function hitungtitipan() {
     
     nilai_ppntitipan=0;
   }else{
+	  
+	  if(company=='Atcos'){
+		  var ppn=0;
+		  $('[name="nilaippn"]').val(number_format(0,"2",",",".")).trigger('change');
+		 
+	  }
 	   var nilai_pph  = 0;
 	  
   }
@@ -565,6 +572,8 @@ $('#subarea_1').change(function(){
                         $('[name="paketproyek"]').val(value.nm_paket_proyek).trigger('change');
                         $('[name="thn_ang"]').val(value.thn_anggaran).trigger('change');
                         
+						$('[name="xperusahaan"]').val(value.nm_perusahaan);
+						
                         var spk = value.nilai;
 
                         var ppn = (11/100)*((100/111)*spk);
