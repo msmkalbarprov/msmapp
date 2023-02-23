@@ -1067,7 +1067,7 @@ function get_filter1($area=0,$filter1=0)
 
 	public function get_realisasi_proyek(){
 				$tahun=$this->session->userdata('tahun');
-				$query="SELECT s.* FROM (SELECT @ctahun:='".$tahun."' p) parm , cetakan_proyek_pdo_pdp_spj_pl_pertahun s order by kd_area asc";
+				$query="SELECT s.* FROM (SELECT @ctahun:='".$tahun."' p) parm , cetakan_proyek_pdo_pdp_spj_pl s order by kd_area asc";
 				$data = $this->db->query($query)->result_array();
 				return $data;
 			
