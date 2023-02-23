@@ -94,9 +94,11 @@ public function get_all_pdo_gaji(){
 	}
 
 public function get_all_pdo_operasional(){
+	       $tahun=$this->session->userdata('tahun');
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->select('*');
 			$this->db->from("v_pdo_operasional");
+			$this->db->where("substring(kd_pdo,5,4)", $tahun);
 			$this->db->order_by("tgl_pdo,kd_pdo", "DESC");
        		return $this->db->get()->result_array();
 		}
@@ -104,6 +106,7 @@ public function get_all_pdo_operasional(){
 			$this->db->select('*');
 			$this->db->from("v_pdo_operasional");
 			$this->db->where('kd_area',$this->session->userdata('kd_area'));
+			$this->db->where("substring(kd_pdo,5,4)", $tahun);
 			$this->db->order_by("tgl_pdo,kd_pdo", "DESC");
        		return $this->db->get()->result_array();
 		}
