@@ -241,7 +241,7 @@
                </tr>
 
                <tr>
-                 <td width="50%"><b>Alokasi HO <small>15% dari Pendapatan Nett</small></b></td>
+                 <td width="50%"><b>Alokasi HO <small>10% dari Pendapatan Nett</small></b></td>
                  <td width="5%">:</td>
                  <td width="45%" align="right" style="border-bottom: grey solid 1px;"><input type="text" name="al_ho" style="background:none;border: none;text-align:right;" id="al_ho" placeholder="0,00" value="0"  class="form-control" readonly></td>
                </tr>
@@ -467,7 +467,7 @@ $('[name="nilai_pend_net_s_titipan"]').val(number_format(pendapatan_nett,"2",","
   
   
 // hitung HO
-  var al_HO = pendapatan_nett*0.15;//20%
+  var al_HO = pendapatan_nett*0.10;//20%
 
   $('[name="al_ho"]').val(number_format(al_HO,"2",",",".")).trigger('change');
 
@@ -783,7 +783,7 @@ $('[name="nilai_pend_net_s_titipan"]').val(number_format(pendapatan_nett,"2",","
   
   
 // hitung HO
-  var al_HO = pendapatan_nett*0.15;//20%
+  var al_HO = pendapatan_nett*0.10;//20%
 
   $('[name="al_ho"]').val(number_format(al_HO,"2",",",".")).trigger('change');
 
