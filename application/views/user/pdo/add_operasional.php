@@ -335,6 +335,44 @@
             ],
   });
 
+
+
+  $('#na_datatable').on('click', 'tbody .del_btn', function () {
+    var data_row = table.row($(this).closest('tr')).data();
+    // alert(data_row.no_acc+' - '+data_row.id)
+
+    var id_hapus  = data_row.id;
+    var no_pdo    = $('#kd_pdo').val();
+    var nomorpdo  = no_pdo.replace(/\//g,'abcde')
+
+    // proses hapus
+    $.ajax({
+        url: "<?php echo base_url("cpdo/delete_pdo_project_temp2/");?>",
+        type: "POST",
+        data: {
+          '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+          type:1,
+          id:id_hapus
+
+        },
+        cache: false,
+        success: function(dataResult){
+          var dataResult = JSON.parse(dataResult);
+          if(dataResult.statusCode==200){
+            $("#success").show();
+            $('#success').html('Data Berhasil dihapus !'); 
+            
+            load_rincian_temp(nomorpdo);
+          }
+          else if(dataResult.statusCode==201){
+            $("#error").show();
+            $("#success").hide();
+            $('#error').html('Gagal Hapus');
+          }
+        }
+      });
+})
+
 $('#c_transfer').click(function() {
       if ($('#c_transfer').prop('checked') == true){
           $('[name="s_transfer"]').val('1').trigger('change');

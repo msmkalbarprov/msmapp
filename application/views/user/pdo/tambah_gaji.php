@@ -405,14 +405,14 @@ $('#na_datatable').on('click', 'tbody .del_btn', function () {
           var dataResult = JSON.parse(dataResult);
           if(dataResult.statusCode==200){
             $("#success").show();
-            $('#success').html('Data Berhasil ditambahkan !'); 
+            $('#success').html('Data Berhasil Hapus !'); 
             
             load_rincian_temp(nomorpdo);
           }
           else if(dataResult.statusCode==201){
             $("#error").show();
             $("#success").hide();
-            $('#error').html('Gagal Simpan');
+            $('#error').html('Gagal Hapus');
           }
         }
       });
