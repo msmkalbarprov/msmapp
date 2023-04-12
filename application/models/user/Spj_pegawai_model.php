@@ -1207,7 +1207,7 @@ function get_pegawai_by_area_cetak()
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');
-			$this->db->where('thn_anggaran >=',date("Y"));	
+			// $this->db->where('thn_anggaran >=',date("Y"));	
 			$this->db->where('kd_area =',$area);	
 			$this->db->where('kd_sub_area =',$subarea);
 			$this->db->where_in('kd_proyek', $kd_proyek);
@@ -1215,7 +1215,7 @@ function get_pegawai_by_area_cetak()
 		}else{
 			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');	
-			$this->db->where('thn_anggaran >=',date("Y"));	
+			// $this->db->where('thn_anggaran >=',date("Y"));	
 			$this->db->where('kd_area =',$area);	
 			$this->db->where('kd_sub_area =',$subarea);
 			$this->db->where_in('kd_proyek', $kd_proyek);
