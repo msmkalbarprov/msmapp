@@ -23,11 +23,13 @@
 // MULAI 
 
 public function get_all_transfer_pencairan(){
+		$tahun=$this->session->userdata('tahun');
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area,
 			(select ifnull(sum(nilai),0) from ci_proyek_transfer_potongan where ci_proyek_transfer_potongan.no_cair=ci_proyek_transfer.no_cair) as potongan');
 			$this->db->from("ci_proyek_transfer");
 			$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
+			$this->db->where("left(kd_proyek,4)", $tahun);
 			$this->db->group_by('no_transfer');
        		return $this->db->get()->result_array();
 		}
@@ -37,12 +39,14 @@ public function get_all_transfer_pencairan(){
 			$this->db->from("ci_proyek_transfer");
 			$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
 			$this->db->where('ci_area.kd_area',$this->session->userdata('kd_area'));
+			$this->db->where("left(kd_proyek,4)", $tahun);
 			$this->db->group_by('no_transfer');
        		return $this->db->get()->result_array();
 		}
 	}
 
 	public function get_all_transfer_validasi(){
+		$tahun=$this->session->userdata('tahun');
 		// if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' ||  $this->session->userdata('admin_role')=='Divisi Finance' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->select('ci_proyek_transfer.*,ci_area.nm_area,(select nm_paket_proyek from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_pekerjaan, 
 			(select nm_sub_area from ci_proyek where kd_proyek=ci_proyek_transfer.kd_proyek) as nama_sub_area,
@@ -50,6 +54,7 @@ public function get_all_transfer_pencairan(){
 			');
 			$this->db->from("ci_proyek_transfer");
 			$this->db->join("ci_area", "ci_proyek_transfer.kd_area=ci_area.kd_area","left");
+			$this->db->where("left(kd_proyek,4)", $tahun);
 			$this->db->group_by('no_transfer');
        		return $this->db->get()->result_array();
 		// }

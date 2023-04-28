@@ -12,13 +12,19 @@ class Penerimaan_lain_model extends CI_Model{
 
 
 		public function get_all_tlainnya(){
+			$tahun=$this->session->userdata('tahun');
+			$tahun_depan=$tahun+1;
+			$tgl_awal = $tahun.'-02-01';
+			$tgl_akhir = $tahun_depan.'-02-01';
+
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 				$this->db->from('ci_penerimaan_lain_area');
 			}else{
 				$this->db->from('ci_penerimaan_lain_area');
 				$this->db->where('kd_area', $this->session->userdata('kd_area'));
 			}
-				
+				$this->db->where('tgl_bukti >=', $tgl_awal);
+				$this->db->where('tgl_bukti <', $tgl_akhir);
 				$this->db->order_by('id','asc');
 			return $this->db->get()->result_array();
 			}

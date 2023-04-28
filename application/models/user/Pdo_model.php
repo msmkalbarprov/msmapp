@@ -41,17 +41,21 @@ public function get_all_pdo(){
 	}
 
 public function get_all_pdo_approve(){
+			$tahun=$this->session->userdata('tahun');
 			$this->db->select('*');
 			$this->db->from("v_pdo_cair");
 			$this->db->where("approve", 1);
+			$this->db->where("left(kd_project,4)", $tahun);
 			$this->db->order_by("tgl_pdo", "ASC");
        		return $this->db->get()->result_array();
 	}
 
 public function get_all_pdo_cair(){
+			$tahun=$this->session->userdata('tahun');
 			$this->db->select('*');
 			$this->db->from("v_pdo_terima");
 			$this->db->where("status_bayar", 1);
+			$this->db->where("left(kd_project,4)", $tahun);
 			$this->db->order_by("tgl_pdo", "ASC");
        		return $this->db->get()->result_array();
 	}
@@ -59,16 +63,18 @@ public function get_all_pdo_cair(){
 
 	public function get_all_pdo_terima(){
 		
-
+		$tahun=$this->session->userdata('tahun');
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->select('*');
 			$this->db->from("v_pdo_terima");
+			$this->db->where("left(kd_project,4)", $tahun);
 			$this->db->where("status_bayar", 1);
 			$this->db->where("status_bayar", 1);
 		}else{
 			$this->db->select('*');
 			$this->db->from("v_pdo_terima");
 			$this->db->where("status_bayar", 1);
+			$this->db->where("left(kd_project,4)", $tahun);
 			$this->db->where("status_bayar", 1);
 			$this->db->where("kd_area", $this->session->userdata('kd_area'));
 		}
@@ -995,6 +1001,7 @@ public function get_pdo_detail($id){
 	function get_proyek_by_area_subarea($subarea,$area)
 	{	
 
+			$tahun=$this->session->userdata('tahun');
 			$query1 = $this->db->query("SELECT id_proyek from ci_pendapatan");
 			$query1_result = $query1->result();
 			$proyek_id= array();
@@ -1007,14 +1014,14 @@ public function get_pdo_detail($id){
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin'){
 			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');
-			$this->db->where('thn_anggaran >=',date("Y"));	
+			$this->db->where('thn_anggaran >=',$tahun);	
 			$this->db->where('kd_area =',$area);	
 			$this->db->where('kd_sub_area =',$subarea);
 			$this->db->where_not_in('kd_proyek', $kd_proyek);
 		}else{
 			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');	
-			$this->db->where('thn_anggaran >=',date("Y"));	
+			$this->db->where('thn_anggaran >=',$tahun);	
 			$this->db->where('kd_area =',$area);	
 			$this->db->where('kd_sub_area =',$subarea);
 			$this->db->where_not_in('kd_proyek', $kd_proyek);
