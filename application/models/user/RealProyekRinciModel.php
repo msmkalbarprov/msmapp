@@ -64,6 +64,7 @@
 			$this->db->close();
 			
 			$no=0;
+			$cnpdo=0;
 			foreach ($cdata as $value) {
 				
 				$clevel=$value['clevel'];
@@ -177,6 +178,10 @@
 					
 				}		
 					
+					
+			if($cnpdo==0){
+				$cjumlah=0;
+			}
 
 			$cRet .="<tr>";
 			$cRet .= "<td colspan=\"5\" style=\"font-size:9pt;text-align:right;vertical-align: text-top;\"><b>JUMLAH</b></td>";
