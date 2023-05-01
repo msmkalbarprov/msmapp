@@ -3,15 +3,23 @@
 class Pelimpahan_model extends CI_Model{
 
 	public function get_all(){
+		$tahun=$this->session->userdata('tahun');
+		$tahun_depan=$tahun+1;
+		$tgl_awal = $tahun.'-02-01';
+		$tgl_akhir = $tahun_depan.'-02-01';
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 			$this->db->select('ci_pelimpahan.*,(select ifnull(sum(nilai),0) from ci_pelimpahan_potongan where ci_pelimpahan.no_bukti=ci_pelimpahan_potongan.no_kas and ci_pelimpahan_potongan.rek_asal=ci_pelimpahan.kd_pegawai_asal) as potongan');
 			$this->db->from('ci_pelimpahan');
 			$this->db->where('kd_area <>', 01);
+			$this->db->where('tgl_pelimpahan >=', $tgl_awal);
+			$this->db->where('tgl_pelimpahan <', $tgl_akhir);
 		}else{
 			$this->db->select('ci_pelimpahan.*,(select ifnull(sum(nilai),0) from ci_pelimpahan_potongan where ci_pelimpahan.no_bukti=ci_pelimpahan_potongan.no_kas and ci_pelimpahan_potongan.rek_asal=ci_pelimpahan.kd_pegawai_asal) as potongan');
 			$this->db->from('ci_pelimpahan');
 			$this->db->where('kd_area', $this->session->userdata('kd_area'));
 			$this->db->where('kd_area <>', 01);
+			$this->db->where('tgl_pelimpahan >=', $tgl_awal);
+			$this->db->where('tgl_pelimpahan <', $tgl_akhir);
 		}
 			
 			$this->db->order_by('id','asc');
@@ -19,17 +27,29 @@ class Pelimpahan_model extends CI_Model{
 		}
 
 		public function get_all_tunai(){
+			$tahun=$this->session->userdata('tahun');
+			$tahun_depan=$tahun+1;
+			$tgl_awal = $tahun.'-02-01';
+			$tgl_akhir = $tahun_depan.'-02-01';
+
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 				$this->db->from('ci_ambil_tunai');
 			}else{
 				$this->db->from('ci_ambil_tunai');
 				$this->db->where('kd_area', $this->session->userdata('kd_area'));
 			}
+				$this->db->where('tgl_kas >=', $tgl_awal);
+				$this->db->where('tgl_kas <', $tgl_akhir);
 				$this->db->order_by('id','asc');
 				return $this->db->get()->result_array();
 			}
 
 		public function get_all_pkb(){
+			$tahun=$this->session->userdata('tahun');
+			$tahun_depan=$tahun+1;
+			$tgl_awal = $tahun.'-02-01';
+			$tgl_akhir = $tahun_depan.'-02-01';
+
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 				$this->db->from('ci_pelimpahan');
 				$this->db->where('kd_area', 01);
@@ -37,12 +57,17 @@ class Pelimpahan_model extends CI_Model{
 				$this->db->from('ci_pelimpahan');
 				$this->db->where('kd_area', $this->session->userdata('kd_area'));
 			}
-				
+			$this->db->where('tgl_pelimpahan >=', $tgl_awal);
+			$this->db->where('tgl_pelimpahan <', $tgl_akhir);
 				$this->db->order_by('id','asc');
 			return $this->db->get()->result_array();
 			}
 
 	public function get_all_plainnya(){
+		$tahun=$this->session->userdata('tahun');
+			$tahun_depan=$tahun+1;
+			$tgl_awal = $tahun.'-02-01';
+			$tgl_akhir = $tahun_depan.'-02-01';
 		if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 			$this->db->select('ci_pengeluaran_lain.*,(select ifnull(sum(nilai),0) from ci_pengeluaran_lain_potongan where no_kas=ci_pengeluaran_lain.no_bukti)as potongan');
 			$this->db->from('ci_pengeluaran_lain');
@@ -50,13 +75,19 @@ class Pelimpahan_model extends CI_Model{
 			$this->db->select('ci_pengeluaran_lain.*,(select ifnull(sum(nilai),0) from ci_pengeluaran_lain_potongan where no_kas=ci_pengeluaran_lain.no_bukti)as potongan');
 			$this->db->from('ci_pengeluaran_lain');
 		}
-			
+		$this->db->where('tgl_bukti >=', $tgl_awal);
+		$this->db->where('tgl_bukti <', $tgl_akhir);
 			$this->db->order_by('id','asc');
 		return $this->db->get()->result_array();
 		}
 
 
 		public function get_all_tlainnya(){
+			$tahun=$this->session->userdata('tahun');
+			$tahun_depan=$tahun+1;
+			$tgl_awal = $tahun.'-02-01';
+			$tgl_akhir = $tahun_depan.'-02-01';
+
 			if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' ){
 				$this->db->from('ci_penerimaan_lain');
 				$this->db->where('kd_area', 01);
@@ -64,15 +95,23 @@ class Pelimpahan_model extends CI_Model{
 				$this->db->from('ci_penerimaan_lain');
 				$this->db->where('kd_area', $this->session->userdata('kd_area'));
 			}
-				
+				$this->db->where('tgl_bukti >=', $tgl_awal);
+				$this->db->where('tgl_bukti <', $tgl_akhir);
 				$this->db->order_by('id','asc');
 			return $this->db->get()->result_array();
 			}
 			
 	
 	public function get_all_tf_bud(){
+			$tahun=$this->session->userdata('tahun');
+			$tahun_depan=$tahun+1;
+			$tgl_awal = $tahun.'-02-01';
+			$tgl_akhir = $tahun_depan.'-02-01';
+
 			$this->db->select('ci_transfer_bud.*, (select ifnull(sum(nilai),0) from ci_transfer_bud_potongan where no_kas=ci_transfer_bud.no_bukti)as potongan');
 			$this->db->from('ci_transfer_bud');
+			$this->db->where('tgl_transfer >=', $tgl_awal);
+			$this->db->where('tgl_transfer <', $tgl_akhir);
 			$this->db->order_by('id','asc');
 		return $this->db->get()->result_array();
 		}

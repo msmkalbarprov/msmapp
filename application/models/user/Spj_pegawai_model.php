@@ -1082,7 +1082,7 @@ public function get_pdo_detail($id){
 
 	function get_proyek_by_area_subarea($subarea,$area,$jns_spj)
 	{	
-
+		$tahun = $this->session->userdata('tahun');
         if ($jns_spj=='1'){
            
             $query1 = $this->db->query("SELECT id_proyek from ci_pendapatan");
@@ -1101,6 +1101,7 @@ public function get_pdo_detail($id){
                 $this->db->where('kd_area =',$area);	
                 $this->db->where('kd_sub_area =',$subarea);
                 $this->db->where_in('kd_proyek', $kd_proyek);
+				$this->db->where('left(kd_proyek,4)', $tahun);
             }else{
                 $this->db->from('v_get_proyek_pq');
                 $this->db->where('jns_pagu >','1');	
@@ -1108,6 +1109,7 @@ public function get_pdo_detail($id){
                 $this->db->where('kd_area =',$area);	
                 $this->db->where('kd_sub_area =',$subarea);
                 $this->db->where_in('kd_proyek', $kd_proyek);
+				$this->db->where('left(kd_proyek,4)', $tahun);
             }
 		
 		       
@@ -1117,12 +1119,15 @@ public function get_pdo_detail($id){
                 $this->db->from('ci_pq_operasional');
                 $this->db->where('status','1');
                 $this->db->where('kd_area =',$area);		
+				$this->db->where('left(kd_pq_operasional,4)', $tahun);
                 $this->db->group_by('left(kd_pq_operasional,10)');
+				
             }else{
                 $this->db->select("left(kd_pq_operasional,10) as kd_proyek,'' as nm_paket_proyek");
                 $this->db->from('ci_pq_operasional');
                 $this->db->where('status','1');	
                 $this->db->where('kd_area =',$area);	
+				$this->db->where('left(kd_pq_operasional,4)', $tahun);
                 $this->db->group_by('left(kd_pq_operasional,10)');
             }
         }
@@ -1195,6 +1200,7 @@ function get_pegawai_by_area_cetak()
 	function get_proyek_by_area_subarea_edit($subarea,$area,$id_pqproyek)
 	{	
 
+			$tahun = $this->session->userdata('tahun');
 			$query1 = $this->db->query("SELECT id_proyek from ci_pendapatan");
 			$query1_result = $query1->result();
 			$proyek_id= array();
@@ -1212,6 +1218,7 @@ function get_pegawai_by_area_cetak()
 			$this->db->where('kd_sub_area =',$subarea);
 			$this->db->where_in('kd_proyek', $kd_proyek);
 			$this->db->where('kd_proyek', $id_pqproyek);
+			$this->db->where('left(kd_proyek,4)',$tahun);
 		}else{
 			$this->db->from('v_get_proyek_pq');
 			$this->db->where('jns_pagu >','1');	
@@ -1220,6 +1227,7 @@ function get_pegawai_by_area_cetak()
 			$this->db->where('kd_sub_area =',$subarea);
 			$this->db->where_in('kd_proyek', $kd_proyek);
 			$this->db->where('kd_proyek', $id_pqproyek);
+			$this->db->where('left(kd_proyek,4)',$tahun);
 		}
 		
 		$query=$this->db->get();
