@@ -314,12 +314,13 @@ function get_realisasi($id, $no_acc)
 
 	function get_realisasi_spj($id, $no_acc)
 	{	
-		$this->db->select('ifnull(sum(nilai),0)as total');
-		$this->db->from('get_realisasi_spj');
-		$this->db->where('kd_pqproyek', $id);	
-		$this->db->where('no_acc', $no_acc);	
-		$query=$this->db->get();
-		return $query;
+			
+		$tahun=$this->session->userdata('tahun');
+		$query="SELECT IFNULL(SUM(nilai),0)AS total FROM (SELECT @ctahun:='".$tahun."' p) parm , get_realisasi_spj s 
+				where kd_pqproyek='".$id."' and no_acc='".$no_acc."'";
+		$data = $this->db->query($query);	
+		return $data;
+
 
 	}
 
