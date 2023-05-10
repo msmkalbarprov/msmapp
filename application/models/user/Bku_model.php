@@ -61,7 +61,7 @@ public function get_bku($id,$tahun,$bulan){
 			
 			
 		
-		if($bulan==0){
+		if($bulan==0 && $tahun=='2022'){
 			$this->db->where("year(tanggal)>=", $tahun);
 			$this->db->where("urut <>", 0);
 		}else{
@@ -118,7 +118,7 @@ public function get_bku($id,$tahun,$bulan){
 			
 			
 		
-		if($bulan==0){
+		if($bulan==0 && $tahun=='2022'){
 			$this->db->where("tanggal ", $tahun.'-01-31');
 		}else{
 			//$this->db->where("year(tanggal)>=", $tahun);
@@ -128,7 +128,7 @@ public function get_bku($id,$tahun,$bulan){
 			$bulan=str_pad($bulan,2,"0",STR_PAD_LEFT);
 			$ctanggal=$tahun.'-'.$bulan.'-'.$hari; 			
 			$this->db->where("tanggal < ", $ctanggal); 		
-			$this->db->where("urut <> ", 7); 
+			// $this->db->where("urut <> ", 7); 
 		} 
 		   return $result = $this->db->get()->row_array(); 
 	}

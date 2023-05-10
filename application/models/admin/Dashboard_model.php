@@ -111,16 +111,16 @@
 
 
 		public function get_all_proyek(){
-
+			$tahun = $this->session->userdata('tahun');
 			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing')
 			{
-				$this->db->where('thn_anggaran',date("Y"));
+				$this->db->where('thn_anggaran',$tahun);
 				$this->db->from("get_count_nominal_proyek");
 				$this->db->select("ifnull(sum(nilai),0)as nilai");
 				return $result = $this->db->get()->row_array();
 			}else{
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
-				$this->db->where('thn_anggaran',date("Y"));
+				$this->db->where('thn_anggaran',$tahun);
 				$this->db->from("get_count_nominal_proyek");
 				$this->db->select("ifnull(sum(nilai),0)as nilai");
 				return $result = $this->db->get()->row_array();
@@ -131,9 +131,11 @@
 
 		public function get_all_proyek_count(){
 
+			$tahun = $this->session->userdata('tahun');
+
 			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing')
 			{
-				$this->db->where('thn_anggaran',date("Y"));
+				$this->db->where('thn_anggaran',$tahun);
 				$this->db->group_start();
 						$this->db->where("batal",0);
 						$this->db->or_where("batal",null);
@@ -146,7 +148,7 @@
 						$this->db->where("batal",0);
 						$this->db->or_where("batal",null);
 				$this->db->group_end();
-				$this->db->where('thn_anggaran',date("Y"));
+				$this->db->where('thn_anggaran',$tahun);
 				$this->db->from("ci_proyek");
 				return $this->db->count_all_results();
 			}
@@ -156,16 +158,16 @@
 
 
 		public function get_all_proyek_cair(){
-
+			$tahun = $this->session->userdata('tahun');
 			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing')
 			{
-				$this->db->where('left(kd_proyek,4)',date("Y"));
+				$this->db->where('left(kd_proyek,4)',$tahun);
 				$this->db->from("ci_proyek_cair");
 				$this->db->select("ifnull(sum(nilai_bruto),0)as nilai");
 				return $result = $this->db->get()->row_array();
 			}else{
 				$this->db->where('substring(kd_proyek,6,2)',$this->session->userdata('kd_area'));
-				$this->db->where('left(kd_proyek,4)',date("Y"));
+				$this->db->where('left(kd_proyek,4)',$tahun);
 				$this->db->from("ci_proyek_cair");
 				$this->db->select("ifnull(sum(nilai_bruto),0) nilai");
 				return $result = $this->db->get()->row_array();
@@ -175,16 +177,17 @@
 		}
 
 		public function get_all_proyek_cair_count(){
+			$tahun = $this->session->userdata('tahun');
 
 			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing')
 			{
 				
-				$this->db->where('left(kd_proyek,4)',date("Y"));
+				$this->db->where('left(kd_proyek,4)',$tahun);
 				$this->db->from("ci_proyek_cair");
 				return $this->db->count_all_results();
 			}else{
 				$this->db->where('substring(kd_proyek,6,2)',$this->session->userdata('kd_area'));
-				$this->db->where('left(kd_proyek,4)',date("Y"));
+				$this->db->where('left(kd_proyek,4)',$tahun);
 				$this->db->from("ci_proyek_cair");
 				return $this->db->count_all_results();
 			}
@@ -193,16 +196,16 @@
 		}
 
 		public function get_all_pdo(){
-
+			$tahun = $this->session->userdata('tahun');
 			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing')
 			{
-				$this->db->where('left(tgl_pdo,4)',date("Y"));
+				$this->db->where('left(tgl_pdo,4)',$tahun);
 				$this->db->from("ci_pdo");
 				$this->db->select("ifnull(sum(nilai),0)as nilai");
 				return $result = $this->db->get()->row_array();
 			}else{
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
-				$this->db->where('left(tgl_pdo,4)',date("Y"));
+				$this->db->where('left(tgl_pdo,4)',$tahun);
 				$this->db->from("ci_pdo");
 				$this->db->select("ifnull(sum(nilai),0) nilai");
 				return $result = $this->db->get()->row_array();
@@ -212,16 +215,17 @@
 		}
 
 		public function get_all_pdo_count(){
+			$tahun = $this->session->userdata('tahun');
 
 			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing')
 			{
 				
-				$this->db->where('left(tgl_pdo,4)',date("Y"));
+				$this->db->where('left(tgl_pdo,4)',$tahun);
 				$this->db->from("ci_pdo");
 				return $this->db->count_all_results();
 			}else{
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
-				$this->db->where('left(tgl_pdo,4)',date("Y"));
+				$this->db->where('left(tgl_pdo,4)',$tahun);
 				$this->db->from("ci_pdo");
 				return $this->db->count_all_results();
 			}
@@ -231,15 +235,15 @@
 
 
 		public function get_all_spj_count(){
-
+			$tahun = $this->session->userdata('tahun');
 			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing')
 			{
-				$this->db->where('left(tgl_spj,4)',date("Y"));
+				$this->db->where('left(tgl_spj,4)',$tahun);
 				$this->db->from("ci_spj");
 				return $this->db->count_all_results();
 			}else{
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
-				$this->db->where('left(tgl_spj,4)',date("Y"));
+				$this->db->where('left(tgl_spj,4)',$tahun);
 				$this->db->from("ci_spj");
 				return $this->db->count_all_results();
 			}
@@ -249,15 +253,16 @@
 
 		public function get_all_spj(){
 
+			$tahun = $this->session->userdata('tahun');
 			if ($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Marketing')
 			{
-				$this->db->where('left(tgl_spj,4)',date("Y"));
+				$this->db->where('left(tgl_spj,4)',$tahun);
 				$this->db->from("ci_spj");
 				$this->db->select("ifnull(sum(nilai),0)as nilai");
 				return $result = $this->db->get()->row_array();
 			}else{
 				$this->db->where('kd_area',$this->session->userdata('kd_area'));
-				$this->db->where('left(tgl_spj,4)',date("Y"));
+				$this->db->where('left(tgl_spj,4)',$tahun);
 				$this->db->from("ci_spj");
 				$this->db->select("ifnull(sum(nilai),0) nilai");
 				return $result = $this->db->get()->row_array();

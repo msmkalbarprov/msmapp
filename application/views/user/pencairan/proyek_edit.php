@@ -233,6 +233,7 @@
                     <select id="rek_pencairan" name="rek_pencairan" class="form-control" required>
                       <option value="">No Selected</option>
                       <option value="1">Rekening Lokal</option>
+                      <option value="1010102">Kas Besar (BCA 0259)</option>
                       <option value="1010301">Bank BRI MSM - Veteran Rek. 10302</option>
                       <option value="1010302"> Bank BRI UMI - Veteran Rek. 12304</option>
                       <option value="1010303"> Bank BRI RUB - Tanah Abang Rek. 23305</option>

@@ -135,7 +135,11 @@ function get_kas_rekening($id)
 	{	
 
 		$this->db->select("ifnull(sum(terima), 0)-ifnull(sum(keluar), 0) as total");
-		$this->db->from('cetakan_kas_rekening');
+		if($id=='1010102'){
+			$this->db->from('cetakan_kas_rekening_kasbesar');
+		}else{
+			$this->db->from('cetakan_kas_rekening');
+		}
 		$this->db->where('no_rekening', $id);
 		$query=$this->db->get();
 		return $query;

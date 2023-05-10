@@ -682,7 +682,7 @@ public function get_operasional_by_id($id){
 		}
 public function cetak_operasional_by_area($id,$tahun){
 		
-	$tahun=$this->session->userdata('tahun');
+	// $tahun=$this->session->userdata('tahun');
 	$tahun_depan=$tahun+1;
 	$tgl_awal = $tahun.'-02-01';
 	$tgl_akhir = $tahun_depan.'-02-01';

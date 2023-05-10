@@ -108,7 +108,7 @@ public function get_rincian_bb($tahun,$bulan,$area){
                     (SELECT nm_area from ci_area where kd_area=ci_jurnal.kd_area)
                     ELSE
                     (SELECT nm_sub_area from ci_proyek where kd_proyek=ci_jurnal.kd_project) END as subarea");
-        if($bulan==0){
+        if($bulan==0 && $tahun=='2022'){
             $this->db->where("year(tgl_voucher)>=", $tahun);
         }else{
             $this->db->where("year(tgl_voucher)>=", $tahun);
