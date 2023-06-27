@@ -140,6 +140,56 @@ function terbilang($nilai) {
         }
 
 	}
+
+
+	// cetak pdp transfer
+	public function cetak_register_pdp_transfer($id=0,$tahun=0,$jenis=0,$bulan=0)
+	{	
+		$data['register_pdp'] 		= $this->proyek_model->get_register_pdp($id,$tahun,$bulan);
+		$data['area'] 				= $this->pdo_model->get_nama_area($id);
+		$data['tahun'] 				= $tahun;
+
+		if ($bulan==0){
+			$data['bulan'] 				= "";	
+		}else{
+			$data['bulan'] 				= $this->format_indo($bulan);
+		}
+
+		if ($id='allarea'){
+			$filename = 'register_pdp_all';
+		}else{
+			$filename = 'register_pdp';
+		}
+		
+		switch ($jenis)
+        {
+            case 1;
+                $this->load->library('pdf');
+			    $this->pdf->setPaper('Legal', 'landscape');
+			    $this->pdf->filename = "laporan_pdo.pdf";
+			    $this->pdf->load_view('user/pencairan/'.$filename, $data);
+                break;
+            case 0;
+				$html = $this->load->view('user/pencairan/'.$filename, $data);
+				header("Cache-Control: no-cache, no-store, must-revalidate");
+				header("Content-Type: application/vnd.ms-excel");
+				header("Content-Disposition: attachment; filename= register_pdp_$id.xls");
+				$html;
+               	break;
+				
+				
+				/*  $data['title']= 'Rincian/Realisasi/PDO/PerAkun';
+				 $data['filename']= 'Rincian-Realisasi-PDO-PerAkun';
+				 $data['html']= $this->load->view('user/pencairan/'.$filename, $data); //$this->laporan_pdo($ctahun,$carea,$cacc,$ctipe);
+				 $this->load->view('cetakan/cetakan',$data); */
+						
+				
+             case 2;
+				$this->load->view('user/pencairan/'.$filename, $data);
+               	break;
+        }
+
+	}
 }
 
 ?>

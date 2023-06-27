@@ -1094,5 +1094,27 @@ function get_filter1($area=0,$filter1=0)
 				
 			}
 
+	public function get_realisasi_proyek_bulan($bulan){
+		$tahun=$this->session->userdata('tahun');
+		$tahun2=$tahun+1;
+		
+		if($bulan==0){
+			$query="SELECT s.* FROM (SELECT @ctahun:='".$tahun."' p) parm , cetakan_proyek_pdo_pdp_spj_pl s order by kd_area asc";
+			// sengaja tidak dikasih tanggal supaya tau kalau ada selisih ketika cetak semua dan per bulan januari tahun depan
+		}else if($bulan==1){
+			$tgl1=$tahun.'-02-01';
+			$tgl2=$tahun2.'-01-31';
+			$query="SELECT s.* FROM (SELECT @ctahun:='".$tahun."',@tgl1:='".$tgl1."',@tgl2:='".$tgl2."' p) parm , cetakan_proyek_pdo_pdp_spj_pl_periode1 s order by kd_area asc";
+		}else{
+			$tgl1=$tahun.'-02-01';
+			$tgl2=$tahun.'-'.$bulan.'-31';
+			$query="SELECT s.* FROM (SELECT @ctahun:='".$tahun."',@tgl1:='".$tgl1."',@tgl2:='".$tgl2."' p) parm , cetakan_proyek_pdo_pdp_spj_pl_periode1 s order by kd_area asc";
+		}
+		$data = $this->db->query($query)->result_array();
+		return $data;
+	
+		
+	}
+
 	}
 ?>

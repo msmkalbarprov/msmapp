@@ -26,11 +26,18 @@
         }
 
         public function get_all(){
+
+            $tahun=$this->session->userdata('tahun');
+            $tahun2 = $tahun+1;
+            $tanggalawal = $tahun.'02'.'01';
+            $tanggalakhir = $tahun2.'02'.'01';
             $jns_jurnal= array('2','3');
             if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama' || $this->session->userdata('admin_role')=='Divisi Administrasi Proyek' || $this->session->userdata('admin_role')=='Admin' || $this->session->userdata('admin_role')=='Divisi Finance' ){
                 $this->db->select("*,sum(kredit)as t_kredit,sum(debet)as t_debet,(select nm_area from ci_area where kd_area = ci_jurnal.kd_area)as nm_area");
                 $this->db->from("ci_jurnal");
                 $this->db->where_in("jns_jurnal",$jns_jurnal);
+                $this->db->where("tgl_voucher >=",$tanggalawal);
+                $this->db->where("tgl_voucher <",$tanggalakhir);
                 $this->db->group_by("no_voucher,kd_area");
                 $this->db->order_by("tgl_voucher,no_voucher,kd_area");
                    return $this->db->get()->result_array();
@@ -40,6 +47,8 @@
                 $this->db->from("ci_jurnal");
                 $this->db->where_in("jns_jurnal",$jns_jurnal);
                 $this->db->where('kd_area',$this->session->userdata('kd_area'));
+                $this->db->where("tgl_voucher >=",$tanggalawal);
+                $this->db->where("tgl_voucher <",$tanggalakhir);
                 $this->db->group_by("no_voucher,kd_area");
                 $this->db->order_by("tgl_voucher,no_voucher,kd_area");
                    return $this->db->get()->result_array();

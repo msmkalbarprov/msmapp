@@ -89,9 +89,10 @@ class Proyek extends MY_Controller {
 				redirect(base_url('proyek/add'),'refresh');
 			}
 			else{
+				$nomor 					= $this->proyek_model->get_nomor_acak();
 				$data = array(
 					'username' 			=> $this->session->userdata('username'),
-					'id_proyek'			=> $this->input->post('area').''.$this->input->post('subarea1').''.$this->input->post('jnsproyek').''.$this->input->post('jnssubproyek').''.$this->input->post('perusahaan').''.$this->input->post('dinas').''.$this->input->post('thn_ang'),
+					'id_proyek'		=> $this->input->post('thn_ang').'.'.$this->input->post('area').'.'.$this->input->post('jnsproyek').'.'.$nomor,
 					'kd_area' 			=> $this->input->post('area'),
 					'kd_sub_area' 		=> $this->input->post('subarea1'),
 					'jns_proyek' 		=> $this->input->post('jnsproyek'),
@@ -107,7 +108,7 @@ class Proyek extends MY_Controller {
 
 				$data2 = array(
 					'username' 		=> $this->session->userdata('username'),
-					'id_proyek'		=> $this->input->post('area').''.$this->input->post('subarea1').''.$this->input->post('jnsproyek').''.$this->input->post('jnssubproyek').''.$this->input->post('perusahaan').''.$this->input->post('dinas').''.$this->input->post('thn_ang'),
+					'id_proyek'		=> $this->input->post('thn_ang').'.'.$this->input->post('area').'.'.$this->input->post('jnsproyek').'.'.$nomor,
 					'nilai' 		=> $this->proyek_model->angka($this->input->post('nilai')),
 					'jns_pagu' 		=> $this->input->post('jnspagu'),
 					'jns_pph' 		=> $this->input->post('jns_pph'),
@@ -121,6 +122,7 @@ class Proyek extends MY_Controller {
 				if($result){
 					$result2 = $this->proyek_model->add_proyek_rincian($data2);
 					if ($result2){
+						$this->proyek_model->update_no_acak($nomor);
 						$this->activity_model->add_log(1);
 						$this->session->set_flashdata('success', 'Proyek berhasil ditambahkan!');
 						redirect(base_url('proyek'));

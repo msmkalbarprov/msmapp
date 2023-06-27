@@ -42,15 +42,15 @@ class Laporan_pq extends MY_Controller {
 	}
 
 	public function lap_realisasi_proyek(){
-		$data['data_area'] 			= $this->area->get_area();
-		$data['title'] = 'Proyek VS PDO VS PDP VS SPJ';
+		$data['data_area'] 		= $this->area->get_area();
+		$data['title'] 			= 'Proyek VS PDO VS PDP VS SPJ';
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('user/laporan/laporan_realisasi_proyek_perarea');
 		$this->load->view('admin/includes/_footer');
 	}
 
-	public function datatable_json(){				   					   
-		$records['data'] = $this->pq_model->get_realisasi_proyek();
+	public function datatable_json($bulan){				   					   
+		$records['data'] = $this->pq_model->get_realisasi_proyek_bulan($bulan);
 		$data = array();
 
 		$i=0;

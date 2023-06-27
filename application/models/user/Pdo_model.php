@@ -814,7 +814,9 @@ public function get_nama_area($id){
 
 	public function get_register_pdo($id,$tahun,$bulan,$status){
 		
-			
+			$tahun_depan=$tahun+1;
+			$tgl_awal = $tahun.'-02-01';
+			$tgl_akhir = $tahun_depan.'-02-01';
 			
 			$this->db->select("*");
 			$this->db->from("cetak_register_pdo");
@@ -822,7 +824,8 @@ public function get_nama_area($id){
 			
 
 			if($bulan==0){
-				$this->db->where("year(tgl_pdo)", $tahun);
+				$this->db->where('tgl_pdo >=', $tgl_awal);
+				$this->db->where('tgl_pdo <', $tgl_akhir);
 			}else{
 				$this->db->where("year(tgl_pdo)", $tahun);
 				$this->db->where("month(tgl_pdo)", $bulan);

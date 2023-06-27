@@ -31,15 +31,37 @@
 	    }
 	}
 
+	public function get_nomor_acak(){
+		$query			="SELECT kode from no_acak";
+		$hasil     		= $this->db->query($query);
+		$nomor 		= $hasil->row('kode');
+		return $nomor;
+	}
+
+	public function get_nomor_acak2(){
+		$query			="SELECT kode from no_acak2";
+		$hasil     		= $this->db->query($query);
+		$nomor 		= $hasil->row('kode');
+		return $nomor;
+	}
+
 		public function add_proyek($data){
 			$this->db->insert('ci_proyek', $data);
 			return true;
 		}
 
+		
 		public function add_proyek_rincian($data){
 			$this->db->insert('ci_proyek_rincian', $data);
 			return true;
 		}
+
+		public function update_no_acak($nomor){
+			$this->db->set('no_acak',$nomor);
+			$this->db->update('ci_nomor');
+			return true;
+		}
+
 
 		//---------------------------------------------------
 		// get all users for server-side datatable processing (ajax based) 
@@ -141,6 +163,7 @@ function get_nilai_hpp($id, $no_acc)
 			$this->db->where('ci_proyek_rincian.jns_pph', 22);	
 			$query=$this->db->get();
 		}else if ($no_acc=='5041403'){ // pph 23
+
 
 			$query="SELECT a.id, a.jns_pph from ci_proyek_rincian a inner join ci_proyek b on a.id_proyek=b.id_proyek where b.kd_proyek='$id' order by a.id desc limit 1";
 					 $hasil     		= $this->db->query($query);

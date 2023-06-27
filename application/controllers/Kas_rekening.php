@@ -94,7 +94,7 @@ function terbilang($nilai) {
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'landscape');
 			    $this->pdf->filename = "bku_$id.pdf";
-				if($id=='1010102'){
+				if($id=='1010102' || $id='1010104'){
 						 $this->pdf->load_view('user/bku/kas_rekening_kasbesar', $data);
 				}else{
 						 $this->pdf->load_view('user/bku/kas_rekening', $data);

@@ -18,7 +18,28 @@
          
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
-         
+         <div class="row">
+         <div class="col-md-4">
+            <div class="form-group">
+              <label for="bulan" class="control-label">Bulan</label>
+                <select name="bulan" id="bulan" class="form-control" required>
+                  <option value="0">Semua</option>
+                  <option value="2">Februari</option>
+                  <option value="3">Maret</option>
+                  <option value="4">April</option>
+                  <option value="5">Mei</option>
+                  <option value="6">Juni</option>
+                  <option value="7">Juli</option>
+                  <option value="8">Agustus</option>
+                  <option value="9">September</option>
+                  <option value="10">Oktober</option>
+                  <option value="11">November</option>
+                  <option value="12">Desember</option>
+                  <option value="1">Januari</option>
+                </select>
+            </div>
+          </div>
+         </div>
          <div class="form-group">
           <div class="col-md-12" align="right">
             <button  name="submit" id="butcetak"  class="btn btn-dark btn-sm"><i class="fa fa-print"></i> Cetak</button>
@@ -69,12 +90,10 @@
 </script>
 <script>
   $(document).ready(function(){
-
-
     var table = $('#na_datatable').DataTable( {
     "processing": true,
     "serverSide": false,
-    "ajax": "<?=base_url('laporan_pq/datatable_json/')?>",
+    "ajax": "<?=base_url('laporan_pq/datatable_json/0/')?>",
     "order": [[0,'asc']],
     "columnDefs": [
     { "targets": 0, "name": "id", 'searchable':true, 'orderable':true},
@@ -100,6 +119,32 @@ $('#butexport').on('click', function() {
       var url = '<?= base_url() ?>'+'laporan_pq/cetak_pq_pdo_spj_per_area/0/Laporan Realisasi Proyek'; 
     window.open(url, '_blank');
 });
+
+$('#bulan').change(function(){ 
+      var bulan=$(this).val()
+  table.ajax.url("<?=base_url('laporan_pq/datatable_json'.'/')?>"+ bulan);
+  table.ajax.reload();
+
+      // $.ajax({
+      //     url : "<?php echo site_url('spj_tunai/get_area');?>",
+      //     method : "POST",
+      //     data : {
+      //         '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+      //         id: area},
+      //     async : true,
+      //     dataType : 'json',
+      //     success: function(data){
+      //         $('select[name="subarea_1"]').empty();
+      //         $('select[name="subarea_1"]').append('<option value="">No Selected</option>');
+      //         $.each(data, function(key, value) {
+      //             $('select[name="subarea_1"]').append('<option value="'+ value.kd_subarea +'">'+ value.nm_subarea +'</option>');
+      //         });
+
+      //     }
+      // });
+      return false;
+  });
+  
 
   }); 
 </script>
