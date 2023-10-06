@@ -6,9 +6,7 @@ class Perusahaan extends MY_Controller
 
         parent::__construct();
         auth_check(); // check login auth
-        $this->rbac->check_module_access();
-
-		$this->load->model('admin/perusahaan_model', 'perusahaan');
+        $this->load->model('admin/perusahaan_model', 'perusahaan');
 		$this->load->model('admin/Activity_model', 'activity_model');
 		$this->load->model('admin/area_model', 'area');
 		$this->load->model('admin/subarea_model', 'subarea');
@@ -17,13 +15,13 @@ class Perusahaan extends MY_Controller
 
 	//-----------------------------------------------------		
 	function index($subarea=''){
-
+		$this->rbac->check_module_access();
 		// $this->session->set_userdata('filter_subarea',$subarea);
 		$this->session->set_userdata('filter_keyword','');
 		
 		$data['data_subarea'] = $this->subarea->get_subarea();
 		
-		$data['title'] = 'Admin List';
+		$data['title'] = 'Perusahaan List';
 
 		$this->load->view('admin/includes/_header');
 		$this->load->view('user/perusahaan/index', $data);
@@ -93,7 +91,7 @@ public function datatable_json(){
 						// Activity Log 
 						$this->activity_model->add_log(4);
 						$this->session->set_flashdata('success', 'Perusahaan berhasil ditambahkan!');
-						redirect(base_url('perusahaan/index'));
+						redirect(base_url('perusahaan'));
 					}
 				}
 			}
@@ -140,12 +138,12 @@ public function datatable_json(){
 					$this->activity_model->add_log(5);
 
 					$this->session->set_flashdata('success', 'Perusahaan berhasil diupdate!');
-					redirect(base_url('perusahaan/index'));
+					redirect(base_url('perusahaan'));
 				}
 			}
 		}
 		elseif($id==""){
-			redirect('perusahaan/index');
+			redirect('perusahaan');
 		}
 		else{
 			$data['perusahaan'] = $this->perusahaan->get_perusahaan_by_id($id);
@@ -179,7 +177,7 @@ public function datatable_json(){
 		$this->activity_model->add_log(6);
 
 		$this->session->set_flashdata('success','Perusahaan berhasil dihapus.');	
-		redirect('perusahaan/index');
+		redirect('perusahaan');
 	}
 	
 }

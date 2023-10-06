@@ -58,7 +58,8 @@
     <h2 class="color-white-shadow text-center">403 Forbidden<br><small>Access denied</small></h2>
     <img src="https://images.unsplash.com/photo-1506202687253-52e1b29d3527?ixlib=rb-0.3.5&s=b43d68ed98b673427669234757d85e56&auto=format&fit=crop&w=300&q=80" width="300" height="140" class="mask">
     <p class="color-white-shadow text-center">You are not allowed to access this operation<br>Because it's in private mode.</p>
-    <p class="text-center"><a href="#" onclick="window.history.go(-1); return false;">Go Back</a></p>
+	<?= $back_to ?>
+    <p class="text-center"><a href="<?= $back_to ?>" onclick="window.history.go(-1); return false;">Go Back</a></p>
   </div>
 </div>
 

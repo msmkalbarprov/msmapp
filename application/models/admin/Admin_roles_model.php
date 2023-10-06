@@ -65,6 +65,25 @@ class Admin_roles_model extends CI_Model{
 		$query=$this->db->get();
 		return $query->result_array();
     }
+
+	//-----------------------------------------------------
+	function get_modulesAll()
+    {
+		$this->db->from('getMenu');
+		$query=$this->db->get();
+		return $query->result_array();
+    }
+
+	// ----------------------------------------------------
+
+	function get_submodules()
+    {
+		$this->db->from('sub_module');
+		$this->db->order_by('parent','asc');
+		$this->db->order_by('sort_order','asc');
+		$query=$this->db->get();
+		return $query->result_array();
+    }
     
 	//-----------------------------------------------------
 	function set_access()
@@ -72,8 +91,27 @@ class Admin_roles_model extends CI_Model{
 		if($this->input->post('status')==1)
 		{
 			$this->db->set('admin_role_id',$this->input->post('admin_role_id'));
+			$this->db->set('jenis_id',$this->input->post('module'));
+			// $this->db->set('operation',$this->input->post('operation'));
+			$this->db->insert('module_access');
+		}
+		else
+		{
+			$this->db->where('admin_role_id',$this->input->post('admin_role_id'));
+			$this->db->where('jenis_id',$this->input->post('module'));
+			$this->db->where('operation','');
+			$this->db->delete('module_access');
+		}
+	}
+
+	function set_permission()
+	{
+		if($this->input->post('status')==1)
+		{
+			$this->db->set('admin_role_id',$this->input->post('admin_role_id'));
 			$this->db->set('module',$this->input->post('module'));
 			$this->db->set('operation',$this->input->post('operation'));
+			$this->db->set('jenis_id',$this->input->post('jenis_id'));
 			$this->db->insert('module_access');
 		}
 		else
@@ -81,9 +119,12 @@ class Admin_roles_model extends CI_Model{
 			$this->db->where('admin_role_id',$this->input->post('admin_role_id'));
 			$this->db->where('module',$this->input->post('module'));
 			$this->db->where('operation',$this->input->post('operation'));
+			$this->db->where('jenis_id',$this->input->post('jenis_id'));
 			$this->db->delete('module_access');
 		}
-	} 
+	}
+	
+	
 	//-----------------------------------------------------
 	function get_access($admin_role_id)
 	{
@@ -94,6 +135,19 @@ class Admin_roles_model extends CI_Model{
 		foreach($query->result_array() as $v)
 		{
 			$data[]=$v['module'].'/'.$v['operation'];
+		}
+		return $data;
+	} 	
+
+	function get_access_new($admin_role_id)
+	{
+		$this->db->from('module_access');
+		$this->db->where('admin_role_id',$admin_role_id);
+		$query=$this->db->get();
+		$data=array();
+		foreach($query->result_array() as $v)
+		{
+			$data[]=$v['jenis_id'];
 		}
 		return $data;
 	} 	

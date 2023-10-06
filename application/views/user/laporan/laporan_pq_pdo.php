@@ -81,9 +81,9 @@ $('#butcetak').on('click', function() {
     var tahun   = document.getElementById("thn_ang").value;
 
     if (projek=='all'){
-      var url = '<?= base_url() ?>'+'laporan_pq/cetak_pq_pdo_all/'+area+'/'+tahun+'/1/Laporan PQ VS PDO VS SPJ'; 
+      var url = '<?= base_url() ?>'+'laporan_pq_proyek/cetak_pq_pdo_all/'+area+'/'+tahun+'/1/Laporan PQ VS PDO VS SPJ'; 
     }else{
-      var url = '<?= base_url() ?>'+'laporan_pq/cetak_pq_pdo_proyek/'+proyek+'/'+tahun+'/1/Laporan PQ VS PDO VS SPJ';   
+      var url = '<?= base_url() ?>'+'laporan_pq_proyek/cetak_pq_pdo_proyek/'+proyek+'/'+tahun+'/1/Laporan PQ VS PDO VS SPJ';   
     }
 
     
@@ -97,9 +97,9 @@ $('#butexport').on('click', function() {
     var tahun   = document.getElementById("thn_ang").value;
 
     if (projek=='all'){
-      var url = '<?= base_url() ?>'+'laporan_pq/cetak_pq_pdo_all/'+area+'/'+tahun+'/0/Laporan PQ VS PDO VS SPJ'; 
+      var url = '<?= base_url() ?>'+'laporan_pq_proyek/cetak_pq_pdo_all/'+area+'/'+tahun+'/0/Laporan PQ VS PDO VS SPJ'; 
     }else{
-      var url = '<?= base_url() ?>'+'laporan_pq/cetak_pq_pdo_proyek/'+proyek+'/'+tahun+'/0/Laporan PQ VS PDO VS SPJ';   
+      var url = '<?= base_url() ?>'+'laporan_pq_proyek/cetak_pq_pdo_proyek/'+proyek+'/'+tahun+'/0/Laporan PQ VS PDO VS SPJ';   
     }
     window.open(url, '_blank');
 });

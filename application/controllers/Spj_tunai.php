@@ -6,7 +6,7 @@ class Spj_tunai extends MY_Controller {
 
 		parent::__construct();
 		auth_check(); // check login auth
-		$this->rbac->check_module_access();
+		
 
 		$this->load->model('user/Spj_pegawai_model', 'spjpegawai_model');
 		$this->load->model('user/pq_model', 'pq_model');
@@ -20,6 +20,7 @@ class Spj_tunai extends MY_Controller {
 
 	//-----------------------------------------------------------
 	public function index(){
+	    $this->rbac->check_module_access();
 		$data['title'] = 'SPJ';
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('user/spj_pegawai/tunai');

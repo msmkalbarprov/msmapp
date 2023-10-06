@@ -6,10 +6,10 @@
         <div class="card-header">
           <div class="d-inline-block">
               <h3 class="card-title"> <i class="fa fa-pencil"></i>
-              Edit Dinas </h3>
+              Tambah perusahaan </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('perusahaan/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Dinas</a>
+            <a href="<?= base_url('perusahaan'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List perusahaan</a>
           </div>
         </div>
         <div class="card-body">   

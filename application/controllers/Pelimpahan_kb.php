@@ -6,7 +6,7 @@ class Pelimpahan_kb extends MY_Controller
 
         parent::__construct();
         auth_check(); // check login auth
-        $this->rbac->check_module_access();
+        // $this->rbac->check_module_access();
 
 		$this->load->model('admin/pelimpahan_model', 'pelimpahan_model');
 		$this->load->model('admin/Activity_model', 'activity_model');

@@ -6,17 +6,17 @@
         <div class="card-header">
           <div class="d-inline-block">
               <h3 class="card-title"> <i class="fa fa-pencil"></i>
-              Tambahy Dinas </h3>
+              Tambah Dinas </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('dinas/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Dinas</a>
+            <a href="<?= base_url('skpd'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Dinas</a>
           </div>
         </div>
         <div class="card-body">   
            <!-- For Messages -->
             <?php $this->load->view('admin/includes/_messages.php') ?>
               
-            <?php echo form_open(base_url('dinas/add/'), 'class="form-horizontal"' )?> 
+            <?php echo form_open(base_url('skpd/add/'), 'class="form-horizontal"' )?> 
 
               <div class="row">
                 <div class="col-md-6">

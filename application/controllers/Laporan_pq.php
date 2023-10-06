@@ -6,8 +6,6 @@ class Laporan_pq extends MY_Controller {
 
 		parent::__construct();
 		auth_check(); // check login auth
-		$this->rbac->check_module_access();
-
 		$this->load->model('user/proyek_model', 'proyek_model');
 		$this->load->model('user/pq_model', 'pq_model');
 
@@ -26,6 +24,7 @@ class Laporan_pq extends MY_Controller {
 
 	//-----------------------------------------------------------
 	public function index(){
+		$this->rbac->check_module_access();
 		$data['data_area'] 			= $this->area->get_area();
 		$data['title'] = 'Proyek';
 		$this->load->view('admin/includes/_header', $data);
@@ -34,6 +33,7 @@ class Laporan_pq extends MY_Controller {
 	}
 
 	public function operasional(){
+		$this->rbac->check_module_access();
 		$data['data_area'] 			= $this->area->get_area();
 		$data['title'] = 'Proyek';
 		$this->load->view('admin/includes/_header', $data);
@@ -42,6 +42,7 @@ class Laporan_pq extends MY_Controller {
 	}
 
 	public function lap_realisasi_proyek(){
+		$this->rbac->check_module_access();
 		$data['data_area'] 		= $this->area->get_area();
 		$data['title'] 			= 'Proyek VS PDO VS PDP VS SPJ';
 		$this->load->view('admin/includes/_header', $data);
@@ -74,7 +75,7 @@ class Laporan_pq extends MY_Controller {
 		echo json_encode($records);						   
 	}
  
-	public function cetak_pq_pdo_proyek($id=0,$tahun='',$jenis='')
+	public function cetak_pq_pdo_proyek($id=0,$tahun='',$jenis='', $titlecetak='')
 	{	
 		$data['pqproyek'] 		= $this->pq_model->get_pq_by_id($id);
 		$data['pencairan'] 		= $this->pq_model->get_pencairan_by_id($id);

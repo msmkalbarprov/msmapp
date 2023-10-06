@@ -19,7 +19,7 @@
              PDO Operasional </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('cpdo/add_operasional'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
+            <a href="<?= base_url('pdo-operasional/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
           </div>
         </div>
     </div>

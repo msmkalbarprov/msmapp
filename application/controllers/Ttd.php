@@ -6,7 +6,7 @@ class Ttd extends MY_Controller
 
         parent::__construct();
         auth_check(); // check login auth
-        $this->rbac->check_module_access();
+        
 
 		$this->load->model('user/dinas_model', 'dinas');
 		$this->load->model('admin/Activity_model', 'activity_model');
@@ -17,13 +17,13 @@ class Ttd extends MY_Controller
 
 	//-----------------------------------------------------		
 	function index($subarea=''){
-
+		$this->rbac->check_module_access();
 		// $this->session->set_userdata('filter_subarea',$subarea);
 		$this->session->set_userdata('filter_keyword','');
 		
 		$data['data_subarea'] = $this->subarea->get_subarea();
 		
-		$data['title'] = 'Admin List';
+		$data['title'] = 'Penandatangan List';
 
 		$this->load->view('admin/includes/_header');
 		$this->load->view('user/ttd/index', $data);
@@ -38,7 +38,7 @@ class Ttd extends MY_Controller
 		
 		$data['data_subarea'] = $this->subarea->get_subarea();
 		
-		$data['title'] = 'Admin List';
+		$data['title'] = 'Penandatangan List';
 
 		$this->load->view('admin/includes/_header');
 		$this->load->view('user/ttd/penandatangan', $data);
@@ -65,7 +65,7 @@ public function datatable_json(){
 			$data[]= array(
 				$i++,
 				$row['nm_area'],
-				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('ttd/edit/'.$row['kd_area']).'"> <i class="fa fa-pencil-square-o"></i></a>'
+				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('penandatangan/edit/'.$row['kd_area']).'"> <i class="fa fa-pencil-square-o"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -169,13 +169,13 @@ public function datatable_json_ttd(){
 					// Activity Log 
 					$this->activity_model->add_log(5);
 
-					$this->session->set_flashdata('success', 'Sub Area berhasil diupdate!');
-					redirect(base_url('ttd/index'));
+					$this->session->set_flashdata('success', 'Penandatangan berhasil diupdate!');
+					redirect(base_url('penandatangan'));
 				}
 			}
 		}
 		elseif($id==""){
-			redirect('ttd/index');
+			redirect('penandatangan');
 		}
 		else{
 			$data['tandatangan']		= $this->subarea->get_ttd_by_area($id);
@@ -210,7 +210,7 @@ public function datatable_json_ttd(){
 		// Activity Log 
 		$this->activity_model->add_log(6);
 
-		$this->session->set_flashdata('success','Sub Area berhasil dihapus.');	
+		$this->session->set_flashdata('success','Penandatangan berhasil dihapus.');	
 		redirect('ttd/penandatangan');
 	}
 	

@@ -19,7 +19,7 @@
              PDO Gaji / Transportasi dan Akomodasi</h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('cpdo/add_gaji'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
+            <a href="<?= base_url('pdo-gaji/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
           </div>
         </div>
     </div>

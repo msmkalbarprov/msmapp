@@ -14,10 +14,10 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-plus"></i>
-             Edit Item PQ Operasional </h3>
+             Edit Item PQ Operasional</h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pq/add_operasional') ?>" class="btn btn-primary"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('project-qualifying/edit_pq_operasional/').substr($this->uri->segment(3),0,8) ?>" class="btn btn-primary"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -26,7 +26,7 @@
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
          
-         <?php echo form_open_multipart('pq/edit_rincian_pq_operasional/'.$rincian_pq_operasional["id_pq_operasional"]);?>
+         <?php echo form_open_multipart('project-qualifying/edit_rincian_pq_operasional/'.$rincian_pq_operasional["id_pq_operasional"].'/'.$this->uri->segment(4));?>
          <div class="row">
           <div class="col-md-3">
            <div class="form-group">

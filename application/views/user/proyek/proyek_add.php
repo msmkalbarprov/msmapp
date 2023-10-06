@@ -11,7 +11,7 @@
              <?= trans('proyek_add') ?> </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('proyek'); ?>" class="btn btn-success"><i class="fa fa-list"></i>  <?= trans('proyek_list') ?></a>
+            <a href="<?= base_url('pekerjaan'); ?>" class="btn btn-success"><i class="fa fa-list"></i>  <?= trans('proyek_list') ?></a>
           </div>
         </div>
         <div class="card-body">
@@ -19,7 +19,7 @@
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
-         <?php echo form_open(base_url('proyek/add'), 'class="form-horizontal"');  ?> 
+         <?php echo form_open(base_url('pekerjaan/add'), 'class="form-horizontal"');  ?> 
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">

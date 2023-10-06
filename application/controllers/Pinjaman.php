@@ -6,7 +6,7 @@ class Pinjaman extends MY_Controller
 
         parent::__construct();
         auth_check(); // check login auth
-        $this->rbac->check_module_access();
+        
 
 		$this->load->model('admin/pinjaman_model', 'pinjaman_model');
 		$this->load->model('admin/Activity_model', 'activity_model');
@@ -19,7 +19,7 @@ class Pinjaman extends MY_Controller
 
 	//-----------------------------------------------------		
 	function index($subarea=''){
-
+		$this->rbac->check_module_access();
 		// $this->session->set_userdata('filter_subarea',$subarea);
 		$this->session->set_userdata('filter_keyword','');
 		$data['title'] = 'pinjaman';
@@ -33,6 +33,7 @@ class Pinjaman extends MY_Controller
 	function pengembalian($subarea=''){
 
 		// $this->session->set_userdata('filter_subarea',$subarea);
+		$this->rbac->check_module_access();
 		$this->session->set_userdata('filter_keyword','');
 		$data['title'] = 'pinjaman';
 
@@ -86,8 +87,8 @@ public function datatable_json(){
 		$i=1;
 		foreach ($records['data']   as $row) 
 		{  
-				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pinjaman/edit/'.$row['id']).'/'.$row['kd_pegawai'].'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pinjaman/delete/".$row['id']).'/'.$row['kd_pegawai'].' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
+				$button='<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pengembalian-pinjaman/edit/'.$row['id']).'/'.$row['kd_pegawai'].'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pengembalian-pinjaman/delete/".$row['id']).'/'.$row['kd_pegawai'].' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>';
 		
 			$data[]= array(
 				$i++,
@@ -205,7 +206,7 @@ public function datatable_json(){
 						'errors' => 'Saldo anda tidak cukup'
 					);
 					$this->session->set_flashdata('errors', $data['errors']);
-					redirect(base_url('pinjaman/add_pengembalian'),'refresh');
+					redirect(base_url('pengembalian-pinjaman/add'),'refresh');
                 }
 				
 				if ($this->form_validation->run() == FALSE) {
@@ -213,7 +214,7 @@ public function datatable_json(){
 						'errors' => validation_errors()
 					);
 					$this->session->set_flashdata('errors', $data['errors']);
-					redirect(base_url('pinjaman/add_pengembalian'),'refresh');
+					redirect(base_url('pengembalian-pinjaman/add'),'refresh');
 				}
 				else{
 					$data = array(
@@ -242,9 +243,8 @@ public function datatable_json(){
 						
 						// Activity Log 
 						$this->activity_model->add_log(4);
-
-						$this->session->set_flashdata('success', 'Pinjaman berhasil ditambahkan!');
-						redirect(base_url('pinjaman/index'));
+						$this->session->set_flashdata('success', 'Pengembalian Pinjaman berhasil ditambahkan!');
+						redirect(base_url('pengembalian-pinjaman'));
 					}
 				}
 			}

@@ -52,28 +52,15 @@
 
     <?php 
 		$ctahun=$this->session->userdata('tahun');
-      if($this->session->userdata('is_supper')){
         $warna3 = 'bg-white';
-      }else if ($this->session->userdata('admin_role')=='Direktur Utama'){
-        $warna3 = 'bg-danger';
-      }else if ($this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
-        $warna3 = 'bg-info';
-      }else if ($this->session->userdata('admin_role')=='Divisi Finance'){
-        $warna3 = 'bg-primary';
-      }else if ($this->session->userdata('admin_role')=='Admin Area'){
-        $warna3 = 'bg-warning';
-      }else if ($this->session->userdata('admin_role')=='Karyawan'){
-        $warna3 = 'bg-success';
-      }else{
-        $warna3 = 'bg-white';
-      }
+      
     ?>
 
   <nav class="main-header navbar navbar-expand <?= $warna3; ?> navbar-light border-bottom">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i><label id="lbtahun" style="margin-left:10px;font-size: 20px;"">Tahun Anggara <?php echo  $this->session->userdata('tahun') ?></label></a>
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i><label id="lbtahun" style="margin-left:10px;font-size: 20px;"">Tahun Anggaran <?php echo  $this->session->userdata('tahun') ?></label></a>
       </li>
 
     </ul>

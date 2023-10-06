@@ -33,12 +33,15 @@ class Posting extends MY_Controller
 	
 	//--------------------------------------------------
 	function posting(){
-
+		$tahun = $this->input->post('tahun', TRUE);
+		$bulan = $this->input->post('bulan', TRUE);
+					
+		
 					$data = array(
 						'posting_jurnal' 	=> date('Y-m-d  H:i:s')
 					);
 					$data = $this->security->xss_clean($data);
-					$result = $this->posting_model->posting($data);
+					$result = $this->posting_model->posting($data,$tahun,$bulan);
 					if($result){
 
 						// Activity Log 

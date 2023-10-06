@@ -18,7 +18,7 @@
              <?= trans('rincian_proyek_add') ?> </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pq'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('project-qualifying'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">

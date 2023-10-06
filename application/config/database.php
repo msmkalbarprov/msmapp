@@ -75,12 +75,12 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	// 'hostname' => 'msmkalbar.com',
 	
-	// 'username' => 'u1548762_root',
-	// 'password' => 'msmapp2022',
-	// 'database' => 'u1548762_msmapp',
+	// 'hostname' => 'msmkalbar.com',
+	// 'username' => 'u1548762_rootadmin',
+	// 'password' => 'Qazwsx1221',
+	// 'database' => 'u1548762_2023',
+	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
 	'database' => 'msmapp',

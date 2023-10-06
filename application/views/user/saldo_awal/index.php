@@ -12,7 +12,7 @@
              Saldo Awal </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('saldo_awal/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
+            <a href="<?= base_url('saldo-awal/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
           </div>
         </div>
       <!-- /.box-body -->

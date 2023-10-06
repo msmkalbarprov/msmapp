@@ -11,7 +11,7 @@
              <?= trans('rincian_proyek_add') ?> </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('proyek/edit/'.$proyek["id_proyek"]); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pekerjaan/edit/'.$proyek["id_proyek"]); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -20,7 +20,7 @@
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
          
-         <?php echo form_open_multipart('proyek/addrincian/'.$proyek["id_proyek"]);?>
+         <?php echo form_open_multipart('pekerjaan/addrincian/'.$proyek["id_proyek"]);?>
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">

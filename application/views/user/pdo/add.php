@@ -18,7 +18,7 @@
              Tambah PDO Proyek </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pdo'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pdo-proyek'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -505,7 +505,7 @@ $('#butsave').on('click', function() {
     if(divisi!="" && tgl_pdo!="" && projek != "" && kd_item!=""  && total!="" && area!=""){
       $("#butsave").attr("disabled", "disabled");
       $.ajax({
-        url: "<?php echo base_url("cpdo/add/".$this->uri->segment(3));?>",
+        url: "<?php echo base_url("pdo-proyek/add/".$this->uri->segment(3));?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -529,7 +529,7 @@ $('#butsave').on('click', function() {
           var dataResult = JSON.parse(dataResult);
           if(dataResult.statusCode==200){
             document.getElementById("butsave").disabled = true;
-            window.location.replace("<?= base_url('/pdo') ?>");
+            window.location.replace("<?= base_url('/pdo-proyek') ?>");
             $("#error").hide();
           }
           else if(dataResult.statusCode==201){

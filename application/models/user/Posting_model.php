@@ -2,9 +2,10 @@
 
 class Posting_model extends CI_Model{
     
-    public function posting($data){
+    public function posting($data,$tahun,$bulan){
         $this->db->trans_start(TRUE);
-            $this->db->query("call rekal_jurnal() ");
+            $this->db->query("call rekal_jurnal('".$tahun."','".$bulan."')");
+            
             $this->db->update('ci_general_settings', $data);
         $this->db->trans_complete();
         return true;

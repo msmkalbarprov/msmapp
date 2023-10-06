@@ -6,8 +6,6 @@ class Pencairan extends MY_Controller {
 
 		parent::__construct();
 		auth_check(); // check login auth
-		$this->rbac->check_module_access();
-
 		$this->load->model('admin/admin_model', 'admin');
 		$this->load->model('admin/area_model', 'area');
 		$this->load->model('admin/subarea_model', 'subarea');
@@ -27,6 +25,7 @@ class Pencairan extends MY_Controller {
 
 	//-----------------------------------------------------------
 	public function index(){
+		$this->rbac->check_module_access();
 		$data['title'] = 'Proyek';
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('user/pencairan/proyek_list');

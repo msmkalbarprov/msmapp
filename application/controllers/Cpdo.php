@@ -21,27 +21,30 @@ class Cpdo extends MY_Controller {
 
 	//-----------------------------------------------------------
 	public function index(){
-		$data['title'] = 'PDO';
+		$this->rbac->check_module_access();
+		$data['title'] = 'PDO PROYEK';
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('user/pdo/list');
 		$this->load->view('admin/includes/_footer');
 	}
 
 	public function gaji(){
-		$data['title'] = 'PDO';
+		$this->rbac->check_module_access();
+		$data['title'] = 'PDO GAJI';
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('user/pdo/list_gaji');
 		$this->load->view('admin/includes/_footer');
 	}
 
 	public function operasional(){
+		$this->rbac->check_module_access();
 		$data['title'] = 'PDO Operasional';
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('user/pdo/list_operasional');
 		$this->load->view('admin/includes/_footer');
 	}
 
-
+	// proyek
 	public function datatable_json(){				   					   
 		$records['data'] = $this->pdo_model->get_all_pdo();
 		$data = array();
@@ -49,11 +52,11 @@ class Cpdo extends MY_Controller {
 		foreach ($records['data']   as $row) 
 		{  
 			if ($row['approve']==1 ){
-				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pdo-proyek/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
 			}else{
-				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_project/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('cpdo/delete_pdo_project/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
-				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pdo-proyek/edit/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('pdo-proyek/delete/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pdo-proyek/cetak_pdo/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}
 
 
@@ -79,11 +82,11 @@ class Cpdo extends MY_Controller {
 		foreach ($records['data']   as $row) 
 		{  
 			if ($row['approve']==1){
-				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pdo-gaji/cetak_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-print"></i></a>';
 			}else{
-				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('cpdo/delete_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
-				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pdo-gaji/edit/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('pdo-gaji/delete/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pdo-gaji/cetak_pdo_gaji/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}
 
 
@@ -101,6 +104,7 @@ class Cpdo extends MY_Controller {
 		echo json_encode($records);						   
 	}
 
+	// PDO operasional
 public function datatable_json_operasional(){				   					   
 		$records['data'] = $this->pdo_model->get_all_pdo_operasional();
 		$data = array();
@@ -108,11 +112,11 @@ public function datatable_json_operasional(){
 		foreach ($records['data']   as $row) 
 		{  
 			if ($row['approve']==1){
-				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pdo-operasional/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}else{
-				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('cpdo/edit_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('cpdo/delete_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
-				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('cpdo/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
+				$tombol = '<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pdo-operasional/edit/'.str_replace("/","",$row['id_pdo'])).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url('pdo-operasional/delete/'.str_replace("/","",$row['id_pdo'])).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>
+				<a title="Cetak" class="cetak btn btn-sm btn-dark" href="'.base_url('pdo-operasional/cetak_pdo_operasional/'.str_replace("/","",$row['id_pdo'])).'" target="_blank"> <i class="fa fa-print"></i></a>';
 			}
 
 			$data[]= array(
@@ -264,10 +268,10 @@ public function add_pdo_project(){
 				if($result){
 					$this->activity_model->add_log(1);
 					$this->session->set_flashdata('success', 'PDO Proyek berhasil ditambahkan!');
-					redirect(base_url('cpdo'));
+					redirect(base_url('pdo-proyek'));
 				}else{
 					$this->session->set_flashdata('errors', 'PDO Proyek gagal ditambahkan!');
-					redirect(base_url('cpdo/add'));
+					redirect(base_url('pdo-proyek/add'));
 				}
 			}
 		}
@@ -307,10 +311,10 @@ public function add_pdo_gaji(){
 				if($result){
 					$this->activity_model->add_log(1);
 					$this->session->set_flashdata('success', 'PDO Proyek berhasil ditambahkan!');
-					redirect(base_url('cpdo/gaji'));
+					redirect(base_url('pdo-gaji'));
 				}else{
 					$this->session->set_flashdata('errors', 'PDO Proyek gagal ditambahkan!');
-					redirect(base_url('cpdo/add_gaji'));
+					redirect(base_url('pdo-gaji/add'));
 				}
 			}
 		}
@@ -348,16 +352,23 @@ public function edit_pdo_keterangan($id='',$jns=''){
 					$this->activity_model->add_log(1);
 					$this->session->set_flashdata('success', 'PQ Proyek berhasil diubah!');
 					if ($jns=='1'){
-						redirect(base_url('cpdo'));
+						redirect(base_url('pdo-proyek'));
 					}else if ($jns=='3'){
-						redirect(base_url('cpdo/gaji'));
+						redirect(base_url('pdo-gaji'));
 					}else{
-						redirect(base_url('cpdo/operasional'));	
+						redirect(base_url('pdo-operasional'));	
 					}
 					
 				}else{
 					$this->session->set_flashdata('errors', 'PQ Proyek gagal diubah!');
-					redirect(base_url('cpdo/edit_pdo_project/'.$id));
+					if ($jns=='1'){
+						redirect(base_url('pdo-proyek/edit/'.$id));
+					}else if ($jns=='3'){
+						redirect(base_url('pdo-gaji/edit/'.$id));
+					}else{
+						redirect(base_url('pdo-operasional/edit/'.$id));
+					}
+					
 				}
 			}
 		}
@@ -397,10 +408,10 @@ public function add_pdo_operasional(){
 				if($result){
 					$this->activity_model->add_log(1);
 					$this->session->set_flashdata('success', 'PQ Proyek berhasil ditambahkan!');
-					redirect(base_url('cpdo/operasional'));
+					redirect(base_url('pdo-operasional'));
 				}else{
 					$this->session->set_flashdata('errors', 'PQ Proyek gagal ditambahkan!');
-					redirect(base_url('cpdo/add_operasional'));
+					redirect(base_url('pdo-operasional/add'));
 				}
 			}
 		}
@@ -496,7 +507,7 @@ public function datatable_json_pdo_proyek_edit($id='',$kodepdo=''){
 				$row['uraian'],
 				$row['no_rekening'].'<br>'.$row['nm_rekening'],
 				number_format($row['nilai'],2,',','.'),
-				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("cpdo/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/3'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pdo-proyek/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/3'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -521,7 +532,7 @@ public function datatable_json_pdo_proyek_edit($id='',$kodepdo=''){
 				$row['harga'],
 				$row['uraian'],
 				number_format($row['nilai'],2,',','.'),
-				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("cpdo/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/1'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pdo-gaji/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/1'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -547,7 +558,7 @@ public function datatable_json_pdo_operasional_edit($id='',$kodepdo=''){
 				$row['uraian'],
 				$row['no_rekening'],
 				number_format($row['nilai'],2,',','.'),
-				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("cpdo/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/2'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pdo-operasional/delete_pdo_project_temp/".$row['id']).'/'.$kodepdo.'/2'.' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -590,7 +601,7 @@ public function datatable_json_pdo_operasional_edit($id='',$kodepdo=''){
 							"statusCode"=>200
 						));
 				// 	$this->session->set_flashdata('success', 'Data PDO berhasil disimpan!');
-				// 	redirect(base_url('cpdo/operasional'),'refresh');
+				// 	redirect(base_url('pdo/operasional'),'refresh');
 				// }else{
 				// 	echo json_encode(array(
 				// 			"statusCode"=>201
@@ -785,12 +796,12 @@ public function delete_pdo_project($id = 0)
 
 			if ($status==1){
 				$this->session->set_flashdata('errors', 'PDO Sudah dicairkan!');
-				redirect(base_url('cpdo/'));				
+				redirect(base_url('pdo-proyek'));				
 			}else{
 				$this->db->delete('ci_pdo', array('id_pdo' => $id));	
 				$this->activity_model->add_log(3);
 				$this->session->set_flashdata('success', 'Data berhasil dihapus!');
-				redirect(base_url('cpdo/'));
+				redirect(base_url('pdo-proyek'));
 			}
 		
 	}
@@ -807,12 +818,12 @@ public function delete_pdo_project($id = 0)
 
 			if ($status==1){
 				$this->session->set_flashdata('errors', 'PDO Sudah dicairkan!');
-				redirect(base_url('cpdo/gaji'));				
+				redirect(base_url('pdo-gaji'));				
 			}else{
 				$this->db->delete('ci_pdo', array('id_pdo' => $id));	
 				$this->activity_model->add_log(3);
 				$this->session->set_flashdata('success', 'Data berhasil dihapus!');
-				redirect(base_url('cpdo/gaji'));
+				redirect(base_url('pdo-gaji'));
 			}
 		
 	}
@@ -824,11 +835,11 @@ public function delete_pdo_project_temp($id = 0,$kodepdo='',$jns='')
 		$this->activity_model->add_log(3);
 		$this->session->set_flashdata('success', 'Data berhasil dihapus!');
 		if ($jns=='1'){
-			redirect(base_url('cpdo/edit_pdo_project/'.$kodepdo));
+			redirect(base_url('pdo-proyek/edit/'.$kodepdo));
 		}else if ($jns=='3'){
-			redirect(base_url('cpdo/edit_pdo_project/'.$kodepdo));
+			redirect(base_url('pdo-gaji/edit/'.$kodepdo));
 		}else{
-			redirect(base_url('cpdo/edit_pdo_operasional/'.$kodepdo));	
+			redirect(base_url('pdo-operasional/edit/'.$kodepdo));	
 		}
 		
 			
@@ -873,12 +884,12 @@ public function delete_pdo_operasional($id = 0)
 
 			if ($status==1){
 				$this->session->set_flashdata('errors', 'PDO Sudah dicairkan!');
-				redirect(base_url('cpdo/operasional'));				
+				redirect(base_url('pdo-operasional'));				
 			}else{
 				$this->db->delete('ci_pdo', array('id_pdo' => $id));	
 				$this->activity_model->add_log(3);
 				$this->session->set_flashdata('success', 'PDO berhasil dihapus!');
-				redirect(base_url('cpdo/operasional'));
+				redirect(base_url('pdo-operasional'));
 			}
 		
 	}	
@@ -1062,6 +1073,7 @@ function terbilang($nilai) {
  
 	public function cetak_pdo($id=0)
 	{	
+		$this->rbac->check_operation_access('');
 		$data['pdo_header'] 		= $this->pdo_model->get_pdo_header($id);
 		$data['pdo_detail'] 		= $this->pdo_model->get_pdo_detail($id);
 		$data['ttd'] 				= $this->pdo_model->get_ttd($id);
@@ -1085,6 +1097,7 @@ function terbilang($nilai) {
 
 	public function cetak_pdo_gaji($id=0)
 	{	
+		$this->rbac->check_operation_access('');
 		$data['pdo_header'] 		= $this->pdo_model->get_pdo_header_gaji($id);
 		$data['pdo_detail'] 		= $this->pdo_model->get_pdo_detail($id);
 		$data['ttd'] 				= $this->pdo_model->get_ttd_gj($id);
@@ -1109,6 +1122,7 @@ function terbilang($nilai) {
 
 	public function cetak_pdo_operasional($id=0)
 	{	
+		$this->rbac->check_operation_access('');
 		$data['pdo_header'] 		= $this->pdo_model->get_pdo_operasional_header($id);
 		$data['pdo_detail'] 		= $this->pdo_model->get_pdo_detail($id);
 		$data['ttd'] 				= $this->pdo_model->get_ttd_operasional($id);

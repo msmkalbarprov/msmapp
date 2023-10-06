@@ -17,7 +17,7 @@
              Edit HPP </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pq/add_hpp/'.$data_hpp_rinci["id_pqproyek"]) ?>" class="btn btn-primary"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('project-qualifying/add_hpp/'.$data_hpp_rinci["id_pqproyek"]) ?>" class="btn btn-primary"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -26,7 +26,7 @@
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
          
-         <?php echo form_open_multipart('pq/edit_hpp/'.$data_hpp_rinci["id"].'/'.$data_hpp_rinci["id_pqproyek"]);?>
+         <?php echo form_open_multipart('project-qualifying/edit_hpp/'.$data_hpp_rinci["id"].'/'.$data_hpp_rinci["id_pqproyek"]);?>
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">

@@ -103,7 +103,7 @@ $('#butcetak').on('click', function() {
       alert('Silahkan pilih area')
       return
     }
-    var url = '<?= base_url() ?>'+'jurnal/cetak_bb/'+tahun+'/1/'+bulan+'/'+area; 
+    var url = '<?= base_url() ?>'+'cetak-buku-besar/cetak_buku_besar/'+tahun+'/1/'+bulan+'/'+area; 
     window.open(url, '_blank');
 });
 
@@ -123,7 +123,7 @@ $('#butexport').on('click', function() {
       alert('Silahkan pilih area')
       return
     }
-    var url = '<?= base_url() ?>'+'jurnal/cetak_bb/'+tahun+'/0/'+bulan+'/'+area; 
+    var url = '<?= base_url() ?>'+'cetak-buku-besar/cetak_buku_besar/'+tahun+'/0/'+bulan+'/'+area; 
     window.open(url, '_blank');
 });
 
@@ -143,7 +143,7 @@ $('#butview').on('click', function() {
       alert('Silahkan pilih area')
       return
     }
-    var url = '<?= base_url() ?>'+'jurnal/cetak_bb/'+tahun+'/2/'+bulan+'/'+area; 
+    var url = '<?= base_url() ?>'+'cetak-buku-besar/cetak_buku_besar/'+tahun+'/2/'+bulan+'/'+area; 
     window.open(url, '_blank');
 });
 

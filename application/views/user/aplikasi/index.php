@@ -9,10 +9,10 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-list"></i>
-             List Dinas </h3>
+             List Sub proyek </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('aplikasi/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
+            <a href="<?= base_url('sub-proyek/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah</a>
           </div>
         </div>
       <!-- /.box-body -->

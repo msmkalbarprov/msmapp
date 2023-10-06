@@ -52,8 +52,14 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="area" class="control-label"><?= trans('area') ?></label>
-                <input type="text" name="area" id="area" class="form-control" value="<?= $data_spj["nm_area"]; ?>">
-                <input type="hidden" name="kd_area" id="kd_area" class="form-control" value="<?= $data_spj["kd_area"]; ?>">
+              <!--  <input type="text" name="area" id="area" class="form-control" value="<?= $data_spj["nm_area"]; ?>">
+                -->
+				<input type="hidden" name="kd_area" id="kd_area" class="form-control" value="<?= $data_spj["kd_area"]; ?>">
+
+					<select name="cbarea"  id="cbarea" class="form-control">
+					</select> 
+             
+
 
             </div>
           </div>
@@ -63,8 +69,14 @@
          <div class="row">
          <div class="col-md-4">
             <div class="form-group">
-              <label for="subarea1" class="control-label">Sub Area</label>
-              <input type="text" name="subarea" id="subarea" class="form-control" value="<?= $data_spj["nm_sub_area"]; ?>">
+            <!--  <input type="text" name="subarea" id="subarea" class="form-control" value="<?= $data_spj["nm_sub_area"]; ?>">
+			  -->
+			   <div class="form-group">
+				<label for="subarea1" class="control-label">Sub Area</label>
+					<select name="cbsubarea"  id="cbsubarea" class="form-control">
+					</select> 
+              </div>
+			  
                 <input type="hidden" name="kd_sub_area" id="kd_sub_area" class="form-control" value="<?= $data_spj["kd_sub_area"]; ?>">
 
             </div>
@@ -280,6 +292,7 @@
 </script>
 <script>
   $(document).ready(function(){
+
     document.getElementById("jns_ta").disabled=true;
     var no_spj   = $('#no_spj').val();
     var kd_pegawai     = $('#kd_pegawai').val();
@@ -299,13 +312,60 @@
     ]
   });
 
+    var subarea     = $('#kd_sub_area').val();
+    var kodesubarea     = $('#kd_sub_area').val();
+		var area        = $("#kd_area").val();
+    var kodearea        = $("#kd_area").val();
+    $.ajax({
+			url: '<?php echo site_url('spj_tunai/get_area'); ?>',
+			data : {'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+					id: kodearea},		
+			  type: 'POST',
+				success: function(data){
+					$('#cbsubarea').html(data);
+					$("#cbsubarea").val(kodesubarea);
+        //   alert(kodesubarea)
+         			$('#cbsubarea').select2().trigger('change'); 
+					
+				}
+			})
 
+    $.ajax({
+			url: '<?php echo site_url('spj_tunai/get_area2'); ?>',
+			data : {'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+					id: area},		
+			  type: 'POST',
+				success: function(data){
+					$('#cbarea').html(data);
+        //   alert(kodearea)
+					$("#cbarea").val(kodearea);
+         			$('#cbarea').select2().trigger('change'); 
+					
+						$.ajax({
+							url: '<?php echo site_url('spj_tunai/get_subarea'); ?>',
+							data : {'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+									id: kodearea},		
+							type: 'POST',
+							success: function(data){
+								$('#cbsubarea').html(data);
+								$("#cbsubarea").val(kodesubarea);
+								$('#cbsubarea').select2().trigger('change'); 
+								
+							}
+						})				
+				}
+			})
+
+    
+			
+
+		
 
 
 			
 	var jns_spj     = $(this).val();
-    var subarea     = $('#kd_sub_area').val();
-    var area        = $("#kd_area").val();
+    var subarea     = $('#cbsubarea').val();
+    var area        = $("#cbarea").val();
     $.ajax({
         url : "<?php echo site_url('spj_pegawai/get_proyek_by_area_subarea');?>",
         method : "POST",
@@ -350,7 +410,7 @@
 $('#no_acc').change(function(){ 
   var kd_pegawai      = $('#kd_pegawai').val();
 
-  var area          = $('#kd_area').val();
+  var area          = $('#cbarea').val();
   var jns_spj       = $('#jns_spj').val();
   var projek        = $('#projek').val();
   var kd_item       = $(this).val();
@@ -366,7 +426,22 @@ $('#no_acc').change(function(){
     return false;
 });
 
+$('#cbarea').change(function(){ 
 
+var kdarea          = $(this).val();
+$.ajax({
+    url: '<?php echo site_url('spj_tunai/get_subarea'); ?>',
+    data : {'<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
+        id: kdarea},		
+    type: 'POST',
+    success: function(data){
+      $('#cbsubarea').html(data);
+      $("#cbsubarea").val(kdsubarea);
+      $('#cbsubarea').select2().trigger('change'); 
+      
+    }
+  })		
+});
 
 
 
@@ -496,8 +571,8 @@ function get_ekas(kd_pegawai){
 
 $('#jns_spj').change(function(){ 
     var jns_spj     = $(this).val();
-    var subarea     = $('#kd_sub_area').val();
-    var area        = $("#kd_area").val();
+    var subarea     = $('#cbsubarea').val();
+    var area        = $("#cbarea").val();
     $.ajax({
         url : "<?php echo site_url('spj_pegawai/get_proyek_by_area_subarea');?>",
         method : "POST",
@@ -568,8 +643,8 @@ $('#formtest').submit(function(e){
             var tgl_bukti1           = $('#tgl_bukti').val();
             var nourut1              = $('#urut').val();
             var nilai1               = number($('#total').val());
-            var area1                = $('#kd_area').val();
-            var subarea1             = $('#kd_sub_area').val();
+            var area1                = $('#cbarea').val();
+            var subarea1             = $('#cbsubarea').val();
             var uraian1              = $('#uraian').val();
             var pegawai1             = $('#kd_pegawai').val();
             var project1             = $('#projek').val();
@@ -667,8 +742,8 @@ $('#formtest').submit(function(e){
   //   var tgl_bukti1           = $('#tgl_bukti').val();
   //   var nourut1              = $('#urut').val();
   //   var nilai1               = number($('#total').val());
-  //   var area1                = $('#kd_area').val();
-  //   var subarea1             = $('#kd_sub_area').val();
+  //   var area1                = $('#cbarea').val();
+  //   var subarea1             = $('#cbsubarea').val();
   //   var uraian1              = $('#uraian').val();
   //   var pegawai1             = $('#kd_pegawai').val();
   //   var project1             = $('#kd_projek').val();
@@ -821,8 +896,8 @@ function load_rincian_temp(nospj) {
 	
 			
 			//var jns_spj     = $(this).val();
-			var subarea     = $('#kd_sub_area').val();
-			var area        = $("#kd_area").val();
+			var subarea     = $('#cbsubarea').val();
+			var area        = $("#cbarea").val();
 			
 			
 			

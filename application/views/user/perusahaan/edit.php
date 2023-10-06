@@ -9,7 +9,7 @@
               Edit perusahaan </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('perusahaan/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Perusahaan</a>
+            <a href="<?= base_url('perusahaan'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Perusahaan</a>
           </div>
         </div>
         <div class="card-body">   

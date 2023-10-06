@@ -12,7 +12,7 @@
              Rincian Proyek</h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('proyek'); ?>" class="btn btn-primary"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pekerjaan'); ?>" class="btn btn-primary"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">

@@ -18,7 +18,7 @@
              Edit PDO Gaji / Transportasi dan Akomodasi</h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('cpdo/gaji'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pdo-gaji'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -673,7 +673,7 @@ $('#butsave').on('click', function() {
     
       
       $.ajax({
-        url: "<?php echo base_url("cpdo/edit_pdo_gaji/");?>",
+        url: "<?php echo base_url("pdo-gaji/edit/");?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -736,6 +736,7 @@ function load_rincian_temp(nomorpdo) {
 
 $('#item_hpp').change(function(){ 
    var kd_coa         = $(this).val();
+   alert(kd_coa);
    var kode_pqproyek  = $('#projek').val();
    if (kd_coa.substr(0,7)=='5010202'){
     

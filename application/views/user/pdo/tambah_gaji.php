@@ -18,7 +18,7 @@
              Tambah PDO Gaji / Transportasi dan Akomodasi</h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('cpdo/gaji'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pdo-gaji'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -392,7 +392,7 @@ $('#na_datatable').on('click', 'tbody .del_btn', function () {
 
     // proses hapus
     $.ajax({
-        url: "<?php echo base_url("cpdo/delete_pdo_project_temp2/");?>",
+        url: "<?php echo base_url("pdo-gaji/delete_pdo_project_temp2/");?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -787,7 +787,7 @@ $('#butsave').on('click', function() {
 
       
       $.ajax({
-        url: "<?php echo base_url("cpdo/add_gaji/");?>",
+        url: "<?php echo base_url("pdo-gaji/add/");?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

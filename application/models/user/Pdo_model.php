@@ -289,6 +289,8 @@ function get_nilai($id, $no_acc)
 			$this->db->from('ci_pendapatan');
 			$this->db->where('kd_pqproyek', $id);	
 			$query=$this->db->get();
+		}else if (substr($no_acc,0,7)=='5010202'){
+			$query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $id, 'concat(kd_item,jenis_tk)' => $no_acc));	
 		}else{
 			$query = $this->db->get_where('ci_hpp', array('kd_pqproyek' => $id, 'kd_item' => $no_acc));	
 		}

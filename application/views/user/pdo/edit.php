@@ -18,7 +18,7 @@
              Edit PDO Proyek </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('cpdo'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pdo-proyek'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -626,7 +626,7 @@ $('#butsave').on('click', function() {
     
       
       $.ajax({
-        url: "<?php echo base_url("cpdo/edit_pdo_project/");?>",
+        url: "<?php echo base_url("pdo-proyek/edit/");?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

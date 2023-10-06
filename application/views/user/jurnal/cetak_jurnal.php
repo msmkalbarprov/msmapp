@@ -101,7 +101,7 @@ $('#butcetak').on('click', function() {
       alert('Silahkan jenis jurnal tahun anggaran')
       return
     }
-    var url = '<?= base_url() ?>'+'jurnal/cetak_jurnal_umum/'+tahun+'/1/'+bulan+'/'+jns_jurnal; 
+    var url = '<?= base_url() ?>'+'cetak-jurnal-umum/cetak_jurnal_umum/'+tahun+'/1/'+bulan+'/'+jns_jurnal; 
     window.open(url, '_blank');
 });
 
@@ -121,7 +121,7 @@ $('#butexport').on('click', function() {
       alert('Silahkan jenis jurnal tahun anggaran')
       return
     }
-    var url = '<?= base_url() ?>'+'jurnal/cetak_jurnal_umum/'+tahun+'/0/'+bulan+'/'+jns_jurnal; 
+    var url = '<?= base_url() ?>'+'cetak-jurnal-umum/cetak_jurnal_umum/'+tahun+'/0/'+bulan+'/'+jns_jurnal; 
     window.open(url, '_blank');
 });
 
@@ -141,7 +141,7 @@ $('#butview').on('click', function() {
       alert('Silahkan jenis jurnal tahun anggaran')
       return
     }
-    var url = '<?= base_url() ?>'+'jurnal/cetak_jurnal_umum/'+tahun+'/2/'+bulan+'/'+jns_jurnal; 
+    var url = '<?= base_url() ?>'+'cetak-jurnal-umum/cetak_jurnal_umum/'+tahun+'/2/'+bulan+'/'+jns_jurnal; 
     window.open(url, '_blank');
 });
 

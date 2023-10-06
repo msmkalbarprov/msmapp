@@ -6,9 +6,7 @@ class Bank extends MY_Controller
 
         parent::__construct();
         auth_check(); // check login auth
-        $this->rbac->check_module_access();
-
-		$this->load->model('admin/bank_model', 'bank');
+        $this->load->model('admin/bank_model', 'bank');
 		$this->load->model('admin/Activity_model', 'activity_model');
 		$this->load->model('admin/area_model', 'area');
 		$this->load->model('admin/subarea_model', 'subarea');
@@ -17,7 +15,7 @@ class Bank extends MY_Controller
 
 	//-----------------------------------------------------		
 	function index($subarea=''){
-
+		$this->rbac->check_module_access();
 		// $this->session->set_userdata('filter_subarea',$subarea);
 		$this->session->set_userdata('filter_keyword','');
 		

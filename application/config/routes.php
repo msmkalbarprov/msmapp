@@ -60,58 +60,197 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 // $route['proyek/delete-proyek-rincian/(:any)'] = 'ProyekController/deleterincian/$1';
 
 
+// master
+	// area
+	// subarea
+	$route['sub-area'] 																		= 'subarea/index';
+	$route['sub-area/add'] 																	= 'subarea/add';
+	$route['sub-area/edit/(:any)'] 															= 'subarea/edit/$1';
+	$route['sub-area/delete/(:any)'] 														= 'subarea/delete/$1';
+	// perusahaan
+	$route['perusahaan'] 																	= 'perusahaan/index';
+	$route['perusahaan/add'] 																= 'perusahaan/add';
+	$route['perusahaan/edit/(:any)'] 														= 'perusahaan/edit/$1';
+	$route['perusahaan/delete/(:any)'] 														= 'perusahaan/delete/$1';
+	// skpd
+	$route['skpd'] 																			= 'dinas/index';
+	$route['skpd/add'] 																		= 'dinas/add';
+	$route['skpd/edit/(:any)'] 																= 'dinas/edit/$1';
+	$route['skpd/delete/(:any)'] 															= 'dinas/delete/$1';
+	// sub proyek
+	$route['sub-proyek'] 																	= 'aplikasi/index';
+	$route['sub-proyek/add'] 																= 'aplikasi/add';
+	$route['sub-proyek/edit/(:any)'] 														= 'aplikasi/edit/$1';
+	$route['sub-proyek/delete/(:any)'] 														= 'aplikasi/delete/$1';
+	// sub proyek
+	$route['sub-proyek'] 																	= 'aplikasi/index';
+	$route['sub-proyek/add'] 																= 'aplikasi/add';
+	$route['sub-proyek/edit/(:any)'] 														= 'aplikasi/edit/$1';
+	$route['sub-proyek/delete/(:any)'] 														= 'aplikasi/delete/$1';
+	// bank
+	$route['bank'] 																			= 'bank/index';
+	$route['bank/add'] 																		= 'bank/add';
+	$route['bank/edit/(:any)'] 																= 'bank/edit/$1';
+	$route['bank/delete/(:any)'] 															= 'bank/delete/$1';
+	// pegawai
+	$route['karyawan'] 																		= 'pegawai/index';
+	$route['karyawan/add'] 																	= 'pegawai/add';
+	$route['karyawan/edit/(:any)'] 															= 'pegawai/edit/$1';
+	$route['karyawan/delete/(:any)'] 														= 'pegawai/delete/$1';
+	// penandatangan
+	$route['penandatangan'] 																= 'ttd/index';
+	$route['penandatangan/edit/(:any)'] 													= 'ttd/edit/$1';
+	// saldo awal
+	$route['saldo-awal'] 																	= 'saldo_awal/index';
+	$route['saldo-awal/add'] 																= 'saldo_awal/add';
+	$route['saldo-awal/edit/(:any)'] 														= 'saldo_awal/edit/$1';
+	$route['saldo-awal/delete/(:any)'] 														= 'saldo_awal/delete/$1';
+	// proyek
+	$route['pekerjaan'] 																	= 'proyek/index';
+	$route['pekerjaan/add'] 																= 'proyek/tambah_proyek';
+	$route['pekerjaan/edit/(:any)'] 														= 'proyek/edit_proyek/$1';
+	$route['pekerjaan/delete/(:any)'] 														= 'proyek/delete_proyek/$1';
+	$route['pekerjaan/view/(:any)'] 														= 'proyek/view_proyek/$1';
+	$route['pekerjaan/addrincian/(:any)'] 													= 'proyek/add_rincian_proyek/$1';
+	$route['pekerjaan/editrincian/(:any)'] 													= 'proyek/edit_rincian_proyek/$1';
+	$route['pekerjaan/deleterincian/(:any)'] 												= 'proyek/delete_rincian_proyek/$1';
+	$route['pekerjaan/batal/(:any)'] 														= 'proyek/batal/$1';
+	// pencairan proyek
+	$route['pencairan/detail/(:any)']														= 'pencairan/edit_proyek/$1';
 
-$route['proyek'] 								= 'proyek/index';
-$route['proyek/add'] 							= 'proyek/tambah_proyek';
-$route['proyek/edit/(:any)'] 					= 'proyek/edit_proyek/$1';
-$route['proyek/delete/(:any)'] 					= 'proyek/delete_proyek/$1';
-$route['proyek/view/(:any)'] 					= 'proyek/view_proyek/$1';
-$route['proyek/addrincian/(:any)'] 				= 'proyek/add_rincian_proyek/$1';
-$route['proyek/editrincian/(:any)'] 			= 'proyek/edit_rincian_proyek/$1';
-$route['proyek/deleterincian/(:any)'] 			= 'proyek/delete_rincian_proyek/$1';
+// pengajuan
+	// PQ
+	//project 
+	$route['project-qualifying'] 															= 'pq/index';
+	$route['project-qualifying/add'] 														= 'pq/tambah_pq';
+	$route['project-qualifying/edit/(:any)'] 												= 'pq/edit_pq/$1';
+	$route['project-qualifying/delete/(:any)'] 												= 'pq/delete_pq/$1';
+	$route['project-qualifying/view/(:any)'] 												= 'pq/view_pq/$1';
+	$route['project-qualifying/cetak_pq_satuan/(:any)'] 									= 'pq/cetak_pq_satuan/$1';
+	
+
+	// operasional
+	$route['project-qualifying/add_operasional'] 											= 'pq/add_pq_operasional';
+	$route['project-qualifying/edit_pq_operasional/(:any)'] 								= 'pq/edit_pq_operasional/$1';
+	$route['project-qualifying/edit_rincian_pq_operasional/(:any)/(:any)'] 					= 'pq/edit_rincian_pq_operasional/$1/$2';
+	$route['project-qualifying/deleterincian/(:any)'] 										= 'pq/delete_rincian_pq/$1';
+
+	// HPP
+	$route['project-qualifying/add_hpp/(:any)'] 											= 'pq/add_hpp/$1';
+	$route['project-qualifying/edit_hpp/(:any)/(:any)'] 									= 'pq/ubah_hpp/$1';
+	$route['project-qualifying/del_hpp/(:any)/(:any)'] 										= 'pq/hapus_hpp/$1';
+	// PDO
+	// project
+	$route['pdo-proyek'] 																	= 'cpdo/index';
+	$route['pdo-proyek/add'] 																= 'cpdo/add';
+	$route['pdo-proyek/delete/(:any)']														= 'cpdo/delete_pdo_project/$1';
+	$route['pdo-proyek/edit/(:any)']														= 'cpdo/edit_pdo_project/$1';
+	$route['pdo-proyek/Delete_pdo_project_temp/(:any)']										= 'cpdo/Delete_pdo_project_temp/$1';
+	$route['pdo-proyek/Delete_pdo_project_temp2']									        = 'cpdo/Delete_pdo_project_temp2';
+	$route['pdo-proyek/Edit_pdo_keterangan/(:any)']											= 'cpdo/Edit_pdo_keterangan/$1';
+
+	// operasional
+	$route['pdo-operasional']																= 'cpdo/operasional';
+	$route['pdo-operasional/add']															= 'cpdo/add_operasional';
+	$route['pdo-operasional/edit/(:any)']													= 'cpdo/edit_pdo_operasional/$1';
+	$route['pdo-operasional/Delete_pdo_project_temp/(:any)']								= 'cpdo/Delete_pdo_project_temp/$1';
+	$route['pdo-operasional/Delete_pdo_project_temp2']								        = 'cpdo/Delete_pdo_project_temp2';
+	$route['pdo-operasional/Edit_pdo_keterangan/(:any)']									= 'cpdo/Edit_pdo_keterangan/$1';
+	$route['pdo-operasional/delete/(:any)']													= 'cpdo/delete_pdo_project/$1';
+
+	// gaji
+	$route['pdo-gaji']																		= 'cpdo/gaji';
+	$route['pdo-gaji/add']																	= 'cpdo/add_gaji';
+	$route['pdo-gaji/edit/(:any)']															= 'cpdo/edit_pdo_gaji/$1';
+	$route['pdo-gaji/delete_pdo_project_temp/(:any)/(:any)/(:any)']						    = 'cpdo/Delete_pdo_project_temp/$1/$2/$3';
+	$route['pdo-gaji/delete_pdo_project_temp2']										        = 'cpdo/Delete_pdo_project_temp2';
+	$route['pdo-gaji/edit_pdo_keterangan/(:any)']											= 'cpdo/Edit_pdo_keterangan/$1';
+	$route['pdo-gaji/delete/(:any)']														= 'cpdo/delete_pdo_project/$1';
+
+	
+
+	// cetak pdo
+	$route['pdo-proyek/cetak_pdo/(:any)']													= 'cpdo/cetak_pdo/$1';
+	$route['pdo-operasional/cetak_pdo_operasional/(:any)']									= 'cpdo/cetak_pdo_operasional/$1';
+	$route['pdo-gaji/cetak_pdo_gaji/(:any)']												= 'cpdo/cetak_pdo_gaji/$1';
+	
+	
+
+	
+	
+	
+
+// transaksi
+// tahun lalu
+$route['penerimaan_pembayaran_hutang_tahun_lalu'] 											= 'pembayaranTahunLalu/list_terima';
+$route['penerimaan_pembayaran_hutang_tahun_lalu/terima/(:any)'] 							= 'pembayaranTahunLalu/terima/$1';
+
+// pengembalian pinjaman
+$route['pengembalian-pinjaman']																= 'pinjaman/pengembalian';
+$route['pengembalian-pinjaman/add']															= 'pinjaman/add_pengembalian';
+$route['pengembalian-pinjaman/edit/(:any)']													= 'pinjaman/edit/$1';
+$route['pengembalian-pinjaman/delete/(:any)']												= 'pinjaman/delete/$1';
 
 
-$route['pq'] 									= 'pq/index';
-$route['pq/add'] 								= 'pq/tambah_pq';
-$route['pq/edit/(:any)'] 						= 'pq/edit_pq/$1';
-$route['pq/delete/(:any)'] 						= 'pq/delete_pq/$1';
-$route['pq/view/(:any)'] 						= 'pq/view_pq/$1';
 
-// HPP
-$route['pq/add_hpp/(:any)'] 					= 'pq/add_hpp/$1';
-$route['pq/edit_hpp/(:any)/(:any)'] 			= 'pq/ubah_hpp/$1';
-$route['pq/del_hpp/(:any)/(:any)'] 				= 'pq/hapus_hpp/$1';
+// bod
+$route['pengesahan-pdo-proyek'] 															= 'pengesahan_pdo/index';
+$route['pengesahan-pdo-operasional'] 														= 'pengesahan_pdo/operasional';
+$route['pengesahan-pdo-gaji'] 																= 'pengesahan_pdo/gaji';
+$route['pengesahan-pq-proyek'] 																= 'bod/index';
+$route['pengesahan-pq-operasional'] 														= 'bod/operasional';
 
-$route['pq/datatable_json_operasional'] 		= 'pq/datatable_json_operasional';
 
-$route['pq/add_operasional'] 					= 'pq/add_pq_operasional';
-$route['pq/editrincian/(:any)'] 				= 'pq/edit_rincian_pq/$1';
-$route['pq/deleterincian/(:any)'] 				= 'pq/delete_rincian_pq/$1';
+// BUD
+$route['pembayaran_hutang_tahun_lalu'] 														= 'pembayaranTahunLalu/index';
+$route['pembayaran_hutang_tahun_lalu/add'] 													= 'pembayaranTahunLalu/add';
+$route['pembayaran_hutang_tahun_lalu/edit/(:any)'] 											= 'pembayaranTahunLalu/edit/$1';
+$route['pembayaran_hutang_tahun_lalu/delete/(:any)']										= 'pembayaranTahunLalu/delete/$1';
+$route['pembayaran_hutang_tahun_lalu/potongan/(:any)'] 										= 'pembayaranTahunLalu/potongan/$1';
+$route['pembayaran_hutang_tahun_lalu/delete_potongan/(:any)/(:any)']						= 'pembayaranTahunLalu/delete_potongan/$1/$2';
+
+// laporan
+// PQ-PDO
+$route['laporan_pq_proyek'] 																= 'laporan_pq/index';
+$route['laporan_pq_proyek/cetak_pq_pdo_proyek/(:any)/(:any)/(:any)'] 						= 'laporan_pq/cetak_pq_pdo_proyek/$1/$2/$3';
+$route['laporan_pq_proyek/cetak_pq_pdo_all/(:any)/(:any)/(:any)/(:any)'] 					= 'laporan_pq/cetak_pq_pdo_all/$1/$2/$3/$4';
+// laporan_pq_proyek/cetak_pq_pdo_proyek/32/2023/1/Laporan%20PQ%20VS%20PDO%20VS%20SPJ
+$route['laporan_pq_operasional'] 															= 'laporan_pq/operasional';
+$route['laporan_pq_operasional/cetak_pq_pdo_operasional/(:any)/(:any)/(:any)/(:any)'] 		= 'laporan_pq/cetak_pq_pdo_operasional/$1/$2/$3/$4';
+
+// register pdp transfer
+
+$route['laporan_pdp_transfer'] 																= 'laporan_pdp/transfer';
+$route['laporan_pdp_transfer/cetak/(:any)/(:any)/(:any)/(:any)'] 							= 'laporan_pdp/cetak_register_pdp_transfer/$1/$2/$3/$4';
+
+// Cetak_real_proyek_rinci
+$route['laporan-realisasi-rinci-pdo'] 														= 'RealProyekRinciController/cetak_real_proyek_pdo_rinci';
+$route['laporan-realisasi-rinci-spj'] 														= 'RealProyekRinciController/cetak_real_proyek_spj_rinci';
+$route['laporan-realisasi-rinci-rap'] 														= 'RealProyekRinciController/cetak_RAP';
+
+$route['laporan-realisasi-proyek'] 															= 'laporan_pq/lap_realisasi_proyek';
+
+
+
+
+
+// jurnal
+$route['cetak-jurnal-umum'] 																= 'jurnal/cetak_jurnal';
+$route['cetak-jurnal-umum/cetak_jurnal_umum/(:any)/(:any)/(:any)/(:any)'] 					= 'jurnal/cetak_jurnal_umum/$1/$2/$3/$4';
+$route['cetak-buku-besar'] 																	= 'jurnal/cetak_buku_besar';
+$route['cetak-buku-besar/cetak_buku_besar/(:any)/(:any)/(:any)/(:any)'] 					= 'jurnal/cetak_bb/$1/$2/$3/$4';
+
+
+
+
 
 // sah pq
 $route['bod/view/(:any)'] 						= 'bod/view_pq/$1';
 
 
-// PDO
-$route['pdo'] 									= 'cpdo/index';
-$route['pdo/add'] 								= 'cpdo/add';
-$route['pdo/delete_pdo_project/(:any)']			= 'cpdo/delete_pdo_project/$1';
-$route['pdo/edit_pdo_project/(:any)']			= 'cpdo/edit_pdo_project/$1';
-$route['pdo/operasional']						= 'cpdo/operasional';
-$route['pdo/add_operasional']					= 'cpdo/add_operasional';
-$route['pdo/edit_pdo_operasional/(:any)']		= 'cpdo/edit_pdo_operasional/$1';
 
-$route['pdo/datatable_json/(:any)']				= 'cpdo/datatable_json/$1';
-$route['pdo/datatable_json']					= 'cpdo/datatable_json';
-$route['pdo/get_item_pq_by_pq']					= 'cpdo/get_item_pq_by_pq';
-$route['pdo/get_nilai']							= 'cpdo/get_nilai';
-$route['pdo/get_nilai2']						= 'cpdo/get_nilai2';
-$route['pdo/get_realisasi']						= 'cpdo/get_realisasi';
-$route['pdo/get_realisasi2']					= 'cpdo/get_realisasi2';
-$route['pdo/get_nomor']							= 'cpdo/get_nomor';
-$route['pdo/get_pq_projek_by_area']				= 'cpdo/get_pq_projek_by_area';
 
-$route['pencairan/detail/(:any)']				= 'pencairan/edit_proyek/$1';
+
 
 
 $route['pengeluaran_lain_area'] 								= 'pengeluaran_lain_area/index';
@@ -123,7 +262,6 @@ $route['penerimaan_lain_area'] 								= 'penerimaan_lain_area/index';
 $route['penerimaan_lain_area/add'] 							= 'penerimaan_lain_area/add';
 $route['penerimaan_lain_area/edit/(:any)'] 					= 'penerimaan_lain_area/edit/$1';
 $route['penerimaan_lain_area/delete/(:any)'] 					= 'penerimaan_lain_area/delete/$1';
-
 
 
 

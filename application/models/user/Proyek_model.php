@@ -496,7 +496,7 @@ public function pq_proyek($idproyek){
 			return $result = $this->db->get()->row_array();
 		}
 
-public function get_register_pdp($id,$tahun,$bulan){
+		public function get_register_pdp($id,$tahun,$bulan){
 			
 			if ($id=='0'){
 				$this->db->select("*");
@@ -518,6 +518,35 @@ public function get_register_pdp($id,$tahun,$bulan){
 			return $query->result_array();
 		}
 
+		public function get_register_pdp_transfer($id,$tahun,$bulan){
+			
+
+			$tahun_depan=$tahun+1;
+			$tgl_awal 	= $tahun.'-02-01';
+			$tgl_akhir 	= $tahun_depan.'-02-01';
+
+
+			if ($id=='allarea' || $id=='0'){
+				$this->db->select("*");
+			$this->db->from("cetak_register_pdp_transfer");
+			}else{
+				$this->db->select("*");
+				$this->db->from("cetak_register_pdp_transfer");
+				$this->db->where("kd_area", $id);
+			}
+
+			if($bulan==0){
+				$this->db->where("tgl_transfer >=", $tgl_awal);
+				$this->db->where("tgl_transfer <=", $tgl_akhir);
+				
+			}else{
+				$this->db->where("year(tgl_transfer)", $tahun);
+				$this->db->where("month(tgl_transfer)", $bulan);
+			}
+			$this->db->order_by("kd_area,right(no_transfer,4)");
+			$query=$this->db->get();
+			return $query->result_array();
+		}
 
 	}
 

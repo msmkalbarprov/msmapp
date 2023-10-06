@@ -9,14 +9,14 @@
               Edit Penandatangan </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('ttd/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Area</a>
+            <a href="<?= base_url('penandatangan'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Area</a>
           </div>
         </div>
         <div class="card-body">   
            <!-- For Messages -->
             <?php $this->load->view('admin/includes/_messages.php') ?>
               
-            <?php echo form_open(base_url('ttd/edit/'.$tandatangan['kd_area']), 'class="form-horizontal"' )?> 
+            <?php echo form_open(base_url('penandatangan/edit/'.$tandatangan['kd_area']), 'class="form-horizontal"' )?> 
 
               <div class="row">
                 <div class="col-md-6">

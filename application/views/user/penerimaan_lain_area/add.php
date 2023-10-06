@@ -17,7 +17,7 @@
               Tambah Penerimaan Lainnya (Area) </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('tlain'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List penerimaan</a>
+            <a href="<?= base_url('penerimaan_lain_area'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List penerimaan</a>
           </div>
         </div>
         <div class="card-body">   

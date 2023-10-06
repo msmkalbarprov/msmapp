@@ -24,6 +24,14 @@ class Laporan_pdp extends MY_Controller {
 		$this->load->view('admin/includes/_footer');
 	}
 
+	public function transfer(){
+		$data['data_area'] 	= $this->area->get_area_pdp2();
+		$data2['title'] 		= 'Register PDP transfer';
+		$this->load->view('admin/includes/_header', $data2);
+		$this->load->view('user/laporan/register_pdp_transfer', $data);
+		$this->load->view('admin/includes/_footer');
+	}
+
 	function penyebut($nilai) {
 	$nilai = abs($nilai);
 	$huruf = array("", "satu", "dua", "tiga", "empat", "lima", "enam", "tujuh", "delapan", "sembilan", "sepuluh", "sebelas");
@@ -105,7 +113,7 @@ function terbilang($nilai) {
 			$data['bulan'] 				= $this->format_indo($bulan);
 		}
 
-		if ($id='allarea'){
+		if ($id=='allarea'){
 			$filename = 'register_pdp_all';
 		}else{
 			$filename = 'register_pdp';
@@ -145,9 +153,9 @@ function terbilang($nilai) {
 	// cetak pdp transfer
 	public function cetak_register_pdp_transfer($id=0,$tahun=0,$jenis=0,$bulan=0)
 	{	
-		$data['register_pdp'] 		= $this->proyek_model->get_register_pdp($id,$tahun,$bulan);
-		$data['area'] 				= $this->pdo_model->get_nama_area($id);
-		$data['tahun'] 				= $tahun;
+		$data['register_pdp_transfer'] 		= $this->proyek_model->get_register_pdp_transfer($id,$tahun,$bulan);
+		$data['area'] 						= $this->pdo_model->get_nama_area($id);
+		$data['tahun'] 						= $tahun;
 
 		if ($bulan==0){
 			$data['bulan'] 				= "";	
@@ -155,10 +163,10 @@ function terbilang($nilai) {
 			$data['bulan'] 				= $this->format_indo($bulan);
 		}
 
-		if ($id='allarea'){
-			$filename = 'register_pdp_all';
+		if ($id=='allarea'){
+			$filename = 'register_pdp_transfer_all';
 		}else{
-			$filename = 'register_pdp';
+			$filename = 'register_pdp_transfer';
 		}
 		
 		switch ($jenis)
@@ -166,14 +174,14 @@ function terbilang($nilai) {
             case 1;
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'landscape');
-			    $this->pdf->filename = "laporan_pdo.pdf";
+			    $this->pdf->filename = $filename.".pdf";
 			    $this->pdf->load_view('user/pencairan/'.$filename, $data);
                 break;
             case 0;
 				$html = $this->load->view('user/pencairan/'.$filename, $data);
 				header("Cache-Control: no-cache, no-store, must-revalidate");
 				header("Content-Type: application/vnd.ms-excel");
-				header("Content-Disposition: attachment; filename= register_pdp_$id.xls");
+				header("Content-Disposition: attachment; filename= register_pdp_transfer_$id.xls");
 				$html;
                	break;
 				

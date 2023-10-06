@@ -9,14 +9,14 @@
               Tambah Sub Proyek </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('aplikasi/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> Daftar Proyek</a>
+            <a href="<?= base_url('sub-proyek'); ?>" class="btn btn-success"><i class="fa fa-list"></i> list Sub Proyek</a>
           </div>
         </div>
         <div class="card-body">   
            <!-- For Messages -->
             <?php $this->load->view('admin/includes/_messages.php') ?>
               
-            <?php echo form_open(base_url('aplikasi/edit/'), 'class="form-horizontal"' )?> 
+            <?php echo form_open(base_url('sub-proyek/edit/'), 'class="form-horizontal"' )?> 
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">

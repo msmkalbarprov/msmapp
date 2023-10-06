@@ -17,14 +17,14 @@
               Tambah Pengembalian Pinjaman </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('pinjaman/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List pinjaman</a>
+            <a href="<?= base_url('pengembalian-pinjaman'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List pinjaman</a>
           </div>
         </div>
         <div class="card-body">   
            <!-- For Messages -->
             <?php $this->load->view('admin/includes/_messages.php') ?>
               
-            <?php echo form_open(base_url('pinjaman/add_pengembalian/'), 'class="form-horizontal"' )?> 
+            <?php echo form_open(base_url('pengembalian-pinjaman/add/'), 'class="form-horizontal"' )?> 
 
               <div class="row">
               <div class="col-md-6">

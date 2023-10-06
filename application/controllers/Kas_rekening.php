@@ -6,8 +6,6 @@ class Kas_rekening extends MY_Controller {
 
 		parent::__construct();
 		auth_check(); // check login auth
-		$this->rbac->check_module_access();
-
 		$this->load->model('user/pdo_model', 'pdo_model');
 		$this->load->model('user/bku_model', 'bku_model');
 		$this->load->model('user/proyek_model', 'proyek_model');
@@ -18,6 +16,7 @@ class Kas_rekening extends MY_Controller {
 	//-----------------------------------------------------------
 
 	public function index(){
+		$this->rbac->check_module_access();
 		$data['data_rekening'] 	= $this->bku_model->get_rekening_kas();
 		$data2['title'] 		= 'Kas rekening';
 		$this->load->view('admin/includes/_header', $data2);
@@ -94,7 +93,7 @@ function terbilang($nilai) {
                 $this->load->library('pdf');
 			    $this->pdf->setPaper('Legal', 'landscape');
 			    $this->pdf->filename = "bku_$id.pdf";
-				if($id=='1010102' || $id='1010104'){
+				if($id=='1010102' || $id=='1010104'){
 						 $this->pdf->load_view('user/bku/kas_rekening_kasbesar', $data);
 				}else{
 						 $this->pdf->load_view('user/bku/kas_rekening', $data);

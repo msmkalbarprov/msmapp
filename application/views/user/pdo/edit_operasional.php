@@ -18,7 +18,7 @@
              Edit PDO Operasional </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('cpdo/operasional'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pdo-operasional'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -488,7 +488,7 @@ $('#butsave').on('click', function() {
     if(tgl_pdo!="" && projek != "" && kd_item!=""  && total!="" && area!=""){
       // $("#butsave").attr("disabled", "disabled");
       $.ajax({
-        url: "<?php echo base_url("cpdo/edit_pdo_operasional"); ?>",
+        url: "<?php echo base_url("pdo_operasional/edit"); ?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

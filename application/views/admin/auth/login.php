@@ -23,7 +23,7 @@
               
                 <select name="thn_ang" id="thn_ang" class="form-control" required>
                   <option value="" disabled selected >Tahun Anggaran</option>
-                  <option value="<?= date('Y')-1;?>"><?= date('Y')-1;?></option>
+                  <!--<option value="<?= date('Y')-1;?>"><?= date('Y')-1;?></option>-->
                   <option value="<?= date('Y')?>"><?= date('Y')?></option>
                   <option value="<?= date('Y')+1;?>"><?= date('Y')+1;?></option>
                 </select>

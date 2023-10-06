@@ -18,7 +18,7 @@
              Tambah PDO Operasional </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pdo/operasional'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pdo-operasional'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -347,7 +347,7 @@
 
     // proses hapus
     $.ajax({
-        url: "<?php echo base_url("cpdo/delete_pdo_project_temp2/");?>",
+        url: "<?php echo base_url("pdo-operasional/Delete_pdo_project_temp2/");?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',
@@ -648,7 +648,7 @@ $('#butsave').on('click', function() {
     
       // $("#butsave").attr("disabled", "disabled");
       $.ajax({
-        url: "<?php echo base_url("cpdo/add_operasional"); ?>",
+        url: "<?php echo base_url("pdo-operasional/add"); ?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

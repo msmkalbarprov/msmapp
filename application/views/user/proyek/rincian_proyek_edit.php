@@ -8,10 +8,10 @@
         <div class="card-header">
           <div class="d-inline-block">
             <h3 class="card-title"> <i class="fa fa-pencil-square-o"></i>
-             Edit rincian proyek/pekerjaan </h3>
+             Edit rincian pekerjaan </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('proyek/edit/'.$rincian_proyek["id_proyek"]); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pekerjaan/edit/'.$rincian_proyek["id_proyek"]); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -20,7 +20,7 @@
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
          
-         <?php echo form_open_multipart('proyek/editrincian/'.$rincian_proyek["id"]);?>
+         <?php echo form_open_multipart('pekerjaan/editrincian/'.$rincian_proyek["id"]);?>
          <div class="row">
           <div class="col-md-6">
             <div class="form-group">

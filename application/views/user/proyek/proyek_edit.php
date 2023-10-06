@@ -18,7 +18,7 @@
              Edit Proyek </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('proyek'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('pekerjaan'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -26,7 +26,7 @@
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
-         <?php echo form_open(base_url('proyek/edit/'.$proyek['id_proyek']), 'class="form-horizontal"');  ?> 
+         <?php echo form_open(base_url('pekerjaan/edit/'.$proyek['id_proyek']), 'class="form-horizontal"');  ?> 
          <div class="row">
           <div class="col-md-3">
             <div class="form-group">
@@ -153,7 +153,7 @@
 
         <div class="form-group">
           <div class="col-md-12" align="right">
-            <a href="<?= base_url('proyek/addrincian/').$proyek['id_proyek']; ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah Rincian</a>&nbsp;
+            <a href="<?= base_url('pekerjaan/addrincian/').$proyek['id_proyek']; ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i>  Tambah Rincian</a>&nbsp;
             <input type="submit" name="submit" value="<?= trans('proyek_update') ?>" class="btn btn-primary btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </div>
         </div>

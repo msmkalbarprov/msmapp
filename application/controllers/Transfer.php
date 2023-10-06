@@ -48,7 +48,7 @@ public function datatable_json(){
 				'<font size="2px">'.$row['tgl_transfer'].'</font>',
 				'<font size="2px">'.$row['nm_area'].'</font>',
 				'<font size="2px">'.$row['nm_rekening'].'</font>',
-				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['nilai']-$row['potongan'],2,",",".").'</font></span></div>',
+				'<div class="text-right"><span align="right"><font size="2px">'.number_format($row['totalnilai']-$row['potongan'],2,",",".").'</font></span></div>',
 				$status,
 				$tombol
 			);

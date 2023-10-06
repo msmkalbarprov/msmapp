@@ -1,35 +1,11 @@
 <?php 
 $cur_tab = $this->uri->segment(1)==''?'dashboard': $this->uri->segment(1);  
 
-if($this->session->userdata('is_supper')){
-  $warna = 'light';
-  $warna2 = 'primary';
-  $warna4 = '';
-}else if ($this->session->userdata('admin_role')=='Direktur Utama'){
-  $warna = 'light';
-  $warna2 = 'danger';
-  $warna4 = 'bg-danger';
-}else if ($this->session->userdata('admin_role')=='Divisi Administrasi Proyek'){
-  $warna = 'light';
-  $warna2 = 'info';
-  $warna4 = 'bg-info';
-}else if ($this->session->userdata('admin_role')=='Divisi Finance'){
-  $warna = 'light';
-  $warna2 = 'primary';
-  $warna4 = 'bg-primary';
-}else if ($this->session->userdata('admin_role')=='Karyawan'){
-  $warna = 'light';
-  $warna2 = 'success';
-  $warna4 = 'bg-success';
-}else if ($this->session->userdata('admin_role')=='Admin Area'){
-  $warna = 'light';
-  $warna2 = 'warning';
-  $warna4 = 'bg-warning';
-}else{
+
   $warna = 'dark';
   $warna2 = 'primary';
   $warna4 = '';
-}
+
 
 
 ?>  
@@ -66,7 +42,7 @@ if($this->session->userdata('is_supper')){
              <!-- <li class="nav-header">Menu</li> -->
         <?php 
           $menu = get_sidebar_menu(); 
-
+          $akses = get_akses($this->session->userdata('admin_role_id'));
           foreach ($menu as $nav):
 
             $sub_menu = get_sidebar_sub_menu($nav['module_id']);
@@ -74,48 +50,90 @@ if($this->session->userdata('is_supper')){
             $has_submenu = (count($sub_menu) > 0) ? true : false;
         ?>
 
-        <?php if($this->rbac->check_module_permission($nav['controller_name'])): ?> 
-        <?php if($nav['class']=='nav-header'){
-          ?>
-            <li class="<?= $nav['class'] ?>"><?= trans($nav['module_name']) ?></li>
-          <?php
-        }else{
-          ?>
-          <li id="<?= ($nav['controller_name']) ?>" class="<?= $nav['class'] ?> <?= ($has_submenu) ? 'has-treeview' : '' ?> has-treeview">
-            <a href="<?= base_url($nav['controller_name']) ?>" class="nav-link">
-              <i class="nav-icon fa <?= $nav['fa_icon'] ?>"></i>
-              <p>
-                <?= trans($nav['module_name']) ?>
-                <?= ($has_submenu) ? '<i class="right fa fa-angle-left"></i>' : '' ?>
-              </p>
-            </a>
+        <?php if($this->session->userdata('is_supper') || $this->session->userdata('admin_role')=='Direktur Utama'): ?>
+                  <?php if($nav['class']=='nav-header'){
+                  ?>
+                    <li class="<?= $nav['class'] ?>"><?= $nav['module_name'] ?></li>
+                  <?php
+                }else{
+                  ?>
+                  <li id="<?= ($nav['controller_name']) ?>" class="<?= $nav['class'] ?> <?= ($has_submenu) ? 'has-treeview' : '' ?> has-treeview">
+                    <a href="<?= base_url($nav['controller_name']) ?>" class="nav-link">
+                      <i class="nav-icon fa <?= $nav['fa_icon'] ?>"></i>
+                      <p>
+                        <?= $nav['module_name'] ?>
+                        <?= ($has_submenu) ? '<i class="right fa fa-angle-left"></i>' : '' ?>
+                      </p>
+                    </a>
 
-            <!-- sub-menu -->
-            <?php 
-              if($has_submenu): 
-            ?>
-            <ul class="nav nav-treeview">
+                    <!-- sub-menu -->
+                    <?php 
+                      if($has_submenu): 
+                    ?>
+                    <ul class="nav nav-treeview">
 
-              <?php foreach($sub_menu as $sub_nav): ?>
+                      <?php foreach($sub_menu as $sub_nav): ?>
 
-              <li class="nav-item">
-                <a href="<?= base_url($nav['controller_name'].'/'.$sub_nav['link']); ?>" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p><?= trans($sub_nav['name']) ?></p>
-                </a>
-              </li>
+                      <li class="nav-item">
+                        <a href="<?= base_url($nav['controller_name'].'/'.$sub_nav['link']); ?>" class="nav-link">
+                          <i class="fa fa-circle-o nav-icon"></i>
+                          <p><?= $sub_nav['name'] ?></p>
+                        </a>
+                      </li>
 
-              <?php endforeach; ?>
-             
-            </ul>
-            <?php endif; ?>
-          <?php
-        } ?>
-          <!-- /sub-menu -->
-        </li>
+                      <?php endforeach; ?>
+                    
+                    </ul>
+                    <?php endif; ?>
+                  <?php
+                } ?>
+                  <!-- /sub-menu -->
+                </li>
+        <?php else: ?> <!-- selain admin -->
+              <?php if (in_array($nav['jenis'].$nav['module_id'], $akses)):?>
+                
+                <?php if($nav['class']=='nav-header'){
+                  ?>
+                    <li class="<?= $nav['class'] ?>"><?= $nav['module_name'] ?></li>
+                  <?php
+                }else{
+                  ?>
+                  <li id="<?= ($nav['controller_name']) ?>" class="<?= $nav['class'] ?> <?= ($has_submenu) ? 'has-treeview' : '' ?> has-treeview">
+                    <a href="<?= base_url($nav['controller_name']) ?>" class="nav-link">
+                      <i class="nav-icon fa <?= $nav['fa_icon'] ?>"></i>
+                      <p>
+                        <?= $nav['module_name'] ?>
+                        <?= ($has_submenu) ? '<i class="right fa fa-angle-left"></i>' : '' ?>
+                      </p>
+                    </a>
 
+                    <!-- sub-menu -->
+                    <?php 
+                      if($has_submenu): 
+                    ?>
+                    <ul class="nav nav-treeview">
+
+                      <?php foreach($sub_menu as $sub_nav): ?>
+                        <?php if (in_array($sub_nav['jenis'].$sub_nav['id'], $akses)):?>
+                          <li class="nav-item">
+                            <a href="<?= base_url($nav['controller_name'].'/'.$sub_nav['link']); ?>" class="nav-link">
+                              <i class="fa fa-circle-o nav-icon"></i>
+                              <p><?= $sub_nav['name'] ?></p>
+                            </a>
+                          </li>
+                        <?php endif; ?>
+                      <?php endforeach; ?>
+                    
+                    </ul>
+                    <?php endif; ?>
+                  <?php
+                } ?>
+                  <!-- /sub-menu -->
+                </li>
+
+                
+                <?php endif; ?>
         <?php endif; ?>
-
         <?php endforeach; ?>
 
         

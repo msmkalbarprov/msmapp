@@ -53,6 +53,24 @@
         }
     }
 
+     // Generate Admin Sidebar Menu
+     if (!function_exists('get_akses')) {
+        function get_akses($string)
+        {   
+            $ci =& get_instance();
+            $ci->db->from('module_access');
+            $ci->db->where('admin_role_id',$string);
+            $query=$ci->db->get();
+            $data=array();
+            foreach($query->result_array() as $v)
+            {
+                $data[]=$v['jenis_id'];
+            }
+            return $data;
+        }
+    }
+
+    
      // -----------------------------------------------------------------------------
     // Make Slug Function    
     if (!function_exists('make_slug'))

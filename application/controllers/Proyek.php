@@ -6,8 +6,6 @@ class Proyek extends MY_Controller {
 
 		parent::__construct();
 		auth_check(); // check login auth
-		$this->rbac->check_module_access();
-
 		$this->load->model('admin/admin_model', 'admin');
 		$this->load->model('admin/area_model', 'area');
 		$this->load->model('admin/subarea_model', 'subarea');
@@ -26,6 +24,7 @@ class Proyek extends MY_Controller {
 
 	//-----------------------------------------------------------
 	public function index(){
+		$this->rbac->check_module_access();
 		$data['title'] = 'Proyek';
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('user/proyek/proyek_list');
@@ -86,7 +85,7 @@ class Proyek extends MY_Controller {
 					'errors' => validation_errors()
 				);
 				$this->session->set_flashdata('errors', $data['errors']);
-				redirect(base_url('proyek/add'),'refresh');
+				redirect(base_url('pekerjaan/add'),'refresh');
 			}
 			else{
 				$nomor 					= $this->proyek_model->get_nomor_acak();
@@ -125,14 +124,14 @@ class Proyek extends MY_Controller {
 						$this->proyek_model->update_no_acak($nomor);
 						$this->activity_model->add_log(1);
 						$this->session->set_flashdata('success', 'Proyek berhasil ditambahkan!');
-						redirect(base_url('proyek'));
+						redirect(base_url('pekerjaan'));
 					}
 					
 					$this->session->set_flashdata('errors', 'Detail Proyek gagal ditambahkan!');
-					redirect(base_url('proyek/add'));
+					redirect(base_url('pekerjaan/add'));
 				}else{
 					$this->session->set_flashdata('errors', 'Proyek gagal ditambahkan!');
-					redirect(base_url('proyek/add'));
+					redirect(base_url('pekerjaan/add'));
 				}
 			}
 		}
@@ -282,7 +281,7 @@ class Proyek extends MY_Controller {
 	            	 $data['pic_file']='';
 	                $this->proyek_model->save_proyek_rincian($data);
 	                $this->session->set_flashdata('success','Data Rincian Proyek berhasil ditambahkan');
-	               	redirect(base_url('proyek/edit/'.$this->input->post('id_proyek', TRUE)));
+	               	redirect(base_url('pekerjaan/edit/'.$this->input->post('id_proyek', TRUE)));
 
 	            }else{
 
@@ -290,7 +289,7 @@ class Proyek extends MY_Controller {
 	                $data['pic_file'] = $upload_data['file_name'];
 					$this->proyek_model->save_proyek_rincian($data);
 	                $this->session->set_flashdata('success', 'Data Rincian Proyek berhasil ditambahkan');
-	                redirect(base_url('proyek/edit/'.$this->input->post('id_proyek', TRUE)));
+	                redirect(base_url('pekerjaan/edit/'.$this->input->post('id_proyek', TRUE)));
 	            }
 
 
@@ -352,7 +351,7 @@ class Proyek extends MY_Controller {
 						'errors' => validation_errors()
 					);
 					$this->session->set_flashdata('errors', $data['errors']);
-					redirect(base_url('proyek/edit/'.$id),'refresh');
+					redirect(base_url('pekerjaan/edit/'.$id),'refresh');
 			}
 			else{
 				$data = array(
@@ -375,10 +374,10 @@ class Proyek extends MY_Controller {
 					$this->activity_model->add_log(2);
 
 					$this->session->set_flashdata('success', 'Data proyek berhasil diupdate!');
-					redirect(base_url('proyek/edit/'.$id),'refresh');
+					redirect(base_url('pekerjaan/edit/'.$id),'refresh');
 				}else{
 					$this->session->set_flashdata('errors', 'Data gagal diupdate!');
-					redirect(base_url('proyek/edit/'.$id),'refresh');
+					redirect(base_url('pekerjaan/edit/'.$id),'refresh');
 				}
 			}
 		}
@@ -537,7 +536,7 @@ public function edit_rincian_proyek($id = 0){
 					}
 					else{
 						$this->session->set_flashdata('error', $result['msg']);
-						redirect(base_url('proyek/rincian/edit/'.$id), 'refresh');
+						redirect(base_url('pekerjaan/rincian/edit/'.$id), 'refresh');
 					}
 				}
 
@@ -545,7 +544,7 @@ public function edit_rincian_proyek($id = 0){
 				$result = $this->proyek_model->edit_rincian_proyek($data, $id);
 				if($result){
 					$this->session->set_flashdata('success', 'Rincian proyek berhasil diupdate!');
-					redirect(base_url('proyek/edit/'.$id_proyek), 'refresh');
+					redirect(base_url('pekerjaan/edit/'.$id_proyek), 'refresh');
 				}
 		}
 		else{
@@ -590,8 +589,8 @@ public function edit_rincian_proyek($id = 0){
 				'<div class="text-right"><font size="2px">'.number_format($row['nilai'],2,',','.').'</font></div>',
 				'<font size="2px">'.$row['no_dokumen'].'</font>',
 				'<font size="2px">'.$anchor.'</font>',
-				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('proyek/editrincian/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("proyek/deleterincian/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('pekerjaan/editrincian/'.$row['id']).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("pekerjaan/deleterincian/".$row['id']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -624,7 +623,7 @@ public function edit_rincian_proyek($id = 0){
 		
 		if ($result>0){
 			$this->session->set_flashdata('errors', 'Data gagal dihapus');			
-			redirect(base_url('proyek'));
+			redirect(base_url('pekerjaan'));
 		}else{
 			$this->db->delete('ci_proyek', array('id_proyek' => $id));
 
@@ -633,7 +632,7 @@ public function edit_rincian_proyek($id = 0){
 			$this->activity_model->add_log(3);
 
 			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
-			redirect(base_url('proyek'));
+			redirect(base_url('pekerjaan'));
 		}
 		
 	}
@@ -650,14 +649,14 @@ public function edit_rincian_proyek($id = 0){
 		
 		if ($result>0){
 			$this->session->set_flashdata('errors', 'Data gagal dihapus, Proyek sudah cair');			
-			redirect(base_url('proyek'));
+			redirect(base_url('pekerjaan'));
 		}else{
 			$result = $this->proyek_model->batal($id);
 				if($result){
 					$this->activity_model->add_log(3);
 
 					$this->session->set_flashdata('success', 'Data berhasil dibatalkan!');
-					redirect(base_url('proyek'));
+					redirect(base_url('pekerjaan'));
 				}
 
 			
@@ -684,7 +683,7 @@ public function edit_rincian_proyek($id = 0){
 			$this->activity_model->add_log(3);
 
 			$this->session->set_flashdata('success', 'Data berhasil dihapus!');
-			redirect(base_url('proyek/edit/'.$id_proyek));
+			redirect(base_url('pekerjaan/edit/'.$id_proyek));
 		
 	}
 

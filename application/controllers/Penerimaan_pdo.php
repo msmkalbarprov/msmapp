@@ -6,8 +6,6 @@ class Penerimaan_pdo extends MY_Controller {
 
 		parent::__construct();
 		auth_check(); // check login auth
-		$this->rbac->check_module_access();
-
 		$this->load->model('user/proyek_model', 'proyek_model');
 		$this->load->model('user/pq_model', 'pq_model');
 		$this->load->model('user/pdo_model', 'pdo_model');
@@ -20,6 +18,7 @@ class Penerimaan_pdo extends MY_Controller {
 
 	//-----------------------------------------------------------
 	public function index(){
+		$this->rbac->check_module_access();
 		$data['title'] = 'PDO';
 		$this->load->view('admin/includes/_header', $data);
 		$this->load->view('user/penerimaan_pdo/list');
@@ -68,45 +67,6 @@ public function setuju_pdo($id='',$jns=''){
 		
 	}
 
-public function add_pdo_operasional(){
-		
-		if($this->input->post('submit')){
-			$this->form_validation->set_rules('kd_pdo', 'Kode PDO', 'trim|required');
-			$this->form_validation->set_rules('tgl_pdo', 'Tanggal PDO', 'trim|required');
-			$this->form_validation->set_rules('area', 'Area', 'trim|required');
-
-			if ($this->form_validation->run() == FALSE) {
-				$data = array(
-					'errors' => validation_errors()
-				);
-				$this->session->set_flashdata('errors', $data['errors']);
-			}
-			else{
-				$kdpdo 			= $this->security->xss_clean($this->input->post('kd_pdo'));
-				$keterangan 	= $this->security->xss_clean($this->input->post('keterangan'));
-				$this->pdo_model->add_pdo_project($kdpdo);
-				$this->pdo_model->update_keterangan($kdpdo, $keterangan);
-
-				$kodearea 					= $this->input->post('area', TRUE);
-				$urutan 					= $this->input->post('urut', TRUE);
-				
-					$data2 = array(
-						'no_pdo' => $urutan
-					);
-
-				$result = $this->pdo_model->update_nomor($data2,$kodearea);
-				if($result){
-					$this->activity_model->add_log(1);
-					$this->session->set_flashdata('success', 'PQ Proyek berhasil ditambahkan!');
-					redirect(base_url('penerimaan_pdo/operasional'));
-				}else{
-					$this->session->set_flashdata('errors', 'PQ Proyek gagal ditambahkan!');
-					redirect(base_url('penerimaan_pdo/add_operasional'));
-				}
-			}
-		}
-		
-	}
 
 public function datatable_json_pdo_proyek($id='',$kodepdo=''){				
 		

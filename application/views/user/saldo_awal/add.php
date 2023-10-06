@@ -12,14 +12,14 @@
               Tambah Saldo Awal </h3>
           </div>
           <div class="d-inline-block float-right">
-            <a href="<?= base_url('saldo_awal/index'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Saldo Awal</a>
+            <a href="<?= base_url('saldo-awal'); ?>" class="btn btn-success"><i class="fa fa-list"></i> List Saldo Awal</a>
           </div>
         </div>
         <div class="card-body">   
            <!-- For Messages -->
             <?php $this->load->view('admin/includes/_messages.php') ?>
               
-            <?php echo form_open(base_url('saldo_awal/add/'), 'class="form-horizontal"' )?> 
+            <?php echo form_open(base_url('saldo-awal/add/'), 'class="form-horizontal"' )?> 
 
               <div class="row">
                 <div class="col-md-6">

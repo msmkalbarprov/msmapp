@@ -18,7 +18,7 @@
              Tambah HPP </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pq'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
+            <a href="<?= base_url('project-qualifying'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -329,7 +329,7 @@ $('#butsave').on('click', function() {
     if(projek != '' && kd_item!="" && periode!="" && volume!="" && harga!="" && total!="" && area!=""){
       $("#butsave").attr("disabled", "disabled");
       $.ajax({
-        url: "<?php echo base_url("pq/add_hpp/".$this->uri->segment(3));?>",
+        url: "<?php echo base_url("project-qualifying/add_hpp/".$this->uri->segment(3));?>",
         type: "POST",
         data: {
           '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>',

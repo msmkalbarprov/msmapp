@@ -68,14 +68,14 @@
 $('#butcetak').on('click', function() {
     var area = document.getElementById("area").value;
     var tahun = document.getElementById("thn_ang").value;
-    var url = '<?= base_url() ?>'+'laporan_pq/cetak_pq_pdo_operasional/'+area+'/'+tahun+'/1/Laporan PQ VS PDO'; 
+    var url = '<?= base_url() ?>'+'laporan_pq_operasional/cetak_pq_pdo_operasional/'+area+'/'+tahun+'/1/Laporan PQ VS PDO'; 
     window.open(url, '_blank');
 });
 
 $('#butexport').on('click', function() {
     var area = document.getElementById("area").value;
     var tahun = document.getElementById("thn_ang").value;
-    var url = '<?= base_url() ?>'+'laporan_pq/cetak_pq_pdo_operasional/'+area+'/'+tahun+'/0/Laporan PQ VS PDO'; 
+    var url = '<?= base_url() ?>'+'laporan_pq_operasional/cetak_pq_pdo_operasional/'+area+'/'+tahun+'/0/Laporan PQ VS PDO'; 
     window.open(url, '_blank');
 });
 

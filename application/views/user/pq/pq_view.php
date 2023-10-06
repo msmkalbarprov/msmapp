@@ -15,7 +15,7 @@
              PQ Proyek </h3>
            </div>
            <div class="d-inline-block float-right">
-            <a href="<?= base_url('pq'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  Kembali</a>
+            <a href="<?= base_url('project-qualifying'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i>  Kembali</a>
           </div>
         </div>
         <div class="card-body">
@@ -23,7 +23,7 @@
          <!-- For Messages -->
          <?php $this->load->view('admin/includes/_messages.php') ?>
 
-         <?php echo form_open(base_url('pq/add'), 'class="form-horizontal"');  ?> 
+         <?php echo form_open(base_url('project-qualifying/add'), 'class="form-horizontal"');  ?> 
          
          <div class="row">
           <div class="col-md-3">

@@ -6,7 +6,7 @@ class Aplikasi extends MY_Controller
 
         parent::__construct();
         auth_check(); // check login auth
-        $this->rbac->check_module_access();
+        
 
 		$this->load->model('admin/aplikasi_model', 'aplikasi');
 		$this->load->model('admin/Activity_model', 'activity_model');
@@ -17,7 +17,7 @@ class Aplikasi extends MY_Controller
 
 	//-----------------------------------------------------		
 	function index($subarea=''){
-
+		$this->rbac->check_module_access();
 		// $this->session->set_userdata('filter_subarea',$subarea);
 		$this->session->set_userdata('filter_keyword','');
 		
@@ -40,8 +40,8 @@ public function datatable_json(){
 			$data[]= array(
 				$row['kd_subprojek'],
 				$row['nm_subprojek'],
-				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('aplikasi/edit/'.$row['kd_subprojek']).'"> <i class="fa fa-pencil-square-o"></i></a>
-				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("aplikasi/delete/".$row['kd_subprojek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
+				'<a title="Edit" class="update btn btn-sm btn-warning" href="'.base_url('sub-proyek/edit/'.$row['kd_subprojek']).'"> <i class="fa fa-pencil-square-o"></i></a>
+				<a title="Delete" class="delete btn btn-sm btn-danger" href='.base_url("sub-proyek/delete/".$row['kd_subprojek']).' title="Delete" onclick="return confirm(\'Do you want to delete ?\')"> <i class="fa fa-trash-o"></i></a>'
 			);
 		}
 		$records['data']=$data;
@@ -71,7 +71,7 @@ public function datatable_json(){
 						'errors' => validation_errors()
 					);
 					$this->session->set_flashdata('errors', $data['errors']);
-					redirect(base_url('aplikasi/add'),'refresh');
+					redirect(base_url('sub-proyek/add'),'refresh');
 				}
 				else{
 					$data = array(
@@ -85,8 +85,8 @@ public function datatable_json(){
 
 						// Activity Log 
 						$this->activity_model->add_log(4);
-						$this->session->set_flashdata('success', 'aplikasi berhasil ditambahkan!');
-						redirect(base_url('aplikasi/index'));
+						$this->session->set_flashdata('success', 'Sub Proyek berhasil ditambahkan!');
+						redirect(base_url('sub-proyek'));
 					}
 				}
 			}
@@ -114,7 +114,7 @@ public function datatable_json(){
 					'errors' => validation_errors()
 				);
 				$this->session->set_flashdata('errors', $data['errors']);
-				redirect(base_url('aplikasi/edit/'.$id),'refresh');
+				redirect(base_url('sub-proyek/edit/'.$id),'refresh');
 			}
 			else{
 				$data = array(
@@ -130,13 +130,13 @@ public function datatable_json(){
 					// Activity Log 
 					$this->activity_model->add_log(5);
 
-					$this->session->set_flashdata('success', 'aplikasi berhasil diupdate!');
-					redirect(base_url('aplikasi/index'));
+					$this->session->set_flashdata('success', 'Sub Proyek berhasil diupdate!');
+					redirect(base_url('sub-proyek'));
 				}
 			}
 		}
 		elseif($id==""){
-			redirect('aplikasi/index');
+			redirect('sub-proyek');
 		}
 		else{
 			$data['data_proyek'] = $this->aplikasi->get_proyek();
@@ -159,8 +159,8 @@ public function datatable_json(){
 		// Activity Log 
 		$this->activity_model->add_log(6);
 
-		$this->session->set_flashdata('success','aplikasi berhasil dihapus.');	
-		redirect('aplikasi/index');
+		$this->session->set_flashdata('success','Sub Proyek berhasil dihapus.');	
+		redirect('sub-proyek');
 	}
 	
 }

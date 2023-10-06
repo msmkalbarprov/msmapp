@@ -85,10 +85,11 @@ class Admin_roles extends MY_Controller
 
 		$this->rbac->check_operation_access(); // check opration permission
 
-		$data['title'] = trans('admin_permissions');
-		$data['record']= $this->admin_roles->get_role_by_id($id);
-		$data['access']= $this->admin_roles->get_access($id);
-		$data['modules']= $this->admin_roles->get_modules();
+		$data['title'] 			= 'AKSES MENU';
+		$data['record']			= $this->admin_roles->get_role_by_id($id);
+		$data['access']			= $this->admin_roles->get_access_new($id);
+		$data['permission']		= $this->admin_roles->get_access($id);
+		$data['modules']		= $this->admin_roles->get_modulesAll();
 
 		$this->load->view('admin/includes/_header');
 		$this->load->view('admin/admin_roles/access', $data);
@@ -98,6 +99,9 @@ class Admin_roles extends MY_Controller
 	//-----------------------------------------------------------
 	function set_access(){   
 		$this->admin_roles->set_access();
+	}
+	function set_permission(){
+		$this->admin_roles->set_permission();
 	}
 
 	//--------------------------------------------------

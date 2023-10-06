@@ -42,7 +42,7 @@
         <div class="tab-content">
           <div id="home" class="container tab-pane active"><br>
             <div align="right">
-              <a href="<?= base_url('pq/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
+              <a href="<?= base_url('project-qualifying/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
             </div>
             
             <div class="card-body table-responsive">
@@ -65,7 +65,7 @@
 
           <div id="menu1" class="container tab-pane"><br>
             <div align="right">
-              <!-- <a href="<?= base_url('pq/add_hpp'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>   -->
+              <!-- <a href="<?= base_url('project-qualifying/add_hpp'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>   -->
             </div>
             <div class="card-body table-responsive">
                 <table id="na_datatable2" class="table table-bordered table-striped" width="100%">
@@ -86,7 +86,7 @@
 
           <div id="menu2" class="container tab-pane"><br>
             <div align="right">
-              <a href="<?= base_url('pq/add_operasional'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
+              <a href="<?= base_url('project-qualifying/add_operasional'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>  
             </div>
             <div class="card-body table-responsive">
                 <table id="na_datatable3" class="table table-bordered table-striped" width="100%">

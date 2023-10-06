@@ -57,6 +57,53 @@
                 &nbsp;
            </div>
             <div class="col-md-6">
+              <div class="form-group">
+                <label for="bulan" class="control-label">Tahun</label>
+                    <select name="tahun" id="tahun" class="form-control" required>
+                      <option value="">No Selected</option>
+                      <option value="2023">2023</option>
+                      <option value="2024">2024</option>
+                    </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+                &nbsp;
+           </div>
+           </div>
+           <div class="row">
+           <div class="col-md-3">
+                &nbsp;
+           </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="bulan" class="control-label">Bulan</label>
+                      <select name="bulan" id="bulan" class="form-control" required>
+                        <option value="">No Selected</option>
+                        <option value="1">Januari</option>
+                        <option value="2">Februari</option>
+                        <option value="3">Maret</option>
+                        <option value="4">April</option>
+                        <option value="5">Mei</option>
+                        <option value="6">Juni</option>
+                        <option value="7">Juli</option>
+                        <option value="8">Agustus</option>
+                        <option value="9">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Desember</option>
+                      </select>
+              </div>
+            
+            </div>
+            <div class="col-md-3">
+                &nbsp;
+           </div>
+           </div>
+           <div class="row">
+           <div class="col-md-3">
+                &nbsp;
+           </div>
+            <div class="col-md-6">
               <div class="card-body table-responsive">
                     <div class="input-group ">
                         <input type="text" class="form-control" id="lastupdate" name="lastupdate" value="Posting jurnal terakhir pada <?= $data_posting['posting_jurnal']; ?>" placeholder="last Update" aria-label="last Update" aria-describedby="basic-addon2" readonly>

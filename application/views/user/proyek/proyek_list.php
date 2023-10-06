@@ -25,7 +25,7 @@
         </div>
         <div class="d-inline-block float-right">
           <?php if($this->rbac->Check_operation_permission('add')): ?>
-            <a href="<?= base_url('proyek/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>
+            <a href="<?= base_url('pekerjaan/add'); ?>" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Tambah</a>
             <button class="btn btn-warning btn-sm" id="button"><i class="fa fa-pencil-square-o"></i> Edit </button>
             <button class="btn btn-danger btn-sm" id="buttonhps"><i class="fa fa-trash"></i> Hapus </button>
             <button class="btn btn-secondary btn-sm" id="buttonbtl"><i class="fa fa-window-close"></i> Batal </button>
@@ -199,17 +199,17 @@ $(document).ready(function() {
 
     $('#button').click( function () {
     var id_proyek = table.rows('.selected').data()[0].id_proyek;
-    window.location.href = "<?=base_url('proyek/edit/')?>"+id_proyek;
+    window.location.href = "<?=base_url('pekerjaan/edit/')?>"+id_proyek;
     } );
 
     $('#buttonhps').click( function () {
     var id_proyek = table.rows('.selected').data()[0].id_proyek;
-    window.location.href = "<?=base_url('proyek/delete/')?>"+id_proyek;
+    window.location.href = "<?=base_url('pekerjaan/delete/')?>"+id_proyek;
     } );
 
     $('#buttonbtl').click( function () {
     var id_proyek = table.rows('.selected').data()[0].id_proyek;
-    window.location.href = "<?=base_url('proyek/batal/')?>"+id_proyek;
+    window.location.href = "<?=base_url('pekerjaan/batal/')?>"+id_proyek;
     } );
 
 } );
